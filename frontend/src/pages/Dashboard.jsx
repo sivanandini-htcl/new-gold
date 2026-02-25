@@ -1,266 +1,241 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
-import {TrendingUp, TrendingDown,  DollarSign,  Award,  Shield,  Zap,} from "lucide-react";
-import {LineChart,  Line,  XAxis,  YAxis, CartesianGrid, Tooltip, ResponsiveContainer,Legend,} from "recharts";
-
+import { TrendingUp, DollarSign, Award, Shield, Zap } from "lucide-react";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+} from "recharts";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const { goldPrice, goldPercentage, silverPrice, silverPercentage } =
+    useContext(PriceContext);
 
-  const navigate=useNavigate();
-  const { goldPrice, goldPercentage ,silverPrice,silverPercentage} = useContext(PriceContext);
   const isProfit = Number(goldPercentage) > 0;
   const silverisProfit = Number(silverPercentage) > 0;
-  const goldData = [
-  { date: 'Jan', price: 5800, profit: 0 },
-  { date: 'Feb', price: 1950, profit: 150 },
-  { date: 'Mar', price: 850, profit: 50 },
-  { date: 'Apr', price: 5100, profit: 300 },
-  { date: 'May', price: 3200, profit: 400 },
-  { date: 'Jun', price: 6350, profit: 550 },
-];
-  
-// data for silver price trend
-const silverData = [
-  { date: 'Jan', price: 72, profit: 0 },
-  { date: 'Feb', price: 75, profit: 3 },
-  { date: 'Mar', price: 54, profit: 2 },
-  { date: 'Apr', price: 78, profit: 6 },
-  { date: 'May', price: 81, profit: 9 },
-  { date: 'Jun', price: 93, profit: 11 },]
 
- const insights = [
+  const goldData = [
+    { date: "Jan", price: 5800 },
+    { date: "Feb", price: 1950 },
+    { date: "Mar", price: 850 },
+    { date: "Apr", price: 5100 },
+    { date: "May", price: 3200 },
+    { date: "Jun", price: 6350 },
+  ];
+
+  const silverData = [
+    { date: "Jan", price: 72 },
+    { date: "Feb", price: 75 },
+    { date: "Mar", price: 54 },
+    { date: "Apr", price: 78 },
+    { date: "May", price: 81 },
+    { date: "Jun", price: 93 },
+  ];
+
+
+const insights = [
     {
       icon: Shield,
       title: 'Hedge Against Inflation',
       description: 'Gold and silver have historically maintained their value during inflation, protecting your purchasing power.',
       gradient: 'from-yellow-500 to-yellow-600'
     },
+
     {
       icon: TrendingUp,
       title: 'Long-term Growth',
       description: 'Precious metals have shown consistent appreciation over time, making them ideal for wealth accumulation.',
-      gradient: 'from-blue-500 to-blue-600'
+      gradient: 'from-yellow-500 to-yellow-600'
     },
 
     {
       icon: DollarSign,
       title: 'Portfolio Diversification',
       description: 'Adding digital gold and silver reduces overall portfolio risk and balances your investment strategy.',
-      gradient: 'from-green-500 to-green-600'
+      gradient: 'from-yellow-500 to-yellow-600'
     },
+
     {
       icon: Zap,
       title: 'Instant Liquidity',
       description: 'Convert your digital gold and silver to cash instantly without the hassle of physical storage.',
-      gradient: 'from-purple-500 to-purple-600'
+      gradient: 'from-yellow-500 to-yellow-600'
     },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white py-8 px-4">
+    <div className="min-h-screen font-body py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">DigiGold</h1>
-          <p className="text-slate-400">
-          Invest in premium gold at real-time prices
+        <div className="mb-8 pb-6 border-b border-amber-200">
+          <div className="h-1 w-16 bg-gradient-to-r from-transparent via-amber-500 to-transparent rounded-full mb-4" />
+          <h1 className="font-heading text-5xl font-bold tracking-wide">
+            <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
+              Dgi
+            </span>
+            <span className="bg-gray-500 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
+              Gold
+            </span>
+          </h1>
+          <p className="mt-2 text-xs uppercase tracking-widest text-amber-700">
+          Gold  & Silver · Investment Platform
           </p>
         </div>
 
-        {/* Price Cards */}
+       
         <div className="grid md:grid-cols-2 gap-6 mb-10">
 
-          {/* Gold Card */}
-          <div className="bg-yellow-900/20 border border-yellow-500/30 p-6 rounded-2xl">
-            <div className="flex justify-between items-center mb-4">
+        
+          <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
+            <div className="flex justify-between mb-5">
               <div className="flex items-center gap-3">
-                <Award className="text-yellow-400" />
+                <div className="w-11 h-11 rounded-full bg-yellow-100 flex items-center justify-center">
+                  <Award className="w-5 h-5 text-yellow-600" />
+                </div>
                 <div>
-                  <p className="text-sm text-slate-400">Gold Price</p>
-                  <h2 className="text-2xl font-bold text-yellow-400">
+                  <p className="text-xs uppercase tracking-widest text-amber-600">
+                    Gold Price
+                  </p>
+                  <h2 className="font-heading text-2xl font-semibold text-amber-900">
                     {goldPrice ? `₹${goldPrice}/g` : "Loading..."}
                   </h2>
                 </div>
-                
               </div>
 
-              <div>
-                
-  {goldPercentage && (
-        <p
-          className={`text-sm font-semibold mt-1 ${
-            isProfit ? "text-green-400" : "text-red-400"
-          }`}>
-          {isProfit ? "▲" : "▼"}{" "}
-          {Math.abs(goldPercentage)}%
-        </p>
-      )}
-              </div>
-              
+              {goldPercentage && (
+                <span
+                  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                    isProfit
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
+                  {isProfit ? "▲" : "▼"} {Math.abs(goldPercentage)}%
+                </span>
+              )}
             </div>
-            {/* buy or sell button */}
-      <div className="mt-4 flex gap-3 mb-2">
-    <button className="flex-1 
-     text-gray-950 font-semibold py-3 px-5 rounded-xl transition bg-primary"
-      onClick={()=>navigate("/gold")}>
-      BUY
-    </button>
-    <button className="flex-1 bg-gray-400 hover:bg-gray-600 text-gray-200 font-semibold py-3 px-5 rounded-xl transition">
-      SELL
-    </button>
-  </div>
-    </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate("/gold")}
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 text-black shadow-md hover:opacity-90"
+              >
+                Buy
+              </button>
+              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold border border-amber-300 text-amber-800 bg-white hover:bg-amber-50">
+                Sell
+              </button>
+            </div>
+          </div>
+
           {/* Silver Card */}
-          <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
-            <div className="flex justify-between items-center mb-4">
+          <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-300">
+            <div className="flex justify-between mb-5">
               <div className="flex items-center gap-3">
-                <Award className="text-slate-300" />
+                <div className="w-11 h-11 rounded-full bg-gray-200 flex items-center justify-center">
+                  <Award className="w-5 h-5 text-gray-600" />
+                </div>
                 <div>
-                  <p className="text-sm text-slate-400">Silver Price</p>
-                   <h2 className="text-2xl font-bold text-slate-300" 
-                   > {silverPrice ? `₹ ${silverPrice}/g` : "Loading..."}</h2>
-                   <div>
-          {silverPercentage && (
-        <p
-          className={`text-sm font-semibold mt-1 ${
-            silverisProfit? "text-green-400" : "text-red-400"
-          }`}
-        >
-          {silverisProfit ? "▲" : "▼"}{" "}
-          {Math.abs(silverPercentage)}%
-        </p>
-        
-      )}
-</div>          
-       </div>
-      </div>
-    </div>
-            <div className="mt-4 flex gap-3 mb-2">
-    <button className="flex-1 bg-gray-200
-     text-gray-950 font-semibold py-3 px-5 rounded-xl transition bg-primaryy" onClick={()=>navigate("/silver")}>
-      BUY
-    </button>
-    <button className="flex-1 bg-gray-400
-     hover:bg-gray-600 text-gray-200 font-semibold py-3 px-5 rounded-xl transition">
-      SELL
-    </button>
-  </div>
+                  <p className="text-xs uppercase tracking-widest text-gray-600">
+                    Silver Price
+                  </p>
+                  <h2 className="font-heading text-2xl font-semibold text-gray-800">
+                    {silverPrice ? `₹${silverPrice}/g` : "Loading..."}
+                  </h2>
+                </div>
+              </div>
+
+              {silverPercentage && (
+                <span
+                  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                    silverisProfit
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
+                  {silverisProfit ? "▲" : "▼"} {Math.abs(silverPercentage)}%
+                </span>
+              )}
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate("/silver")}
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90"
+              >
+                Buy
+              </button>
+              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
+                Sell
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8">
-
-          {/* Gold Chart */}
-          <div className="bg-slate-800 p-6 rounded-2xl">
-            <h3 className="text-xl font-bold text-yellow-400 mb-4">
+        <div className="grid lg:grid-cols-2 gap-8 mb-10">
+          <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-200">
+            <h3 className="font-heading text-xl font-semibold mb-5 text-amber-900">
               Gold Price Trend
             </h3>
-
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <LineChart data={goldData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="price"
-                  stroke="#facc15"
-                  strokeWidth={3}
-                />
+                <Line type="monotone" dataKey="price" stroke="#ca8a04" strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Silver Chart */}
-          <div className="bg-slate-800 p-6 rounded-2xl">
-            <h3 className="text-xl font-bold text-slate-300 mb-4">
+          <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-200">
+            <h3 className="font-heading text-xl font-semibold mb-5 text-gray-800">
               Silver Price Trend
             </h3>
-
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <LineChart data={silverData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="price"
-                  stroke="#94a3b8"
-                  strokeWidth={3}
-                />
+                <Line type="monotone" dataKey="price" stroke="#9ca3af" strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
           </div>
-
         </div>
-        
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white mb-6">Why Invest in Digital Gold & Silver?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        {/* Insights */}
+      
+
+          <div className="mb-8">
+          <h2 className="text-3xl font-bold text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6">
 
 
             {insights.map((insight, index) => (
               <div 
                 key={index}
-                className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 backdrop-blur-sm
+                className=" text-amber-900 border border-text-amber-900 rounded-xl p-6 backdrop-blur-sm
                  hover:border-slate-600/50 transition-all duration-300 hover:transform hover:-translate-y-1">
 
                 <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${insight.gradient}
                  flex items-center justify-center mb-4`}>
                   <insight.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{insight.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{insight.description}</p>
+                <h3 className="text-lg font-semibold text-amber-900 mb-2">{insight.title}</h3>
+                <p className=" text-sm leading-relaxed">{insight.description}</p>
               </div>
             ))}
           </div>
         </div>
-
-        {/* Additional Info */}
-        <div className="bg-gradient-to-r from-yellow-900/20 via-slate-800/30 to-slate-700/20 border border-slate-700/50 rounded-2xl p-8 backdrop-blur-sm">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="flex-1">
-              <h3 className="text-2xl font-bold text-white mb-2">Start Your Investment Journey</h3>
-              <p className="text-slate-400">
-                Digital gold and silver offer the perfect combination of tradition and technology. 
-                Invest in precious metals without the hassle of physical storage, with complete flexibility and security.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a 
-                href="/gold"
-                className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 font-semibold rounded-lg hover:from-yellow-400 hover:to-yellow-500 transition-all duration-200 text-center"
-              >
-                Buy Gold
-              </a>
-              <a 
-                href="/silver"
-                className="px-6 py-3 bg-gradient-to-r from-slate-400 to-slate-500 text-slate-900 font-semibold rounded-lg hover:from-slate-300 hover:to-slate-400 transition-all duration-200 text-center"
-              >
-                Buy Silver
-              </a>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-
-
     
   );
-
-
-  
 }
 
 export default Dashboard;

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EditProfile() {
   const navigate = useNavigate();
 
+
   const [isEditing,setIsEditing] = useState(false);
+
   const [formData, setFormData] = useState({
   firstName: "",
   middleName: "",
@@ -38,14 +41,16 @@ function EditProfile() {
   };
 
   const handleSave = () => {
+
     // backend updation
     console.log("Saved Data:", formData);
-    alert("Profile Updated Successfully!");
+    toast.success("Profile Updated Successfully!");
     setIsEditing(false);
+
   };
 
   return (
-    <div className="min-h-screen text-accent bg-gray-100 flex justify-center mt-4">
+    <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 flex justify-center mt-4">
     <div className="w-full h-full mt-6">  
 
         <h2 className="text-xl font-bold mb-4 text-center">
@@ -67,13 +72,14 @@ function EditProfile() {
             ) : (
               <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.name}</p>
             )}
+            
 </div>
 
 <div>
             <label className="text-sm font-semibold">Middle Name</label>
             {isEditing ? (
-              <input   
-              type="text"
+              <input 
+                type="text"
                 name="name"
                 onChange={handleChange}
                 className="border p-2 rounded-lg w-full mt-1"
@@ -98,15 +104,13 @@ function EditProfile() {
             )}
 </div>
 
-
           {/* Phone */}
 <div>
             <label className="text-sm font-semibold">Phone</label>
             {isEditing ? (
               <input
                 type="tel"  name="phone"  value={formData.phone}  onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
-              />
+                className="border p-2 rounded-lg w-full mt-1" />
             ) : (
               <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.phone}</p>
             )}
@@ -247,12 +251,7 @@ function EditProfile() {
     </p>
   )}
 </div>
-
-
  </div>
-
-
-
         {/* Buttons */}
 <div className="flex justify-center gap-4 mt-6">
 

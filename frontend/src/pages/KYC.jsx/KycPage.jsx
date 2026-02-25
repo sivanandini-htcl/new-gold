@@ -92,7 +92,7 @@ function KycPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name as in PAN
+                 Name as in PAN
                 </label>
                 <input
                   type="text"
@@ -116,8 +116,7 @@ function KycPage() {
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-indigo-500 uppercase"
                   placeholder="ABCDE1234F"
-                  maxLength={10}
-                />
+                  maxLength={10} />
               </div>
 
               <div>
@@ -155,8 +154,7 @@ function KycPage() {
                 </button>
                 <button
                   onClick={handleNext}
-                  className="flex-1 bg-accent text-white py-3 rounded-xl font-medium hover:bg-gray-700"
-                >
+                  className="flex-1 bg-accent text-white py-3 rounded-xl font-medium hover:bg-gray-700">
                   Next → Aadhaar
                 </button>
               </div>

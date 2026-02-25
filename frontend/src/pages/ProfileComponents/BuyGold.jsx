@@ -12,10 +12,10 @@ function BuyGold() {
         <p><strong>Gold Price:</strong> ₹{goldPrice}/gram</p>
         <p><strong>Mode:</strong> {conversionMode}</p>
         <p><strong>Input:</strong> {inputValue}</p>
-        <p><strong>Calculated:</strong> {result}</p>
+        <p><strong>Calculated:</strong>{result}</p>
 
         <button className="mt-4 bg-primary px-4 py-2 rounded">
-          Confirm Purchase
+        Confirm Purchase
         </button>
       </div>
     </div>

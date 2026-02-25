@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 function Delivery(){
     const[isEditing,setIsEditing]=useState(false)
     const[formData,setFormData]=useState({
@@ -27,15 +29,13 @@ function Delivery(){
     };
 
 
-
-
     // const handleSave=async ()=>{ backend logic}
 
     // }
     
     const handleSave=()=>{
         console.log("saved data",formData);
-        alert("address saved successfully");
+        toast.success("address saved successfully");
         setIsEditing(false);
     }
     

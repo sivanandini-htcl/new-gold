@@ -21,17 +21,17 @@ export function PriceProvider({ children }) {
   const fetchPrices = async () => {
     try {
       const [goldRes, silverRes] = await Promise.all([
-        fetch("https://api.gold-api.com/price/XAU"),
-        fetch("https://api.gold-api.com/price/XAG"),
+        // fetch("https://api.gold-api.com/price/XAU"),
+        // fetch("https://api.gold-api.com/price/XAG"),
       ]);
 
       const goldData = await goldRes.json();
       const silverData = await silverRes.json();
-
       const usdToInr = 90.62;
       const gst = 1.03;
 
       // GOLD
+
       const goldFinal =
         (goldData.price / 31.1035) * usdToInr * 1.06 * gst;
 
@@ -51,8 +51,7 @@ export function PriceProvider({ children }) {
       setSilverPrice(silverFinal.toFixed(2));
 
       const silverPercent = (
-        ((silverFinal - prevSilverPrice) / prevSilverPrice) *
-        100
+        ((silverFinal - prevSilverPrice) / prevSilverPrice) *  100
       ).toFixed(2);
 
       setSilverPercentage(silverPercent);
