@@ -77,11 +77,11 @@ function Redeem() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6 md:p-8 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 p-6 md:p-8 text-black">
       <div className="max-w-7xl mx-auto">
 
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-secondary mb-10 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-black mb-10 text-center">
           Gold & Silver Jewellery
         </h1>
 
@@ -93,7 +93,7 @@ function Redeem() {
               onClick={() => setMetalType(metal)}
               className={`px-8 py-3 rounded-xl font-semibold transition ${
                 metalType === metal
-                  ? "bg-secondary text-accent shadow-lg scale-105"
+                  ? "bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 text-accent shadow-lg scale-105"
                   : "bg-slate-800 text-slate-300 hover:bg-slate-700"
               }`}>
 

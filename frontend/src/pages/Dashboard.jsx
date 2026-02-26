@@ -69,7 +69,7 @@ const insights = [
 
         {/* Header */}
         <div className="mb-8 pb-6 border-b border-amber-200">
-          <div className="h-1 w-16 bg-gradient-to-r from-transparent via-amber-500 to-transparent rounded-full mb-4" />
+          <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500 to-transparent rounded-full mb-4" />
           <h1 className="font-heading text-5xl font-bold tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
               Dgi
@@ -172,9 +172,21 @@ const insights = [
             </div>
           </div>
         </div>
+ 
+ <div className=" flex border border-amber-300 rounded-2xl">
+         <div className="border border-amber-200 w-full p-2 text-center rounded-l-2xl "><button>1D</button></div>
+
+         <div className="border border-amber-200 w-full p-2 text-center "><button>5D</button></div>
+         <div className="border border-amber-200 w-full p-2 text-center "><button>6M</button></div>
+         <div className="border border-amber-200 w-full p-2 text-center "><button>YTD</button></div>
+         <div className="border border-amber-200 w-full p-2 text-center "><button>1Y</button></div>
+         <div className="border border-amber-200 w-full p-2 text-center "><button>5Y</button></div>
+         <div className="border border-amber-200 w-full p-2 text-center rounded-r-2xl"><button>MAX</button></div>
+
+        </div>
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-10">
+        <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4">
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-200">
             <h3 className="font-heading text-xl font-semibold mb-5 text-amber-900">
               Gold Price Trend
