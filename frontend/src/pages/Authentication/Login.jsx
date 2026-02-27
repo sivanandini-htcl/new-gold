@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth, googleProvider } from "../../firebaseconfigurations/config";
-import dgLogo from "../../assets/dgLogo.png";
+import dgiLogo from "../../assets/dgiLogo.png";
 
 function Login() {
   const navigate = useNavigate();
@@ -80,12 +80,12 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-white">
+    <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
  
       <div className="md:hidden py-10 px-6  bg-gradient-to-br from-[#1a1508]
        via-[#2d2210] to-[#141414] text-center">
-<img src={dgLogo} alt="logo" className="w-12 mx-auto mb-2" />
+<img src={dgiLogo} alt="logo" className="w-12 mx-auto mb-2" />
         <h1 className="text-6xl font-serif">
           <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent  ">
@@ -112,8 +112,8 @@ function Login() {
           <div className="absolute bottom-20 left-8 w-36 h-36 rounded-full bg-gray-300 opacity-15 blur-2xl animate-float delay-1000"></div>
           <div className="absolute top-1/2 left-1/2 w-96 h-96 rounded-full border-2 border-yellow-400 opacity-10 animate-spin-slow -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute top-1/2 left-1/2 w-72 h-72 rounded-full border-2 border-gray-400 opacity-8 animate-spin-slow-reverse -translate-x-1/2 -translate-y-1/2"></div> */}
-      <img src={dgLogo} alt="logo" className="w-16 mx-auto mb-6" />
-          <h1 className="text-7xl mt-20 font-serif leading-none">
+      <img src={dgiLogo} alt="logo" className="w-25 mx-auto flex justify-self-auto  mb-0" />
+          <h1 className="text-7xl mt-10 font-serif leading-none">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent ">
               Dgi

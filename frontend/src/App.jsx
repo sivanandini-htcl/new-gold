@@ -72,27 +72,12 @@ function App() {
               />
               <Route
                 path="/edit"
-                element={
-                  <ProtectedRoute>
-                    <EditProfile />
-                  </ProtectedRoute>
-                }
+                element={<ProtectedRoute> <EditProfile /> </ProtectedRoute>}
               />
               <Route
-                path="/kycpage"
-                element={
-                  <ProtectedRoute>
-                    <KycPage />
-                  </ProtectedRoute>
-                }
-              />
+                path="/kycpage" element={<ProtectedRoute> <KycPage />  </ProtectedRoute>  } />
               <Route
-                path="/nominee"
-                element={
-                  <ProtectedRoute>
-                    <Nominee />
-                  </ProtectedRoute>
-                }
+                path="/nominee"   element={ <ProtectedRoute> <Nominee /> </ProtectedRoute>  }
               />
               <Route
                 path="/delivery"

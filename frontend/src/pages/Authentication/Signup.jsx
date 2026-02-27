@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import dgLogo from "../../assets/dgLogo.png";
+import dgiLogo from "../../assets/dgiLogo.png";
 
 function Signup() {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ function Signup() {
       <div className="flex-1 flex flex-col md:flex-row  ">
       
         <div className=" md:w-1/2  relative flex flex-col justify-center items-center p-10 lg:p-16 bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] overflow-hidden">
-         <img src={dgLogo} alt="logo"  className="w-12  " />
+         <img src={dgiLogo} alt="logo"  className="w-25  " />
         
           {/* <div className="absolute top-16 right-12 w-48 h-48 rounded-full bg-yellow-400 opacity-20 blur-2xl animate-float"></div>
           <div className="absolute bottom-20 left-8 w-36 h-36 rounded-full bg-gray-300 opacity-15 blur-2xl animate-float delay-1000"></div>

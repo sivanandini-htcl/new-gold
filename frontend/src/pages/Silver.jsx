@@ -1,21 +1,23 @@
+
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { PriceContext } from "../components/PriceProvider";
 import { toast } from "react-toastify";
+
 
 function Silver() {
   const [conversionMode, setConversionMode] = useState("rupees-to-grams");
   const [inputValue, setInputValue] = useState("");
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  const { silverPrice, silverPercentage } = useContext(PriceContext);
-  const navigate = useNavigate();
+ const { silverPrice, silverPercentage } = useContext(PriceContext);
+//  const navigate = useNavigate();
 
   const silverisProfit = Number(silverPercentage) > 0;
-  const silverPricePerGram = Number(silverPrice) || 80;
+  const silverPricePerGram = Number(silverPrice) || 280;
 
-  const calculateConversion = () => {
+ const calculateConversion = () => {
     const value = parseFloat(inputValue);
     if (isNaN(value) || value <= 0) return 0;
 
@@ -54,64 +56,79 @@ function Silver() {
 
   const handleBuyClick = () => {
     const val = parseFloat(inputValue);
-    if (isNaN(val) || val <= 0) {
-      toast.success("Please enter a valid amount");
+    if (!val || val <= 0) {
+      toast.error("Please enter a valid amount");
       return;
     }
     setShowBreakdown(true);
-  };
-
-  const proceedToBuy = () => {
-    const calc = getFinalCalculation();
-    navigate("/buysilver", {
-      state: {
-        grams: calc.grams,
-        baseAmount: calc.baseAmount,
-        totalWithGST: calc.totalWithGST,
-        silverPricePerGram,
-      },
-    });
   };
 
   const calc = getFinalCalculation();
   const hasInput = parseFloat(inputValue) > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-stone-100 to-gray-100 p-8">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Back Button */}
-        <Link to="/">
-          <button className="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-900 transition">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </button>
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500 ">
+      
+      <Link
+          to="/dashboard"
+          className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
         </Link>
 
-        {/* Heading */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
+        {/* Title */}
+        <div className="mb-10 border-b border-gray-700/20 pb-6">
+          <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
+
+          <h1 className="text-5xl  bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900 font-serif bg-clip-text text-transparent">
             Buy Silver
           </h1>
+
+          <p className="mt-2 text-xs uppercase tracking-widest text-gray-800/70">
+            24K · 99.9% Pure · Live Rates
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+      <div className="w-full  flex items-center justify-center">
 
-          {/* Market Insights */}
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Market Insights
-            </h2>
+        {/* Back Button */}
+        
 
-            <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg mb-4">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-gray-700" />
-                <span className="font-semibold text-gray-700">
-                  Today's Change
-                </span>
-              </div>
+  {/* changed width give 250 */}
+  <div className="grid lg:grid-cols-2 gap-7 w-250  justify-center ">
 
-              {silverPercentage && (
+          {/* left */}
+          <div className="space-y-6  ">
+
+            {/* insight */}
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+              <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-4"></div>
+
+              <h2 className="text-2xl font-['Fraunces'] mb-5 text-gray-900">
+                Market Insights
+              </h2>
+
+              {/* Today's Change */}
+              <div
+                className={`flex items-center justify-between p-4 rounded-xl mb-6 border ${
+                  silverisProfit
+                    ? "bg-green-50 border-green-200"
+                    : "bg-red-50 border-red-200"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {silverisProfit ? (
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <TrendingDown className="w-5 h-5 text-red-600" />
+                  )}
+                  <span className="text-xs uppercase tracking-widest text-gray-900">
+                    Today's Change
+                  </span>
+                </div>
+
+               {silverPercentage && (
                 <span
                   className={`text-sm font-bold ${
                     silverisProfit ? "text-green-600" : "text-red-600"
@@ -121,172 +138,189 @@ function Silver() {
                   {Math.abs(silverPercentage)}%
                 </span>
               )}
+
+              </div>
+
+              {/* Price Stats */}
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between border-b border-gray-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs">
+                    Current Price
+                  </span>
+                  <span className=" text-gray-900">
+                   ₹{silverPricePerGram.toLocaleString("en-IN")}/gram
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-b border-gray-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs">
+                    Week High
+                  </span>
+                  <span className=" text-gray-900">
+                    ₹290
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs">
+                    Week Low
+                  </span>
+                  <span className=" text-gray-900">
+                   ₹200
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Current Price</span>
-                <span className="font-semibold text-gray-900">
-                  ₹{silverPricePerGram.toLocaleString()}/gram
-                </span>
-              </div>
+            {/* info card */}
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+              <h3 className="text-lg font-['Fraunces'] mb-4 text-gray-950">
+                Why Buy Digital silver?
+              </h3>
 
-              <div className="flex justify-between">
-                <span className="text-gray-600">Week High</span>
-                <span className="font-semibold text-gray-800">₹105</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">Week Low</span>
-                <span className="font-semibold text-gray-800">₹92</span>
+              <div className="space-y-3 text-sm text-gray-900/80">
+                <p>◈ 99.9% pure  silver, hallmarked</p>
+                <p>◈ Stored in insured, secured vaults</p>
+                <p>◈ Start investing from just ₹1</p>
+                <p>◈ Sell anytime at live market price</p>
               </div>
             </div>
           </div>
 
-          {/* Converter Section */}
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-xl p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          {/* right */}
+          <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+
+            <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-4"></div>
+
+            <h2 className="text-2xl font-['Fraunces'] text-gray-900 mb-2">
               Price Converter
             </h2>
 
-            <p className="text-gray-600 mb-6">
+            <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6">
               {conversionMode === "rupees-to-grams"
-                ? "Convert Rupees to Grams"
-                : "Convert Grams to Rupees"}
+                ? "Rupees → Grams"
+                : "Grams → Rupees"}
             </p>
 
-            {/* Toggle */}
-            <div className="flex gap-2 mb-6">
-              <button
-                onClick={() => {
-                  setConversionMode("rupees-to-grams");
-                  setInputValue("");
-                  setShowBreakdown(false);
-                }}
-                className={`flex-1 py-2 rounded-lg font-semibold transition ${
-                  conversionMode === "rupees-to-grams"
-                    ? "bg-gray-700 text-white"
-                    : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                ₹ → Grams
-              </button>
 
-              <button
-                onClick={() => {
-                  setConversionMode("grams-to-rupees");
-                  setInputValue("");
-                  setShowBreakdown(false);
-                }}
-                className={`flex-1 py-2 rounded-lg font-semibold transition ${
-                  conversionMode === "grams-to-rupees"
-                    ? "bg-gray-700 text-white"
-                    : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                Grams → ₹
-              </button>
+
+            {/* button */}
+            <div className="flex gap-2 mb-6 p-1 bg-gray-300/60 rounded-xl">
+              {[
+                { mode: "rupees-to-grams", label: "₹ → Grams" },
+                { mode: "grams-to-rupees", label: "Grams → ₹" },
+              ].map((btn) => (
+                <button
+                  key={btn.mode}
+                  onClick={() => {
+                    setConversionMode(btn.mode);
+                    setInputValue("");
+                    setShowBreakdown(false);
+                  }}
+                  className={`flex-1 py-2.5 rounded-lg text-xs uppercase tracking-widest font-serif transition ${
+                    conversionMode === btn.mode
+                      ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 "
+                      : "text-gray-900 hover:bg-gray-400/50"
+                  }`}
+                >
+                  {btn.label}
+                </button>
+              ))}
             </div>
 
-            {/* Input */}
+
+
+            {/* inputs*/}
             <input
               type="number"
               placeholder={
-                conversionMode === "rupees-to-grams" ? "10000" : "100"
+                conversionMode === "rupees-to-grams" ? "10000" : "1.5"
               }
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
                 setShowBreakdown(false);
               }}
-              className="w-full h-12 px-4 border border-gray-200 rounded-lg mb-6 text-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="w-full px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
             />
 
             {/* Result */}
-            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200 text-center">
-              <p className="text-sm text-gray-600 mb-2">
+            <div className="rounded-2xl p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
+              <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-2">
                 {conversionMode === "rupees-to-grams"
-                  ? "You will get (grams)"
-                  : "You will pay (₹)"}
+                  ? "You will get"
+                  : "You will pay"}
               </p>
 
-              <div className="text-3xl font-bold text-gray-900">
-                {hasInput ? (
-                  conversionMode === "rupees-to-grams" ? (
-                    `${calc.grams} g`
-                  ) : (
-                    `₹${calc.formattedBase}`
-                  )
-                ) : (
-                  <span className="text-gray-300">0</span>
-                )}
+              <div className="text-4xl font-bold text-gray-600">
+                {hasInput
+                  ? conversionMode === "rupees-to-grams"
+                    ? `${calc.grams} g`
+                    : `₹${calc.formattedBase}`
+                  : "—"}
               </div>
             </div>
 
-            {/* Buy Button */}
-            <div className="mt-4 mb-2">
-              <button
-                className={`w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 rounded-xl transition ${
-                  !hasInput ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={handleBuyClick}
-                disabled={!hasInput}
-              >
-                BUY
-              </button>
-            </div>
+            {/* buy button */}
+            <button
+              onClick={handleBuyClick}
+              disabled={!hasInput}
+              className={`w-full py-4 rounded-xl text-sm uppercase tracking-widest font-serif transition ${
+                hasInput
+                  ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
 
-            {/* Order Summary */}
+              
+            >
+              Buy Now
+            </button>
+
+            {/* order details */}
             {showBreakdown && hasInput && (
-              <div className="mt-6 bg-white border border-gray-200 rounded-2xl p-6 shadow-md">
-                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+              <div className="mt-6 rounded-2xl p-5 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100  borderborder-gray-600/70">
+                <h3 className="text-xl font-serif text-center mb-5 text-gray-950">
                   Order Summary
                 </h3>
 
-                <div className="space-y-3 text-sm text-gray-700">
-                  <div className="flex justify-between">
-                    <span>Silver Weight:</span>
-                    <span className="font-semibold">{calc.grams} grams</span>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between border-b border-gray-700/10 pb-2">
+                    <span className="font-serif">Silver Weight</span>
+                    <span>{calc.grams} g</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Base Amount:</span>
-                    <span className="font-semibold">
-                      ₹{calc.formattedBase}
-                    </span>
+
+                  <div className="flex justify-between border-b border-gray-700/10 pb-2">
+                    <span className="font-serif">Silver Value</span>
+                    <span>₹{calc.formattedBase}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>GST (3%):</span>
-                    <span className="font-semibold text-green-600">
-                      + ₹{calc.formattedGST}
-                    </span>
+
+                  <div className="flex justify-between border-b border-gray-700/10 pb-2 text-green-700">
+                    <span className="font-serif">GST (3%)</span>
+                    <span>+ ₹{calc.formattedGST}</span>
                   </div>
-                  <div className="border-t border-gray-200 pt-3 flex justify-between text-base font-bold text-gray-900">
-                    <span>Total Payable:</span>
+
+                  <div className="flex justify-between  pt-3 text-lg text-gray-700">
+                    <span className="font-serif">Total</span>
                     <span>₹{calc.formattedTotal}</span>
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-col gap-3">
-                  <button
-                    onClick={proceedToBuy}
-                    className="bg-gray-700 text-white font-semibold py-3 rounded-xl hover:bg-gray-800 transition"
-                  >
-                    Confirm & Proceed
-                  </button>
+                <button className="mt-5 w-full py-3.5 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-br from-green-600 to-green-400 text-white shadow-lg hover:scale-[1.02] transition">
+                  Confirm & Proceed
+                </button>
 
-                  <button
-                    onClick={() => setShowBreakdown(false)}
-                    className="text-gray-500 hover:text-gray-700 text-sm underline"
-                  >
-                    Edit / Cancel
-                  </button>
-                </div>
+                <button
+                  onClick={() => setShowBreakdown(false)}
+                  className="mt-3 w-full text-xs uppercase tracking-widest underline text-gray-700 hover:text-gray-900"
+                >
+                  Edit Amount
+                </button>
               </div>
             )}
           </div>
-
         </div>
-      </div>
+      
+    </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { PriceContext } from "../components/PriceProvider";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,6 @@ function Gold() {
   const [showBreakdown, setShowBreakdown] = useState(false);
 
   const { goldPrice, goldPercentage } = useContext(PriceContext);
-  const navigate = useNavigate();
 
   const isProfit = Number(goldPercentage) > 0;
   const GOLD_PRICE_PER_GRAM = Number(goldPrice) || 6500;
@@ -19,11 +18,9 @@ function Gold() {
     const value = parseFloat(inputValue);
     if (isNaN(value) || value <= 0) return 0;
 
-    if (conversionMode === "rupees-to-grams") {
-      return value / GOLD_PRICE_PER_GRAM;
-    } else {
-      return value * GOLD_PRICE_PER_GRAM;
-    }
+    return conversionMode === "rupees-to-grams"
+      ? value / GOLD_PRICE_PER_GRAM
+      : value * GOLD_PRICE_PER_GRAM;
   };
 
   const getFinalCalculation = () => {
@@ -33,15 +30,11 @@ function Gold() {
         : parseFloat(inputValue);
 
     const baseAmount = Math.round(grams * GOLD_PRICE_PER_GRAM);
-    const gstRate = 0.03;
-    const gstAmount = Math.round(baseAmount * gstRate);
+    const gstAmount = Math.round(baseAmount * 0.03);
     const totalWithGST = baseAmount + gstAmount;
 
     return {
       grams: grams.toFixed(4),
-      baseAmount,
-      gstAmount,
-      totalWithGST,
       formattedBase: baseAmount.toLocaleString("en-IN"),
       formattedGST: gstAmount.toLocaleString("en-IN"),
       formattedTotal: totalWithGST.toLocaleString("en-IN"),
@@ -61,42 +54,71 @@ function Gold() {
   const hasInput = parseFloat(inputValue) > 0;
 
   return (
-    <div className="min-h-screen p-6 md:p-8 bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Back Button */}
-        <Link to="/dashboard">
-          <button className="flex items-center gap-2 mb-6 text-gray-600 hover:text-amber-600 transition">
-            <ArrowLeft className="h-5 w-5" />
-            Back to Dashboard
-          </button>
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50  ">
+     
+     <Link
+          to="/dashboard"
+          className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest text-yellow-900 hover:text-yellow-600 transition font-['Fraunces']"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
         </Link>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-8">
-          Buy Gold
-        </h1>
+        <div className="mb-10 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+          <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+          <h1 className="text-5xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
+            Buy Gold
+          </h1>
 
-          {/* Market Insights */}
-          <div className="space-y-6">
-            <div className="bg-white border border-amber-200 rounded-2xl p-6 shadow-lg">
-              <h2 className="text-2xl font-bold text-amber-900 mb-5">
+          <p className="mt-2 text-xs uppercase tracking-widest text-yellow-800/70 font-['Fraunces']">
+            24K · 99.9% Pure · Live Rates
+          </p>
+        </div>
+     
+      <div className="w-full  flex items-center justify-center">
+
+        {/* Back Button */}
+        
+
+         <div className="grid lg:grid-cols-2 gap-7 w-250  justify-center ">
+          {/* LEFT SIDE */}
+          <div className="space-y-6  ">
+
+            {/* Market Insights Card */}
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70">
+              <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4"></div>
+
+              <h2 className="text-2xl font-['Fraunces'] mb-5 text-yellow-950">
                 Market Insights
               </h2>
 
-              <div className="flex items-center justify-between p-4 bg-green-100 rounded-xl mb-5">
-                <div className="flex items-center gap-3">
-                  <TrendingUp className="h-6 w-6 text-green-600" />
-                  <span className="font-semibold text-gray-700">
+              {/* Today's Change */}
+              <div
+                className={`flex items-center justify-between p-4 rounded-xl mb-6 border ${
+                  isProfit
+                    ? "bg-green-50 border-green-200"
+                    : "bg-red-50 border-red-200"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {isProfit ? (
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <TrendingDown className="w-5 h-5 text-red-600" />
+                  )}
+                  <span className="text-xs uppercase tracking-widest text-yellow-900">
                     Today's Change
                   </span>
                 </div>
+
                 {goldPercentage && (
                   <span
-                    className={`text-lg font-bold ${
-                      isProfit ? "text-green-600" : "text-red-600"
+                    className={`text-xs font-['Fraunces'] px-3 py-1 rounded-full ${
+                      isProfit
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                     }`}
                   >
                     {isProfit ? "▲" : "▼"} {Math.abs(goldPercentage)}%
@@ -104,71 +126,92 @@ function Gold() {
                 )}
               </div>
 
-              <div className="space-y-3 text-gray-600">
-                <div className="flex justify-between">
-                  <span>Current Price</span>
-                  <span className="font-bold text-amber-700">
+              {/* Price Stats */}
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between border-b border-yellow-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-yellow-800/70 text-xs font-['Fraunces']">
+                    Current Price
+                  </span>
+                  <span className="text-yellow-700">
                     ₹{GOLD_PRICE_PER_GRAM.toLocaleString("en-IN")}/g
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Week High</span>
-                  <span className="font-semibold">₹6,580</span>
+
+                <div className="flex justify-between border-b border-yellow-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-yellow-800/70 text-xs font-['Fraunces']">
+                    Week High
+                  </span>
+                  <span className="text-yellow-900">
+                    ₹6,580
+                  </span>
                 </div>
+
                 <div className="flex justify-between">
-                  <span>Week Low</span>
-                  <span className="font-semibold">₹6,420</span>
+                  <span className="uppercase tracking-widest text-yellow-800/70 text-xs font-['Fraunces']">
+                    Week Low
+                  </span>
+                  <span className="text-yellow-900">
+                    ₹6,420
+                  </span>
                 </div>
+              </div>
+            </div>
+
+            {/* Info Card */}
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 ">
+              <h3 className="text-lg mb-4 font-['Fraunces'] text-yellow-950">
+                Why Buy Digital Gold?
+              </h3>
+
+              <div className="space-y-3 text-sm text-yellow-900/80 ">
+                <p>◈ 99.9% pure 24K gold, hallmarked</p>
+                <p>◈ Stored in insured, secured vaults</p>
+                <p>◈ Start investing from just ₹1</p>
+                <p>◈ Sell anytime at live market price</p>
               </div>
             </div>
           </div>
 
-          {/* Converter */}
-          <div className="bg-white border border-amber-200 rounded-2xl p-6 shadow-lg">
-            <h2 className="text-3xl font-bold text-amber-900 mb-2">
+          {/* right */}
+          <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70">
+
+            <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4"></div>
+
+            <h2 className="text-2xl font-['Fraunces'] text-yellow-950 mb-2">
               Price Converter
             </h2>
 
-            <p className="text-gray-500 mb-6">
+            <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-6">
               {conversionMode === "rupees-to-grams"
                 ? "Rupees → Grams"
                 : "Grams → Rupees"}
             </p>
 
-            {/* Toggle */}
-            <div className="flex gap-3 mb-6">
-              <button
-                onClick={() => {
-                  setConversionMode("rupees-to-grams");
-                  setInputValue("");
-                  setShowBreakdown(false);
-                }}
-                className={`flex-1 py-3 rounded-xl font-semibold transition ${
-                  conversionMode === "rupees-to-grams"
-                    ? "bg-amber-500 text-white shadow-md"
-                    : "bg-white text-gray-600 border border-amber-200"
-                }`}
-              >
-                ₹ → Grams
-              </button>
-
-              <button
-                onClick={() => {
-                  setConversionMode("grams-to-rupees");
-                  setInputValue("");
-                  setShowBreakdown(false);
-                }}
-                className={`flex-1 py-3 rounded-xl font-semibold transition ${
-                  conversionMode === "grams-to-rupees"
-                    ? "bg-amber-500 text-white shadow-md"
-                    : "bg-white text-gray-600 border border-amber-200"
-                }`}
-              >
-                Grams → ₹
-              </button>
+            {/* button */}
+            <div className="flex gap-2 mb-6 p-1 bg-yellow-100 rounded-xl">
+              {[
+                { mode: "rupees-to-grams", label: "₹ → Grams" },
+                { mode: "grams-to-rupees", label: "Grams → ₹" },
+              ].map((btn) => (
+                <button
+                  key={btn.mode}
+                  onClick={() => {
+                    setConversionMode(btn.mode);
+                    setInputValue("");
+                    setShowBreakdown(false);
+                  }}
+                  className={`flex-1 py-2.5 rounded-lg text-xs uppercase tracking-widest font-['Fraunces'] transition ${
+                    conversionMode === btn.mode
+                      ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950"
+                      : "text-yellow-900 hover:bg-yellow-200"
+                  }`}
+                >
+                  {btn.label}
+                </button>
+              ))}
             </div>
 
-            {/* Input */}
+            {/* inputs*/}
             <input
               type="number"
               placeholder={
@@ -179,90 +222,77 @@ function Gold() {
                 setInputValue(e.target.value);
                 setShowBreakdown(false);
               }}
-              className="w-full h-14 px-5 bg-white border border-amber-200 rounded-xl text-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-amber-500 mb-6"
+              className="w-full px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 border-2 border-yellow-200 focus:border-yellow-600 outline-none transition mb-6 "
             />
 
             {/* Result */}
-            <div className="bg-amber-50 rounded-xl p-6 border border-amber-200 text-center mb-6">
-              <p className="text-gray-600 mb-2">
+            <div className="rounded-2xl p-5 text-center mb-6 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 border border-yellow-700/70">
+              <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-2">
                 {conversionMode === "rupees-to-grams"
                   ? "You will get"
                   : "You will pay"}
               </p>
 
-              <div className="text-4xl font-bold text-amber-800">
-                {hasInput ? (
-                  conversionMode === "rupees-to-grams" ? (
-                    `${calc.grams} g`
-                  ) : (
-                    `₹${calc.formattedBase}`
-                  )
-                ) : (
-                  "0"
-                )}
+              <div className="text-4xl font-bold text-yellow-600">
+                {hasInput
+                  ? conversionMode === "rupees-to-grams"
+                    ? `${calc.grams} g`
+                    : `₹${calc.formattedBase}`
+                  : "—"}
               </div>
             </div>
 
-            {/* BUY Button */}
+            {/* buy button */}
             <button
               onClick={handleBuyClick}
               disabled={!hasInput}
-              className={`w-full py-4 rounded-xl font-bold text-lg transition ${
+              className={`w-full py-4 rounded-xl text-sm uppercase tracking-widest font-['Fraunces'] transition ${
                 hasInput
-                  ? "bg-amber-500 hover:bg-amber-400 text-white shadow-lg"
-                  : "bg-amber-200 text-gray-500 cursor-not-allowed"
+                  ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950 text-black shadow-lg hover:scale-[1.02]"
+                  : "bg-yellow-100 text-yellow-400 cursor-not-allowed"
               }`}
             >
-              BUY
+              Buy Now
             </button>
 
-            {/* Order Summary */}
+            {/* order details */}
             {showBreakdown && hasInput && (
-              <div className="mt-8 bg-white border border-amber-200 rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-amber-900 mb-5 text-center">
+              <div className="mt-6 rounded-2xl p-5 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 border border-yellow-700/70">
+                <h3 className="text-xl font-['Fraunces'] text-center mb-5 text-yellow-950">
                   Order Summary
                 </h3>
 
-                <div className="space-y-4 text-gray-700">
-                  <div className="flex justify-between">
-                    <span>Gold Weight</span>
-                    <span className="font-medium">{calc.grams} grams</span>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between border-b border-yellow-700/10 pb-2">
+                    <span className="font-['Fraunces']">Gold Weight</span>
+                    <span>{calc.grams} g</span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span>
-                      Gold Value (₹
-                      {GOLD_PRICE_PER_GRAM.toLocaleString("en-IN")}/g)
-                    </span>
+                  <div className="flex justify-between border-b border-yellow-700/10 pb-2">
+                    <span className="font-['Fraunces']">Gold Value</span>
                     <span>₹{calc.formattedBase}</span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span>GST (3%)</span>
-                    <span className="text-green-600">
-                      + ₹{calc.formattedGST}
-                    </span>
+                  <div className="flex justify-between border-b border-yellow-700/10 pb-2 text-green-700">
+                    <span className="font-['Fraunces']">GST (3%)</span>
+                    <span>+ ₹{calc.formattedGST}</span>
                   </div>
 
-                  <div className="border-t border-amber-200 pt-4 flex justify-between text-lg font-bold">
-                    <span>Total Amount</span>
-                    <span className="text-amber-800">
-                      ₹{calc.formattedTotal}
-                    </span>
+                  <div className="flex justify-between  pt-3 text-lg text-yellow-700">
+                    <span className="font-['Fraunces']">Total</span>
+                    <span>₹{calc.formattedTotal}</span>
                   </div>
                 </div>
 
-                <button
-                  className="mt-8 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-xl transition shadow-md"
-                >
-                  Confirm & Proceed to Buy
+                <button className="mt-5 w-full py-3.5 rounded-xl text-sm uppercase tracking-widest font-['Fraunces'] bg-gradient-to-br from-green-600 to-green-400 text-white shadow-lg hover:scale-[1.02] transition">
+                  Confirm & Proceed
                 </button>
 
                 <button
                   onClick={() => setShowBreakdown(false)}
-                  className="mt-3 w-full text-gray-500 hover:text-gray-700 underline text-sm"
+                  className="mt-3 w-full text-xs uppercase tracking-widest underline text-yellow-700 hover:text-yellow-900"
                 >
-                  Edit amount
+                  Edit Amount
                 </button>
               </div>
             )}

@@ -64,13 +64,13 @@ const insights = [
   ];
 
   return (
-    <div className="min-h-screen font-body py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100">
+    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="mb-8 pb-6 border-b border-amber-200">
           <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500 to-transparent rounded-full mb-4" />
-          <h1 className="font-heading text-5xl font-bold tracking-wide">
+          <h1 className="font-serif text-5xl tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
               Dgi
             </span>
@@ -105,7 +105,7 @@ const insights = [
 
               {goldPercentage && (
                 <span
-                  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                  className={`text-xs font-serif px-3 py-1 rounded-full ${
                     isProfit
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-600"
@@ -119,11 +119,11 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/gold")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 text-black shadow-md hover:opacity-90"
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 text-black shadow-md hover:opacity-90"
               >
                 Buy
               </button>
-              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold border border-amber-300 text-amber-800 bg-white hover:bg-amber-50">
+              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-amber-300 text-amber-800 bg-white hover:bg-amber-50">
                 Sell
               </button>
             </div>
@@ -140,7 +140,7 @@ const insights = [
                   <p className="text-xs uppercase tracking-widest text-gray-600">
                     Silver Price
                   </p>
-                  <h2 className="font-heading text-2xl font-semibold text-gray-800">
+                  <h2 className="font-serif text-2xl  text-gray-800">
                     {silverPrice ? `₹${silverPrice}/g` : "Loading..."}
                   </h2>
                 </div>
@@ -148,7 +148,7 @@ const insights = [
 
               {silverPercentage && (
                 <span
-                  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                  className={`text-xs font-serif px-3 py-1 rounded-full ${
                     silverisProfit
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-600"
@@ -162,20 +162,19 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/silver")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90"
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90"
               >
                 Buy
               </button>
-              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-semibold border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
+              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
                 Sell
               </button>
             </div>
           </div>
         </div>
  
- <div className=" flex border border-amber-300 rounded-2xl">
+ <div className=" flex border border-amber-300 rounded-2xl font-body">
          <div className="border border-amber-200 w-full p-2 text-center rounded-l-2xl "><button>1D</button></div>
-
          <div className="border border-amber-200 w-full p-2 text-center "><button>5D</button></div>
          <div className="border border-amber-200 w-full p-2 text-center "><button>6M</button></div>
          <div className="border border-amber-200 w-full p-2 text-center "><button>YTD</button></div>
@@ -187,8 +186,8 @@ const insights = [
 
         {/* Charts */}
         <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4">
-          <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-200">
-            <h3 className="font-heading text-xl font-semibold mb-5 text-amber-900">
+          <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-200 font-fraunces">
+            <h3 className="font-serif text-xl font-bold mb-5 text-amber-900">
               Gold Price Trend
             </h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -204,7 +203,7 @@ const insights = [
           </div>
 
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-200">
-            <h3 className="font-heading text-xl font-semibold mb-5 text-gray-800">
+            <h3 className="font-serif text-xl font-semibold mb-5 text-gray-800">
               Silver Price Trend
             </h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -224,7 +223,7 @@ const insights = [
       
 
           <div className="mb-8">
-          <h2 className="text-3xl font-bold text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
+          <h2 className="text-3xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6">
 
 
@@ -238,8 +237,8 @@ const insights = [
                  flex items-center justify-center mb-4`}>
                   <insight.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-amber-900 mb-2">{insight.title}</h3>
-                <p className=" text-sm leading-relaxed">{insight.description}</p>
+                <h3 className="text-lg font-serif text-amber-900 mb-2">{insight.title}</h3>
+                <p className=" text-sm leading-relaxed text-amber-900/79">{insight.description}</p>
               </div>
             ))}
           </div>

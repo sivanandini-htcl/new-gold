@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { ShoppingCart, User, LogOut, Menu, X } from "lucide-react";
-import dgLogo from "../assets/dgLogo.png";
+import dgiLogo from "../assets/dgiLogo.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,22 +15,17 @@ function Header() {
   }
 
   return (
-    <header className="w-full sticky top-0 z-50 backdrop-blur-md bg-yellow-50/90 border-b border-yellow-300/40 shadow-md">
+    <header className="w-full sticky top-0 z-50 backdrop-blur-md
+    bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b
+     border-yellow-300/40 shadow-md">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 
        
         <Link to="/dashboard" className="flex items-center gap-2 no-underline">
-          <img className="w-6 h-6 object-contain" src={dgLogo} alt="logo" />
+          <img className="w-20  object-contain  ml-4 md:ml-20" src={dgiLogo} alt="logo "  />
 
-          <span className="text-2xl sm:text-3xl font-serif font-bold tracking-wide leading-none">
-            <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-clip-text text-transparent">
-              Dgi
-            </span>
-            <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-600 bg-clip-text text-transparent">
-              Gold
-            </span>
-          </span>
+         
 
           {/* <span className="hidden md:block text-xs uppercase tracking-widest mt-1 text-yellow-700">
             & Silver
@@ -38,18 +33,15 @@ function Header() {
         </Link>
 
         
-        <nav className="hidden md:flex items-center gap-6 text-xs uppercase tracking-widest  text-yellow-700">
+        <nav className="hidden md:flex items-center gap-6 text-bold uppercase tracking-widest  text-yellow-500">
           <Link to="/dashboard" className="nav-item">Dashboard</Link>
           <Link to="/gold" className="nav-item">Gold</Link>
           <Link to="/silver" className="nav-item">Silver</Link>
           <Link to="/redeem" className="nav-item">Redeem</Link>
           <Link to="/" className="nav-item">About</Link>
         </nav>
-
         
         <div className="flex items-center gap-3">
-
-          
           <Link 
             to="/cart" 
             className="relative w-9 h-9 rounded-full flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
@@ -62,7 +54,6 @@ function Header() {
             )}
           </Link>
 
-          
           <Link 
             to="/profile" 
             className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
