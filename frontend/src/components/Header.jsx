@@ -38,7 +38,8 @@ function Header() {
           <Link to="/gold" className="nav-item">Gold</Link>
           <Link to="/silver" className="nav-item">Silver</Link>
           <Link to="/redeem" className="nav-item">Redeem</Link>
-          <Link to="/" className="nav-item">About</Link>
+          <Link to="/about" className="nav-item">About</Link>
+           {/* <Link to="/redeemq" onClick={()=>setIsOpen(false)}>qqs</Link> */}
         </nav>
         
         <div className="flex items-center gap-3">
@@ -89,6 +90,8 @@ function Header() {
             <Link to="/redeem" onClick={()=>setIsOpen(false)}>Redeem</Link>
             <Link to="/" onClick={()=>setIsOpen(false)}>About</Link>
             <Link to="/profile" onClick={()=>setIsOpen(false)}>Profile</Link>
+        
+
             <button onClick={handleLogout} className="text-left">Logout</button>
           </div>
         </div>

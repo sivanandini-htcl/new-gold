@@ -9,7 +9,7 @@ export const jewelleryProducts = [
     productType: "bar",
     category: "investment",
     price: 148750,
-    image: "/images/products/goldbar1.jpg",
+    image: "/images/products/goldbar1.png",
     description: "24k Gold bar",
   },
 
@@ -51,7 +51,7 @@ export const jewelleryProducts = [
     productType: "bar",
     category: "investment",
     price: 148750,
-    image: "/images/products/goldbar1.jpg",
+    image: "/images/products/goldbar1.png",
     description: "24k Gold bar",
   },
   {

@@ -19,10 +19,11 @@ import Cart from "./pages/ProfileComponents/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
+// import Redeemq from "./pages/ProfileComponents/redeem2";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 ">
+    <div className="min-h-screen flex flex-col  ">
       <PriceProvider>
         <BrowserRouter>
           <ToastContainer
@@ -128,6 +129,10 @@ function App() {
                 }
               />
             </Route>
+            
+            
+
+
 
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
