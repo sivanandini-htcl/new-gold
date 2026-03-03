@@ -173,7 +173,7 @@ function Silver() {
             </div>
 
             {/* info card */}
-            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+            <div className=" hidden sm:block rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
               <h3 className="text-lg font-['Fraunces'] mb-4 text-gray-950">
                 Why Buy Digital silver?
               </h3>
@@ -319,6 +319,19 @@ function Silver() {
             )}
           </div>
         </div>
+        
+            </div>
+             <div className="md:hidden rounded-3xl p-6 mt-3 shadow-md bg-white/90 border border-gray-600/70">
+              <h3 className="text-lg font-['Fraunces'] mb-4 text-gray-950">
+                Why Buy Digital silver?
+              </h3>
+
+              <div className="space-y-3 text-sm text-gray-900/80">
+                <p>◈ 99.9% pure  silver, hallmarked</p>
+                <p>◈ Stored in insured, secured vaults</p>
+                <p>◈ Start investing from just ₹1</p>
+                <p>◈ Sell anytime at live market price</p>
+              </div>
       
     </div>
     </div>

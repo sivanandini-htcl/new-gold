@@ -20,52 +20,42 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 // import Redeemq from "./pages/ProfileComponents/redeem2";
+import About from "./pages/About";
 
 function App() {
   return (
     <div className="min-h-screen flex flex-col  ">
       <PriceProvider>
         <BrowserRouter>
-          <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            theme="dark"
-          />
+          <ToastContainer position="top-right" autoClose={2000} theme="dark" />
 
           <Routes>
         <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            
-
+         <Route path="/signup" element={<Signup />} />
           
             <Route element={<LayoutWithHeader />}>
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
+              <Route path="/dashboard" element={  
+                <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/gold"
-                element={
+                path="/gold" element={
                   <ProtectedRoute>
                     <Gold />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/silver"
-                element={
+                path="/silver"  element={
                   <ProtectedRoute>
                     <Silver />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/profile"
-                element={
+                path="/profile"  element={
                   <ProtectedRoute>
                     <Profile />
                   </ProtectedRoute>
@@ -81,50 +71,51 @@ function App() {
                 path="/nominee"   element={ <ProtectedRoute> <Nominee /> </ProtectedRoute>  }
               />
               <Route
-                path="/delivery"
-                element={
+                path="/delivery"  element={
                   <ProtectedRoute>
                     <Delivery />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/account"
-                element={
+                path="/account"  element={
                   <ProtectedRoute>
                     <BankAccount />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/buygold"
-                element={
+                path="/buygold"  element={
                   <ProtectedRoute>
                     <BuyGold />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/billing"
-                element={
+                path="/billing" element={
                   <ProtectedRoute>
                     <Billing />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/redeem"
-                element={
+                path="/redeem"  element={
                   <ProtectedRoute>
                     <Redeem />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/cart"
-                element={
+                path="/cart"  element={
                   <ProtectedRoute>
                     <Cart />
+                  </ProtectedRoute>
+                }
+              />
+               <Route
+                path="/about"   element={
+                  <ProtectedRoute>
+                    <About />
                   </ProtectedRoute>
                 }
               />
@@ -147,7 +138,7 @@ function LayoutWithHeader() {
   return (
     <>
       <Header />
-      <main className="pt-16"> 
+      <main className="pt-0"> 
         <Outlet />
       </main>
     </>

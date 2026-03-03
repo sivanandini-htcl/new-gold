@@ -24,12 +24,12 @@ function Redeem() {
   const uniqueShapes = [
     ...new Set(jewelleryProducts.map((p) => p.shape)),
   ];
-  const uniqueProductTypes = [
-    ...new Set(jewelleryProducts.map((p) => p.productType)),
-  ];
-  const uniqueCategories = [
-    ...new Set(jewelleryProducts.map((p) => p.category)),
-  ];
+  // const uniqueProductTypes = [
+  //   ...new Set(jewelleryProducts.map((p) => p.productType)),
+  // ];
+  // const uniqueCategories = [
+  //   ...new Set(jewelleryProducts.map((p) => p.category)),
+  // ];
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -102,23 +102,28 @@ function Redeem() {
           </div>
 )}
 
-        <div className="flex justify-center gap-4 mb-8">
-          {["gold", "silver"].map((metal) => (
-            <button
-              key={metal}
-              onClick={() => setMetalType(metal)}
-              className={`px-8 py-3 rounded-xl font-semibold transition ${
-                metalType === metal
-                  ?"bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950"
-                  : "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]" 
-              }`}>
-
-              {metal.charAt(0).toUpperCase() + metal.slice(1)}
-              
-            </button>
-          ))}
-        </div>
-
+       <div className="mb-8 flex justify-center items-center gap-3  rounded-2xl">
+  {["gold", "silver"].map((metal) => (
+    <button
+      key={metal}
+      onClick={() => setMetalType(metal)}
+      className={`px-8 py-3 rounded-xl font-semibold transition shadow-lg hover:scale-[1.02]
+        ${
+          metal === "gold"
+            ? metalType === "gold"
+?" py-3 mt-3 rounded-xl text-sm uppercase tracking-widest font-semibold bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-lg shadow-amber-600/30 hover:shadow-xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300 mb-5"
+          
+              : "bg-white text-black"
+              : metalType === "silver"
+              ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]"
+              : "bg-white text-black"
+        }
+      `}
+    >
+      {metal.charAt(0).toUpperCase() + metal.slice(1)}
+    </button>
+  ))}
+</div>
   
      <div className="hidden md:block bg-white  rounded-2xl shadow-sm p-2 sm:p-6 mb-10">
 
@@ -224,9 +229,10 @@ function Redeem() {
 <div>
   <div>
   <button 
-            className="md:hidden w-9 h-9 flex items-center justify-center border border-yellow-300 rounded-full bg-white text-yellow-800"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+            className="md:hidden w-9 h-9 flex items-center
+            justify-center border border-yellow-300 rounded-full bg-white text-yellow-800"
+            onClick={() => setIsOpen(!isOpen)}>
+
             {isOpen ? "x"  : <SlidersHorizontal size={18} />}
           </button>
         </div>
@@ -249,13 +255,14 @@ function Redeem() {
 
     {/* Shape */}
     <div className="flex flex-col">
-      <label className="text-xs uppercase tracking-widest mb-1.5">  Shape</label>
+      <label className="text-xs uppercase tracking-widest mb-1.5">Shape</label>
  <select name="shape"
         value={filters.shape}
         onChange={handleFilterChange}
         className="w-full p-2.5 rounded-xl
          bg-white border border-amber-400/70 focus:outline-none focus:ring-2 focus:ring-amber-500" >
         <option value="">All Shapes</option>
+
         {uniqueShapes.map((shape, index) => (
           <option key={index} value={shape}>
             {shape}
@@ -266,7 +273,8 @@ function Redeem() {
 
     {/* Min Price */}
     <div className="flex flex-col">
-      <label className="text-xs uppercase tracking-widest mb-1.5">  Min Price</label>
+      <label className="text-xs uppercase tracking-widest mb-1.5">
+        Min Price</label>
       <input
         type="number"
         name="minPrice"
@@ -278,7 +286,7 @@ function Redeem() {
 
     {/* Max Price */}
     <div className="flex flex-col">
-      <label className="text-xs uppercase tracking-widest mb-1.5"> Max Price  </label>
+      <label className="text-xs uppercase tracking-widest mb-1.5"> Max Price</label>
       <input
         type="number"
         name="maxPrice"
@@ -297,7 +305,7 @@ function Redeem() {
         value={filters.minWeight}
         onChange={handleFilterChange}
         className="w-full p-2.5 rounded-xl
-         bg-white border border-amber-400/70 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+         bg-white border border-amber-400/70 focus:outline-none focus:ring-2 focus:ring-amber-500"/>
     </div>
 
     {/* Max Weight */}

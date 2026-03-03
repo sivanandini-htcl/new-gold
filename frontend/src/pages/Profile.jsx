@@ -36,7 +36,8 @@ function Profile() {
   const isGoldProfit = Number(goldPercentage) > 0;
   const isSilverProfit = Number(silverPercentage) > 0;
 
-  return (
+  return (<div className="pt-10">
+
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 py-10 px-4 lg:px-10">
       <div className="max-w-6xl mx-auto space-y-10">
 
@@ -56,7 +57,7 @@ function Profile() {
 
             
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-yellow-300 flex items-center justify-center border-2 border-amber-300">
-              <User className="w-8 h-8 text-amber-700" />
+              <User className="w-8 h-8 text-amber-700"/>
             </div>
 
             <div className="flex w-full">
@@ -151,8 +152,7 @@ function Profile() {
 <div className=" rounded-xl border border-amber-300  flex">
     <button 
       className=" flex flex-col items-center justify-center  transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/account")}
-    >
+      onClick={() => navigate("/account")}>
       <CreditCard className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
       Account Details
     </button>
@@ -161,9 +161,8 @@ function Profile() {
 <div className=" rounded-xl border border-amber-300  flex">
     <button 
       className=" flex flex-col  items-center justify-center transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/billing")}
-    >
-      <Receipt className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
+      onClick={() => navigate("/billing")}>
+      <Receipt className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30}/>
       Billing Information
     </button>
     </div>
@@ -326,9 +325,9 @@ function Profile() {
 
           </div>
         </div>
-
       </div>
     </div>
+      </div>
   );
 }
 

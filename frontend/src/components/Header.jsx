@@ -49,7 +49,7 @@ function Header() {
           >
             <ShoppingCart className="w-4 h-4" />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-semibold bg-yellow-500 text-black">
+              <span className="absolute-top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-semibold bg-yellow-500 text-black">
                 {totalItems}
               </span>
             )}

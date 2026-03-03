@@ -26,7 +26,7 @@ function Signup() {
     else if (!/^[A-Za-z\s]+$/.test(form.name))
       newErrors.name = "Name should contain only letters";
 
-    if (!form.email.trim()) newErrors.email = "Email is required";
+    if (!form.email.trim()) newErrors.email = "Email required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       newErrors.email = "Invalid email format";
 
@@ -47,6 +47,7 @@ function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
+// backend
   const handleSubmit = () => {
     if (validate()) {
       localStorage.setItem(
@@ -133,7 +134,7 @@ function Signup() {
               Gold
             </span>
           </h1>
-                     <div className="h-0.5  w-full mt-3 mb-2 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent"/>
+            <div className="h-0.5  w-full mt-3 mb-2 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent"/>
             <p className="text-xs uppercase tracking-widest text-amber-200 opacity-50 ">
               Gold & Silver · Investment Platform
             </p>
@@ -176,7 +177,7 @@ login details */}
 
             <div className="h-0.5 w-16 mx-auto mb-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 rounded-full" />
 
-            <h2 className="text-3xl lg:text-4xl font-serif text-center mb-1  text-black">Create Account</h2>
+            <h2 className=" text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1  text-black">Create Account</h2>
             <p className="text-center text-xs uppercase tracking-widest mb-6  text-amber-950  opacity-65">Start your DigiGold journey today</p>
 
            <div className="space-y-3">

@@ -158,7 +158,7 @@ function Gold() {
             </div>
 
             {/* Info Card */}
-            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 ">
+            <div className="sm:block hidden rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 ">
               <h3 className="text-lg mb-4 font-['Fraunces'] text-yellow-950">
                 Why Buy Digital Gold?
               </h3>
@@ -170,6 +170,7 @@ function Gold() {
                 <p>◈ Sell anytime at live market price</p>
               </div>
             </div>
+            
           </div>
 
           {/* right */}
@@ -296,7 +297,20 @@ function Gold() {
                 </button>
               </div>
             )}
+            
           </div>
+          <div className="md:hidden rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 ">
+              <h3 className="text-lg mb-4 font-['Fraunces'] text-yellow-950">
+                Why Buy Digital Gold?
+              </h3>
+
+              <div className="space-y-3 text-sm text-yellow-900/80 ">
+                <p>◈ 99.9% pure 24K gold, hallmarked</p>
+                <p>◈ Stored in insured, secured vaults</p>
+                <p>◈ Start investing from just ₹1</p>
+                <p>◈ Sell anytime at live market price</p>
+              </div>
+            </div>
         </div>
       </div>
     </div>

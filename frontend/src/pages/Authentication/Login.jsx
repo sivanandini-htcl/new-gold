@@ -160,14 +160,14 @@ function Login() {
 
           <div className="w-full max-w-md bg-white/95 backdrop-blur rounded-3xl shadow-2xl border border-amber-200 p-10">
  <div className="h-0.5 w-12 mx-auto mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 " />
-            <h2 className="text-3xl font-serif text-center   text-black    mb-2">
+            <h2 className=" text-2xl md:text-3xl font-serif text-center text-black mb-2">
               Welcome Back
             </h2>
             
             {/* <h2 className="text-3xl font-serif text-center text-[#2a1f0e] mb-2">
               Welcome Back
             </h2> */}
-            <p className="text-center text-xs uppercase tracking-widest text-amber-950  opacity-65  mb-8">
+            <p className="text-center text-xs  uppercase tracking-widest text-amber-950  opacity-65  mb-8">
               Sign in to your DgiGold account
             </p>
 

@@ -26,9 +26,9 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6 md:p-8 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 p-6 md:p-8 text-white">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-secondary mb-10 text-center">
+        <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-10 text-center ">
           Your Shopping Cart
         </h1>
 
@@ -37,13 +37,13 @@ function Cart() {
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="bg-yellow-900/20 border border-yellow-500/30 rounded-2xl p-5 flex 
-              flex-col sm:flex-row items-start sm:items-center gap-5 shadow-lg" >
+              className="bg-white border border-yellow-500/30 rounded-2xl p-5 flex 
+              flex-col sm:flex-row items-start sm:items-center gap-5 shadow-lg text-gray-900" >
               {/* Image */}
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-xl flex shrink-0"
+                className="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-xl flex shrink-0 shadow-amber-600"
                 onError={(e) => {
                   e.target.src =
                     "https://via.placeholder.com/128?text=No+Image";
@@ -52,11 +52,11 @@ function Cart() {
 
               {/* Details */}
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-secondary mb-1">
+                <h3 className="text-xl font-bold text-gray-900 mb-1">
                   {item.name}
                 </h3>
-                <p className="text-slate-400 text-sm mb-2">
-                  {item.purity} • {item.weight}
+                <p className="text-gray-400 text-sm mb-2">
+                  {item.purity} • {item.weight}g
                 </p>
                 <p className="text-lg font-semibold text-white mb-3">
                   ₹{item.price.toLocaleString("en-IN")}

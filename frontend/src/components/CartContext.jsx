@@ -10,7 +10,7 @@ export function CartProvider({ children }) {
     setCartItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
-        // Update quantity if same item exists
+     //to update same item
         return prev.map((i) =>
           i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
         );

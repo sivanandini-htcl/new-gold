@@ -5,32 +5,119 @@ import { TrendingUp, DollarSign, Award, Shield, Zap } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
+import { useState } from "react";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { goldPrice, goldPercentage, silverPrice, silverPercentage } =
-    useContext(PriceContext);
+  const { goldPrice, goldPercentage, silverPrice, silverPercentage } =useContext(PriceContext);
+  const[selectedRange,setSelectedRange]=useState("6M")
+  const ranges = ["1D", "5D", "6M", "YTD", "1Y", "5Y", "MAX"];
 
   const isProfit = Number(goldPercentage) > 0;
   const silverisProfit = Number(silverPercentage) > 0;
 
-  const goldData = [
+ const goldData = {
+  "1D": [{ date: "Today", price: 6350 }],
+
+  "5D": [
+    { date: "Mon", price: 5800 },
+    { date: "Tue", price: 5900 },
+    { date: "Wed", price: 6000 },
+    { date: "Thu", price: 6200 },
+    { date: "Fri", price: 6350 },
+  ],
+
+  "6M": [
     { date: "Jan", price: 5800 },
     { date: "Feb", price: 1950 },
     { date: "Mar", price: 850 },
     { date: "Apr", price: 5100 },
     { date: "May", price: 3200 },
     { date: "Jun", price: 6350 },
-  ];
+  ],
 
-  const silverData = [
-    { date: "Jan", price: 72 },
-    { date: "Feb", price: 75 },
-    { date: "Mar", price: 54 },
-    { date: "Apr", price: 78 },
-    { date: "May", price: 81 },
-    { date: "Jun", price: 93 },
-  ];
+  "YTD": [
+    { date: "Jan", price: 5800 },
+    { date: "Feb", price: 5200 },
+    { date: "Mar", price: 6100 },
+  ],
+
+  "1Y": [
+    { date: "2024", price: 4800 },
+    { date: "2025", price: 6350 },
+  ],
+
+  "5Y": [
+    { date: "2021", price: 3500 },
+    { date: "2022", price: 4200 },
+    { date: "2023", price: 5000 },
+    { date: "2024", price: 5800 },
+    { date: "2025", price: 6350 },
+  ],
+
+  "MAX": [
+    { date: "2018", price: 3000 },
+    { date: "2019", price: 3200 },
+    { date: "2020", price: 4000 },
+    { date: "2021", price: 3500 },
+    { date: "2022", price: 4200 },
+    { date: "2023", price: 5000 },
+    { date: "2024", price: 5800 },
+    { date: "2025", price: 6350 },
+  ],
+};
+
+
+ const silverData = {
+  "1D": [{ date: "Today", price: 6350 }],
+
+  "5D": [
+    { date: "Mon", price: 5800 },
+    { date: "Tue", price: 5900 },
+    { date: "Wed", price: 6000 },
+    { date: "Thu", price: 6200 },
+    { date: "Fri", price: 6350 },
+  ],
+
+  "6M": [
+    { date: "Jan", price: 5800 },
+    { date: "Feb", price: 1950 },
+    { date: "Mar", price: 850 },
+    { date: "Apr", price: 5100 },
+    { date: "May", price: 3200 },
+    { date: "Jun", price: 6350 },
+  ],
+
+  "YTD": [
+    { date: "Jan", price: 5800 },
+    { date: "Feb", price: 5200 },
+    { date: "Mar", price: 6100 },
+  ],
+
+  "1Y": [
+    { date: "2024", price: 4800 },
+    { date: "2025", price: 6350 },
+  ],
+
+  "5Y": [
+    { date: "2021", price: 3500 },
+    { date: "2022", price: 4200 },
+    { date: "2023", price: 5000 },
+    { date: "2024", price: 5800 },
+    { date: "2025", price: 6350 },
+  ],
+
+  "MAX": [
+    { date: "2018", price: 3000 },
+    { date: "2019", price: 3200 },
+    { date: "2020", price: 4000 },
+    { date: "2021", price: 3500 },
+    { date: "2022", price: 4200 },
+    { date: "2023", price: 5000 },
+    { date: "2024", price: 5800 },
+    { date: "2025", price: 6350 },
+  ],
+};
 
 
 const insights = [
@@ -86,7 +173,6 @@ const insights = [
        
         <div className="grid md:grid-cols-2 gap-6 mb-10">
 
-        
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
             <div className="flex justify-between mb-5">
               <div className="flex items-center gap-3">
@@ -162,8 +248,7 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/silver")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90"
-              >
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90">
                 Buy
               </button>
               <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
@@ -173,16 +258,20 @@ const insights = [
           </div>
         </div>
  
- <div className=" flex border border-amber-300 rounded-2xl font-body">
-         <div className="border border-amber-200 w-full p-2 text-center rounded-l-2xl "><button>1D</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center "><button>5D</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center "><button>6M</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center "><button>YTD</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center "><button>1Y</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center "><button>5Y</button></div>
-         <div className="border border-amber-200 w-full p-2 text-center rounded-r-2xl"><button>MAX</button></div>
+ <div className="flex border border-amber-300 rounded-2xl">
+  {ranges.map((range) => (
+    <button
+      key={range}
+      onClick={() => setSelectedRange(range)}
+      className={`w-full p-2 border border-amber-200
+        ${selectedRange === range ? "bg-amber-200 text-black" : ""}
+      `}
+    >
+      {range}
+    </button>
+  ))}
+</div>
 
-        </div>
 
         {/* Charts */}
         <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4">
@@ -191,11 +280,11 @@ const insights = [
               Gold Price Trend
             </h3>
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={goldData}>
+             <LineChart data={goldData[selectedRange]}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip/>
                 <Legend />
                 <Line type="monotone" dataKey="price" stroke="#ca8a04" strokeWidth={2.5} />
               </LineChart>
@@ -207,7 +296,7 @@ const insights = [
               Silver Price Trend
             </h3>
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={silverData}>
+              <LineChart data={silverData[selectedRange]}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// Optionally import user from context/auth if you have real user data
+
 
 function Billing() {
   const navigate = useNavigate();
 
-  // Sample initial state – in real app, load from user profile / backend
+
   const [billingInfo, setBillingInfo] = useState({
     fullName: "Siva",
     phone: "9876543210",
