@@ -43,19 +43,19 @@ function About() {
   ];
 
   const team = [
-    { name: "Arjun Mehta", role: "CEO & Co-Founder", initial: "A" },
-    { name: "Priya Nair", role: "CTO & Co-Founder", initial: "P" },
-    { name: "Rohit Sharma", role: "Head of Operations", initial: "R" },
-    { name: "Divya Pillai", role: "Head of Compliance", initial: "D" },
+    { name: "Arjun ", role: "CEO & Co-Founder", initial: "A" },
+    { name: "Priya ", role: "CTO & Co-Founder", initial: "P" },
+    { name: "Rohit ", role: "Head of Operations", initial: "R" },
+    { name: "Divya ", role: "Head of Compliance", initial: "D" },
   ];
 
-  const milestones = [
-    { year: "2020", event: "DigiGold founded in Bengaluru with a vision to democratize precious metal investing." },
-    { year: "2021", event: "Launched gold investment platform. Crossed ₹10 Cr in assets under management within 6 months." },
-    { year: "2022", event: "Added Silver investment. Reached 50,000 active users and expanded vault capacity." },
-    { year: "2023", event: "Introduced jewellery redemption, gifting features, and live price alerts." },
-    { year: "2024", event: "Surpassed 2 lakh investors. Crossed ₹500 Cr in managed precious metals." },
-  ];
+  // const milestones = [
+  //   { year: "2020", event: "DigiGold founded in Bengaluru with a vision to democratize precious metal investing." },
+  //   { year: "2021", event: "Launched gold investment platform. Crossed ₹10 Cr in assets under management within 6 months." },
+  //   { year: "2022", event: "Added Silver investment. Reached 50,000 active users and expanded vault capacity." },
+  //   { year: "2023", event: "Introduced jewellery redemption, gifting features, and live price alerts." },
+  //   { year: "2024", event: "Surpassed 2 lakh investors. Crossed ₹500 Cr in managed precious metals." },
+  // ];
 
   return (
     <>
@@ -78,12 +78,12 @@ function About() {
 
             <h1 className=" text-6xl sm:text-7xl md:text-8xl font-['Fraunces'] tracking-wide leading-none mb-4">
               <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-               bg-clip-text text-transparent ">Dgi</span>
+               bg-clip-text text-transparent">Dgi</span>
               <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">Gold</span>
             </h1>
 
             <p className="text-xs uppercase tracking-[0.3em] mb-8" >
-              & Silver · Investment Platform
+             Gold & Silver · Investment Platform
             </p>
 
             <p
@@ -233,32 +233,33 @@ function About() {
               />
 
               <div className="space-y-8">
-                {milestones.map((m, i) => (
-                  <div key={i} className="relative flex gap-5 items-start bg-white">
+                {/* {milestones.map((m, i) => ( */}
+                  {/* <div key={i} className="relative flex gap-5 items-start bg-white"> */}
                     {/* dot */}
-                    <div
+                    {/* <div
                       className="absolute -left-5 w-4 h-4 rounded-full border-2 shrink-0 mt-1"
                      
-                    />
-                    <div
+                    /> */}
+                    {/* <div
                       className="rounded-2xl p-4 shadow-sm flex-1 card-hover"
                       
-                    >
-                      <span
+                    > */}
+                      {/* <span
                         className="text-xs uppercase tracking-widest font-serif"
                        
-                      >
-                        {m.year}
-                      </span>
-                      <p className="text-sm leading-relaxed mt-1" >
-                        {m.event}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                      > */}
+                        {/* {m.year} */}
+                      {/* </span> */}
+                      {/* <p className="text-sm leading-relaxed mt-1" > */}
+                        {/* {m.event} */}
+                      {/* </p> */}
+                    {/* </div> */}
+                  {/* </div> */}
+                {/* ))} */}
               </div>
             </div>
           </div>
+          
         </section>
 
    

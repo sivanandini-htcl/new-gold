@@ -19,6 +19,7 @@ import Cart from "./pages/ProfileComponents/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/Footer";
 // import Redeemq from "./pages/ProfileComponents/redeem2";
 import About from "./pages/About";
 
@@ -129,7 +130,9 @@ function App() {
           </Routes>
         </BrowserRouter>
       </PriceProvider>
+      
     </div>
+    
   );
 }
 
@@ -141,8 +144,10 @@ function LayoutWithHeader() {
       <main className="pt-0"> 
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 }
+    
 
 export default App;

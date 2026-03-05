@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import dgiLogo from "../../assets/dgiLogo.png";
+// import dgiLogo from "../../assets/dgiLogo.svg";
+import logo from "../../assets/logo_1.svg";
 
 function Signup() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ function Signup() {
     !form.confirmPassword;
 
   return (
-    <div className="min-h-screen flex flex-col font-serif bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
+    <div className="min-h-screen flex flex-col  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
       <div className="hidden relative py-10 px-6 bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] ">
         <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full border-2 border-yellow-500 opacity-50 animate-spin-slow"></div>
@@ -79,12 +80,12 @@ function Signup() {
 
         <div className="relative z-10 text-center mb-8">
 
-         <h1 className="text-7xl mt-20 font-serif leading-none">
+         <h1 className="text-7xl mt-20 font-['Fraunces'] leading-none">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent ">
               Dgi
             </span>
-            <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">
               Gold
             </span>
           </h1>
@@ -116,7 +117,7 @@ function Signup() {
       <div className="flex-1 flex flex-col md:flex-row  ">
       
         <div className=" md:w-1/2  relative flex flex-col justify-center items-center p-10 lg:p-16 bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] overflow-hidden">
-         <img src={dgiLogo} alt="logo"  className="w-25  " />
+         <img src={logo} alt="logo"  className="w-25  " />
         
           {/* <div className="absolute top-16 right-12 w-48 h-48 rounded-full bg-yellow-400 opacity-20 blur-2xl animate-float"></div>
           <div className="absolute bottom-20 left-8 w-36 h-36 rounded-full bg-gray-300 opacity-15 blur-2xl animate-float delay-1000"></div>

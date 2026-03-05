@@ -205,11 +205,11 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/gold")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 text-black shadow-md hover:opacity-90"
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-md hover:opacity-90"
               >
                 Buy
               </button>
-              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-amber-300 text-amber-800 bg-white hover:bg-amber-50">
+              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-amber-300 bg-white hover:bg-amber-50 text-black">
                 Sell
               </button>
             </div>

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { ShoppingCart, User, LogOut, Menu, X } from "lucide-react";
-import dgiLogo from "../assets/dgiLogo.png";
-
+// import dgiLogo from "../assets/dgiLogo.png";
+import dgiLogo from "../assets/logo_2.svg"
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems } = useCart();

@@ -5,7 +5,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth, googleProvider } from "../../firebaseconfigurations/config";
-import dgiLogo from "../../assets/dgiLogo.png";
+// import dgiLogo from "../../assets/logo 1.svg";
+// import Time from "../../assets/time";
+import Time from "../../assets/time";
+import logo from "../../assets/logo_1.svg";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -83,15 +87,15 @@ function Login() {
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
  
-      <div className="md:hidden py-10 px-6  bg-gradient-to-br from-[#1a1508]
+      <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508]
        via-[#2d2210] to-[#141414] text-center">
-<img src={dgiLogo} alt="logo" className="w-12 mx-auto mb-2" />
-        <h1 className="text-6xl font-serif">
+<img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
+        <h1 className="text-6xl font-['Fraunces']">
           <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent  ">
             Dgi
           </span>
-          <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">
             Gold
           </span>
         </h1>
@@ -112,8 +116,8 @@ function Login() {
           <div className="absolute bottom-20 left-8 w-36 h-36 rounded-full bg-gray-300 opacity-15 blur-2xl animate-float delay-1000"></div>
           <div className="absolute top-1/2 left-1/2 w-96 h-96 rounded-full border-2 border-yellow-400 opacity-10 animate-spin-slow -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute top-1/2 left-1/2 w-72 h-72 rounded-full border-2 border-gray-400 opacity-8 animate-spin-slow-reverse -translate-x-1/2 -translate-y-1/2"></div> */}
-      <img src={dgiLogo} alt="logo" className="w-25 mx-auto flex justify-self-auto  mb-0" />
-          <h1 className="text-7xl mt-10 font-serif leading-none">
+      <img src={logo} alt="logo" className="w-25 mx-auto flex justify-self-auto  mb-0" />
+          <h1 className="text-7xl mt-10 font-['Fraunces'] leading-none">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent ">
               Dgi
@@ -150,8 +154,6 @@ function Login() {
           
         </div>
         <div>
-          
-
         </div>
         
 

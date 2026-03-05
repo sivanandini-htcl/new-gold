@@ -1,93 +1,213 @@
-// function Footer(){
-//     return(<>
-//     {/* main-footer */}
-//         <footer className="relative bg-theme-dark">
-//             <div className="absolute t-0 r-0 w-full h-full bg-no-repeat bg-right-top" style="background-image: url(assets/images/shape/shape-12.png);"></div>
-//             <div className="max-w-[1310px] mx-auto pl-[15px] pr-[15px]">
-//                 <div className="grid relative grid-cols-1 lg:grid-cols-12 gap-7 items-center border-b border-[rgba(217,217,217,0.3)] sm:mb-0 mb-10 sm:pt-[115px] pt-20 sm:pb-20 pb-20">
-//                     <div className="md:col-span-6">
-//                         <figure className="mb-10"><a href="index.html"><img src="assets/images/logo-2.png" alt=""/></a></figure>
-//                         <p className="text-white mb-[46px] max-w-[480px]">For many traders, FXTrade has ability to open and close positions instantly, access leverage and monitor account balances in real-time is essential for staying ahead.</p>
-//                         <ul className="social-links relative flex items-center gap-[8px]">
-//                             <li><a href="index.html" className="relative text-[16px] inline-block w-[34px] h-[34px] leading-[34px] text-center rounded text-[#ffffff] bg-[#2C3F6C] transition-all hover:bg-yellow-500"><i className="icon-2"></i></a></li>
-//                             <li><a href="index.html" className="relative text-[16px] inline-block w-[34px] h-[34px] leading-[34px] text-center rounded text-[#ffffff] bg-[#2C3F6C] transition-all hover:bg-yellow-500"><i className="icon-3"></i></a></li>
-//                             <li><a href="index.html" className="relative text-[16px] inline-block w-[34px] h-[34px] leading-[34px] text-center rounded text-[#ffffff] bg-[#2C3F6C] transition-all hover:bg-[#FEBD58]"><i className="icon-4"></i></a></li>
-//                             <li><a href="index.html" className="relative text-[16px] inline-block w-[34px] h-[34px] leading-[34px] text-center rounded text-[#ffffff] bg-[#2C3F6C] transition-all hover:bg-[#FEBD58]"><i className="icon-5"></i></a></li>
-//                             <li><a href="index.html" className="relative text-[16px] inline-block w-[34px] h-[34px] leading-[34px] text-center rounded text-[#ffffff] bg-[#2C3F6C] transition-all hover:bg-[#FEBD58]"><i className="icon-6"></i></a></li>
-//                         </ul>
-//                     </div>
+import { useNavigate } from "react-router-dom";
+import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
+
+function Footer() {
+  const navigate = useNavigate();
+
+  const quickLinks = [
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Buy Gold", path: "/gold" },
+    { label: "Buy Silver", path: "/silver" },
+    { label: "Redeem Jewellery", path: "/redeem" },
+    { label: "About Us", path: "/about" },
+  ];
+
+  const accountLinks = [
+    { label: "My Profile", path: "/profile" },
+    { label: "KYC Verification", path: "/kycpage" },
+    { label: "Nominee Details", path: "/nominee" },
+    { label: "Transaction History", path: "/" },
+    { label: "Delivery Address", path: "/delivery" },
+  ];
+
+  const legalLinks = [
+    { label: "Privacy Policy", path: "/" },
+    { label: "Terms & Conditions", path: "/" },
+    { label: "Refund Policy", path: "/" },
+    { label: "Grievance Redressal", path: "/" },
+  ];
+
+  const socials = [
+    { icon: Instagram, label: "Instagram" },
+    { icon: Twitter, label: "Twitter" },
+    { icon: Linkedin, label: "LinkedIn" },
+    { icon: Youtube, label: "YouTube" },
+  ];
+
+  return (
+    <>
+     
+
+      <footer
+        className="footer-root w-full bg-gradient-to-br from-[#1a1508]
+       via-[#3f2e10] to-[#141414]"
+        
+      >
+
+        {/* ── Top accent line ── */}
+        <div className="divider-gold h-px w-full " />
+
+        {/* ── Main Footer Content ── */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+            {/* ── Brand Column ── */}
+            <div className="lg:col-span-1">
+              {/* Logo */}
+              <div className="mb-4">
+                <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">
+                  <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+               bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
+                  <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
+                </h2>
+                <p className="text-xs uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
+                 Gold & Silver · Investment Platform
+                </p>
+              </div>
+
+              <div className="divider-gold h-px w-12 rounded-full mb-4" />
+
+              <p className="text-xs leading-relaxed mb-6 text-yellow-100 opacity-80" >
+                India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
+              </p>
+
+              {/* Socials */}
+              <div className="flex gap-2  text-yellow-100 opacity-80">
+                {socials.map((s, i) => {
+                  const Icon = s.icon;
+                  return (
+                    <button key={i} className="social-btn" title={s.label}>
+                      <Icon className="w-4 h-4" />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── Quick Links ── */}
+            <div>
+              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
+                Quick Links
+              </p>
+              <div className="  divider-gold h-px w-8 rounded-full mb-5" />
+              <ul className="space-y-3">
+                {quickLinks.map((link, i) => (
+                  <li key={i}>
+                    <span
+                      className="text-yellow-100 opacity-80 "
+                      onClick={() =>navigate(link.path)} >
+                      <span >◈ {link.label}</span> 
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* ── Account ── */}
+            <div>
+              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
+                My Account
+              </p>
+              <div className="divider-gold h-px w-8 rounded-full mb-5 " />
+              <ul className="space-y-3  text-yellow-100 opacity-80">
+                {accountLinks.map((link, i) => (
+                  <li key={i}>
+                    <span
+                      className="footer-link"
+                      onClick={() => navigate(link.path)}
+                    >
+                      <span >◈</span>
+                      {link.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* ── Contact ── */}
+            <div>
+              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
+                Contact Us
+              </p>
+              <div className="divider-gold h-px w-8 rounded-full mb-5 " />
+
+              <div className="space-y-4 mb-6  text-yellow-100 opacity-80">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-3.5 h-3.5 mt-0.5 shrink-0"  />
+                  <span className="text-xs leading-relaxed" >
+                    support@dgigold.in
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 ">
+                  <Phone className="w-3.5 h-3.5 mt-0.5 shrink-0 "  />
+                  <span className="text-xs leading-relaxed " >
+                    1800-XXX-XXXX<br />
+                    {/* <span >Mon–Sat, 9am–6pm</span> */}
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 ">
+                  <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 "  />
+                  <span className="text-xs leading-relaxed " >
+                    DgiGold<br />
+                    Bengaluru, Karnataka, India
+                  </span>
+                </div>
+              </div>
+
+              {/* Trust badges */}
+              {/* <div className="space-y-2">
+                {["SEBI Registered", "ISO 27001 Certified", "BIS Hallmarked Gold"].map((badge, i) => (
+                  <div
+                    key={i}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mr-1 mb-1  text-yellow-100 opacity-80"
                     
-//                     <div className="md:col-span-6">
-//                         <p className="text-[#D9D9D9] mb-10 font-bold"><a href="index.html" className="font-medium text-[20px] inline-block border-b border-[#ffffff] text-white hover:text-yellow-500">USA Office</a>&nbsp;&nbsp;Suite # 369, Westview Road, New York 12345</p>
-//                         <div className="inner-box sm:flex block item-center sm:gap-14">
-//                             <div className="single-item flex mb-7 sm:mb-0 items-center gap-[15px]">
-//                                 <div className="w-[60px] h-[60px] leading-[60px] text-center rounded-full bg-blue-600 text-[24px] text-yellow-500"><i className="icon-21"></i></div>
-//                                 <div className="text-box">
-//                                     <p className="text-white mb-0.5">Reach out via email</p>
-//                                     <a href="mailto:trading-fx@example.com" className="text-[18px] leading-[22px] font-semibold text-white hover:text-yellow-500">trading-fx@example.com</a>
-//                                 </div>
-//                             </div>
-//                             <div className="single-item flex items-center gap-[15px]">
-//                                 <div className="w-[60px] h-[60px] leading-[60px] text-center rounded-full bg-blue-600 text-[24px] text-yellow-500"><i className="icon-22"></i></div>
-//                                 <div className="text-box">
-//                                     <p className="text-white mb-0.5">Get 24/7 Support</p>
-//                                     <a href="tel:9992223456" className="text-[18px] leading-[22px] font-semibold text-white hover:text-yellow-500">Call us (999) 222 3456</a>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
+                  >
+                    <span >◈</span>
+                    <span className="text-xs">{badge}</span>
+                  </div>
+                ))}
+              </div> */}
+            </div>
+          </div>
+        </div>
 
+        
+        <div className="divider-gold h-px w-full opacity-40 " />
+<div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-700 to-gray-400 to-transparent"/>
 
-//                 <div className="grid relative grid-cols-1 lg:grid-cols-12 gap-7 border-b border-[rgba(217,217,217,0.3)] pt-20 sm:pb-[115px] pb-20 before:absolute before:left-1/2 before:top-0 before:w-[1px] before:h-full before:content-[''] lg:before:block before:hidden before:border-l before:border-[rgba(217,217,217,0.3)]">
-//                     <div className="md:col-span-6">
-//                         <div className="lg:max-w-[483px] lg:mb-0 mb-10 w-full rounded-[24px] bg-yellow-500 sm:p-[50px] p-7">
-//                             <h3 className="text-[28px] leading-9 mb-4 text-title-color">Join our Community</h3>
-//                             <p className="mb-8 text-title-color">Morbi donec leo eget faucibus sed rhoncus porttitor ipsum sodales dui nunc.</p>
-//                             <form action="https://html.tonatheme.com/2025/Fxtrade/contact.html" method="post">
-//                                 <div className="relative">
-//                                     <input type="email" name="email" placeholder="Email Address....." required className="pr-20 peer" />
-//                                     <button type="submit" className="absolute top-1.5 right-2 rounded-full w-[54px] h-[54px] leading-[54px] text-center bg-theme-dark duration-500 text-base text-white hover:bg-blue-600 cursor-pointer peer-focus:bg-blue-600"><i className="icon-8"></i></button>
-//                                 </div>
-//                             </form>
-//                         </div>
-//                     </div>
-//                     <div className="md:col-span-6">
-//                         <div className="grid relative grid-cols-1 sm:grid-cols-12 gap-7">
-//                             <div className="sm:col-span-6 xl:ml-[130px]">
-//                                 <h6 className="text-base leading-[26px] text-white mb-[25px]">Useful Links</h6>
-//                                 <ul>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Home</a></li>
-//                                     <li><a href="about.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">About Forex</a></li>
-//                                     <li><a href="trade.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Trading Platform</a></li>
-//                                     <li><a href="trade.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Services We Offer</a></li>
-//                                     <li><a href="contact.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Contact us</a></li>
-//                                     <li><a href="blog.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Latest News</a></li>
-//                                 </ul>
-//                             </div>
-//                             <div className="sm:col-span-6 xl:ml-[130px]">
-//                                 <h6 className="text-base leading-[26px] text-white mb-[25px]">Trading</h6>
-//                                 <ul>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Market Rates</a></li>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Evaluation</a></li>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Affiliates Program</a></li>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Pricing Structure</a></li>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Trading Rules</a></li>
-//                                     <li><a href="index.html" className="text-[19px] text-white leading-12 hover:text-yellow-500">Get Funded</a></li>
-//                                 </ul>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
+        {/* ── Bottom Bar ── */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-5  text-yellow-100 opacity-80">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 
-//                 <div className="footer-bottom relative md:flex text-center items-center justify-center gap-4 pt-[60px] pb-16">
-//                     <p className="text-[#999999]">&copy; Copyrights 2025 - <a href="index.html" className="text-[#999999] hover:text-yellow-500">FXTrade</a> Trading Template. All Rights Reserved.</p>
-//                     <a href="index.html" className="text-[#999999] hover:text-yellow-500 underline">Terms & Conditions</a>
-//                     <a href="index.html" className="text-[#999999] hover:text-yellow-500 underline">Terms & Conditions</a>
-//                 </div>
-//             </div>
-//         </footer>
-//        {/* main-footer end */}
-//     </>)
-// }
-// export default Footer;
+            {/* Copyright */}
+            <p className="text-xs" >
+              ©{new Date().getFullYear()} DgiGold Pvt. Ltd. All rights reserved.
+            </p>
+
+            {/* Legal links */}
+            <div className="flex flex-wrap gap-4 justify-center">
+              {legalLinks.map((link, i) => (
+                <span
+                  key={i}
+                  className="footer-link text-xs"
+                  onClick={() => navigate(link.path)}
+                  
+                >
+                  {link.label}
+                </span>
+              ))}
+            </div>
+
+            {/* Made with */}
+            <p className="text-xs" >
+              Crafted with <span >◈</span> in India
+            </p>
+          </div>
+        </div>
+
+      </footer>
+    </>
+  );
+}
+
+export default Footer;

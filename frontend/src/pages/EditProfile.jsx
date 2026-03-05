@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ArrowLeft, Edit3, Save, X } from "lucide-react";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -51,110 +52,136 @@ function EditProfile() {
 
   return (
     <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 flex justify-center mt-4">
-    <div className="w-full h-full mt-6">  
-
-        <h2 className="text-xl font-bold mb-4 text-center">
-          Profile Details
+    <div className="w-full h-full mt-6"> 
+       
+      <div className=" flex flex-col ">
+ <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-60  ">
+  <h2 className="text-2xl font-bold font-serif text-black">
+          Profile
         </h2>
+        <h2 className="text-2xl font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
+        Details
+        </h2> 
+    </div>
+    <div className=" flex  justify-start">
+<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-60" style={{ color: "#a09070" }}>
+              {isEditing ? "Editing Mode · Update your information" : "View & Manage your account details"}
+            </p>
+    </div>
+    
+ <div className="bg-yellow-700 h-px md:w-210 ml-4 opacity-40 mb-6 flex  md:ml-60 " />
+     
+   </div>
+  
+ 
 
-<div className="grid grid-cols-3 w-full h-full gap-2 p-3 text-sm font-bold">
+<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md  bg-white md:m-60 md:mt-5 mb-0 md:mb-4  ">
+            {/* Section: Personal Info */}
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-1 h-5 rounded-full bg-amber-800" />
+              <p className="text-xs uppercase tracking-widest font-medium" style={{ color: "#7a6a50" }}>
+                Personal Information
+              </p>
+            </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 bg-white ">
               {/* Name */}
 <div>
-            <label className="text-sm font-semibold">Name</label>
+            <label className="text-sm font-semibold text-amber-800">Full Name</label>
             {isEditing ? (
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
+                
+                className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.name}</p>
+              <p className="mt-1 border border-amber-500/30 rounded-md px-3 py-2 text-amber-800 text-xs">{formData.name||"Not provided"}</p>
             )}
             
 </div>
 
 <div>
-            <label className="text-sm font-semibold">Middle Name</label>
+            <label className="text-sm font-semibold text-amber-800">Middle Name</label>
             {isEditing ? (
               <input 
                 type="text"
                 name="name"
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
+                className="border border-amber-500/30  p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.middleName||" "}</p>
+              <p className="mt-1 border border-amber-500/30   rounded-md px-3 py-2 text-amber-800 text-xs">{formData.middleName||"Not provided "}</p>
             )}
 </div>
 
 <div>
-            <label className="text-sm font-semibold">Last Name</label>
+            <label className="text-sm font-semibold text-amber-800">Last Name</label>
             {isEditing ? (
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
+                className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.lastName}</p>
+              <p className="mt-1 border border-amber-500/30 rounded-md px-3 py-2 text-amber-800 text-xs">{formData.lastName||"Not provided"}</p>
             )}
 </div>
 
           {/* Phone */}
 <div>
-            <label className="text-sm font-semibold">Phone</label>
+            <label className="text-sm font-semibold text-amber-800">Phone</label>
             {isEditing ? (
               <input
                 type="tel"  name="phone"  value={formData.phone}  onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1" />
+                className="border border-amber-500/30 p-2 rounded-lg w-full mt-1" />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.phone}</p>
+              <p className="mt-1 border border-amber-500/30 rounded-md px-3 py-2 text-amber-800 text-xs">{formData.phone||"Not provided"}</p>
             )}
 </div>
 
           {/* Email */}
 <div>
-            <label className="text-sm font-semibold">Email</label>
+            <label className="text-sm font-semibold text-amber-800">Email</label>
             {isEditing ? (
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
+                className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.email}</p>
+              <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.email||"Not provided"}</p>
             )}
 </div>
 
  <div>
-            <label className="text-sm font-semibold">Address</label>
+            <label className="text-sm font-semibold text-amber-800">Address</label>
             {isEditing ? (
               <input
                 type=""
                 name=""
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full mt-1"
+                className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-gray-300 rounded-md px-3 py-2"></p>
+              <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.address||"Not provided"}</p>
             )}
 </div>
 
 
 <div>
-      <label className="text-sm font-semibold">Gender</label>
+      <label className="text-sm font-semibold text-amber-800">Gender</label>
             {isEditing ? (
     <select
       name="gender"
       value={formData.gender}
       onChange={handleChange}
-      className="border p-2 rounded-lg w-full mt-1">
+      className="border border-amber-500/30 p-2 rounded-lg w-full mt-1 text-amber-800 ">
 
       <option value="">Select Gender</option>
       <option value="Male">Male</option>
@@ -162,78 +189,27 @@ function EditProfile() {
       <option value="Other">Other</option>
     </select>
   ) : (
-    <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.gender || "Not Provided"}</p>
+    <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.gender || "Not Provided"}</p>
   )}
 
 </div>
-
-
-<div>
-      <label className="text-sm font-semibold">Nationality</label>
-        {isEditing ? (
-    <select
-      name=""
-      value={formData.gender}
-      onChange={handleChange}
-      className="border p-2 rounded-lg w-full mt-1">
-
-      <option value=""> Select Nationality </option>
-      <option value="">Resident Indian</option>
-      <option value="">Non Resident Indian</option>
-     
-    </select>
-  ) : (
-    <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{"Not Provided"}</p>
-  )}
-
 </div>
 
-<div>
-      <label className="text-sm font-semibold">Marital Status</label>
-            {isEditing ? (
-    <select
-     
-      onChange={handleChange}
-      className="border p-2 rounded-lg w-full mt-1">
+ <div className="bg-yellow-700 h-px w-full opacity-40 mb-6" />
+<div >
+  <div className="flex gap-2"> 
+<div className="w-1 h-5 rounded-full bg-amber-800 mb-2" />
+              <p className="text-xs uppercase tracking-widest font-medium" style={{ color: "#7a6a50" }}>
+                Additinal Information
+              </p>
+  </div>
+ 
 
-      <option value="">Select </option>
-      <option value="Male">Single</option>
-      <option value="Female">Married</option>
-     
-    </select>
-  ) : (
-    <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.gender || "Not Provided"}</p>
-  )}
-
-</div>
-
-
-<div>
-      <label className="text-sm font-semibold">Profession</label>
-            {isEditing ? (
-    <select
-      name="gender"
-      value={formData.gender}
-      onChange={handleChange}
-      className="border p-2 rounded-lg w-full mt-1">
-
-      <option value="">Self Employed</option>
-      <option value="Male">Home Maker</option>
-      <option value="Female">Govt/PSU Employee</option>
-      <option value="Other">Student</option>
-      <option value="Other">Salaried</option>
-      
-    </select>
-  ) : (
-    <p className="mt-1 border border-gray-300 rounded-md px-3 py-2">{formData.gender || "Not Provided"}</p>
-  )}
-
-</div>
-
-
+<div className="mb-1 md:grid grid-cols-4 gap-2">
 {/* Date of Birth */}
+
 <div>
-  <label className="text-sm font-semibold">Date of Birth</label>
+  <label className="text-sm font-semibold text-amber-800 flex">Date of Birth</label>
 
   {isEditing ? (
     <input
@@ -241,42 +217,116 @@ function EditProfile() {
       name="dob"
       value={formData.dob}
       onChange={handleChange}
-      className="border p-2 rounded-lg w-full mt-1"
+      className="border border-amber-500/30 text-amber-800 p-2 rounded-lg w-full mt-1"
     />
   ) : (
-    <p className="mt-1 border border-gray-300 rounded-lg p-2 w-full bg-gray-50">
+    <p className="mt-1 border border-amber-500/30  rounded-lg p-2 w-full bg-gray-50 text-amber-800 text-xs">
       {formData.dob
         ? new Date(formData.dob).toLocaleDateString()
         : "Not Provided"}
     </p>
   )}
 </div>
- </div>
-        {/* Buttons */}
-<div className="flex justify-center gap-4 mt-6">
+
+<div>
+      <label className="text-sm font-semibold text-amber-800">Marital Status</label>
+            {isEditing ? (
+    <select
+     
+      onChange={handleChange}
+      className="border border-amber-500/30 text-amber-800 p-2 rounded-lg w-full mt-1">
+
+      <option value="">Select </option>
+      <option value="Male">Single</option>
+      <option value="Female">Married</option>
+     
+    </select>
+  ) : (
+    <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.ma || "Not Provided"}</p>
+  )}
+
+</div>
+
+
+<div>
+      <label className="text-sm font-semibold text-amber-800">Profession</label>
+            {isEditing ? (
+    <select
+      name="profession}"
+      value={formData.profession}
+      onChange={handleChange}
+      className="border border-amber-500/30 text-amber-800 text-sm p-2 rounded-lg w-full mt-1">
+
+      <option value="">Self Employed</option>
+      <option value="Male">Home Maker</option>
+      <option value="Female">Govt/PSU Employee</option>
+      <option value="Other">Student</option>
+      <option value="Other">Salaried</option>  
+    </select>
+  ) : (
+    <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.profession || "Not Provided"}</p>
+  )}
+
+</div>
+<div>
+      <label className="text-sm font-semibold  text-amber-800 ">Nationality</label>
+        {isEditing ? (
+    <select
+      name=""
+      value={formData.nationality}
+      onChange={handleChange}
+      className="border border-amber-500/30 p-2  text-amber-800 rounded-lg w-full mt-1 ">
+
+      <option value="">Select Nationality </option>
+      <option value="">Resident Indian</option>
+      <option value="">Non Resident Indian</option>
+     
+    </select>
+  ) : (
+    <p className="mt-1 border border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.nationality||"Not Provided"}</p>
+  )}
+
+</div>
+</div>
+</div>
+
+</div>
+<div className="flex justify-center gap-4 mt-2 mb-20  text-center">
 
           {!isEditing ? (
             <>
-              <button onClick={() => setIsEditing(true)} className="bg-accent text-white px-4 py-2 rounded-xl">
-                Edit
+              <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light  text-xs md:tracking-widest 
+              bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
+             text-black rounded-xl  gap-1  flex p-2 md:font-semibold md:text-sm">
+              <Edit3 className="text-black" size={14} md:size={15}/>
+              Edit Profile
               </button>
 
               <button onClick={() => navigate("/profile")}
-                className="border px-4 py-2 rounded-xl">
+                className="  text-xs rounded-xl  p-2 gap-1 flex  md:text-center md:justify-center w-25 text-center  md:w-35 bg-white text-black md:text-sm md:font-semibold ">
+                  <ArrowLeft className="text-black text-center" size={14} md:size={15}/>
                 Back
               </button>
             </>
           ) : (
             <>
-            <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded-xl">Save</button>
+            <button onClick={handleSave} className="w-25 md:w-35 font-light  text-xs md:tracking-widest 
+              bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
+             text-black rounded-xl  gap-1  flex p-2 md:font-light md:text-sm">
+              <Save className="text-black md:font-mono"/>
+              Save</button>
             <button onClick={() => setIsEditing(false)} className="border px-4 py-2 rounded-xl">Cancel</button>
             </>
           )}
 
 </div>
 
+ </div>
+        {/* Buttons */}
+
+
       </div>
-    </div>
+
   );
 }
 
