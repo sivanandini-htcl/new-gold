@@ -80,7 +80,7 @@ function Redeem() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 p-6 md:p-8 text-black">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 via-stone-200 to-amber-100 p-6 md:p-8 text-black">
       <div className="max-w-7xl mx-auto">
 
  

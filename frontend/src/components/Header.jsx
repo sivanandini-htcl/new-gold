@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { ShoppingCart, User, LogOut, Menu, X } from "lucide-react";
+import { ShoppingCart, User, LogOut, Menu, X,Heart } from "lucide-react";
 // import dgiLogo from "../assets/dgiLogo.png";
 import dgiLogo from "../assets/logo_2.svg"
 function Header() {
@@ -43,6 +43,8 @@ function Header() {
         </nav>
         
         <div className="flex items-center gap-3">
+     
+         
           <Link 
             to="/cart" 
             className="relative w-9 h-9 rounded-full flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
@@ -54,7 +56,14 @@ function Header() {
               </span>
             )}
           </Link>
-
+         <Link 
+            to="/profile" 
+            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
+          >
+            <Heart color="#4d2200"className="w-4 h-4" strokeWidth={1} />
+         
+          </Link>
+          
           <Link 
             to="/profile" 
             className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"

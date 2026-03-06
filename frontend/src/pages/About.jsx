@@ -44,13 +44,13 @@ function About() {
 
   const team = [
     { name: "Arjun ", role: "CEO & Co-Founder", initial: "A" },
-    { name: "Priya ", role: "CTO & Co-Founder", initial: "P" },
+    { name: "Priya ", role: " Co-Founder", initial: "P" },
     { name: "Rohit ", role: "Head of Operations", initial: "R" },
     { name: "Divya ", role: "Head of Compliance", initial: "D" },
   ];
 
   // const milestones = [
-  //   { year: "2020", event: "DigiGold founded in Bengaluru with a vision to democratize precious metal investing." },
+  //   { year: "2020", event: "DgiGold founded in Bengaluru with a vision to democratize precious metal investing." },
   //   { year: "2021", event: "Launched gold investment platform. Crossed ₹10 Cr in assets under management within 6 months." },
   //   { year: "2022", event: "Added Silver investment. Reached 50,000 active users and expanded vault capacity." },
   //   { year: "2023", event: "Introduced jewellery redemption, gifting features, and live price alerts." },
@@ -60,9 +60,7 @@ function About() {
   return (
     <>
       
-      <div
-        className="about-root min-h-screen bg-gradient-to-br from-amber-100 via-stone-100 to-amber-100">
-
+      <div className="about-root min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
         <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-10">
           {/* decorative bg circles */}
           {/* <div
@@ -87,12 +85,9 @@ function About() {
             </p>
 
             <p
-              className="font-['Fraunces'] italic text-yellow-950  text-2xl sm:text-3xl  leading-relaxed mb-10 max-w-2xl mx-auto"
-             
-            >
+              className="font-['Fraunces'] italic text-yellow-950  text-2xl sm:text-3xl  leading-relaxed mb-10 max-w-2xl mx-auto" >
               "Bringing the timeless value of precious metals into the digital age — accessible, transparent, and secure for every Indian."
             </p>
-
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto" />
           </div>
         </section>
@@ -138,31 +133,28 @@ function About() {
                   For generations, gold and silver have been India's most trusted stores of value. But physical precious metals come with friction — storage risks, high entry costs, and illiquidity.
                 </p>
                 <p className="text-sm leading-relaxed mb-4" >
-                  DigiGold was built to remove every barrier. We let anyone — a student, a homemaker, a retiree — invest in 24K gold and .999 fine silver from just ₹1, at live market prices, with the same security as a bank vault.
+                  DgiGold was built to remove every barrier. We let anyone — a student, a homemaker, a retiree — invest in 24K gold and .999 fine silver from just ₹1, at live market prices, with the same security as a bank vault.
                 </p>
                 <p className="text-sm leading-relaxed">
                   Because wealth-building shouldn't be a privilege. It should be a right.
                 </p>
               </div>
-
               {/* Visual Card */}
-              
-                
-                
+           
      <div
-  className="rounded-3xl p-10 md:p-16 shadow-md 
+  className="rounded-3xl p-10 md:p-8 shadow-md 
   bg-no-repeat bg-cover bg-center
-  text-amber-100 font-serif flex flex-col justify-center items-end"
+  text-amber-500/50 font-serif flex flex-col justify-start items-start"
   style={{ backgroundImage: `url(${time})` }}
 >
-  <div className="space-y-8 w-full max-w-xs text-right">
+  <div className="space-y-8 w-full max-w-xs  ">
     {[
       {icon: "◈", text: "24K 99.9% Pure Gold", sub: "Hallmarked & certified" },
       {icon: "◈", text: ".999 Fine Silver", sub: "Live market rates always" },
       {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" },
       {icon: "◈", text: "SEBI Compliant", sub: "Fully regulated platform" },
     ].map((item, i) => (
-      <div key={i} className="flex flex-col items-end">
+      <div key={i} className="flex flex-col ">
         {/* <p className="text-xm font-serif">{item.icon}</p> */}
 
         <p className="text-xm font-serif">{item.text}</p>
@@ -170,18 +162,14 @@ function About() {
       </div>
     ))}
   </div>
-</div>
-
-              
+</div>      
             </div>
           </div>
         </section>
 
-    
-
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-5xl mx-auto">
-            <p className="text-xs uppercase tracking-widest mb-2 text-center bg" >Why DigiGold</p>
+            <p className="text-xs uppercase tracking-widest mb-2 text-center bg" >Why DgiGold</p>
             <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               Our Commitments
             </h2>
@@ -193,9 +181,7 @@ function About() {
                 return (
                   <div
                     key={i}
-                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-white text-yellow-900"
-                   
-                  >
+                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-white text-yellow-900">
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
                   
@@ -220,10 +206,10 @@ function About() {
        
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-3xl mx-auto">
-            <p className="text-xs uppercase tracking-widest mb-2 text-center" >Our Story</p>
+            {/* <p className="text-xs uppercase tracking-widest mb-2 text-center" >Our Story</p>
             <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               The Journey
-            </h2>
+            </h2> */}
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
 
             <div className="relative pl-8">
@@ -315,7 +301,7 @@ function About() {
                 Ready to Start Investing?
               </h2>
               <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto" >
-                Join over 2 lakh Indians who trust DigiGold to grow and protect their wealth through gold and silver.
+                Join over 2 lakh Indians who trust DgiGold to grow and protect their wealth through gold and silver.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center">

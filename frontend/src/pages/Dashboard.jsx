@@ -151,12 +151,11 @@ const insights = [
   ];
 
   return (
-    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100">
+    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
       <div className="max-w-7xl mx-auto">
-
         {/* Header */}
         <div className="mb-8 pb-6 border-b border-amber-200">
-          <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500 to-transparent rounded-full mb-4" />
+          <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500/50 to-transparent rounded-full mb-4" />
           <h1 className="font-serif text-5xl tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
               Dgi
@@ -169,10 +168,8 @@ const insights = [
           Gold  & Silver · Investment Platform
           </p>
         </div>
-
-       
+      
         <div className="grid md:grid-cols-2 gap-6 mb-10">
-
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
             <div className="flex justify-between mb-5">
               <div className="flex items-center gap-3">
@@ -205,8 +202,7 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/gold")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-md hover:opacity-90"
-              >
+                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-md hover:opacity-90">
                 Buy
               </button>
               <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-amber-300 bg-white hover:bg-amber-50 text-black">
@@ -334,7 +330,7 @@ const insights = [
         </div>
         </div>
       </div>
-    
+
   );
 }
 

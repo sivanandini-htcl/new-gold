@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import { PriceProvider } from "./components/PriceProvider";
 import Signup from "./pages/Authentication/Signup";
 import Login from "./pages/Authentication/Login";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./pages/ProfileComponents/EditProfile";
 import KycPage from "./pages/KYC.jsx/KycPage";
 import Nominee from "./pages/ProfileComponents/Nominee";
 import Delivery from "./pages/ProfileComponents/Delivery";
@@ -63,9 +63,7 @@ function App() {
                 }
               />
               <Route
-                path="/edit"
-                element={<ProtectedRoute> <EditProfile /> </ProtectedRoute>}
-              />
+                path="/edit" element={<ProtectedRoute> <EditProfile /> </ProtectedRoute>} />
               <Route
                 path="/kycpage" element={<ProtectedRoute> <KycPage />  </ProtectedRoute>  } />
               <Route
@@ -141,7 +139,7 @@ function LayoutWithHeader() {
   return (
     <>
       <Header />
-      <main className="pt-0"> 
+      <main> 
         <Outlet />
       </main>
       <Footer />

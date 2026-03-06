@@ -88,11 +88,20 @@ function Nominee() {
   };
 
   return (
-    <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 flex justify-center mt-4">
-    <div className="w-full h-full mt-6">  
+    <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 flex justify-center mt-0">
+    <div className="w-full h-full mt-2">  
+      
       <div className=" flex flex-col ">
-
- <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-60  ">
+          <div className="ml-20 mt-8 mb-1">
+<button
+            onClick={() => navigate("/profile")}
+            className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition">
+            <ArrowLeft className="w-4 h-4"/>
+            Back to Profile
+          </button>
+          </div>
+ <div className="flex  justify-start ml-4 mt-8 mb-1 gap-1 md:ml-40  ">
+  
   <h2 className="text-2xl font-bold font-serif text-black">
           Nominee
         </h2>
@@ -103,17 +112,17 @@ function Nominee() {
 
 
     <div className=" flex  justify-start">
-<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-60" style={{ color: "#a09070" }}>
+<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-40" style={{ color: "#a09070" }}>
               {isEditing ? "Editing Mode · Please Fill Nominee Details" : "View & Manage Nominee details"}
             </p>
     </div>
     
     
- <div className="bg-yellow-700 h-px md:w-210 ml-4 opacity-40 mb-6 flex  md:ml-60 " />
+ <div className="bg-yellow-700 h-px md:w-210 ml-4 opacity-40 mb-6 flex  md:ml-40 " />
 </div>
   
 
-<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md  bg-white md:m-60 lg:m-40 md:mt-5 mb-0 md:mb-4  ">
+<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md  bg-white md:m-60 lg:m-40 lg:mt-5 md:mt-5 mb-0 md:mb-4  ">
             {/* Section: Personal Info */}
             <div className="flex items-center gap-2 mb-5">
               <div className="w-1 h-5 rounded-full bg-amber-800" />
@@ -368,7 +377,7 @@ function Nominee() {
             <>
               <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light  text-xs md:tracking-widest 
               bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
-             text-black rounded-xl flex  gap-1  text-center items-center   p-2 md:font-semibold md:text-sm">
+             text-black rounded-xl flex  gap-1  text-center items-center p-2 md:font-semibold md:text-sm">
               <Edit3 className="text-black" size={14} md:size={15}/>
               Edit Profile
               </button>

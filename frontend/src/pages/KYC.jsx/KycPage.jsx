@@ -255,7 +255,7 @@ function KycPage() {
                 />
                 {formData.videoFile && (
                   <p className="mt-4 text-sm text-green-600">
-                    Selected: {formData.videoFile.name}
+                    Selected:{formData.videoFile.name}
                   </p>
                 )}
               </div>
@@ -269,14 +269,12 @@ function KycPage() {
                 <div className="flex gap-4 mt-8">
                   <button
                     onClick={handleBack}
-                    className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-medium"
-                  >
+                    className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-medium">
                     Back
                   </button>
                   <button
                     onClick={handleNext}
-                    className="flex-1 bg-accent text-white py-3 rounded-xl font-medium hover:bg-gray-700"
-                  >
+                    className="flex-1 bg-accent text-white py-3 rounded-xl font-medium hover:bg-gray-700">
                     Submit KYC
                   </button>
                 </div>
@@ -294,8 +292,7 @@ function KycPage() {
               <button
                 onClick={() => navigate("/profile")}
                 className="w-full bg-accent text-white py-4 rounded-xl font-semibold text-lg
-                 hover:bg-accent"
-              >
+                 hover:bg-accent">
                 Back to Profile
               </button>
             </div>

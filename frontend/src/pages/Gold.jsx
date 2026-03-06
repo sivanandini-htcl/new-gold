@@ -54,7 +54,7 @@ function Gold() {
   const hasInput = parseFloat(inputValue) > 0;
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50  ">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100  ">
      
      <Link
           to="/dashboard"

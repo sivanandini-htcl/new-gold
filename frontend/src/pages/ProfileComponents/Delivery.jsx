@@ -39,11 +39,21 @@ function Delivery(){
     }
     
     return(<>
-   <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 flex justify-center mt-4">
-    <div className="w-full h-full mt-6"> 
+   <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 flex justify-center ">
+    <div className="w-full h-full mt-4"> 
        
       <div className=" flex flex-col ">
+
+         <div className="ml-20 mt-8 mb-1">
+<button
+            onClick={() => navigate("/profile")}
+            className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition">
+            <ArrowLeft className="w-4 h-4"/>
+            Back to Profile
+          </button>
+          </div>
  <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-60  ">
+  
   <h2 className="text-2xl font-bold font-serif text-black">
           Delivery
         </h2>

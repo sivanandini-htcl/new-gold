@@ -36,9 +36,9 @@ function Profile() {
   const isGoldProfit = Number(goldPercentage) > 0;
   const isSilverProfit = Number(silverPercentage) > 0;
 
-  return (<div className="pt-10">
+  return (
 
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-stone-100 to-amber-100 py-10 px-4 lg:px-10">
+    <div className="min-h-screen bg-gradient-to-br bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 py-10 px-4 lg:px-10">
       <div className="max-w-6xl mx-auto space-y-10">
 
         {/* Page Title */}
@@ -327,7 +327,7 @@ function Profile() {
         </div>
       </div>
     </div>
-      </div>
+      
   );
 }
 

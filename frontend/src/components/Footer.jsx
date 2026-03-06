@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
+import dgiLogo from "../assets/logo_2.svg"
 
 function Footer() {
   const navigate = useNavigate();
@@ -40,27 +41,29 @@ function Footer() {
 
       <footer
         className="footer-root w-full bg-gradient-to-br from-[#1a1508]
-       via-[#3f2e10] to-[#141414]"
-        
-      >
+       via-[#3f2e10] to-[#141414]">
 
-        {/* ── Top accent line ── */}
-        <div className="divider-gold h-px w-full " />
+      
+        <div className="divider-gold h-px w-full" />
 
-        {/* ── Main Footer Content ── */}
+       
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-            {/* ── Brand Column ── */}
+            
             <div className="lg:col-span-1">
               {/* Logo */}
-              <div className="mb-4">
-                <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">
-                  <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+             
+                <div className="mb-4 flex gap-2">
+               <img className="w-13 object-contain  ml-4 md:ml-0" src={dgiLogo} alt="logo "  />    
+             <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">               
+              <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
                   <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
                 </h2>
-                <p className="text-xs uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
+                </div>
+                 <div className="mb-4 ">
+                <p className="sm:text-xs font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
                  Gold & Silver · Investment Platform
                 </p>
               </div>
@@ -109,7 +112,7 @@ function Footer() {
                 My Account
               </p>
               <div className="divider-gold h-px w-8 rounded-full mb-5 " />
-              <ul className="space-y-3  text-yellow-100 opacity-80">
+              <ul className="space-y-3 text-yellow-100 opacity-80">
                 {accountLinks.map((link, i) => (
                   <li key={i}>
                     <span
@@ -200,7 +203,7 @@ function Footer() {
 
             {/* Made with */}
             <p className="text-xs" >
-              Crafted with <span >◈</span> in India
+              {/* Crafted with in India */}
             </p>
           </div>
         </div>
