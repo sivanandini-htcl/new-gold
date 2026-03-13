@@ -2,12 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { ShoppingCart, User, LogOut, Menu, X,Heart } from "lucide-react";
+
+import { useWishlist } from "./WishlistContext";
 // import dgiLogo from "../assets/dgiLogo.png";
 import dgiLogo from "../assets/logo_2.svg"
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems } = useCart();
   const navigate = useNavigate();
+  const { wishlist } = useWishlist();
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -19,11 +22,11 @@ function Header() {
     bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b
      border-yellow-300/40 shadow-md">
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 gap-3 flex items-center justify-between">
 
        
         <Link to="/dashboard" className="flex items-center gap-2 no-underline">
-          <img className="w-20  object-contain  ml-4 md:ml-20" src={dgiLogo} alt="logo "  />
+          <img className="w-20  object-contain  ml-4 md:ml-7" src={dgiLogo} alt="logo "  />
 
          
 
@@ -39,12 +42,13 @@ function Header() {
           <Link to="/silver" className="nav-item">Silver</Link>
           <Link to="/redeem" className="nav-item">Redeem</Link>
           <Link to="/about" className="nav-item">About</Link>
-           {/* <Link to="/redeemq" onClick={()=>setIsOpen(false)}>qqs</Link> */}
+          <Link to="/checkout" className="nav-item">Checkout</Link>
+
+           
         </nav>
         
         <div className="flex items-center gap-3">
      
-         
           <Link 
             to="/cart" 
             className="relative w-9 h-9 rounded-full flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
@@ -57,7 +61,7 @@ function Header() {
             )}
           </Link>
          <Link 
-            to="/profile" 
+            to="/wishlist" 
             className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
           >
             <Heart color="#4d2200"className="w-4 h-4" strokeWidth={1} />
@@ -66,16 +70,15 @@ function Header() {
           
           <Link 
             to="/profile" 
-            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
-          >
+            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition">
             <User className="w-4 h-4" />
           </Link>
+          
 
        
           <button 
             onClick={handleLogout} 
-            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-500 hover:text-gray-800 transition"
-          >
+            className="hidden sm:flex w-9 h-9 rounded-full items-center justify-center border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-500 hover:text-gray-800 transition">
             <LogOut className="w-4 h-4" />
           </button>
 

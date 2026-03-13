@@ -9,7 +9,6 @@
   --color-secondary: oklch(92.8% 0.006 264.531);
   --color-accent: oklch(12.9% 0.054 264.2);
   --color-title-color: oklch(14.7% 0.004 49.3);
-
   --font-heading: "Cormorant Garamond", serif;
   ;
 }
@@ -34,6 +33,33 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+
+
+
+
 
 /* ------------------ UTILITIES ------------------ */
 /* @utility animate-shimmer {

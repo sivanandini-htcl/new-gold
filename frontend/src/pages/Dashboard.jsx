@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, DollarSign, Award, Shield, Zap } from "lucide-react";
-import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import { useState } from "react";
 

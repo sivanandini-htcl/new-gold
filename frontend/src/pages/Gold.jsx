@@ -82,7 +82,7 @@ function Gold() {
         {/* Back Button */}
         
 
-         <div className="grid lg:grid-cols-2 gap-7 w-250  justify-center ">
+         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-7 w-250  justify-center ">
           {/* LEFT SIDE */}
           <div className="space-y-6  ">
 

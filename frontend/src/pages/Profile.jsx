@@ -2,20 +2,7 @@ import { useContext } from "react";
 import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
 import {
-  User,
-  Phone,
-  Mail,
-  Edit,
-  FileText,
-  ShieldCheck,
-  MapPin,
-  CreditCard,
-  Receipt,
-  Clock,
-  ArrowRightLeft,
-  Gift,
-  ShieldUser,
-  Settings
+  User, Phone,Mail,Edit,FileText, ShieldCheck,MapPin,CreditCard,Receipt,Clock,ArrowRightLeft,Gift,ShieldUser,Settings
 } from "lucide-react";
 
 function Profile() {

@@ -96,7 +96,7 @@ function Silver() {
         
 
   {/* changed width give 250 */}
-  <div className="grid lg:grid-cols-2 gap-7 w-250  justify-center ">
+  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-7 w-250  justify-center ">
 
           {/* left */}
           <div className="space-y-6  ">
@@ -239,8 +239,7 @@ function Silver() {
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
-                setShowBreakdown(false);
-              }}
+                setShowBreakdown(false);}}
               className="w-full px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
             />
 

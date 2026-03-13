@@ -1,6 +1,6 @@
-import { useCart } from "../../components/CartContext";
+import { useCart } from "../components/CartContext";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart, Trash2, ArrowRight, Package } from "lucide-react";
+import { ShoppingCart, Trash2, ArrowRight, Package, Heart } from "lucide-react";
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, totalItems, totalAmount } = useCart();
@@ -12,19 +12,17 @@ function Cart() {
       <>
         
         <div
-          className="cart-root min-h-screen flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50"
+          className="cart-root max-h-screen p-40 md:min-h-screen flex flex-col items-center justify-center px-0 py-1 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50"
        
         >
           <div
-            className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-white"
-            
+            className="md:rounded-3xl p-9 shadow-lg text-center max-w-sm w-full bg-white"     
           >
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
             <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-         
-            >
-              <ShoppingCart className="w-9 h-11 bg-amber-100 p-2 rounded-4xl"  />
+              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5">
+              <ShoppingCart size={80} className=" p-2 rounded-4xl text-yellow-700 hover:scale-125 active:scale-90 transition duration-200 animate-bounce"  />
+              {/* <Heart className="text-red-500 hover:scale-125 active:scale-90 transition duration-300 animate-spin"/> */}
             </div>
             <h1 className="text-4xl font-serif mb-2" >
               Your Cart
@@ -63,8 +61,8 @@ function Cart() {
           {/* ── Page Title ── */}
           <div className="mb-8 text-center" >
             <div className=" h-0.5 w-16 rounded-full mx-auto mb-4" />
-            <h1 className=" text-5xl md:text-5xl font-bold mb-1">
-              <span className="font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">Shopping</span>
+            <h1 className=" text-2xl md:text-5xl font-bold mb-1">
+              <span className=" md:font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">Shopping</span>
               <span className=" font-serif text-black"> Cart</span>
             </h1>
             <p className="text-xs uppercase tracking-widest mt-3 text-yellow-800/70">
@@ -79,23 +77,23 @@ function Cart() {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="cart-item-card rounded-3xl overflow-hidden  shadow-xl bg-white"
-                  
-                >
-                  <div className="flex flex-col sm:flex-row items-start gap-4 p-5">
+                  className="cart-item-card rounded-3xl overflow-hidden shadow-xl bg-white" 
+                  >
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-5 ">
 
                     {/* Image */}
                     <div
-                      className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0"
+                      className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0"onClick={()=>{navigate(`/productdetails/${item.id}`)}}
                       
                     >
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover bg-amber-100"
+                        className="w-full h-full object-cover bg-amber-100 "
                         onError={(e) => { e.target.src = "https://via.placeholder.com/128?text=No+Image"; }}
                       />
                     </div>
+                   
 
                     {/* Details */}
                     <div className="flex-1 min-w-0">
@@ -115,13 +113,11 @@ function Cart() {
                       <div className="flex items-center justify-between flex-wrap gap-3">
                      
                         <div
-                          className="flex items-center gap-3 px-3 py-1.5 rounded-xl bg-amber-100"
-                          
+                          className="flex items-center gap-3 px-3 py-1.5 rounded-xl bg-amber-100"                        
                         >
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="qty-btn w-7 h-7 rounded-full flex items-center justify-center text-base font-bold bg-amber-300/60"
-                            
+                            className="qty-btn w-7 h-7 rounded-full flex items-center justify-center text-base font-bold bg-amber-300/60"        
                           >
                             −
                           </button>
@@ -211,21 +207,19 @@ function Cart() {
 
                 {/* Total */}
                 <div
-                  className="flex justify-between items-center py-3 mb-5 rounded-xl px-3 bg-amber-100"
-                 
-                >
+                  className="flex justify-between items-center py-3 mb-5 rounded-xl px-3 bg-amber-100"  >
                   <span className="text-xs uppercase tracking-widest font-semibold" >
                     Total ({totalItems} items)
                   </span>
                   <span className="heading-font text-xl font-bold" >
-                    ₹{totalAmount.toLocaleString("en-IN")}
+                    ₹{totalAmount}
                   </span>
                 </div>
 
                 {/* Checkout Button */}
                 <button
-                  onClick={() => alert("Proceeding to checkout...")}
-                  className="w-full   bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950 py-4 rounded-xl text-sm uppercase tracking-widest font-semibold transition hover:opacity-90 inline-flex items-center justify-center gap-2"
+                 onClick={()=>navigate("/checkout")}
+                  className="w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950 py-4 rounded-xl text-sm uppercase tracking-widest font-semibold transition hover:opacity-90 inline-flex items-center justify-center gap-2"
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-4 h-4" />

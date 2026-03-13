@@ -12,16 +12,19 @@ import KycPage from "./pages/KYC.jsx/KycPage";
 import Nominee from "./pages/ProfileComponents/Nominee";
 import Delivery from "./pages/ProfileComponents/Delivery";
 import BankAccount from "./pages/ProfileComponents/BankAccount";
-import BuyGold from "./pages/ProfileComponents/BuyGold";
+// import BuyGold from "./pages/ProfileComponents/BuyGold";
 import Billing from "./pages/ProfileComponents/Billing";
 import Redeem from "./pages/ProfileComponents/Redeem";
-import Cart from "./pages/ProfileComponents/Cart";
+import Cart from "./pages/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Footer from "./components/Footer";
 // import Redeemq from "./pages/ProfileComponents/redeem2";
 import About from "./pages/About";
+import Wishlist from "./pages/Wishlist";
+import Checkout from "./pages/Checkout";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
           <ToastContainer position="top-right" autoClose={2000} theme="dark" />
 
           <Routes>
+            
         <Route path="/" element={<Login />} />
          <Route path="/signup" element={<Signup />} />
           
@@ -83,13 +87,13 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
+              {/* <Route
                 path="/buygold"  element={
                   <ProtectedRoute>
                     <BuyGold />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
               <Route
                 path="/billing" element={
                   <ProtectedRoute>
@@ -118,7 +122,29 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/wishlist" element={
+                      <ProtectedRoute>
+                      <Wishlist />
+                      </ProtectedRoute>
+             } />
+
+
+  <Route path="/checkout" element={
+                      <ProtectedRoute>
+                      <Checkout />
+                      </ProtectedRoute>
+             } />
+          
+             <Route path="/productdetails/:id" element={
+                      <ProtectedRoute>
+                      <ProductDetails />
+                      </ProtectedRoute>
+             } />
+             
+
+
             </Route>
+            
             
             
 

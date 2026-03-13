@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Shield, TrendingUp, Zap, Award, Users, Globe, Lock, HeartHandshake } from "lucide-react";
 import Time from "../assets/time";
-import time from "../assets/time.png";
+// import Invest from "../assets/invest.png";
+
+
 
 
 function About() {
@@ -60,8 +62,8 @@ function About() {
   return (
     <>
       
-      <div className="about-root min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
-        <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-10">
+      <div className=" min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+        <section className="relative overflow-hidden py-2 px-4 sm:px-6 lg:px-10">
           {/* decorative bg circles */}
           {/* <div
             className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none"
@@ -72,20 +74,20 @@ function About() {
           /> */}
 
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className=" h-0.5 w-16 rounded-full mx-auto mb-6" />
+            <div className="h-0.5 w-16 rounded-full mx-auto mb-6"/>
 
             <h1 className=" text-6xl sm:text-7xl md:text-8xl font-['Fraunces'] tracking-wide leading-none mb-4">
               <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-               bg-clip-text text-transparent">Dgi</span>
-              <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">Gold</span>
+               bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
+              <span className="font-['Fraunces'] bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">Gold</span>
             </h1>
 
-            <p className="text-xs uppercase tracking-[0.3em] mb-8" >
+            <p className="text-xs uppercase tracking-[0.3em] mb-8 text-yellow-800/50" >
              Gold & Silver · Investment Platform
             </p>
 
             <p
-              className="font-['Fraunces'] italic text-yellow-950  text-2xl sm:text-3xl  leading-relaxed mb-10 max-w-2xl mx-auto" >
+              className="font-['Fraunces'] italic text-yellow-950  text-sm md:text-3xl lg:text-3xl sm:text-xl  leading-relaxed mb-10 max-w-2xl mx-auto" >
               "Bringing the timeless value of precious metals into the digital age — accessible, transparent, and secure for every Indian."
             </p>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto" />
@@ -94,21 +96,16 @@ function About() {
 
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div
-            className="max-w-5xl mx-auto rounded-3xl p-6 sm:p-8 shadow-lg"
-        
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x text-yellow-950"
-      
-            >
+            className="max-w-5xl mx-auto rounded-3xl p-6 sm:p-8 shadow-xl"  >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x text-yellow-950 bg-amber-100 shadow-lg w-full rounded-lg p-2" >
               {stats.map((stat, i) => (
-                <div key={i} className="text-center px-4">
+                <div key={i} className="text-center  px-4">
                   <p
-                    className="text-xl sm:text-5xl font-serif mb-1 text-yellow-700"
-               
+                    className="text-lg sm:text-2xl md:text-xl font-serif mb-1 text-yellow-700"
                   >
                     {stat.value}
                   </p>
-                  <p className="text-xs uppercase tracking-widest" >
+                  <p className="text-xs sm:text-xl italic font-serif font-light -tracking-normal gap-2" >
                     {stat.label}
                   </p>
                 </div>
@@ -120,39 +117,47 @@ function About() {
   
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
               {/* Text */}
               <div>
                 <p className="text-xs uppercase tracking-widest mb-2" >Our Mission</p>
-                <h2 className="text-4xl sm:text-5xl font-serif mb-5 text-yellow-950" >
+                <h2 className=" text-2xl md:text-4xl sm:text-5xl font-serif mb-1 text-yellow-950" >
                   Gold & Silver for Everyone
                 </h2>
-                <div className="divider-gold h-0.5 w-12 rounded-full mb-5" />
-                <p className="text-sm leading-relaxed mb-4" >
+                <div className="h-0.5 w-12 rounded-full mb-5 " />
+             
+                  
+
+                <div className="p-5 m-4 rounded-2xl ml-1 bg-amber-100 shadow w-full h-full" >
+<p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-yellow-800/90" >
                   For generations, gold and silver have been India's most trusted stores of value. But physical precious metals come with friction — storage risks, high entry costs, and illiquidity.
                 </p>
-                <p className="text-sm leading-relaxed mb-4" >
+                <p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-yellow-800/90" >
                   DgiGold was built to remove every barrier. We let anyone — a student, a homemaker, a retiree — invest in 24K gold and .999 fine silver from just ₹1, at live market prices, with the same security as a bank vault.
                 </p>
-                <p className="text-sm leading-relaxed">
+                <p className=" text-xs md:text-sm leading-relaxed font-serif text-yellow-800/90">
                   Because wealth-building shouldn't be a privilege. It should be a right.
                 </p>
-              </div>
+                </div>
+
+                </div>
+          
               {/* Visual Card */}
            
      <div
-  className="rounded-3xl p-10 md:p-8 shadow-md 
+  className=" h-full w-full rounded-3xl p-10 shadow-md 
   bg-no-repeat bg-cover bg-center
-  text-amber-500/50 font-serif flex flex-col justify-start items-start"
-  style={{ backgroundImage: `url(${time})` }}
+  text-white font-serif flex flex-col justify-start items-start
+ bg-[url('assets/time.png')] "
 >
-  <div className="space-y-8 w-full max-w-xs  ">
+  <div className=" space-y-4  md:space-y-4 w-full max-w-xs  ">
     {[
       {icon: "◈", text: "24K 99.9% Pure Gold", sub: "Hallmarked & certified" },
       {icon: "◈", text: ".999 Fine Silver", sub: "Live market rates always" },
       {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" },
-      {icon: "◈", text: "SEBI Compliant", sub: "Fully regulated platform" },
+       {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" }, 
+      
     ].map((item, i) => (
       <div key={i} className="flex flex-col ">
         {/* <p className="text-xm font-serif">{item.icon}</p> */}
@@ -170,7 +175,7 @@ function About() {
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-5xl mx-auto">
             <p className="text-xs uppercase tracking-widest mb-2 text-center bg" >Why DgiGold</p>
-            <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
+            <h2 className=" text-3xl heading-font  sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               Our Commitments
             </h2>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
@@ -181,18 +186,18 @@ function About() {
                 return (
                   <div
                     key={i}
-                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-white text-yellow-900">
+                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-yellow-100  text-yellow-900">
                     <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
+                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5 bg-amber-200"
                   
                     >
                       <Icon className="w-5 h-5 text-yellow-500" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-serif mb-1" >
+                      <h3 className="text-xl font-serif mb-1 text-yellow-900" >
                         {val.title}
                       </h3>
-                      <p className="text-xs leading-relaxed" >
+                      <p className="text-xs leading-relaxed text-yellow-800/90" >
                         {val.description}
                       </p>
                     </div>
@@ -255,22 +260,19 @@ function About() {
             <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               Meet the Team
             </h2>
-            <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
+            <div className=" h-0.5 w-12 rounded-full mx-auto mb-10" />
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
               {team.map((member, i) => (
                 <div
                   key={i}
-                  className="card-hover rounded-3xl p-6 shadow-md text-center bg-white"
-                  
+                  className="card-hover rounded-3xl p-6 shadow-md text-center bg-white"           
                 >
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"
-                    
+                    className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"         
                   >
                     <span
-                      className="heading-font text-2xl font-bold"
-                      
+                      className="heading-font text-2xl font-bold"       
                     >
                       {member.initial}
                     </span>
@@ -288,18 +290,17 @@ function About() {
         </section>
 
       
-        <section className="px-4  md:p-20 sm:px-6 lg:px-10 pb-16 bg-gradient-to-br from-[#1a1508]
+        <section className="px-4 p-20 md:p-20 sm:px-6 lg:px-10 pb-16 bg-gradient-to-br from-[#1a1508]
        via-[#5a4017] to-[#141414]">
           <div className="max-w-3xl mx-auto bg-amber-100 rounded-2xl">
             <div
-              className="rounded-3xl p-3 shadow-lg text-center"
-              
-            >
+              className="rounded-3xl p-3 shadow-lg text-center">
               <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
 
-              <h2 className=" text-4xl sm:text-5xl font-serif mb-3 text-yellow-950" >
+              <h2 className="text-xl md:text-4xl sm:text-5xl font-serif mb-3 text-yellow-950">
                 Ready to Start Investing?
               </h2>
+              
               <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto" >
                 Join over 2 lakh Indians who trust DgiGold to grow and protect their wealth through gold and silver.
               </p>
@@ -308,11 +309,8 @@ function About() {
                 <button
                   onClick={() => navigate("/gold")}
                   className="transition hover:opacity-90
-                   py-3 px-4 rounded-xl text-sm  tracking-widest font-serif
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
-              mb-5"
-                 
+                  py-3 px-4 rounded-xl text-sm  tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+                  shadow-lg shadow-amber-600/30 mb-5"                 
                 >
                   Buy Gold
                 </button>
@@ -333,16 +331,19 @@ function About() {
                    py-3 px-4 rounded-xl text-sm  tracking-widest font-serif
               bg-white
               shadow-lg shadow-amber-600/30
-              mb-5 "
-                  
-                >
+              mb-5 ">
                   Dashboard
                 </button>
               </div>
+            
 
               <div className="divider-gold h-0.5 w-8 rounded-full mx-auto mt-8" />
+                 {/* <img src={Invest} alt="" className="w-full"/> */}
+             
             </div>
+            
           </div>
+          
         </section>
 
       </div>
