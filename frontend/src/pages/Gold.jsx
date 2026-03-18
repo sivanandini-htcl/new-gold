@@ -54,7 +54,7 @@ function Gold() {
   const hasInput = parseFloat(inputValue) > 0;
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100  ">
+    <div className="h-auto flex flex-col py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100  ">
      
      <Link
           to="/dashboard"
@@ -68,7 +68,7 @@ function Gold() {
         <div className="mb-10 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
           <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
 
-          <h1 className="text-5xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent p-2">
             Buy Gold
           </h1>
 
@@ -80,7 +80,6 @@ function Gold() {
       <div className="w-full  flex items-center justify-center">
 
         {/* Back Button */}
-        
 
          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-7 w-250  justify-center ">
           {/* LEFT SIDE */}

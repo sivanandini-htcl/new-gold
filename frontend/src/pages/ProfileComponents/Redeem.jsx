@@ -251,9 +251,23 @@ function Redeem() {
 
           {/*   title change*/}
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold mb-2">
+            {/* <h1 className="text-4xl font-bold mb-2">
               {isGold ? "Gold": "Silver"} Jewellery
-            </h1>
+            </h1> */}
+
+
+{isGold?(
+  <div className="flex gap-2 justify-center font-serif">
+<span className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent" >Gold</span>
+<span className="text-4xl font-bold mb-2">Jewellery</span>
+
+  </div>
+):(
+  <div className="flex gap-2 justify-center font-serif">
+    <span className="text-4xl font-bold mb-2 bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900 bg-clip-text text-transparent">Silver</span>
+<span className="text-4xl font-bold mb-2">Jewellery</span>
+  </div>
+)}
 
             <p className="text-sm text-gray-500">
               Redeem your digital holdings

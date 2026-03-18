@@ -67,7 +67,7 @@ function Silver() {
   const hasInput = parseFloat(inputValue) > 0;
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500 ">
+    <div className="h-auto flex flex-col py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500 ">
       
       <Link
           to="/dashboard"
@@ -81,7 +81,7 @@ function Silver() {
         <div className="mb-10 border-b border-gray-700/20 pb-6">
           <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
 
-          <h1 className="text-5xl bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900  md:bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900 font-serif bg-clip-text text-transparent">
+          <h1 className="text-5xl bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900  md:bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900 font-serif bg-clip-text text-transparent p-2">
             Buy Silver
           </h1>
 

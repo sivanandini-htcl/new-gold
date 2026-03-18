@@ -44,20 +44,20 @@ function Footer() {
        via-[#3f2e10] to-[#141414]">
 
       
-        <div className="divider-gold h-px w-full" />
+        <div className=" h-px w-full" />
 
        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
+          <div className="grid grid-cols- sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
             
             <div className="lg:col-span-1">
               {/* Logo */}
-             
+
                 <div className="mb-4 flex gap-2">
                <img className="w-13 object-contain  ml-4 md:ml-0" src={dgiLogo} alt="logo "  />    
-             <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">               
-              <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+               <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">               
+               <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
                   <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
                 </h2>
@@ -68,18 +68,18 @@ function Footer() {
                 </p>
               </div>
 
-              <div className="divider-gold h-px w-12 rounded-full mb-4" />
+              <div className=" h-px w-12 rounded-full mb-4" />
 
               <p className="text-xs leading-relaxed mb-6 text-yellow-100 opacity-80" >
                 India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
               </p>
 
               {/* Socials */}
-              <div className="flex gap-2  text-yellow-100 opacity-80">
+              <div className="flex gap-2 text-yellow-100 opacity-80">
                 {socials.map((s, i) => {
                   const Icon = s.icon;
                   return (
-                    <button key={i} className="social-btn" title={s.label}>
+                    <button key={i} title={s.label}>
                       <Icon className="w-4 h-4" />
                     </button>
                   );
@@ -87,12 +87,12 @@ function Footer() {
               </div>
             </div>
 
-            {/* ── Quick Links ── */}
+            {/* Quick Links  */}
             <div>
-              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
+              <p className=" md:text-xs md:uppercase md:tracking-widest md:mb-4 md:font-medium text-yellow-100 opacity-80" >
                 Quick Links
               </p>
-              <div className="  divider-gold h-px w-8 rounded-full mb-5" />
+              <div className="h-px w-8 rounded-full mb-5" />
               <ul className="space-y-3">
                 {quickLinks.map((link, i) => (
                   <li key={i}>
@@ -108,15 +108,14 @@ function Footer() {
 
             {/* ── Account ── */}
             <div>
-              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
+              <p className="text-xs uppercase tracking-widest mb-4 font-medium text-yellow-100 opacity-80">
                 My Account
               </p>
-              <div className="divider-gold h-px w-8 rounded-full mb-5 " />
-              <ul className="space-y-3 text-yellow-100 opacity-80">
+              <div className=" h-px w-8 rounded-full mb-5 " />
+              <ul className="space-y-3 text-yellow-100 opacity-80 ">
                 {accountLinks.map((link, i) => (
                   <li key={i}>
                     <span
-                      className="footer-link"
                       onClick={() => navigate(link.path)}
                     >
                       <span >◈</span>
@@ -126,13 +125,14 @@ function Footer() {
                 ))}
               </ul>
             </div>
+            
 
             {/* ── Contact ── */}
             <div>
               <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
                 Contact Us
               </p>
-              <div className="divider-gold h-px w-8 rounded-full mb-5 " />
+              <div className=" h-px w-8 rounded-full mb-5 " />
 
               <div className="space-y-4 mb-6  text-yellow-100 opacity-80">
                 <div className="flex items-start gap-3">
@@ -175,7 +175,7 @@ function Footer() {
         </div>
 
         
-        <div className="divider-gold h-px w-full opacity-40 " />
+        <div className=" h-px w-full opacity-40 " />
 <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-700 to-gray-400 to-transparent"/>
 
         {/* ── Bottom Bar ── */}
@@ -192,7 +192,7 @@ function Footer() {
               {legalLinks.map((link, i) => (
                 <span
                   key={i}
-                  className="footer-link text-xs"
+                  className="text-xs"
                   onClick={() => navigate(link.path)}
                   
                 >

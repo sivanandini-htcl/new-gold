@@ -214,8 +214,7 @@ function Login() {
             <button
               onClick={handleGoogleLogin}
               className="w-full py-3 rounded-xl text-sm flex items-center justify-center gap-3
-              bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition"
-            >
+              bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition">
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.1-4.47 3.1-7.8z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z"/>

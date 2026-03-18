@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function GoldPrice() {
   const navigate = useNavigate();
-  const { goldPrice, goldPercentage } =
-    useContext(PriceContext);
+  const { goldPrice, goldPercentage } =useContext(PriceContext);
 
   const isProfit = Number(goldPercentage) > 0;
 
@@ -33,8 +32,7 @@ function GoldPrice() {
       <div className="mt-4 flex gap-3">
         <button
           className="flex-1 bg-Primary py-2 rounded-xl"
-          onClick={() => navigate("/gold")}
-        >
+          onClick={() => navigate("/gold")} >
           BUY
         </button>
       </div>

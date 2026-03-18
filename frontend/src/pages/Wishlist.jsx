@@ -23,7 +23,7 @@ function Wishlist() {
 
   return (
     <>     
-      <div className="wl-root min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 ">
+      <div className="wl-root h-auto flex flex-col  py-8 px-4 sm:px-6 md:flex-row bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 ">
         <div className="max-w-6xl mx-auto">
 
           {/* ── Page Title ── */}
@@ -71,12 +71,12 @@ function Wishlist() {
           ) : (
             <>
               {/* ── Grid ── */}
-              <div className="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:flex">
                 {wishlist.map((item, index) => {
                   const isGold = item.type === "gold";
                   return (
                     <div key={item.id}
-                      className="bg-white rounded-xl shadow-sm  overflow-hidden border  border-amber-700/20 "
+                      className="bg-white rounded-xl  shadow-sm  overflow-hidden border  border-amber-700/20 "
                      
                       onClick={() => navigate(`/productdetails/${item.id}`)}>
                       {/* Image */}
@@ -104,16 +104,16 @@ function Wishlist() {
                       </div>
 
                       {/* Content */}
-                      <div className="p-4">
+                      <div className="p-4 te">
                         <div className="h-0.5 w-6 rounded-full mb-2"/>
 
-                        <h3 className="font-semibold cursor-pointer">{item.name}</h3>
+                        <h3 className="font-semibold cursor-pointer text-xs">{item.name}</h3>
 
                         {item.weight && (
-                          <p className="text-sm text-gray-500 mb-1">{item.weight}g</p>
+                          <p className="text-xs text-gray-500 mb-1">{item.weight}g</p>
                         )}
 
-                        <p className={`font-bold text-lg mb-3 ${isGold ? "gold-shimmer-text" : "silver-shimmer-text"}`}>
+                        <p className={`font-bold text-xs mb-3 ${isGold ? "gold-shimmer-text" : "silver-shimmer-text"}`}>
                           ₹{item.price.toLocaleString("en-IN")}
                         </p>
 

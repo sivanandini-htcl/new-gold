@@ -150,7 +150,7 @@ const insights = [
   ];
 
   return (
-    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 pb-6 border-b border-amber-200">
@@ -269,8 +269,8 @@ const insights = [
 
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4">
-          <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-200 font-fraunces">
+        <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4 ">
+          <div className="rounded-3xl p-2 md:p-6 shadow-lg bg-white border border-amber-200 font-fraunces">
             <h3 className="font-serif text-xl font-bold mb-5 text-amber-900">
               Gold Price Trend
             </h3>
@@ -286,7 +286,7 @@ const insights = [
             </ResponsiveContainer>
           </div>
 
-          <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-200">
+          <div className="rounded-3xl p-2 md:p-6 shadow-lg bg-white border border-gray-200">
             <h3 className="font-serif text-xl font-semibold mb-5 text-gray-800">
               Silver Price Trend
             </h3>
@@ -307,22 +307,22 @@ const insights = [
       
 
           <div className="mb-8">
-          <h2 className="text-3xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6">
+          <h2 className="text-xl md:text-3xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6 p-1">
 
 
             {insights.map((insight, index) => (
               <div 
                 key={index}
-                className=" text-amber-900 border border-text-amber-900 rounded-xl p-6 backdrop-blur-sm
-                 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:-translate-y-1">
+                className=" text-amber-900 border border-text-amber-900 rounded-xl p-3 md:p-6 backdrop-blur-sm
+                 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:-translate-y-1 text-sm">
 
                 <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${insight.gradient}
                  flex items-center justify-center mb-4`}>
                   <insight.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-serif text-amber-900 mb-2">{insight.title}</h3>
-                <p className=" text-sm leading-relaxed text-amber-900/79">{insight.description}</p>
+                <h3 className="text-xs md:text-lg font-serif text-amber-900 mb-2">{insight.title}</h3>
+                <p className=" text-xs  leading-relaxed text-amber-900/79">{insight.description}</p>
               </div>
             ))}
           </div>

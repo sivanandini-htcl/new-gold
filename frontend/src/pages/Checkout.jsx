@@ -11,8 +11,8 @@ const STEPS = ["Login", "Delivery Address", "Order Summary", "Payment"];
 
 // Saved addresses (in real app, fetched from backend)
 const SAVED_ADDRESSES = [
-  { id: 1, name: "Home", address: "12, MG Road, Indiranagar", city: "Bangalore", pincode: "560038", phone: "9876543210" },
-  { id: 2, name: "Office", address: "45, Whitefield Main Road", city: "Bangalore", pincode: "560066", phone: "9123456780" },
+  { id: 1, name: "Home", address: "12, MG Road", city: "Bangalore", pincode: "5600001", phone: "9876543210" },
+  { id: 2, name: "Office", address: "13, Whitefield", city: "Bangalore", pincode: "560002", phone: "9123456780" },
 ];
 
 const PAYMENT_OPTIONS = [
@@ -21,6 +21,11 @@ const PAYMENT_OPTIONS = [
   { id: "nb",   label: "Net Banking",  icon: Landmark,    desc: "All major banks" },
   { id: "cod",  label: "Cash on Delivery", icon: Wallet,  desc: "Pay when delivered" },
 ];
+const details=[
+                        { name: "name", placeholder: "Full Name", type: "text" },
+                        { name: "phone", placeholder: "Phone Number", type: "tel" },
+                        { name: "address", placeholder: "Full Address", type: "text" },
+                      ];
 
 function Checkout() {
   const { cartItems, totalAmount, totalItems, clearCart } = useCart();
@@ -41,25 +46,48 @@ function Checkout() {
   const finalAmount = totalAmount + gst + delivery + insurance;
 
  
-  const placeOrder = () => {
-    setOrdered(true);
+ const placeOrder = () => {
+  const order = {
+    id: Date.now(),
+    items: cartItems,
+    totalAmount: finalAmount,
+    totalItems,
+    address: SAVED_ADDRESSES.find(a => a.id === selectedAddress),
+    paymentMethod: selectedPayment,
+    date: new Date().toLocaleString(),
   };
+
+
+  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+ 
+  const updatedOrders = [order, ...existingOrders];
+
+
+  localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+  // Clear cart
+  
+  // Show success UI
+  setOrdered(true);
+
+  // Optional: redirect after 2 sec
+ 
+};
+
   if (cartItems.length === 0) {
     return (
       <>
         
         <div
-          className="cart-root min-h-screen flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50"
-       
+          className="cart-root h-auto flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50"
         >
           <div
-            className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-white"
-            
+            className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-white" 
           >
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
             <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-            >
+              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5">
               <ShoppingCart size={80} className=" p-2 rounded-4xl text-yellow-700 hover:scale-125 active:scale-90 transition duration-200 animate-bounce"  />
               {/* <Heart className="text-red-500 hover:scale-125 active:scale-90 transition duration-300 animate-spin"/> */}
             </div>
@@ -75,10 +103,9 @@ function Checkout() {
             <button
               onClick={() => navigate("/redeem")}
               className="w-full py-3.5 rounded-xl  bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-sm uppercase tracking-widest font-serif transition hover:opacity-90 inline-flex items-center justify-center gap-2"
-              
             >
               Browse Jewellery
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4"/>
             </button>
             <div className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 h-0.5 w-10 rounded-full mx-auto mt-6" />
           </div>
@@ -87,11 +114,10 @@ function Checkout() {
     );
   }
 
-
   if (ordered) {
     return (
       <>
-        
+      
         <div className="co-root min-h-screen flex items-center justify-center px-4">
           <div className="rounded-3xl p-12 text-center shadow-lg max-w-sm w-full">
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
@@ -120,53 +146,60 @@ function Checkout() {
   return (
     <>
       
-      <div className="co-root min-h-screen py-8 px-4 sm:px-6 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100"
+   <div className=" min-h-screen py-8 px-4 sm:px-6 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100"
        >
         <div className="max-w-6xl mx-auto">
 
           {/* ── Header ── */}
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6  items-center justify-between">
             <button onClick={() => navigate("/cart")}
               className="inline-flex items-center gap-2 text-xs uppercase tracking-widest transition"
               >
               <ArrowLeft className="w-4 h-4" /> Back to Cart
             </button>
             <div className="text-center">
-              <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-1" />
-              <h1 className="heading-font text-3xl font-bold">
-                Secure <span className="gold-shimmer-text">Checkout</span>
+              <div className=" h-0.5 w-12 rounded-full mx-auto mb-1 flex justify-center" />
+              <h1 className="heading-font font-serif text-xl md:text-3xl font-bold text-center">
+                Secure <span className="font-serif" >Checkout</span>
               </h1>
             </div>
-            <div className="flex items-center gap-1" >
-              <Shield className="w-3.5 h-3.5" /> SSL Secured
-            </div>
+            {/* <div className="flex items-center gap-1" >
+              <Shield className="w-3.5 h-3.5" />  */}
+              {/* SSL Secured */}
+            {/* </div> */}
           </div>
 
           <div className="grid lg:grid-cols-3 gap-6">
 
-            {/* ── LEFT: Stepper ── */}
+            {/* LEFT: Stepper */}
             <div className="lg:col-span-2 space-y-3">
 
-              {/* ───── STEP 0: Login (always done) ───── */}
+              {/*  STEP 0: Login  */}
               <div className="collapsed-panel"
                 >
-                <div className="flex items-center gap-3">
+                <div className="flex justify-between gap-3">
+                  <div>
                   <div className="w-7 h-7 rounded-full flex items-center justify-center"
                    >
                     <CheckCircle className="w-4 h-4 text-black" />
                   </div>
+                
                   <div>
                     <p className="text-xs uppercase tracking-widest">Step 1</p>
                     <p className="text-sm font-semibold" >Login / Account</p>
                   </div>
                 </div>
-                <div className="text-right">
+                 <div className="text-right">
                   <p className="text-xs font-medium" >Verified ✓</p>
                   <p className="text-xs" >user@email.com</p>
                 </div>
-              </div>
+                </div>
 
-              {/* ───── STEP 1: Delivery Address ───── */}
+               
+       
+               </div>
+
+              {/*STEP 1: Delivery Address */}
               {activeStep === 1 ? (
                 <div className="rounded-3xl p-6 shadow-md step-panel bg-white border border-yellow-900/40"
                   >
@@ -176,7 +209,7 @@ function Checkout() {
                       <span className="text-xs font-bold text-amber-950">2</span>
                     </div>
                     <div>
-                      <p className="text-xs uppercase tracking-widest" >Step 1</p>
+                      <p className="text-xs uppercase tracking-widest">Step 1</p>
                       <p className="text-base font-semibold flex items-center gap-2" >
                         <MapPin className="w-4 h-4" /> Delivery Address
                       </p>
@@ -188,16 +221,17 @@ function Checkout() {
                     <div className="space-y-3 mb-4 bg-white ">
                       {SAVED_ADDRESSES.map((addr) => (
                         <div key={addr.id}
-                          className="addr-card rounded-2xl p-2 md:p-4 "
-                         
+                          className="rounded-2xl p-2 md:p-4"        
                           onClick={() => setSelectedAddress(addr.id)}>
-                          <div className="flex items-start gap-3 border border-yellow-700 rounded-xl p-2 md:p-5">
-                            
+                          <div className="flex items-start gap-3 border border-yellow-700 rounded-xl p-2 md:p-5">                     
+{/* <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0
+  ${selectedAddress === addr.id ? "border-black" : "border-gray-400"}`}>
 
-                            <div
-  className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0
-  ${selectedAddress === addr.id ? "bg-black" : "border-gray-400"}`}
-/>
+<div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0
+  ${selectedAddress === addr.id ? "bg-black" : "border-gray-400"}`}/>
+</div> */}
+
+                 
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-0.5">
                                 <span className="text-xs uppercase tracking-widest font-semibold px-2 py-0.5 rounded-full"
@@ -216,6 +250,7 @@ function Checkout() {
                         </div>
                       ))}
 
+
                       {/* Add new */}
                       <button onClick={() => setAddingNew(true)}
                         className="w-full py-3 rounded-2xl text-sm inline-flex items-center justify-center gap-2 transition hover:opacity-80 border border-yellow-900/40 text-yellow-900">
@@ -231,11 +266,7 @@ function Checkout() {
                       <p className="text-xs uppercase tracking-widest font-semibold mb-2" >
                         New Address
                       </p>
-                      {[
-                        { name: "name", placeholder: "Full Name", type: "text" },
-                        { name: "phone", placeholder: "Phone Number", type: "tel" },
-                        { name: "address", placeholder: "Full Address", type: "text" },
-                      ].map(f => (
+                      {details.map(f => (
                         <input key={f.name} type={f.type} placeholder={f.placeholder}
                           value={newAddr[f.name]}
                           onChange={e => setNewAddr({ ...newAddr, [f.name]: e.target.value })}
@@ -245,6 +276,7 @@ function Checkout() {
                         <input type="text" placeholder="City" value={newAddr.city}
                           onChange={e => setNewAddr({ ...newAddr, city: e.target.value })}
                           className="border border-yellow-900  p-2 rounded-md"/>
+
                         <input type="text" placeholder="Pincode" value={newAddr.pincode}
                           onChange={e => setNewAddr({ ...newAddr, pincode: e.target.value })}
                           className="border border-yellow-900 mr-2 p-2 rounded-md w-full"/>
@@ -300,7 +332,7 @@ function Checkout() {
                     <div>
                       <p className="text-xs uppercase tracking-widest" >Step 3</p>
                       <p className="text-base font-semibold flex items-center gap-2" >
-                        <Package className="w-4 h-4"  /> Order Summary
+                        <Package className="w-4 h-4"/> Order Summary
                       </p>
                     </div>
                   </div>
@@ -310,12 +342,11 @@ function Checkout() {
                     {cartItems.map((item) => {
                       const isGold = item.type === "gold";
                       return (
-                        <div key={item.id} className="flex gap-3 items-center py-2 border border-yellow-900 p-3 rounded-lg "
-                          >
+                        <div key={item.id} className="flex gap-3 items-center py-2 border border-yellow-900 p-3 rounded-lg ">
                           <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 ">
                             <img src={item.image} alt={item.name}
                               className="w-full h-full object-cover"
-                              onError={e => e.target.src = "https://via.placeholder.com/56?text=◈"} />
+                              onError={e => e.target.src = "https://via.placeholder.com/56?text=◈"}/>
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{item.name}</p>
@@ -330,8 +361,10 @@ function Checkout() {
                   </div>
 
                   <button onClick={() => setActiveStep(3)}
-                    className="w-full py-3.5 bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2 bg-yellow-100"
-                    >
+               className="w-full py-3.5 
+               bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-xl 
+               text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition 
+               inline-flex items-center justify-center gap-2 bg-yellow-100">
                     Continue to Payment <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -455,10 +488,7 @@ function Checkout() {
                    
                     </div>
                         <div className="w-full h-0.5 bg-yellow-700/20"/>
-                    </div>
-  
-                    
-                    
+                    </div>           
                   ))}
                  
                 </div>
@@ -493,7 +523,7 @@ function Checkout() {
                   >
                   {[
                     { icon: Shield, text: "BIS Hallmarked jewellery" },
-                    { icon: Truck,  text: "Free insured delivery" },
+                    { icon: Truck,  text: "" },
                     { icon: Package, text: "Premium gift packaging" },
                   ].map((t, i) => {
                     const Icon = t.icon;
@@ -507,7 +537,7 @@ function Checkout() {
                 </div>
 
                 <div className="flex items-center justify-center gap-2 mt-4">
-                  <span >◈</span>
+                  <span>◈</span>
                   <p className="text-xs" >Crafted with care · Delivered with trust</p>
                   <span>◈</span>
                 </div>

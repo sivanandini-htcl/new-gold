@@ -18,7 +18,7 @@ function Cart() {
           <div
             className="md:rounded-3xl p-9 shadow-lg text-center max-w-sm w-full bg-white"     
           >
-            <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
+            <div className=" h-0.5 w-12 rounded-full mx-auto mb-6" />
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5">
               <ShoppingCart size={80} className=" p-2 rounded-4xl text-yellow-700 hover:scale-125 active:scale-90 transition duration-200 animate-bounce"  />
@@ -54,7 +54,6 @@ function Cart() {
 
       <div
         className="cart-root min-h-screen py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50"
-
       >
         <div className="max-w-4xl mx-auto">
 
@@ -83,8 +82,7 @@ function Cart() {
 
                     {/* Image */}
                     <div
-                      className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0"onClick={()=>{navigate(`/productdetails/${item.id}`)}}
-                      
+                      className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0"onClick={()=>{navigate(`/productdetails/${item.id}`)}}    
                     >
                       <img
                         src={item.image}

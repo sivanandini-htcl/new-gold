@@ -22,27 +22,32 @@ function Header() {
     bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b
      border-yellow-300/40 shadow-md">
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 gap-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 gap-3 flex items-center justify-between md:mr-2">
 
        
-        <Link to="/dashboard" className="flex items-center gap-2 no-underline">
-          <img className="w-20  object-contain  ml-4 md:ml-7" src={dgiLogo} alt="logo "  />
+        {/* <Link to="/dashboard" className="flex items-center gap-2 no-underline"> */}
+          <img className="w-15 md:w-17 md:ml-1  object-contain  ml-4 p-0 " src={dgiLogo} alt="logo "  />
 
          
 
           {/* <span className="hidden md:block text-xs uppercase tracking-widest mt-1 text-yellow-700">
             & Silver
           </span> */}
-        </Link>
+        {/* </Link> */}
 
         
-        <nav className="hidden md:flex items-center gap-6 text-bold uppercase tracking-widest  text-yellow-500">
+        <nav className="hidden md:flex lg:text-sm md:gap-2 md:text-xs lg:gap-8 items-center gap-6  text-bold uppercase tracking-widest  text-yellow-500">
           <Link to="/dashboard" className="nav-item">Dashboard</Link>
           <Link to="/gold" className="nav-item">Gold</Link>
           <Link to="/silver" className="nav-item">Silver</Link>
           <Link to="/redeem" className="nav-item">Redeem</Link>
-          <Link to="/about" className="nav-item">About</Link>
           <Link to="/checkout" className="nav-item">Checkout</Link>
+          <Link to="/orders" className="nav-item">MyOrders</Link>
+
+          <Link to="/about" className="nav-item">About</Link>
+          
+          {/* <Link to="/checkout1" className="nav-item">Checkout1</Link> */}
+
 
            
         </nav>
@@ -99,10 +104,10 @@ function Header() {
             <Link to="/dashboard" onClick={()=>setIsOpen(false)}>Dashboard</Link>
             <Link to="/gold" onClick={()=>setIsOpen(false)}>Gold</Link>
             <Link to="/silver" onClick={()=>setIsOpen(false)}>Silver</Link>
-            <Link to="/redeem" onClick={()=>setIsOpen(false)}>Redeem</Link>
-            <Link to="/" onClick={()=>setIsOpen(false)}>About</Link>
+            <Link to="/redeem" onClick={()=>setIsOpen(false)}>Redeem</Link>      
             <Link to="/profile" onClick={()=>setIsOpen(false)}>Profile</Link>
-        
+            <Link to="/checkout" onClick={()=>setIsOpen(false)}>Checkout</Link>         
+            <Link to="/about"    onClick={()=>setIsOpen(false)}>About</Link>
 
             <button onClick={handleLogout} className="text-left">Logout</button>
           </div>

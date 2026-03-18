@@ -25,6 +25,8 @@ import About from "./pages/About";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import ProductDetails from "./pages/ProductDetails";
+// import Checkout1 from "./pages/Checkout1";
+import MyOrders from "./pages/MyOrders";
 
 function App() {
   return (
@@ -134,7 +136,11 @@ function App() {
                       <Checkout />
                       </ProtectedRoute>
              } />
-          
+          {/* <Route path="/checkout1"element={<ProtectedRoute><Checkout1/> </ProtectedRoute> }/> */}
+          <Route path="/orders"element={<ProtectedRoute><MyOrders/> </ProtectedRoute> }/>
+
+
+
              <Route path="/productdetails/:id" element={
                       <ProtectedRoute>
                       <ProductDetails />

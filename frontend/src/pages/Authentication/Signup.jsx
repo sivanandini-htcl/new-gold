@@ -13,6 +13,7 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
+  const [step, setStep] = useState(0);
 
   const [errors, setErrors] = useState({});
 
@@ -169,14 +170,16 @@ function Signup() {
 
 
 
-{/* 
-login details */}
+{/* signup details */}
        
         <div className="flex-1 flex items-center justify-center px-5 py-10 md:py-8 md:px-10 lg:px-16 relative">
           {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(200,168,75,0.15)_1px,transparent_0)] bg-[length:28px_28px] pointer-events-none opacity-30" /> */}
           <div className="relative w-full max-w-md bg-white/95 border border-yellow-200 rounded-3xl shadow-2xl p-7 lg:p-9">
 
+   
+            
             <div className="h-0.5 w-16 mx-auto mb-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 rounded-full" />
+{/* status bar */}
 
             <h2 className=" text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1  text-black">Create Account</h2>
             <p className="text-center text-xs uppercase tracking-widest mb-6  text-amber-950  opacity-65">Start your DigiGold journey today</p>
