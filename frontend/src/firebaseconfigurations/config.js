@@ -3,18 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyCcLWHI3l6yY12G5z-HhlH5s1R-qywXGaU",
-  authDomain: "dgigold-1.firebaseapp.com",
-  projectId: "dgigold-1",
-  storageBucket: "dgigold-1.firebasestorage.app",
-  messagingSenderId: "386532817078",
-  appId: "1:386532817078:web:ec7130bf824442bf9f8e17",
-  measurementId: "G-LZ415PWNM8"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 console.log("data getting recieved")
-export const googleProvider= new GoogleAuthProvider()
+export const googleProvider = new GoogleAuthProvider()
 export const db = getFirestore(app);
 
