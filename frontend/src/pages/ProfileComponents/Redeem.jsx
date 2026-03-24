@@ -149,8 +149,7 @@ function Redeem() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full border  border-amber-700/20  rounded-lg py-2 px-3 text-sm appearance-none"
-            >
+              className="w-full border  border-amber-700/20  rounded-lg py-2 px-3 text-sm appearance-none" >
               <option value="">Default</option>
               <option value="price_asc">Price: Low → High</option>
               <option value="price_desc">Price: High → Low</option>
@@ -246,7 +245,7 @@ function Redeem() {
       </div>
 
       {/* Page */}
-    <div className="min-h-screen bg-stone-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 py-8 px-4">
   <div className="max-w-7xl mx-auto">
 
           {/*   title change*/}
@@ -257,7 +256,7 @@ function Redeem() {
 
 
 {isGold?(
-  <div className="flex gap-2 justify-center font-serif">
+  <div className="flex gap-2 justify-center font-serif ">
 <span className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent" >Gold</span>
 <span className="text-4xl font-bold mb-2">Jewellery</span>
 
@@ -302,8 +301,7 @@ function Redeem() {
 
             <button
               onClick={() => setFilterOpen(true)}
-              className="flex items-center gap-2 border  border-amber-700/20  px-4 py-2 rounded-lg text-sm"
-            >
+              className="flex items-center gap-2 border  border-amber-700/20  px-4 py-2 rounded-lg text-sm" >
               <SlidersHorizontal className="w-4 h-4" />
               Filters
               {activeFilterCount > 0 && (
@@ -321,8 +319,7 @@ function Redeem() {
 
               <button
                 onClick={clearFilters}
-                className="px-6 py-2 bg-yellow-500 rounded-lg"
-              >
+                className="px-6 py-2 bg-yellow-500 rounded-lg">
                 Clear Filters
               </button>
             </div>
@@ -344,8 +341,7 @@ function Redeem() {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain "
-                    />
+                      className="w-full h-full object-contain " />
                   </div>
 
                   {/* Info */}

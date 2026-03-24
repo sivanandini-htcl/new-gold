@@ -12,7 +12,7 @@ const OrdersPage = () => {
   
 
   return (
-    <div className=" min-h-screen bg-yellow-300/20 p-2 min-w-screen md:min-w-screen lg:min-w-screen ">
+    <div className=" min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100   p-1 md:p-20  min-w-screen md:min-w-screen lg:min-w-screen ">
         {/* heading */}
       <div className="grid grid-cols-1 justify-center">
 <     div className="flex justify-center text-4xl items-center gap-3 font-serif"><span>My</span>

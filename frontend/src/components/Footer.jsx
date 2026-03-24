@@ -40,21 +40,20 @@ function Footer() {
      
 
       <footer
-        className="footer-root w-full bg-gradient-to-br from-[#1a1508]
-       via-[#3f2e10] to-[#141414]">
+        className="footer-root w-full bg-gradient-to-br from-[#1a1508] via-[#3f2e10] to-[#141414]">
 
       
         <div className=" h-px w-full" />
 
        
         <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
-          <div className="grid grid-cols- sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10">
 
             
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 col-span-2 md:col-span-3">
               {/* Logo */}
 
-                <div className="mb-4 flex gap-2">
+               <div className="mb-4 flex gap-2 justify-center items-center">
                <img className="w-13 object-contain  ml-4 md:ml-0" src={dgiLogo} alt="logo "  />    
                <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">               
                <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
@@ -62,20 +61,20 @@ function Footer() {
                   <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
                 </h2>
                 </div>
-                 <div className="mb-4 ">
-                <p className="sm:text-xs font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
+                 <div className="mb-4 flex justify-center items-center">
+                <p className=" text-xs sm:text-xs md:text-sm font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
                  Gold & Silver · Investment Platform
                 </p>
               </div>
 
-              <div className=" h-px w-12 rounded-full mb-4" />
+              <div className=" h-px w-12 rounded-full mb-4 flex justify-center items-center" />
 
               <p className="text-xs leading-relaxed mb-6 text-yellow-100 opacity-80" >
                 India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
               </p>
 
               {/* Socials */}
-              <div className="flex gap-2 text-yellow-100 opacity-80">
+              <div className="flex gap-2 text-yellow-100 opacity-80  justify-center items-center">
                 {socials.map((s, i) => {
                   const Icon = s.icon;
                   return (
@@ -88,12 +87,12 @@ function Footer() {
             </div>
 
             {/* Quick Links  */}
-            <div>
+            <div className="hidden md:block ">
               <p className=" md:text-xs md:uppercase md:tracking-widest md:mb-4 md:font-medium text-yellow-100 opacity-80" >
                 Quick Links
               </p>
-              <div className="h-px w-8 rounded-full mb-5" />
-              <ul className="space-y-3">
+              <div className="h-px w-8 rounded-full mb-5 " />
+              <ul className="space-y-3 ">
                 {quickLinks.map((link, i) => (
                   <li key={i}>
                     <span
@@ -108,11 +107,11 @@ function Footer() {
 
             {/* ── Account ── */}
             <div>
-              <p className="text-xs uppercase tracking-widest mb-4 font-medium text-yellow-100 opacity-80">
+              <p className="text-xs uppercase tracking-widest mb-4 font-medium text-yellow-100 opacity-80 flex justify-center items-center md:mr-29 lg:mr-24 xl:mr-39">
                 My Account
               </p>
-              <div className=" h-px w-8 rounded-full mb-5 " />
-              <ul className="space-y-3 text-yellow-100 opacity-80 ">
+              <div className=" h-px w-8 rounded-full mb-5 flex justify-center items-center " />
+              <ul className="space-y-3 text-yellow-100 opacity-80  text-xs md:text-sm p-2">
                 {accountLinks.map((link, i) => (
                   <li key={i}>
                     <span
@@ -214,3 +213,4 @@ function Footer() {
 }
 
 export default Footer;
+

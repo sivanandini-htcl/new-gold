@@ -45,10 +45,10 @@ function About() {
   ];
 
   const team = [
-    { name: "Arjun ", role: "CEO & Co-Founder", initial: "A" },
-    { name: "Priya ", role: " Co-Founder", initial: "P" },
-    { name: "Rohit ", role: "Head of Operations", initial: "R" },
-    { name: "Divya ", role: "Head of Compliance", initial: "D" },
+    { name: " ", role: "CEO & Co-Founder", initial: "A" },
+    { name: " ", role: " Co-Founder", initial: "B" },
+    { name: "", role: "Head of Operations", initial: "C" },
+    { name: "", role: "Head of Compliance", initial: "D" },
   ];
 
   // const milestones = [

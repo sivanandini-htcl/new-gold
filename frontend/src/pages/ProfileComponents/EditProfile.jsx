@@ -5,8 +5,6 @@ import { ArrowLeft, Edit3, Save, X } from "lucide-react";
 
 function EditProfile() {
   const navigate = useNavigate();
-
-
   const [isEditing,setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -53,16 +51,16 @@ function EditProfile() {
   return (
     <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 flex justify-center mt-0">
     <div className="w-full h-full mt-5"> 
-        <div className="ml-20 mt-8 mb-1">
+        <div className="ml-5 md:ml-20 mt-8 mb-1 bg-gray-700">
 <button
             onClick={() => navigate("/profile")}
-            className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition">
+            className=" inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition bg-orange-400">
             <ArrowLeft className="w-4 h-4"/>
             Back to Profile
           </button>
           </div>
       <div className=" flex flex-col ">
- <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-60  ">
+ <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-60 md:mr-60  ">
   
   <h2 className="text-2xl font-bold font-serif text-black">
           Profile
@@ -72,25 +70,25 @@ function EditProfile() {
         </h2> 
     </div>
     <div className=" flex  justify-start">
-<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-60" style={{ color: "#a09070" }}>
+<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-60 text-[#7a6a50]" >
               {isEditing ? "Editing Mode · Update your information" : "View & Manage your account details"}
             </p>
     </div>
     
- <div className="bg-yellow-700 h-px md:w-210 ml-4 opacity-40 mb-6 flex  md:ml-60 " />   
+ <div className="bg-yellow-700 h-px md:w-120 lg:w-120 ml-4 opacity-40 mb-6 flex  md:ml-60 " />   
    </div>
   
  
 
-<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md  bg-white md:m-60 md:mt-5 mb-0 md:mb-4  ">
+<div className="rounded-3xl m-10 p-6  shadow-md bg-white md:m-60  md:mt-5 mb-0 md:mb-4 md::min-w-full  ">
             {/* Section: Personal Info */}
             <div className="flex items-center gap-2 mb-5">
               <div className="w-1 h-5 rounded-full bg-amber-800" />
-              <p className="text-xs uppercase tracking-widest font-medium" style={{ color: "#7a6a50" }}>
+              <p className="text-xs uppercase tracking-widest font-medium text-[#7a6a50]">
                 Personal Information
               </p>
             </div>
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 bg-white ">
+<div className="grid grid-cols-1 w-full sm:grid-cols-3 md:grid-col-3 lg:grid-cols-3 gap-5 mb-8 md:w-full  ">
               {/* Name */}
 <div>
             <label className="text-sm font-semibold text-amber-800">Full Name</label>
@@ -206,7 +204,7 @@ function EditProfile() {
 <div >
   <div className="flex gap-2"> 
 <div className="w-1 h-5 rounded-full bg-amber-800 mb-2" />
-              <p className="text-xs uppercase tracking-widest font-medium" style={{ color: "#7a6a50" }}>
+              <p className="text-xs uppercase tracking-widest font-medium text-[#7a6a50]" >
                 Additinal Information
               </p>
   </div>

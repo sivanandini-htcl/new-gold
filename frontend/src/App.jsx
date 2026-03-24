@@ -18,6 +18,8 @@ import Redeem from "./pages/ProfileComponents/Redeem";
 import Cart from "./pages/Cart";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import Footer from "./components/Footer";
 // import Redeemq from "./pages/ProfileComponents/redeem2";
@@ -28,17 +30,22 @@ import ProductDetails from "./pages/ProductDetails";
 // import Checkout1 from "./pages/Checkout1";
 import MyOrders from "./pages/MyOrders";
 
+import LoginOrCreateAccount from "./pages/Authentication/LoginOrCreateAccount";
+
 function App() {
   return (
     <div className="min-h-screen flex flex-col  ">
       <PriceProvider>
         <BrowserRouter>
           <ToastContainer position="top-right" autoClose={2000} theme="dark" />
+                 <Toaster />
 
           <Routes>
             
         <Route path="/" element={<Login />} />
          <Route path="/signup" element={<Signup />} />
+         <Route path="/login-or-create-account"element={<LoginOrCreateAccount />}
+/>
           
             <Route element={<LayoutWithHeader />}>
               <Route path="/dashboard" element={  

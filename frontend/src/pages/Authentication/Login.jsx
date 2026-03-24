@@ -4,11 +4,15 @@ import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "fireb
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { auth, googleProvider } from "../../firebaseconfigurations/config";
+// import { auth, googleProvider } from "../../firebaseconfigurations/config";
 // import dgiLogo from "../../assets/logo 1.svg";
 // import Time from "../../assets/time";
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
+
+import { auth,googleProvider,signInWithGoogle,  signInWithApple,
+  sendMagicLink,
+  signInWithEmail } from "../../firebaseconfigurations/config";
 
 
 function Login() {
@@ -83,6 +87,16 @@ function Login() {
     }
   };
 
+
+  const handleMagicLink = async () => {
+
+  if (!email) {
+    toast.error("Enter email");
+    return;
+  }
+
+  await sendMagicLink(email);
+};
   return (
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
@@ -201,6 +215,24 @@ function Login() {
             
             </button>
 
+            <input
+  type="email"
+  placeholder="Enter your email"
+   className="w-full px-4 py-3 rounded-xl text-sm
+    bg-white border border-amber-200 focus:border-amber-500
+     focus:ring-2 focus:ring-amber-400/30 outline-none mb-4"
+  value={email}
+  onChange={(e) =>
+    setEmail(e.target.value)
+  }
+/>
+<button onClick={handleMagicLink} className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+              shadow-lg shadow-amber-600/30
+              mb-5">
+  Verify
+</button>
+
             {/* OR */}
             <div className="flex items-center gap-3 mb-5">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
@@ -223,6 +255,11 @@ function Login() {
               </svg>
               Continue with Google
             </button>
+{/* 
+            <button onClick={signInWithApple}>
+  Continue with Apple
+</button> */}
+
 
             {/* PHONE LOGIN */}
             <div className="mt-6">
