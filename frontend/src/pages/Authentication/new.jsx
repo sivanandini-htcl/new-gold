@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { auth, googleProvider } from "../../firebaseconfigurations/config";
+import { auth, googleProvider } from "../../firebaseconfigurations/configs";
 import dgLogo from "../../assets/dgLogo.png";
 import { RecaptchaVerifier,signInWithPhoneNumber } from "firebase/auth";
 

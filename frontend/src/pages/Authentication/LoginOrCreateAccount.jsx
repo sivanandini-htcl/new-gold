@@ -1,14 +1,25 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
-import { completeMagicLinkLogin } from "../../firebaseconfigurations/config";
+// import { completeMagicLinkLogin} from "../../firebaseconfigurations/firebaseClient";
+// function LoginOrCreateAccount() {
 
-function LoginOrCreateAccount() {
+//   useEffect(() => {
+//     const handleLogin = async () => {
+//       try {
+//         await completeMagicLinkLogin();
+//         setStatus("Login successful! Redirecting to dashboard...");
+        
+//         setTimeout(() => {
+//           navigate("/dashboard");   // Change to your home/dashboard route
+//         }, 1500);
+//       } catch (err) {
+//         setStatus("Login failed. Please try again.");
+//         console.error(err);
+//       }
+//     };
 
-  useEffect(() => {
-    completeMagicLinkLogin();
-  }, []);
+//     handleLogin();
+//   }, [navigate]);
+// }
 
-  return <h2>Logging in...</h2>;
-}
-
-export default LoginOrCreateAccount;
+// export default LoginOrCreateAccount;
