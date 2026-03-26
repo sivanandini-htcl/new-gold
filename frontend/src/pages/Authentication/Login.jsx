@@ -1,5 +1,5 @@
 
-
+import axios from "axios";
 import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 // import Time from "../../assets/time";
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
-import { auth,sendMagicLink,googleLogin} from "../../firebaseconfigurations/firebaseClient";
+import { auth,sendMagicLink,signInwithgoogle,getIdToken} from "../../firebaseconfigurations/firebaseClient";
 
 // import { auth,googleProvider,signInWithGoogle,  signInWithApple,
 //   sendMagicLink,
@@ -22,11 +22,16 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setError] = useState({});
 
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+
+
+  const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(false);
+
 
   const sendOtp = async () => {
     try {
@@ -104,22 +109,43 @@ function Login() {
 //   }
 
 // };
-const handleGoogleLogin = async () => {
-    try {
-      const success = await googleLogin();
 
-      if (success) {
-        navigate("/dashboard");
-      } else {
-        toast.error("Google login failed");
-      }
 
-    } catch (error) {
-      console.error("Login page error:", error);
-      toast.error("Something went wrong");
+const handleGoogleLogin = async (provider, fn) => {
+    setLoading(true);
+    setError("");
+    try{
+        const result = await fn();
+        await sendTokenToBackend(result.user, provider);
+        
+    }catch(err){
+        console.error(err);
+        setError(`Failed with ${provider} login`);
     }
-  };
+    finally {
+        setLoading(false);
+    }
+}
 
+const sendTokenToBackend = async (user, provider) => {
+    const idToken = await getIdToken();
+    try {
+        const res = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`,
+             { provider, credential: idToken, tenantId : "vendor_abc" },
+            { withCredentials: true }
+        );
+        if (res.data.success) {
+        toast.success("Successfully logged in");
+        setCurrentUser(res.data.user || user);
+        navigate("/dashboard")
+    }else{
+        toast.error("Login failed");
+        console.error("Backend login failed:", res.data.message);
+    } 
+  }catch(err)
+{ console.error(err)}
+  }
 
 
   
@@ -271,7 +297,7 @@ const handleGoogleLogin = async () => {
 
            
             <button
-              onClick={handleGoogleLogin}
+              onClick={() => handleGoogleLogin("google",signInwithgoogle)}
               className="w-full py-3 rounded-xl text-sm flex items-center justify-center gap-3
               bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition">
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -289,7 +315,7 @@ const handleGoogleLogin = async () => {
 
 
             {/* PHONE LOGIN */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <div id="recaptcha-container"></div>
 
               <input
@@ -330,7 +356,7 @@ const handleGoogleLogin = async () => {
                   </button>
                 </>
               )}
-            </div>
+            </div> */}
 
             <p className="text-center mt-7 text-xs text-gray-600">
               New here?{" "}

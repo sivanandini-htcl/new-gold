@@ -32,15 +32,14 @@ if (typeof window !== "undefined") {
 
 export const db = getFirestore(app);
 export { auth };
+export const googleprovider= new GoogleAuthProvider();
+export const signInwithgoogle = () => signInWithPopup(auth, googleprovider);
 
 //  Send magic link function
 export async function sendMagicLink(email) {
   console.log("Email entered:", email);
   const actionCodeSettings = { url: `${window.location.origin}/login`,
    handleCodeInApp: true };
-
-
-
   try {
     console.log("Sending magic link...");
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
@@ -114,37 +113,49 @@ export async function completeMagicLinkLogin() {
     console.log("No magic link found in URL");
   }
 }
-export async function googleLogin(){
-  try{
-  const provider= new GoogleAuthProvider();
-  const result=await signInWithPopup(auth,provider);
-  
-  console.log("Google login success:", result.user);
 
-  console.log(result.user);
-  const token= await result.user.getIdToken();
-    console.log("Firebase token:", token);
-    console.log("Backend URL:", import.meta.env.VITE_API_BASE_URL);
-    console.log("Calling backend"); 
-  await axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`,
-    {},
-    {
-      headers:{
-        Authorization:`Bearer ${token}`
-      }
-    }
-  );
+
+
+
+//Google Login  
+
+
+
+// export async function googleLogin(){
+//   try{
+//   const provider= new GoogleAuthProvider();
+//   const result=await signInWithPopup(auth,provider);
   
-    console.log("Backend success"); 
-    return true;
-}
-  catch(err){
+//   console.log("Google login success:", result.user);
+
+//   console.log(result.user);
+//   const token= await result.user.getIdToken();
+//     console.log("Firebase token:", token);
+//     console.log("Backend URL:", import.meta.env.VITE_API_BASE_URL);
+//     console.log("Calling backend"); 
+//   await axios.post(
+//     `${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`,
+//     {},
+//     {
+//       headers:{
+//         Authorization:`Bearer ${token}`,
+//          "Content-Type": "application/json",
+//       }
+//     }
+//   );
+  
+//     console.log("Backend success"); 
+//     return true;
+// }
+//   catch(err){
     
-  console.error("Google login failed:", err);
-   return false;
-  }
+//   console.error("Google login failed:", err);
+//    return false;
+//   }
   
   
-
-}
+// }
+export const getIdToken = async () => {
+  if (!auth?.currentUser) throw new Error("No user logged in");
+  return await auth.currentUser.getIdToken();
+};
