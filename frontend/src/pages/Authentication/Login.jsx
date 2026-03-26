@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 // import Time from "../../assets/time";
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
-import { auth,sendMagicLink,completeMagicLinkLogin,} from "../../firebaseconfigurations/firebaseClient";
+import { auth,sendMagicLink,googleLogin} from "../../firebaseconfigurations/firebaseClient";
 
 // import { auth,googleProvider,signInWithGoogle,  signInWithApple,
 //   sendMagicLink,
@@ -81,31 +81,48 @@ function Login() {
 
 
   
-  const handleSubmit = (e) => {
-  e.preventDefault();
+//   const handleSubmit = (e) => {
+//   e.preventDefault();
 
-  if (!email) {
-    setErrors({ email: "Email is required" });
-    return;
-  }
+//   if (!email) {
+//     setErrors({ email: "Email is required" });
+//     return;
+//   }
 
-  setErrors({});
-  console.log("Email:", email);
-};
+//   setErrors({});
+//   console.log("Email:", email);
+// };
 
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     await signInWithPopup(auth, googleProvider);
-  //     localStorage.setItem("token", "userLoggedIn");
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     toast.error("Google login failed");
-  //   }
-  // };
+  
 
-useEffect(() => {
-    completeMagicLinkLogin();
-  }, []);
+//   const handleGoogleLogin = async () => {
+
+//   const success = await googleLogin();
+
+//   if (success) {
+//     navigate("/dashboard");
+//   }
+
+// };
+const handleGoogleLogin = async () => {
+    try {
+      const success = await googleLogin();
+
+      if (success) {
+        navigate("/dashboard");
+      } else {
+        toast.error("Google login failed");
+      }
+
+    } catch (error) {
+      console.error("Login page error:", error);
+      toast.error("Something went wrong");
+    }
+  };
+
+
+
+  
   const handleMagicLink = async (e) => {
     
   e.preventDefault();
@@ -253,7 +270,7 @@ useEffect(() => {
             </div>
 
            
-            {/* <button
+            <button
               onClick={handleGoogleLogin}
               className="w-full py-3 rounded-xl text-sm flex items-center justify-center gap-3
               bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition">
@@ -264,7 +281,7 @@ useEffect(() => {
                 <path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z"/>
               </svg>
               Continue with Google
-            </button> */}
+            </button>
 {/* 
             <button onClick={signInWithApple}>
   Continue with Apple

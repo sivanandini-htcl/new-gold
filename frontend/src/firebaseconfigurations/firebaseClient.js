@@ -5,12 +5,14 @@ import {
   getAuth,
   sendSignInLinkToEmail,
   isSignInWithEmailLink,
-  signInWithEmailLink,
+  signInWithEmailLink,GoogleAuthProvider, signInWithPopup,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import toast from "react-hot-toast";
+console.log("ENV DATA:", import.meta.env);
+console.log("BACKEND URL:", import.meta.env.VITE_API_BASE_URL);
 
-// ✅ Initialize Firebase only in browser
+//  Initialize Firebase only in browser
 let app;
 let auth;
 
@@ -31,10 +33,13 @@ if (typeof window !== "undefined") {
 export const db = getFirestore(app);
 export { auth };
 
-// ✅ Send magic link function
+//  Send magic link function
 export async function sendMagicLink(email) {
   console.log("Email entered:", email);
-  const actionCodeSettings = { url: window.location.origin, handleCodeInApp: true };
+  const actionCodeSettings = { url: `${window.location.origin}/login`,
+   handleCodeInApp: true };
+
+
 
   try {
     console.log("Sending magic link...");
@@ -51,9 +56,10 @@ export async function sendMagicLink(email) {
   }
 }
 
-// ✅ Complete magic link login function
+//  Complete magic link login function
 export async function completeMagicLinkLogin() {
   console.log("Checking magic link...");
+  // console.log("Current URL:", window.location.href);
 
   if (isSignInWithEmailLink(auth, window.location.href)) {
     const email = localStorage.getItem("emailForSignIn");
@@ -80,8 +86,8 @@ export async function completeMagicLinkLogin() {
       
         try {
         const backendResponse = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/auth`, // Correct route
-          {}, // body, if needed
+         ` ${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`, 
+          {}, 
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,12 +101,50 @@ export async function completeMagicLinkLogin() {
       }
 
       localStorage.removeItem("emailForSignIn");
+      
       toast.success(`Login successful! Welcome ${auth.currentUser.email}`);
+      return true;
+      
     } catch (err) {
       console.error("Login failed:", err);
       toast.error("Login failed");
+      return false;
     }
   } else {
     console.log("No magic link found in URL");
   }
+}
+export async function googleLogin(){
+  try{
+  const provider= new GoogleAuthProvider();
+  const result=await signInWithPopup(auth,provider);
+  
+  console.log("Google login success:", result.user);
+
+  console.log(result.user);
+  const token= await result.user.getIdToken();
+    console.log("Firebase token:", token);
+    console.log("Backend URL:", import.meta.env.VITE_API_BASE_URL);
+    console.log("Calling backend"); 
+  await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`,
+    {},
+    {
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    }
+  );
+  
+    console.log("Backend success"); 
+    return true;
+}
+  catch(err){
+    
+  console.error("Google login failed:", err);
+   return false;
+  }
+  
+  
+
 }
