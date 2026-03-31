@@ -44,15 +44,14 @@ export function PriceProvider({ children }) {
 
       setGoldPercentage(goldPercent);
 
-      // SILVER
+      //SILVER
       const silverFinal =
         (silverData.price / 31.1035) * usdToInr * 1.05 * gst;
 
       setSilverPrice(silverFinal.toFixed(2));
 
       const silverPercent = (
-        ((silverFinal - prevSilverPrice) / prevSilverPrice) *  100
-      ).toFixed(2);
+        ((silverFinal - prevSilverPrice) / prevSilverPrice) *  100).toFixed(2);
 
       setSilverPercentage(silverPercent);
 

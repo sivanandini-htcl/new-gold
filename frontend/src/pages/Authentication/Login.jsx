@@ -14,6 +14,7 @@ import { auth,sendMagicLink,signInwithgoogle,getIdToken} from "../../firebasecon
 // import { auth,googleProvider,signInWithGoogle,  signInWithApple,
 //   sendMagicLink,
 //   signInWithEmail } from "../../firebaseconfigurations/config";
+import useAuthStore from "../../store/authStore";
 
 
 
@@ -31,6 +32,9 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
+
+  const setUser=useAuthStore((state)=>state.setUser);
+  const setToken=useAuthStore((state)=>state.setToken);
 
 
   const sendOtp = async () => {
@@ -116,7 +120,16 @@ const handleGoogleLogin = async (provider, fn) => {
     setError("");
     try{
         const result = await fn();
-        await sendTokenToBackend(result.user, provider);
+       const backendData= await sendTokenToBackend(result.user, provider);
+     
+
+     
+       console.log("Backend Response:", backendData);
+       setUser(backendData.data.user);
+       setToken(backendData.data.accessToken);
+       console.log("Zustand:", useAuthStore.getState());
+   
+
         
     }catch(err){
         console.error(err);
@@ -135,6 +148,7 @@ const sendTokenToBackend = async (user, provider) => {
              { provider, credential: idToken, tenantId : "vendor_abc" },
             { withCredentials: true }
         );
+        
         if (res.data.success) {
         toast.success("Successfully logged in");
         setCurrentUser(res.data.user || user);
@@ -143,12 +157,13 @@ const sendTokenToBackend = async (user, provider) => {
         toast.error("Login failed");
         console.error("Backend login failed:", res.data.message);
     } 
+    
+  return res.data;
+  
   }catch(err)
 { console.error(err)}
   }
 
-
-  
   const handleMagicLink = async (e) => {
     
   e.preventDefault();

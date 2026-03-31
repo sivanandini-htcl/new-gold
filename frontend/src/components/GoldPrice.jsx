@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function GoldPrice() {
   const navigate = useNavigate();
-  const { goldPrice, goldPercentage } =useContext(PriceContext);
+  const { goldPrice, goldPercentage }=useContext(PriceContext);
 
   const isProfit = Number(goldPercentage) > 0;
 

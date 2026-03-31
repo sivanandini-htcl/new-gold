@@ -9,8 +9,8 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import toast from "react-hot-toast";
-console.log("ENV DATA:", import.meta.env);
-console.log("BACKEND URL:", import.meta.env.VITE_API_BASE_URL);
+// console.log("ENV DATA:", import.meta.env);
+// console.log("BACKEND URL:", import.meta.env.VITE_API_BASE_URL);
 
 //  Initialize Firebase only in browser
 let app;
