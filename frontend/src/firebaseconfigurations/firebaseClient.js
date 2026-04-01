@@ -1,5 +1,6 @@
 // src/firebase/firebaseClient.js
-import axios from "axios";
+
+import api from "../api/axiosInstance";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getAuth,
@@ -84,15 +85,8 @@ export async function completeMagicLinkLogin() {
       // Send token to backend
       
         try {
-        const backendResponse = await axios.post(
-         ` ${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`, 
-          {}, 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+        const backendResponse = await api.post(
+    "/auth/firebase-login", null
         );
         console.log("Backend response:", backendResponse.data);
       } catch (backendErr) {

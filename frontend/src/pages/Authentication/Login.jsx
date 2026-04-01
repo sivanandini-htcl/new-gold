@@ -15,6 +15,7 @@ import { auth,sendMagicLink,signInwithgoogle,getIdToken} from "../../firebasecon
 //   sendMagicLink,
 //   signInWithEmail } from "../../firebaseconfigurations/config";
 import useAuthStore from "../../store/authStore";
+import api from "../../api/axiosInstance";
 
 
 
@@ -33,8 +34,9 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
 
-  const setUser=useAuthStore((state)=>state.setUser);
-  const setToken=useAuthStore((state)=>state.setToken);
+  // const setUser=useAuthStore((state)=>state.setUser);
+  // const setToken=useAuthStore((state)=>state.setToken);
+    const setAuth = useAuthStore((state) => state.setAuth);
 
 
   const sendOtp = async () => {
@@ -72,47 +74,11 @@ function Login() {
   };
 
 
-  // const handleLogin = () => {
-  //   const storedUser = JSON.parse(localStorage.getItem("user"));
-  //   if (!storedUser) {
-  //     toast.error("No account found. Please signup first.");
-  //     return;
-  //   }
-
-  //   if (email !== storedUser.email || password !== storedUser.password) {
-  //     toast.error("Invalid email or password");
-  //     return;
-  //   }
-
-  //   localStorage.setItem("token", "userLoggedIn");
-  //   navigate("/dashboard");
-  // };
-
-
-  
-//   const handleSubmit = (e) => {
-//   e.preventDefault();
-
-//   if (!email) {
-//     setErrors({ email: "Email is required" });
-//     return;
-//   }
-
-//   setErrors({});
-//   console.log("Email:", email);
-// };
 
   
 
-//   const handleGoogleLogin = async () => {
+  
 
-//   const success = await googleLogin();
-
-//   if (success) {
-//     navigate("/dashboard");
-//   }
-
-// };
 
 
 const handleGoogleLogin = async (provider, fn) => {
@@ -125,11 +91,10 @@ const handleGoogleLogin = async (provider, fn) => {
 
      
        console.log("Backend Response:", backendData);
-       setUser(backendData.data.user);
-       setToken(backendData.data.accessToken);
-       console.log("Zustand:", useAuthStore.getState());
+    
    
-
+      useAuthStore.getState().setAuth(backendData.data);
+          console.log("Zustand:", useAuthStore.getState());
         
     }catch(err){
         console.error(err);
@@ -143,8 +108,8 @@ const handleGoogleLogin = async (provider, fn) => {
 const sendTokenToBackend = async (user, provider) => {
     const idToken = await getIdToken();
     try {
-        const res = await axios.post(
-            `${import.meta.env.VITE_API_BASE_URL}/auth/firebase-login`,
+        const res = await api.post(
+            "/auth/firebase-login",
              { provider, credential: idToken, tenantId : "vendor_abc" },
             { withCredentials: true }
         );
