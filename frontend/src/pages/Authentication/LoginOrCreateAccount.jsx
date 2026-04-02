@@ -1,36 +1,40 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { completeMagicLinkLogin } from "../../firebaseconfigurations/firebaseClient";
+import { isSignInWithEmailLink } from "firebase/auth";
+import { auth } from "../../firebaseconfigurations/firebaseClient";
 
 function LoginOrCreateAccount() {
 
   const navigate = useNavigate();
   const [status, setStatus] = useState("Checking login...");
 
-  useEffect(() => {
+ useEffect(() => {
 
-    const handleLogin = async () => {
+  const handleLogin = async () => {
 
-      const success = await completeMagicLinkLogin();
+   
+    const isMagicLink = isSignInWithEmailLink(auth, window.location.href);
 
-      if (success) {
+    if (!isMagicLink) {
+      setStatus("Waiting for magic link...");
+      return;
+    }
 
-        setStatus("Login successful! Redirecting to dashboard...");
+    const success = await completeMagicLinkLogin();
 
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1500);
+    if (success) {
+      setStatus("Login successful! Redirecting to dashboard...");
 
-      } else {
+      navigate("/dashboard"); 
+    } else {
+      setStatus("Login failed. Please try again.");
+    }
+  };
 
-        setStatus("Waiting for magic link...");
+  handleLogin();
 
-      }
-    };
-
-    handleLogin();
-
-  }, [navigate]);
+}, [navigate]);
 
   return (
     <div className="text-blue-600">

@@ -495,8 +495,7 @@ hover:opacity-100"
             {step === 2 && ( 
               <div className="space-y-1"> 
                 <div> 
-                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium 
-text-amber-950 opacity-65"> 
+                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium text-amber-950 opacity-65"> 
                     Password 
                   </label> 
                   <input 

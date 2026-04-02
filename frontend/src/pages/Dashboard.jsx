@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
-import { PriceContext } from "../components/PriceProvider";
+// import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
 import { TrendingUp, DollarSign, Award, Shield, Zap } from "lucide-react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import { useState } from "react";
+import usePriceStore from "../store/priceStore";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { goldPrice, goldPercentage, silverPrice, silverPercentage } =useContext(PriceContext);
+  // const { goldPrice, goldPercentage, silverPrice, silverPercentage } =useContext(PriceContext);
+  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
   const[selectedRange,setSelectedRange]=useState("6M")
   const ranges = ["1D", "5D", "6M", "YTD", "1Y", "5Y", "MAX"];
 

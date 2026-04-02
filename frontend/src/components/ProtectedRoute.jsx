@@ -2,7 +2,6 @@ import { Navigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 
 function ProtectedRoute({ children }) {
-
   const user = useAuthStore((state) => state.user);
   const isLoading = useAuthStore((state) => state.isLoading);
 
@@ -11,7 +10,7 @@ function ProtectedRoute({ children }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />; 
   }
 
   return children;
@@ -47,4 +46,3 @@ export default ProtectedRoute;
 // }
 
 // export default PriceFetcher;
-

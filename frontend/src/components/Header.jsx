@@ -6,16 +6,38 @@ import { ShoppingCart, User, LogOut, Menu, X,Heart } from "lucide-react";
 import { useWishlist } from "./WishlistContext";
 // import dgiLogo from "../assets/dgiLogo.png";
 import dgiLogo from "../assets/logo_2.svg"
+import api from "../api/axiosInstance";
+import useAuthStore from "../store/authStore";
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems } = useCart();
   const navigate = useNavigate();
   const { wishlist } = useWishlist();
 
-  function handleLogout() {
-    localStorage.removeItem("token");
-    navigate("/");
-  }
+  // function handleLogout() {
+  //   localStorage.removeItem("token");
+  //   navigate("/");
+  // }
+
+  const handleLogout=async()=>{
+    try{
+ const res=await api.post("/auth/logout")
+     console.log("Backend logout success:", res.data);
+     console.log("Zustand cleared");
+
+     useAuthStore.getState().logout();
+     navigate("/")
+     
+    }catch(error){
+     console.log("Backend logout failed:", error);
+     useAuthStore.getState().logout();
+     console.log("Zustand cleared after error");
+     navigate("/")
+    }
+   
+
+  };
 
   return (
     <header className="w-full sticky top-0 z-50 backdrop-blur-md

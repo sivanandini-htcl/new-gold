@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Gold from "./pages/Gold";
 import Silver from "./pages/Silver";
 import Profile from "./pages/Profile";
-import { PriceProvider } from "./components/PriceProvider";
+import  PriceProvider  from "./components/PriceProvider";
 import Signup from "./pages/Authentication/Signup";
 import Login from "./pages/Authentication/Login";
 import EditProfile from "./pages/ProfileComponents/EditProfile";
@@ -36,7 +36,7 @@ import LoginOrCreateAccount from "./pages/Authentication/LoginOrCreateAccount";
 function App() {
   return (
     <div className="min-h-screen flex flex-col  ">
-      <PriceProvider>
+      <PriceProvider/>
         <BrowserRouter>
           <ToastContainer position="top-right" autoClose={2000} theme="dark" />
                  <Toaster />
@@ -167,7 +167,7 @@ function App() {
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </BrowserRouter>
-      </PriceProvider>
+      
       
     </div>
     

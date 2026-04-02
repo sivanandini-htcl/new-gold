@@ -1,28 +1,40 @@
-import {create} from "zustand";
+import { create } from "zustand";
 
-const useAuthStore=create((set)=>({
+const useAuthStore = create((set) => ({
+  user: null,
+  accessToken: null,
+  refreshToken: null,
+  isLoading: false,
+  isAuthenticated: false,
 
-    user:null,
-    token:null,
-    refreshToken:null,
-    
-
-    setAuth:(data)=> set({
-      user:data.user,
-      token:data.accessToken,
-      refreshToken:data.refreshToken,
+  setAuth:(data) =>
+    set({
+      user: data.user,
+      accessToken: data.accessToken,
+      refreshToken: data.refreshToken,
+      isAuthenticated: true,
+      isLoading: false,
     }),
 
-  
 
-    logout:()=>set({ user:null,
-      token:null,
-      refreshToken:null}),
-      setLoading: (value) =>
+  updateToken: (newAccessToken) =>
+    set({
+      accessToken: newAccessToken,
+    }),
+
+  logout: () =>
+    set({
+      user: null,
+      accessToken: null,
+      refreshToken: null,
+      isAuthenticated: false,
+      isLoading: false,
+    }),
+
+  setLoading: (value) =>
     set({
       isLoading: value,
     }),
-
 }));
 
 export default useAuthStore;

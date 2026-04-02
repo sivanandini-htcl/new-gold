@@ -1,13 +1,14 @@
 import { useContext } from "react";
-import { PriceContext } from "../components/PriceProvider";
+// import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
 import {
   User, Phone,Mail,Edit,FileText, ShieldCheck,MapPin,CreditCard,Receipt,Clock,ArrowRightLeft,Gift,ShieldUser,Settings
 } from "lucide-react";
-
+import usePriceStore from "../store/priceStore";
 function Profile() {
-  const { goldPrice, goldPercentage, silverPrice, silverPercentage } =
-    useContext(PriceContext);
+ 
+  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
+
 
   const navigate = useNavigate();
 

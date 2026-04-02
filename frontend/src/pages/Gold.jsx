@@ -1,15 +1,18 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
-import { PriceContext } from "../components/PriceProvider";
+// import { PriceContext } from "../components/PriceProvider";
 import { toast } from "react-toastify";
+import usePriceStore from "../store/priceStore";
 
 function Gold() {
   const [conversionMode, setConversionMode] = useState("rupees-to-grams");
   const [inputValue, setInputValue] = useState("");
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  const { goldPrice, goldPercentage } = useContext(PriceContext);
+  // const { goldPrice, goldPercentage } = useContext(PriceContext);
+  const{ goldPrice,goldPercentage } = usePriceStore();
+
 
   const isProfit = Number(goldPercentage) > 0;
   const GOLD_PRICE_PER_GRAM = Number(goldPrice) || 6500;

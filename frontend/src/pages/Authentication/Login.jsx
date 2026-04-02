@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useState ,useEffect} from "react";
@@ -72,12 +71,6 @@ function Login() {
       toast.error("Invalid OTP");
     }
   };
-
-
-
-  
-
-  
 
 
 

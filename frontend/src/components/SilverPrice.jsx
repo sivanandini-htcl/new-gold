@@ -43,23 +43,6 @@ export default SilverPrice;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { useNavigate } from "react-router-dom";
 // import { useState } from "react";
 // import { useEffect } from "react";
@@ -99,9 +82,6 @@ export default SilverPrice;
 //           </p>
 //         )}
 
-
-
- 
 
 
 //     </>);

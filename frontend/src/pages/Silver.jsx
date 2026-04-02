@@ -2,16 +2,18 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
-import { PriceContext } from "../components/PriceProvider";
+// import { PriceContext } from "../components/PriceProvider";
 import { toast } from "react-toastify";
-
+import usePriceStore from "../store/priceStore";
 
 function Silver() {
   const [conversionMode, setConversionMode] = useState("rupees-to-grams");
   const [inputValue, setInputValue] = useState("");
   const [showBreakdown, setShowBreakdown] = useState(false);
 
- const { silverPrice, silverPercentage } = useContext(PriceContext);
+//  const { silverPrice, silverPercentage } = useContext(PriceContext);
+  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
+
 //  const navigate = useNavigate();
 
   const silverisProfit = Number(silverPercentage) > 0;

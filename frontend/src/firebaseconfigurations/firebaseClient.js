@@ -10,8 +10,10 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import toast from "react-hot-toast";
+import useAuthStore from "../store/authStore";
 // console.log("ENV DATA:", import.meta.env);
 // console.log("BACKEND URL:", import.meta.env.VITE_API_BASE_URL);
+console.log("BASE URL:", import.meta.env.VITE_API_BASE_URL);
 
 //  Initialize Firebase only in browser
 let app;
@@ -59,52 +61,74 @@ export async function sendMagicLink(email) {
 //  Complete magic link login function
 export async function completeMagicLinkLogin() {
   console.log("Checking magic link...");
-  // console.log("Current URL:", window.location.href);
 
-  if (isSignInWithEmailLink(auth, window.location.href)) {
-    const email = localStorage.getItem("emailForSignIn");
-    console.log("Email from localStorage:", email);
+  if (!isSignInWithEmailLink(auth, window.location.href)) {
+    console.log("No magic link found in URL");
+    return false;
+  }
 
-    if (!email) {
-      toast.error("Please enter your email again");
-      return;
-    }
+  const email = localStorage.getItem("emailForSignIn");
+  console.log("Email from localStorage:", email);
 
-    try {
-      const result = await signInWithEmailLink(auth, email, window.location.href);
-      console.log("Firebase login success:", result.user);
+  if (!email) {
+    toast.error("Please enter your email again");
+    return false;
+  }
 
-      // Check user login
-      if (auth.currentUser) console.log(" User is logged in:", auth.currentUser.email);
-      else console.log(" No user is logged in");
+  try {
+    // Firebase login
+    const result = await signInWithEmailLink(auth, email, window.location.href);
+    console.log("Firebase login success:", result.user);
 
-      // Get ID token for backend
-      const token = await result.user.getIdToken();
-      console.log("Firebase ID token:", token);
-
-      // Send token to backend
-      
-        try {
-        const backendResponse = await api.post(
-    "/auth/firebase-login", null
-        );
-        console.log("Backend response:", backendResponse.data);
-      } catch (backendErr) {
-        console.error("Backend API call failed:", backendErr);
-      }
-
-      localStorage.removeItem("emailForSignIn");
-      
-      toast.success(`Login successful! Welcome ${auth.currentUser.email}`);
-      return true;
-      
-    } catch (err) {
-      console.error("Login failed:", err);
-      toast.error("Login failed");
+    if (!auth.currentUser) {
+      console.log("No user logged in");
       return false;
     }
-  } else {
-    console.log("No magic link found in URL");
+
+    console.log("User logged in:", auth.currentUser.email);
+
+    // Get token (Axios wrapper will attach automatically)
+    // const token = await result.user.getIdToken();
+    // console.log("Firebase ID token:", token);
+    const token = await result.user.getIdToken();
+    
+      console.log("Firebase ID token:", token);
+    try {
+     const backendResponse = await api.post(
+    "/auth/firebase-login",
+    {
+      provider: "email",
+      credential: token,
+      tenantId: "vendor_abc",
+    },
+    
+   
+  );
+
+
+      console.log("Backend response:", backendResponse.data);
+
+      // Save in Zustand
+    useAuthStore.getState().setAuth({
+  user: backendResponse.data.data.user,
+  accessToken: backendResponse.data.data.accessToken,
+  refreshToken: backendResponse.data.data.refreshToken,
+});
+
+      localStorage.removeItem("emailForSignIn");
+
+      toast.success(`Login successful! Welcome ${auth.currentUser.email}`);
+
+      return true;
+    } catch (backendErr) {
+      console.error("FULL ERROR:", backendErr);
+      console.error("BACKEND MESSAGE:", backendErr.response?.data);
+      return false;
+    }
+  } catch (err) {
+    console.error("Login failed:", err);
+    toast.error("Login failed");
+    return false;
   }
 }
 
