@@ -3,6 +3,8 @@ import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "fireb
 import { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {Smartphone,ArrowLeft} from 'lucide-react'
+
 // import { auth, googleProvider } from "../../firebaseconfigurations/config";
 // import dgiLogo from "../../assets/logo 1.svg";
 // import Time from "../../assets/time";
@@ -32,11 +34,39 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const [identifier, setIdentifier] = useState(""); // email or mobile
+  const [step, setStep] = useState(1);
 
-  // const setUser=useAuthStore((state)=>state.setUser);
-  // const setToken=useAuthStore((state)=>state.setToken);
-    const setAuth = useAuthStore((state) => state.setAuth);
 
+ const handleNext = () => {
+    if (!identifier) return alert("Enter email or mobile");
+    setStep(2);
+  };
+
+  // STEP 2 → Verify password
+  const handlePasswordSubmit = async () => {
+    try {
+      await axios.post("/api/", { identifier, password });
+
+  
+      await axios.post("/api/", { identifier });
+
+      setStep(3);
+    } catch {
+      alert("Invalid credentials");
+    }
+  };
+
+  // STEP 3 → Verify OTP
+  const handleOtpSubmit = async () => {
+    try {
+      await axios.post("/api/verify-otp", { identifier, otp });
+      navigate("/dashboard");
+    } catch {
+      alert("Invalid OTP");
+    }
+  };
 
   const sendOtp = async () => {
     try {
@@ -143,7 +173,7 @@ const sendTokenToBackend = async (user, provider) => {
  
       <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508]
        via-[#2d2210] to-[#141414] text-center">
-<img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
+       <img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
         <h1 className="text-6xl font-['Fraunces']">
           <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent  ">
@@ -153,7 +183,7 @@ const sendTokenToBackend = async (user, provider) => {
             Gold
           </span>
         </h1>
-                  <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent"/>
+        <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent"/>
         <p className="text-xs uppercase tracking-widest text-amber-200 mt-2">
           Gold & Silver Investment
         </p>
@@ -165,8 +195,6 @@ const sendTokenToBackend = async (user, provider) => {
         <div className="hidden md:flex md:w-1/2 flex-col  p-16
           bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] text-center">
             
-          
-
       <img src={logo} alt="logo" className="w-25 mx-auto flex justify-self-auto  mb-0" />
           <h1 className="text-7xl mt-10 font-['Fraunces'] leading-none">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
@@ -209,6 +237,8 @@ const sendTokenToBackend = async (user, provider) => {
         
 
        
+
+       {/* right side */}
         <div className="flex-1 flex items-center justify-center px-6 py-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
           <div className="w-full max-w-md bg-white/95 backdrop-blur rounded-3xl shadow-2xl border border-amber-200 p-10">
@@ -225,7 +255,31 @@ const sendTokenToBackend = async (user, provider) => {
             </p>
 
             
-            <input
+             {step === 1 && (
+        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
+          <h2 className="text-lg font-semibold mb-4 text-center">
+            Enter Email or Mobile
+          </h2>
+
+          <input
+            type="text"
+            placeholder="Email or Mobile Number"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
+          />
+
+       
+          <button
+              onClick={handleNext}
+             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+              shadow-lg shadow-amber-600/30
+              mb-5" >
+               NEXT
+            
+            </button>
+          <input
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -235,18 +289,7 @@ const sendTokenToBackend = async (user, provider) => {
             {errors.email && (
   <p className="text-red-500 text-xs mt-1">
     {errors.email}
-  </p>
-)}
-
-           
-            {/* <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
-            /> */}
-
+  </p>)}
             <button
               onClick={handleMagicLink}
              className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
@@ -256,7 +299,7 @@ const sendTokenToBackend = async (user, provider) => {
               SIGN IN
             
             </button>
-
+             
             
 
             {/* OR */}
@@ -281,6 +324,120 @@ const sendTokenToBackend = async (user, provider) => {
               </svg>
               Continue with Google
             </button>
+        </div>
+      )}
+
+      {/* 2->password */}
+      {step === 2 && (
+        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
+          <h2 className="text-lg font-semibold mb-2 text-center">
+            Enter Password
+          </h2>
+
+          {/* Show entered email/phone */}
+          <p className="text-sm text-gray-500 text-center mb-4">
+            {identifier}
+          </p>
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
+          />
+
+        
+          <button
+          
+             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+              shadow-lg shadow-amber-600/30
+              mb-5" >
+               NEXT
+            
+            </button>
+        </div>
+      )}
+       {step>1 &&(<div className="flex text-sm text-amber-900/70 gap-2">
+     <ArrowLeft size={20} />
+      <button
+        disabled={step === 0}
+        onClick={() => setStep(step-1)}
+        className="" >
+        Back
+      </button>
+            </div>)
+}
+
+      {/* 3 → otp only */}
+      {step === 3 && (
+        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
+          <h2 className="text-lg font-semibold mb-2 text-center">
+            Enter OTP
+          </h2>
+
+          <p className="text-sm text-gray-500 text-center mb-4">
+            Sent to {identifier}
+          </p>
+
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
+          />
+
+          <button
+            onClick={handleOtpSubmit}
+            className="w-full py-3 rounded-xl bg-green-500 text-white"
+          >
+            VERIFY OTP
+          </button>
+
+        </div>
+      )}
+            {/* <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-4"
+            />
+            {errors.email && (
+  <p className="text-red-500 text-xs mt-1">
+    {errors.email}
+  </p>
+)}
+
+           
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
+            /> */}
+            
+             {/* <button
+              
+             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+              shadow-lg shadow-amber-600/30
+              mb-5" >
+              SIGN IN
+            
+            </button> */}
+
+            {/* <div className="flex items-center gap-3 mb-5">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+              <span className="text-xs uppercase tracking-widest text-amber-700">
+                or
+              </span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+            </div> */}
+            
 {/* 
             <button onClick={signInWithApple}>
   Continue with Apple

@@ -54,7 +54,7 @@ function EditProfile() {
         <div className="ml-5 md:ml-20 mt-8 mb-1 ">
     <button
             onClick={() => navigate("/profile")}
-            className=" inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition bg-orange-400">
+            className=" inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition ">
             <ArrowLeft className="w-4 h-4"/>
             Back to Profile
           </button>
@@ -93,7 +93,7 @@ function EditProfile() {
 <div className="grid grid-cols-1 w-full sm:grid-cols-3 md:grid-col-3 lg:grid-cols-3 gap-5 mb-8 md:w-full  p-3 ">
               {/* Name */}
 <div>
-            <label className="text- lg:text-lg font-semibold text-amber-800">Full Name</label>
+            <label className="text-sm  lg:text-lg font-semibold text-amber-800">Full Name</label>
             {isEditing ? (
               <input
                 type="text"
@@ -305,7 +305,7 @@ function EditProfile() {
               <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light lg:w-40 lg:h-15  text-xs md:tracking-widest 
               bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
              text-black rounded-xl  gap-1  flex p-2 md:font-semibold md:text-sm lg:text-lg">
-              <Edit3 className="text-black text-lg" lg:text-lg size={14} md:size={15} lg:size={30}/>
+              <Edit3 className="text-black text-lg"  size={14} md:size={15} lg:size={30}/>
               Edit Profile
               </button>
 

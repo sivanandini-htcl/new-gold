@@ -10,9 +10,13 @@ import usePriceStore from "../store/priceStore";
 function Dashboard() {
   const navigate = useNavigate();
   // const { goldPrice, goldPercentage, silverPrice, silverPercentage } =useContext(PriceContext);
-  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
+  // const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
   const[selectedRange,setSelectedRange]=useState("6M")
   const ranges = ["1D", "5D", "6M", "YTD", "1Y", "5Y", "MAX"];
+  const goldPrice = usePriceStore((state) => state.goldPrice);
+  const silverPrice = usePriceStore((state) => state.silverPrice);
+  const goldPercentage = usePriceStore((state) => state.goldPercentage);
+  const silverPercentage = usePriceStore((state) => state.silverPercentage);
 
   const isProfit = Number(goldPercentage) > 0;
   const silverisProfit = Number(silverPercentage) > 0;
@@ -152,12 +156,12 @@ const insights = [
   ];
 
   return (
-    <div className="min-h-screen font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen 2xl:min-h-screen 2xl:py-9  font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+      <div className="max-w-7xl mx-auto 2xl:max-w-full 2xl:h-screen ">
         {/* Header */}
-        <div className="mb-8 pb-6 border-b border-amber-200">
+        <div className="mb-8 pb-6 border-b border-amber-200 bg-blu">
           <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500/50 to-transparent rounded-full mb-4" />
-          <h1 className="font-serif text-5xl tracking-wide">
+          <h1 className="font-serif text-5xl xl:text-5xl 2xl:text-7xl tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
               Dgi
             </span>
@@ -165,23 +169,23 @@ const insights = [
               Gold
             </span>
           </h1>
-          <p className="mt-2 text-xs uppercase tracking-widest text-amber-700">
+          <p className="mt-2 text-xs 2xl:text-xl uppercase tracking-widest text-amber-700">
           Gold  & Silver · Investment Platform
           </p>
         </div>
       
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
+        <div className="grid md:grid-cols-2 gap-6 mb-10  2xl:h-60">
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
-            <div className="flex justify-between mb-5">
-              <div className="flex items-center gap-3">
+            <div className="flex justify-between mb-5 ">
+              <div className="flex items-center gap-3 2xl:mb-9">
                 <div className="w-11 h-11 rounded-full bg-yellow-100 flex items-center justify-center">
                   <Award className="w-5 h-5 text-yellow-600" />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-amber-600">
+                  <p className="text-xs 2xl:text-xl uppercase tracking-widest text-amber-600">
                     Gold Price
                   </p>
-                  <h2 className="font-heading text-2xl font-semibold text-amber-900">
+                  <h2 className="font-heading text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold font-semibold text-amber-900">
                     {goldPrice ? `₹${goldPrice}/g` : "Loading..."}
                   </h2>
                 </div>
@@ -203,10 +207,10 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/gold")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-md hover:opacity-90">
+                className="flex-1 py-3 rounded-xl text-sm 2xl:text-xl uppercase tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-md hover:opacity-90">
                 Buy
               </button>
-              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-amber-300 bg-white hover:bg-amber-50 text-black">
+              <button className="flex-1 py-3 rounded-xl 2xl:text-xl text-sm uppercase tracking-widest font-serif border border-amber-300 bg-white hover:bg-amber-50 text-black">
                 Sell
               </button>
             </div>
@@ -215,15 +219,15 @@ const insights = [
           {/* Silver Card */}
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-300">
             <div className="flex justify-between mb-5">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 2xl:mb-9">
                 <div className="w-11 h-11 rounded-full bg-gray-200 flex items-center justify-center">
                   <Award className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-gray-600">
+                  <p className="text-xs 2xl:text-xl uppercase tracking-widest text-gray-600">
                     Silver Price
                   </p>
-                  <h2 className="font-serif text-2xl  text-gray-800">
+                  <h2 className="font-serif text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold text-gray-800">
                     {silverPrice ? `₹${silverPrice}/g` : "Loading..."}
                   </h2>
                 </div>
@@ -245,17 +249,17 @@ const insights = [
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/silver")}
-                className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90">
+                className="flex-1 py-3 rounded-xl text-sm 2xl:text-xl uppercase tracking-widest font-serif bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 text-black shadow-md hover:opacity-90">
                 Buy
               </button>
-              <button className="flex-1 py-3 rounded-xl text-sm uppercase tracking-widest font-serif border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
+              <button className="flex-1 py-3 rounded-xl text-sm 2xl:text-xl uppercase tracking-widest font-serif border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">
                 Sell
               </button>
             </div>
           </div>
         </div>
  
- <div className="flex border border-amber-300 rounded-2xl">
+ <div className="flex border border-amber-300 2xl:text-4xl rounded-2xl mb-3">
   {ranges.map((range) => (
     <button
       key={range}
@@ -271,60 +275,84 @@ const insights = [
 
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-10 mt-4 ">
-          <div className="rounded-3xl p-2 md:p-6 shadow-lg bg-white border border-amber-200 font-fraunces">
-            <h3 className="font-serif text-xl font-bold mb-5 text-amber-900">
-              Gold Price Trend
-            </h3>
-            <ResponsiveContainer width="100%" height={250}>
-             <LineChart data={goldData[selectedRange]}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip/>
-                <Legend />
-                <Line type="monotone" dataKey="price" stroke="#ca8a04" strokeWidth={2.5} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 2xl:gap-16 mb-10 mt-4">
 
-          <div className="rounded-3xl p-2 md:p-6 shadow-lg bg-white border border-gray-200">
-            <h3 className="font-serif text-xl font-semibold mb-5 text-gray-800">
-              Silver Price Trend
-            </h3>
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={silverData[selectedRange]}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="price" stroke="#9ca3af" strokeWidth={2.5} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+  {/* Gold Chart */}
+  <div className="rounded-3xl p-4 md:p-6 2xl:p-8 shadow-lg bg-white border border-amber-200 font-fraunces">
+    
+    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-bold mb-5 2xl:mb-8 text-amber-900">
+      Gold Price Trend
+    </h3>
+
+    <ResponsiveContainer width="100%" height={250} className="2xl:h-[350px]">
+      <LineChart data={goldData[selectedRange]}>
+        <CartesianGrid strokeDasharray="3 3" />
+        
+        <XAxis dataKey="date" tick={{ fontSize: 16 }} />
+        <YAxis tick={{ fontSize: 16 }} />
+        
+        <Tooltip />
+        <Legend wrapperStyle={{ fontSize: "16px" }} />
+
+        <Line
+          type="monotone"
+          dataKey="price"
+          stroke="#ca8a04"
+          strokeWidth={3}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
+
+  {/* Silver Chart */}
+  <div className="rounded-3xl p-4 md:p-6 2xl:p-8 shadow-lg bg-white border border-gray-200">
+    
+    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-semibold mb-5 2xl:mb-8 text-gray-800">
+      Silver Price Trend
+    </h3>
+
+    <ResponsiveContainer width="100%" height={250} className="2xl:h-[350px]">
+      <LineChart data={silverData[selectedRange]}>
+        <CartesianGrid strokeDasharray="3 3" />
+
+        <XAxis dataKey="date" tick={{ fontSize: 16 }} />
+        <YAxis tick={{ fontSize: 16 }} />
+
+        <Tooltip />
+        <Legend wrapperStyle={{ fontSize: "16px" }} />
+
+        <Line
+          type="monotone"
+          dataKey="price"
+          stroke="#9ca3af"
+          strokeWidth={3}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+
+  </div>
+</div>
 
         {/* Insights */}
       
 
           <div className="mb-8">
-          <h2 className="text-xl md:text-3xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6 p-1">
+          <h2 className="text-xl md:text-3xl 2xl:text-5xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6 2xl:gap-9 p-1">
 
 
             {insights.map((insight, index) => (
               <div 
                 key={index}
                 className=" text-amber-900 border border-text-amber-900 rounded-xl p-3 md:p-6 backdrop-blur-sm
-                 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:-translate-y-1 text-sm">
+                 hover:border-slate-600/50 transition-all duration-300 hover:transform hover:-translate-y-1 text-sm ">
 
                 <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${insight.gradient}
                  flex items-center justify-center mb-4`}>
                   <insight.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xs md:text-lg font-serif text-amber-900 mb-2">{insight.title}</h3>
-                <p className=" text-xs  leading-relaxed text-amber-900/79">{insight.description}</p>
+                <h3 className="text-xs md:text-lg xl:text-xl 2xl:text-3xl font-serif text-amber-900 mb-2">{insight.title}</h3>
+                <p className=" text-xs  leading-relaxed xl:text-xl 2xl:text-2xl text-amber-900/79">{insight.description}</p>
               </div>
             ))}
           </div>

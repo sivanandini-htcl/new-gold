@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import useAuthStore from "../store/authStore";
 // console.log("ENV DATA:", import.meta.env);
 // console.log("BACKEND URL:", import.meta.env.VITE_API_BASE_URL);
-console.log("BASE URL:", import.meta.env.VITE_API_BASE_URL);
+// console.log("BASE URL:", import.meta.env.VITE_API_BASE_URL);
 
 //  Initialize Firebase only in browser
 let app;

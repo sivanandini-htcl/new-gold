@@ -1,30 +1,50 @@
-
-
 import { useEffect } from "react";
-import axios from "axios";
 import usePriceStore from "../store/priceStore";
 
 function PriceProvider() {
   const setPrices = usePriceStore((state) => state.setPrices);
 
-  // useEffect(() => {
-  //   const fetchPrices = async () => {
-  //     try {
-  //       const res = await axios.get("/price");
+  useEffect(() => {
+    const eventSource = new EventSource(
+      `${import.meta.env.VITE_API_BASE_URL}/metals/subscribe-live`
+    );
 
-  //       setPrices(res.data.gold, res.data.silver);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+    eventSource.onopen = () => console.log(" SSE connected");
 
-  //   fetchPrices();
-  // }, []);
+    eventSource.onmessage = (event) => {
+      console.log(" SSE data:", event.data);
+
+      try {
+        const data = JSON.parse(event.data);
+
+        if (data.prices && Array.isArray(data.prices)) {
+          data.prices.forEach((item) => {
+            const metal = item.metal?.toLowerCase();
+
+            if (metal === "gold" || metal === "silver") {
+              setPrices({
+                [`${metal}Price`]: item.price,
+                [`${metal}Percentage`]: item.changePercent,
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.log(" SSE parse error", err);
+      }
+    };
+
+    eventSource.onerror = (err) => {
+      console.log(" SSE error", err);
+    };
+
+    return () => eventSource.close();
+  }, [setPrices]);
 
   return null;
 }
 
-export default  PriceProvider;
+export default PriceProvider;
 
 
 

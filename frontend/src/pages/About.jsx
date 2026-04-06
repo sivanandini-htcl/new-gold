@@ -63,7 +63,7 @@ function About() {
     <>
       
       <div className=" min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
-        <section className="relative overflow-hidden py-2 px-4 sm:px-6 lg:px-10">
+        <section className="relative overflow-hidden py-2 px-4 sm:px-6 lg:px-10 ">
           {/* decorative bg circles */}
           {/* <div
             className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none"
@@ -73,8 +73,8 @@ function About() {
             className="absolute bottom-0 left-0 w-72 h-72 rounded-full blur-3xl opacity-15 pointer-events-none"
           /> */}
 
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className="h-0.5 w-16 rounded-full mx-auto mb-6"/>
+          <div className="max-w-4xl 2xl: mx-auto text-center relative z-10 ">
+            <div className="h-0.5 w-16 rounded-full mx-auto mb-6 "/>
 
             <h1 className=" text-6xl sm:text-7xl md:text-8xl font-['Fraunces'] tracking-wide leading-none mb-4">
               <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
@@ -87,25 +87,25 @@ function About() {
             </p>
 
             <p
-              className="font-['Fraunces'] italic text-yellow-950  text-sm md:text-3xl lg:text-3xl sm:text-xl  leading-relaxed mb-10 max-w-2xl mx-auto" >
+              className="font-['Fraunces'] italic text-yellow-950  text-sm md:text-3xl lg:text-3xl sm:text-xl xl:text:6xl 2xl:text-5xl  leading-relaxed mb-10 max-w-2xl 2xl:max-w-6xl mx-auto" >
               "Bringing the timeless value of precious metals into the digital age — accessible, transparent, and secure for every Indian."
             </p>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto" />
           </div>
         </section>
 
-        <section className="px-4 sm:px-6 lg:px-10 mb-16">
+        <section className="px-4 sm:px-6 lg:px-10 mb-16 ">
           <div
-            className="max-w-5xl mx-auto rounded-3xl p-6 sm:p-8 shadow-xl"  >
+            className="max-w-7xl mx-auto rounded-3xl p-6 sm:p-8 shadow-xl  2xl:max-w-svh"  >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x text-yellow-950 bg-amber-100 shadow-lg w-full rounded-lg p-2" >
               {stats.map((stat, i) => (
-                <div key={i} className="text-center  px-4">
+                <div key={i} className="text-center 2xl:gap-5  px-4">
                   <p
-                    className="text-lg sm:text-2xl md:text-xl font-serif mb-1 text-yellow-700"
+                    className="text-lg sm:text-2xl md:text-xl  2xl:text-5xl font-serif mb-1 2xl:mb-6 text-yellow-700"
                   >
                     {stat.value}
                   </p>
-                  <p className="text-xs sm:text-xl italic font-serif font-light -tracking-normal gap-2" >
+                  <p className="text-xs sm:text-xl 2xl:text-4xl italic font-serif font-light -tracking-normal gap-2" >
                     {stat.label}
                   </p>
                 </div>
@@ -115,14 +115,14 @@ function About() {
         </section>
 
   
-        <section className="px-4 sm:px-6 lg:px-10 mb-16">
-          <div className="max-w-5xl mx-auto">
+        <section className="px-4 sm:px-6 lg:px-10 mb-16bg-yellow-200 p-3">
+          <div className="max-w-5xl 2xl:max-w-7xl 2xl:mx-auto mx-auto ">
             <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
               {/* Text */}
               <div>
-                <p className="text-xs uppercase tracking-widest mb-2" >Our Mission</p>
-                <h2 className=" text-2xl md:text-4xl sm:text-5xl font-serif mb-1 text-yellow-950" >
+                <p className="text-xs 2xl:text-2xl uppercase tracking-widest mb-2" >Our Mission</p>
+                <h2 className=" text-2xl 2xl:text-5xl md:text-4xl sm:text-5xl font-serif mb-1 text-yellow-950" >
                   Gold & Silver for Everyone
                 </h2>
                 <div className="h-0.5 w-12 rounded-full mb-5 " />
@@ -130,7 +130,7 @@ function About() {
                   
 
                 <div className="p-5 m-4 rounded-2xl ml-1 bg-amber-100 shadow w-full h-full" >
-<p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-yellow-800/90" >
+<p className="text-xs md:text-sm 2xl:text-2xl leading-relaxed mb-4 font-serif text-yellow-800/90" >
                   For generations, gold and silver have been India's most trusted stores of value. But physical precious metals come with friction — storage risks, high entry costs, and illiquidity.
                 </p>
                 <p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-yellow-800/90" >
