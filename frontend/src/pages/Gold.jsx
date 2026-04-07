@@ -5,35 +5,36 @@ import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { toast } from "react-toastify";
 import usePriceStore from "../store/priceStore";
 
+
 function Gold() {
-  const [conversionMode, setConversionMode] = useState("rupees-to-grams");
+  
   const [inputValue, setInputValue] = useState("");
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  // const { goldPrice, goldPercentage } = useContext(PriceContext);
-  const{ goldPrice,goldPercentage } = usePriceStore();
+  const [status, setStatus] = useState("Connecting...");
+  
+      const prices = usePriceStore((state) => state.prices);
+  
+ const goldPrice = prices.find((item) => item.metal === "GOLD");
+ const silverPrice = prices.find((item) => item.metal === "SILVER");
+
+  // const isProfit = Number(goldPercentage) > 0;
+const GOLD_PRICE_PER_GRAM = Number(goldPrice?.price) || 6500;
 
 
-  const isProfit = Number(goldPercentage) > 0;
-  const GOLD_PRICE_PER_GRAM = Number(goldPrice) || 6500;
 
-  const calculateConversion = () => {
-    const value = parseFloat(inputValue);
-    if (isNaN(value) || value <= 0) return 0;
+const calculateConversion = () => {
+  const grams = parseFloat(inputValue);
 
-    return conversionMode === "rupees-to-grams"
-      ? value / GOLD_PRICE_PER_GRAM
-      : value * GOLD_PRICE_PER_GRAM;
-  };
+  if (isNaN(grams) || grams <= 0) return 0;
 
+  return grams * GOLD_PRICE_PER_GRAM;
+};
+ 
   const getFinalCalculation = () => {
-    const grams =
-      conversionMode === "rupees-to-grams"
-        ? calculateConversion()
-        : parseFloat(inputValue);
-
-    const baseAmount = Math.round(grams * GOLD_PRICE_PER_GRAM);
-    const gstAmount = Math.round(baseAmount * 0.03);
+const grams = parseFloat(inputValue) || 0;
+    const baseAmount = grams * GOLD_PRICE_PER_GRAM;
+    const gstAmount = baseAmount * 0.03;
     const totalWithGST = baseAmount + gstAmount;
 
     return {
@@ -95,39 +96,14 @@ function Gold() {
               <h2 className="text-2xl font-['Fraunces'] mb-5 text-yellow-950">
                 Market Insights
               </h2>
-
-              {/* Today's Change */}
-              <div
-                className={`flex items-center justify-between p-4 rounded-xl mb-6 border ${
-                  isProfit
-                    ? "bg-green-50 border-green-200"
-                    : "bg-red-50 border-red-200"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  {isProfit ? (
-                    <TrendingUp className="w-5 h-5 text-green-600" />
-                  ) : (
-                    <TrendingDown className="w-5 h-5 text-red-600" />
-                  )}
-                  <span className="text-xs uppercase tracking-widest text-yellow-900">
-                    Today's Change
-                  </span>
-                </div>
-
-                {goldPercentage && (
-                  <span
-                    className={`text-xs font-['Fraunces'] px-3 py-1 rounded-full ${
-                      isProfit
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {isProfit ? "▲" : "▼"} {Math.abs(goldPercentage)}%
-                  </span>
-                )}
+              <div className="flex items-center justify-between p-4 rounded-xl mb-6 border">
+                <p>  ₹ {goldPrice ? goldPrice.price.toLocaleString() : "Loading..."}</p>
+                <p> ₹ {goldPrice ? goldPrice.changePercent.toLocaleString() : "Loading..."} </p>
+                
               </div>
-
+              <div>
+              </div>
+                    
               {/* Price Stats */}
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between border-b border-yellow-700/10 pb-2">
@@ -135,7 +111,7 @@ function Gold() {
                     Current Price
                   </span>
                   <span className="text-yellow-700">
-                    ₹{GOLD_PRICE_PER_GRAM.toLocaleString("en-IN")}/g
+                 ₹ {goldPrice ? goldPrice.price.toLocaleString() : "Loading..."}        
                   </span>
                 </div>
 
@@ -144,7 +120,8 @@ function Gold() {
                     Week High
                   </span>
                   <span className="text-yellow-900">
-                    ₹6,580
+                 ₹ {goldPrice ? goldPrice.high.toLocaleString() : "Loading..."}
+                    
                   </span>
                 </div>
 
@@ -153,7 +130,8 @@ function Gold() {
                     Week Low
                   </span>
                   <span className="text-yellow-900">
-                    ₹6,420
+                 ₹ {goldPrice ? goldPrice.low.toLocaleString() : "Loading..."}
+                    
                   </span>
                 </div>
               </div>
@@ -176,50 +154,33 @@ function Gold() {
           </div>
 
           {/* right */}
-          <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70">
+          <div className="rounded-3xl p-2 md:p-5 shadow-md bg-white/90 border border-yellow-700/70">
 
-            <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4"></div>
+            <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4 mt-4"></div>
 
             <h2 className="text-2xl font-['Fraunces'] text-yellow-950 mb-2">
               Price Converter
             </h2>
-
             <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-6">
-              {conversionMode === "rupees-to-grams"
-                ? "Rupees → Grams"
-                : "Grams → Rupees"}
+              Grams → Rupees
             </p>
 
+            
+
             {/* button */}
-            <div className="flex gap-2 mb-6 p-1 bg-yellow-100 rounded-xl">
-              {[
-                { mode: "rupees-to-grams", label: "₹ → Grams" },
-                { mode: "grams-to-rupees", label: "Grams → ₹" },
-              ].map((btn) => (
-                <button
-                  key={btn.mode}
-                  onClick={() => {
-                    setConversionMode(btn.mode);
-                    setInputValue("");
-                    setShowBreakdown(false);
-                  }}
-                  className={`flex-1 py-2.5 rounded-lg text-xs uppercase tracking-widest font-['Fraunces'] transition ${
-                    conversionMode === btn.mode
-                      ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950"
-                      : "text-yellow-900 hover:bg-yellow-200"
-                  }`}
-                >
-                  {btn.label}
-                </button>
-              ))}
-            </div>
+           <div className=" bg-yellow-200 h-12 flex justify-center items-center mb-7 rounded-xl">
+            <p className="bg-gradient-to-r text-yellow-900 from-yellow-700 via-yellow-200 to-yellow-800
+             
+             text-shadow-red-950 w-70 md:w-120  rounded-xl h-10  text-center p-3  font-serif"> 
+              Grams → ₹</p>
+           </div>
+
+            
 
             {/* inputs*/}
             <input
               type="number"
-              placeholder={
-                conversionMode === "rupees-to-grams" ? "10000" : "1.5"
-              }
+              placeholder="1/g"
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -231,17 +192,11 @@ function Gold() {
             {/* Result */}
             <div className="rounded-2xl p-5 text-center mb-6 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 border border-yellow-700/70">
               <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-2">
-                {conversionMode === "rupees-to-grams"
-                  ? "You will get"
-                  : "You will pay"}
+                You will pay
               </p>
 
               <div className="text-4xl font-bold text-yellow-600">
-                {hasInput
-                  ? conversionMode === "rupees-to-grams"
-                    ? `${calc.grams} g`
-                    : `₹${calc.formattedBase}`
-                  : "—"}
+                    {hasInput ? `₹${calc.formattedBase}` : "—"}
               </div>
             </div>
 
@@ -314,6 +269,7 @@ function Gold() {
               </div>
             </div>
         </div>
+        
       </div>
     </div>
   );

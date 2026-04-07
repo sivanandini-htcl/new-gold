@@ -4,22 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { TrendingUp, DollarSign, Award, Shield, Zap } from "lucide-react";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import usePriceStore from "../store/priceStore";
+import { subscribeMetalPrices } from "../api/livestreamapi";
+import useAuthStore from "../store/authStore";
 
 function Dashboard() {
   const navigate = useNavigate();
-  // const { goldPrice, goldPercentage, silverPrice, silverPercentage } =useContext(PriceContext);
-  // const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
+ 
   const[selectedRange,setSelectedRange]=useState("6M")
   const ranges = ["1D", "5D", "6M", "YTD", "1Y", "5Y", "MAX"];
-  const goldPrice = usePriceStore((state) => state.goldPrice);
-  const silverPrice = usePriceStore((state) => state.silverPrice);
   const goldPercentage = usePriceStore((state) => state.goldPercentage);
   const silverPercentage = usePriceStore((state) => state.silverPercentage);
-
   const isProfit = Number(goldPercentage) > 0;
   const silverisProfit = Number(silverPercentage) > 0;
+  const [status, setStatus] = useState("Connecting...");  
+
+ const prices = usePriceStore((state) => state.prices); 
+ const goldPrice = prices.find((item) => item.metal === "GOLD");
+ const silverPrice = prices.find((item) => item.metal === "SILVER");
+ 
+  const userName = useAuthStore((state) => state.user?.name);
+
 
  const goldData = {
   "1D": [{ date: "Today", price: 6350 }],
@@ -172,7 +178,11 @@ const insights = [
           <p className="mt-2 text-xs 2xl:text-xl uppercase tracking-widest text-amber-700">
           Gold  & Silver · Investment Platform
           </p>
+          <h2 className="mt-2 text-xs 2xl:text-xl  tracking-widest text-gray-900">Welcome {userName}</h2>
         </div>
+        <p style={{ color: status === "Live Connected" ? "green" : "red" }}>
+                ● {status}
+            </p>
       
         <div className="grid md:grid-cols-2 gap-6 mb-10  2xl:h-60">
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
@@ -186,7 +196,12 @@ const insights = [
                     Gold Price
                   </p>
                   <h2 className="font-heading text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold font-semibold text-amber-900">
-                    {goldPrice ? `₹${goldPrice}/g` : "Loading..."}
+                    
+                     ₹ {goldPrice ? goldPrice.price.toLocaleString() : "Loading..."}
+                     
+                     <p className="text-xs text-gray-500 mt-2">
+             Updated: {goldPrice ? new Date(goldPrice.timestamp).toLocaleString() : "Loading..."}
+</p>
                   </h2>
                 </div>
               </div>
@@ -203,6 +218,8 @@ const insights = [
                 </span>
               )}
             </div>
+             
+
 
             <div className="flex gap-3">
               <button
@@ -227,11 +244,18 @@ const insights = [
                   <p className="text-xs 2xl:text-xl uppercase tracking-widest text-gray-600">
                     Silver Price
                   </p>
-                  <h2 className="font-serif text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold text-gray-800">
-                    {silverPrice ? `₹${silverPrice}/g` : "Loading..."}
+                  <h2 className="font-heading text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold font-semibold  text-gray-800">
+                    
+                    ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."}
+                    <p className="text-xs text-gray-500 mt-2">
+  Updated: {silverPrice ? new Date(silverPrice.timestamp).toLocaleString() : "Loading..."}
+</p>
                   </h2>
+                  
                 </div>
+                
               </div>
+              
 
               {silverPercentage && (
                 <span

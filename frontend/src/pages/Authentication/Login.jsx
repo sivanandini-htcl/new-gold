@@ -5,16 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {Smartphone,ArrowLeft} from 'lucide-react'
 
-// import { auth, googleProvider } from "../../firebaseconfigurations/config";
-// import dgiLogo from "../../assets/logo 1.svg";
-// import Time from "../../assets/time";
+
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
 import { auth,sendMagicLink,signInwithgoogle,getIdToken} from "../../firebaseconfigurations/firebaseClient";
 
-// import { auth,googleProvider,signInWithGoogle,  signInWithApple,
-//   sendMagicLink,
-//   signInWithEmail } from "../../firebaseconfigurations/config";
 import useAuthStore from "../../store/authStore";
 import api from "../../api/axiosInstance";
 
@@ -46,28 +41,29 @@ function Login() {
 
   // STEP 2 → Verify password
   const handlePasswordSubmit = async () => {
-    try {
-      await axios.post("/api/", { identifier, password });
+    // try {
+    //   await axios.post("/api/", { identifier, password });
 
   
-      await axios.post("/api/", { identifier });
+      // await axios.post("/api/", { identifier });
 
       setStep(3);
-    } catch {
-      alert("Invalid credentials");
-    }
+    // } catch {
+    //   alert("Invalid credentials");
+    // }
   };
 
   // STEP 3 → Verify OTP
   const handleOtpSubmit = async () => {
     try {
-      await axios.post("/api/verify-otp", { identifier, otp });
+      // await axios.post("/api/verify-otp", { identifier, otp });
       navigate("/dashboard");
     } catch {
       alert("Invalid OTP");
     }
   };
 
+// for phone number
   const sendOtp = async () => {
     try {
       if (!window.recaptchaVerifier) {
@@ -113,11 +109,11 @@ const handleGoogleLogin = async (provider, fn) => {
      
 
      
-       console.log("Backend Response:", backendData);
+      //  console.log("Backend Response:", backendData);
     
    
       useAuthStore.getState().setAuth(backendData.data);
-          console.log("Zustand:", useAuthStore.getState());
+          // console.log("Zustand:", useAuthStore.getState());
         
     }catch(err){
         console.error(err);
@@ -170,7 +166,6 @@ const sendTokenToBackend = async (user, provider) => {
   return (
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
- 
       <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508]
        via-[#2d2210] to-[#141414] text-center">
        <img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
@@ -247,9 +242,7 @@ const sendTokenToBackend = async (user, provider) => {
               Welcome Back
             </h2>
             
-            {/* <h2 className="text-3xl font-serif text-center text-[#2a1f0e] mb-2">
-              Welcome Back
-            </h2> */}
+          
             <p className="text-center text-xs  uppercase tracking-widest text-amber-950  opacity-65  mb-8">
               Sign in to your DgiGold account
             </p>
@@ -343,13 +336,14 @@ const sendTokenToBackend = async (user, provider) => {
             type="password"
             placeholder="Password"
             value={password}
+            
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
           />
 
         
           <button
-          
+          onClick={handlePasswordSubmit}
              className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
               bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
               shadow-lg shadow-amber-600/30
@@ -359,17 +353,7 @@ const sendTokenToBackend = async (user, provider) => {
             </button>
         </div>
       )}
-       {step>1 &&(<div className="flex text-sm text-amber-900/70 gap-2">
-     <ArrowLeft size={20} />
-      <button
-        disabled={step === 0}
-        onClick={() => setStep(step-1)}
-        className="" >
-        Back
-      </button>
-            </div>)
-}
-
+       
       {/* 3 → otp only */}
       {step === 3 && (
         <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
@@ -398,95 +382,17 @@ const sendTokenToBackend = async (user, provider) => {
 
         </div>
       )}
-            {/* <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-4"
-            />
-            {errors.email && (
-  <p className="text-red-500 text-xs mt-1">
-    {errors.email}
-  </p>
-)}
-
-           
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
-            /> */}
             
-             {/* <button
-              
-             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
-              mb-5" >
-              SIGN IN
-            
-            </button> */}
+            {step>1 &&(<div className="flex text-sm text-amber-900/70 gap-2">
+     <ArrowLeft size={20} />
+      <button
+        disabled={step === 0}
+        onClick={() => setStep(step-1)}
+        className="" >
+        Back
+      </button>
+            </div>)}
 
-            {/* <div className="flex items-center gap-3 mb-5">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
-              <span className="text-xs uppercase tracking-widest text-amber-700">
-                or
-              </span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
-            </div> */}
-            
-{/* 
-            <button onClick={signInWithApple}>
-  Continue with Apple
-</button> */}
-
-
-            {/* PHONE LOGIN */}
-            {/* <div className="mt-6">
-              <div id="recaptcha-container"></div>
-
-              <input
-                type="text"
-                placeholder="+91XXXXXXXXXX"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-3 mb-4 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mt-4"
-              />
-
-              <button
-                onClick={sendOtp}
-                className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black
-              shadow-lg shadow-amber-600/30
-              mb-5" >
-                SEND OTP
-              </button>
-
-              {confirmationResult && (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mt-3"
-                  />
-
-                  <button
-                    onClick={verifyOtp}
-                    className="w-full py-3 mt-3 rounded-xl text-sm uppercase tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black
-              shadow-lg shadow-amber-600/30
-              hover:shadow-xl hover:-translate-y-0.5 active:scale-95 transition-all duration-300 mb-5"
-                  >
-                    Verify OTP
-                  </button>
-                </>
-              )}
-            </div> */}
 
             <p className="text-center mt-7 text-xs text-gray-600">
               New here?{" "}

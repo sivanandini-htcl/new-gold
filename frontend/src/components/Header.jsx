@@ -21,10 +21,7 @@ function Header() {
   const logout = useAuthStore((state) => state.logout);
 
 
-  // function handleLogout() {
-  //   localStorage.removeItem("token");
-  //   navigate("/");
-  // }
+ 
 
 const handleLogout = async () => {
   try {

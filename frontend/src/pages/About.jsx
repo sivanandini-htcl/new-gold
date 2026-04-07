@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Shield, TrendingUp, Zap, Award, Users, Globe, Lock, HeartHandshake } from "lucide-react";
+import { Shield, TrendingUp, Zap, HeartHandshake } from "lucide-react";
 import Time from "../assets/time";
-// import Invest from "../assets/invest.png";
+
 
 
 

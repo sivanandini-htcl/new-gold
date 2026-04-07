@@ -7,54 +7,56 @@ import { toast } from "react-toastify";
 import usePriceStore from "../store/priceStore";
 
 function Silver() {
-  const [conversionMode, setConversionMode] = useState("rupees-to-grams");
+
   const [inputValue, setInputValue] = useState("");
-  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [showBreakdown, setShowBreakdown] = useState(false);  
+  const prices = usePriceStore((state) => state.prices);
+
+  const silverPrice = prices.find((item) => item.metal === "SILVER");
 
 //  const { silverPrice, silverPercentage } = useContext(PriceContext);
-  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
 
-//  const navigate = useNavigate();
+  // const silverisProfit = Number(silverPercentage) > 0;
+  const silver_Price_Per_Gram = Number(silverPrice ?.price) || 280;
 
-  const silverisProfit = Number(silverPercentage) > 0;
-  const silverPricePerGram = Number(silverPrice) || 280;
+//  const calculateConversion = () => {
+//     const value = parseFloat(inputValue);
+//     if (isNaN(value) || value <= 0) return 0;
 
- const calculateConversion = () => {
-    const value = parseFloat(inputValue);
-    if (isNaN(value) || value <= 0) return 0;
+//     if (conversionMode === "rupees-to-grams") {
+//       return (value / silver_Price_Per_Gram).toFixed(4);
+//     } else {
+//       return (value * silver_Price_Per_Gram).toFixed(2);
+//     }
+//   };
+  const calculateConversion = () => {
+  const grams = parseFloat(inputValue);
 
-    if (conversionMode === "rupees-to-grams") {
-      return (value / silverPricePerGram).toFixed(4);
-    } else {
-      return (value * silverPricePerGram).toFixed(2);
-    }
+  if (isNaN(grams) || grams <= 0) return 0;
+
+  return grams * silver_Price_Per_Gram;
+};
+
+const getFinalCalculation = () => {
+
+  const grams = parseFloat(inputValue) || 0;
+
+  const baseAmount = grams * silver_Price_Per_Gram;
+  const gstRate = 0.03;
+  const gstAmount = baseAmount * gstRate;
+  const totalWithGST = baseAmount + gstAmount;
+
+  return {
+    grams: grams.toFixed(4),
+    baseAmount,
+    gstAmount,
+    totalWithGST,
+    formattedBase: baseAmount.toLocaleString("en-IN"),
+    formattedGST: gstAmount.toLocaleString("en-IN"),
+    formattedTotal: totalWithGST.toLocaleString("en-IN"),
   };
+};
 
-  const getFinalCalculation = () => {
-    let grams, baseAmount;
-
-    if (conversionMode === "rupees-to-grams") {
-      grams = parseFloat(calculateConversion());
-      baseAmount = Math.round(parseFloat(inputValue));
-    } else {
-      grams = parseFloat(inputValue);
-      baseAmount = Math.round(parseFloat(calculateConversion()));
-    }
-
-    const gstRate = 0.03;
-    const gstAmount = Math.round(baseAmount * gstRate);
-    const totalWithGST = baseAmount + gstAmount;
-
-    return {
-      grams: grams.toFixed(4),
-      baseAmount,
-      gstAmount,
-      totalWithGST,
-      formattedBase: baseAmount.toLocaleString(),
-      formattedGST: gstAmount.toLocaleString(),
-      formattedTotal: totalWithGST.toLocaleString(),
-    };
-  };
 
   const handleBuyClick = () => {
     const val = parseFloat(inputValue);
@@ -70,7 +72,7 @@ function Silver() {
 
   return (
     <div className="h-auto flex flex-col py-8 px-4 sm:px-6 lg:px-10 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500 ">
-      
+     
       <Link
           to="/dashboard"
           className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
@@ -83,6 +85,8 @@ function Silver() {
         <div className="mb-10 border-b border-gray-700/20 pb-6">
           <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
 
+           
+
           <h1 className="text-5xl bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900  md:bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900 font-serif bg-clip-text text-transparent p-2">
             Buy Silver
           </h1>
@@ -93,8 +97,11 @@ function Silver() {
         </div>
 
       <div className="w-full  flex items-center justify-center">
+        
 
         {/* Back Button */}
+
+        
         
 
   {/* changed width give 250 */}
@@ -110,38 +117,16 @@ function Silver() {
               <h2 className="text-2xl font-['Fraunces'] mb-5 text-gray-900">
                 Market Insights
               </h2>
-
-              {/* Today's Change */}
-              <div
-                className={`flex items-center justify-between p-4 rounded-xl mb-6 border ${
-                  silverisProfit
-                    ? "bg-green-50 border-green-200"
-                    : "bg-red-50 border-red-200"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  {silverisProfit ? (
-                    <TrendingUp className="w-5 h-5 text-green-600" />
-                  ) : (
-                    <TrendingDown className="w-5 h-5 text-red-600" />
-                  )}
-                  <span className="text-xs uppercase tracking-widest text-gray-900">
-                    Today's Change
-                  </span>
-                </div>
-
-               {silverPercentage && (
-                <span
-                  className={`text-sm font-bold ${
-                    silverisProfit ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {silverisProfit ? "▲" : "▼"}{" "}
-                  {Math.abs(silverPercentage)}%
-                </span>
-              )}
-
-              </div>
+<div className="flex items-center justify-between p-4 rounded-xl mb-6 border">
+                  <span className=" text-gray-900">
+                     ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."} </span>
+                    <span>
+ ₹ {silverPrice ? silverPrice.changePercent.toLocaleString() : "Loading..."}   
+                    </span>
+                                  
+                 
+                  </div>
+         
 
               {/* Price Stats */}
               <div className="space-y-3 text-sm">
@@ -149,9 +134,8 @@ function Silver() {
                   <span className="uppercase tracking-widest text-gray-800/70 text-xs">
                     Current Price
                   </span>
-                  <span className=" text-gray-900">
-                   ₹{silverPricePerGram.toLocaleString("en-IN")}/gram
-                  </span>
+                     <span className=" text-gray-900">
+                     ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."} </span>
                 </div>
 
                 <div className="flex justify-between border-b border-gray-700/10 pb-2">
@@ -159,7 +143,7 @@ function Silver() {
                     Week High
                   </span>
                   <span className=" text-gray-900">
-                    ₹290
+                    ₹ {silverPrice?silverPrice.high.toLocaleString():"loading..."}
                   </span>
                 </div>
 
@@ -168,7 +152,7 @@ function Silver() {
                     Week Low
                   </span>
                   <span className=" text-gray-900">
-                   ₹200
+                   ₹{silverPrice?silverPrice.low.toLocaleString():"loading..."}
                   </span>
                 </div>
               </div>
@@ -190,7 +174,7 @@ function Silver() {
           </div>
 
           {/* right */}
-          <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+          <div className="rounded-3xl p-3 shadow-md bg-white/90 border border-gray-600/70">
 
             <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-4"></div>
 
@@ -198,46 +182,25 @@ function Silver() {
               Price Converter
             </h2>
 
-            <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6">
-              {conversionMode === "rupees-to-grams"
-                ? "Rupees → Grams"
-                : "Grams → Rupees"}
+           
+            
+              <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6">
+              Grams → Rupees
             </p>
 
-
-
-            {/* button */}
-            <div className="flex gap-2 mb-6 p-1 bg-gray-300/60 rounded-xl">
-              {[
-                { mode: "rupees-to-grams", label: "₹ → Grams" },
-                { mode: "grams-to-rupees", label: "Grams → ₹" },
-              ].map((btn) => (
-                <button
-                  key={btn.mode}
-                  onClick={() => {
-                    setConversionMode(btn.mode);
-                    setInputValue("");
-                    setShowBreakdown(false);
-                  }}
-                  className={`flex-1 py-2.5 rounded-lg text-xs uppercase tracking-widest font-serif transition ${
-                    conversionMode === btn.mode
-                      ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 "
-                      : "text-gray-900 hover:bg-gray-400/50"
-                  }`}
-                >
-                  {btn.label}
-                </button>
-              ))}
-            </div>
-
+            <div className="  bg-gray-300/60 h-12 flex justify-center items-center mb-7 rounded-xl">
+            <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 
+             text-shadow-red-950 w-70 md:w-120  rounded-xl h-10  text-center p-3  font-serif"> 
+              Grams → ₹</p>
+           </div>
+            
+          
 
 
             {/* inputs*/}
             <input
               type="number"
-              placeholder={
-                conversionMode === "rupees-to-grams" ? "10000" : "1.5"
-              }
+              placeholder="1/g"
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -248,17 +211,11 @@ function Silver() {
             {/* Result */}
             <div className="rounded-2xl p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
               <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-2">
-                {conversionMode === "rupees-to-grams"
-                  ? "You will get"
-                  : "You will pay"}
+                 You will pay
               </p>
 
               <div className="text-4xl font-bold text-gray-600">
-                {hasInput
-                  ? conversionMode === "rupees-to-grams"
-                    ? `${calc.grams} g`
-                    : `₹${calc.formattedBase}`
-                  : "—"}
+               {hasInput ? `₹${calc.formattedBase}` : "—"}
               </div>
             </div>
 

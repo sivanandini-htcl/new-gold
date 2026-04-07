@@ -22,31 +22,7 @@ function Nominee() {
   const [nomineeId, setNomineeId] = useState(null); 
 
 
-  // useEffect(() => {
-  //   const fetchNominee = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:5000/api/nominee");
-
-  //       if (res.data) {
-  //         setFormData(res.data);
-  //         setNomineeId(res.data._id); 
-  //       }
-  //     } catch (error) {
-
- 
-  //     if (error.response?.status === 404) {
-  //       // First time user (no nominee found)
-  //       console.log("No nominee found. First time user.");
-  //     } else {
-  //       // Other server errors
-  //       toast.error("Something went wrong while fetching nominee");
-  //       console.error(error);
-  //     }
-  //   }
-  // };
-
-  //   fetchNominee();
-  // }, []);
+  
 
   
   const handleChange = (e) => {
