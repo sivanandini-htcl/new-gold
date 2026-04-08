@@ -68,7 +68,7 @@ function Nominee() {
     <div className="w-full h-full mt-2">  
       
       <div className=" flex flex-col ">
-          <div className="ml-20 mt-8 mb-1">
+          <div className=" ml-3 md:ml-10 mt-8 mb-1">
 <button
             onClick={() => navigate("/profile")}
             className="inline-flex items-center gap-2 mb-6 text-xs uppercase tracking-widest transition">
@@ -76,7 +76,7 @@ function Nominee() {
             Back to Profile
           </button>
           </div>
- <div className="flex  justify-start ml-4 mt-8 mb-1 gap-1 md:ml-40  ">
+ <div className="flex justify-start ml-4 mt-2  md:mt-2 mb-1 gap-1 md:ml-10 ">
   
   <h2 className="text-2xl font-bold font-serif text-black">
           Nominee
@@ -84,21 +84,21 @@ function Nominee() {
         <h2 className="text-2xl font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
         Details
         </h2> 
-    </div>
+  </div>
 
 
     <div className=" flex  justify-start">
-<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-40" style={{ color: "#a09070" }}>
+<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-10" style={{ color: "#a09070" }}>
               {isEditing ? "Editing Mode · Please Fill Nominee Details" : "View & Manage Nominee details"}
             </p>
     </div>
     
     
- <div className="bg-yellow-700 h-px md:w-210 ml-4 opacity-40 mb-6 flex  md:ml-40 " />
+ <div className="bg-yellow-700 h-px md:w-175 ml-4 opacity-40 mb-6 flex  md:ml-10 " />
 </div>
   
 
-<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md  bg-white md:m-60 lg:m-40 lg:mt-5 md:mt-5 mb-0 md:mb-4  ">
+<div className="rounded-3xl m-10 p-6 sm:p-8 shadow-md md:max-w-screen max-w-auto box-border  bg-white md:m-6 md:p-8 md:mb-4  lg:m-40 lg:mt-5 mb-0  ">
             {/* Section: Personal Info */}
             <div className="flex items-center gap-2 mb-5">
               <div className="w-1 h-5 rounded-full bg-amber-800" />
@@ -350,7 +350,9 @@ function Nominee() {
 <div className="flex justify-center gap-4 mt-2 mb-20  text-center">
 
           {!isEditing ? (
-            <>
+            <div className=" flex  gap-2 mt-4"> 
+
+            
               <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light  text-xs md:tracking-widest 
               bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
              text-black rounded-xl flex  gap-1  text-center items-center p-2 md:font-semibold md:text-sm">
@@ -358,12 +360,14 @@ function Nominee() {
               Edit Profile
               </button>
 
+           
               <button onClick={() => navigate("/profile")}
                 className="  text-xs rounded-xl  p-2 gap-1 flex md:text-center md:justify-center w-25 text-center  md:w-35 bg-white text-black md:text-sm md:font-semibold ">
                   <ArrowLeft className="text-black text-center" size={14} md:size={15}/>
                 Back
               </button>
-            </>
+             
+            </div>
           ) : (
             <>
             <button onClick={handleSave} className="w-25 md:w-35 font-light  text-xs md:tracking-widest 

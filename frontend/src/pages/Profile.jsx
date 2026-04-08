@@ -2,20 +2,41 @@ import { useContext } from "react";
 // import { PriceContext } from "../components/PriceProvider";
 import { useNavigate } from "react-router-dom";
 import {
-  User, Phone,Mail,Edit,FileText, ShieldCheck,MapPin,CreditCard,Receipt,Clock,ArrowRightLeft,Gift,ShieldUser,Settings
+  User, Phone,Mail,Edit,FileText, ShieldCheck,MapPin,CreditCard,Receipt,Clock,ArrowRightLeft,Gift,ShieldUser,Settings,
+  icons
 } from "lucide-react";
 import usePriceStore from "../store/priceStore";
+import useAuthStore from "../store/authStore";
 function Profile() {
  
-  const{ goldPrice, silverPrice,goldPercentage,silverPercentage } = usePriceStore();
+  const{ goldPercentage,silverPercentage } = usePriceStore();
+const username = useAuthStore((state) => state.user?.name);
+const userEmail = useAuthStore((state) => state.user?.email);
+const prices = usePriceStore((state) => state.prices) || [];
+
+const goldPrice = prices.find((item) => item.metal === "GOLD");
+const silverPrice = prices.find((item) => item.metal === "SILVER");
+
+const GOLD_PRICE_PER_GRAM = Number(goldPrice?.price ?? 0);
+const SILVER_PRICE_PER_GRAM = Number(silverPrice?.price ?? 0);
+
+const components=[{
+  icons:Edit,
+  title:'Update Profile'
+},
+{
+  icons:FileText,
+  title:'Nominee Details'
+},{
+  icons:ShieldCheck,
+  title:'KYC'
+}]
 
 
   const navigate = useNavigate();
 
   const user = {
-    name: "Siva",
     phone: "9876543210",
-    email: "siva@gmail.com",
     userId:"QWF12345678XXXX",
     gold: 12,
     silver: 14,
@@ -52,7 +73,7 @@ function Profile() {
             
             <div className="border border-amber-300 w-full p-2 rounded-2xl" >
               <h2 className="text-xl text-center md:text-2xl md:text-left text-amber-950 mt-2 font-['Fraunces']">
-                {user.name}
+                {username}
               </h2>
 
               <div className="flex items-center gap-2 text-sm text-amber-700 m-2">
@@ -62,7 +83,7 @@ function Profile() {
 
               <div className="flex items-center gap-2 text-sm text-amber-700 m-2">
                 <Mail size={16} />
-                {user.email}
+                {userEmail}
               </div>
               <div className="flex items-center gap-2 text-sm text-amber-700 m-2">
                 <ShieldUser size={16} />
@@ -76,7 +97,6 @@ function Profile() {
     
   <div className="w-full max-w-5xl mx-auto p-4 font-['Fraunces'] m-1 ">
   <div className="grid grid-cols-2  text-xs sm:grid-cols-2 md:text-sm lg:grid-cols-5 gap-4 m-1"> 
-
 <div className=" rounded-xl border border-amber-300 flex">    
 <button 
   className="transition duration-300 
@@ -87,23 +107,6 @@ function Profile() {
   <span>Update Profile</span>
 </button>
 </div>
-
-
-
-{/* <div className="rounded-xl border border-amber-900">
-  <button
-    className="w-full h-full p-6 
-               flex flex-col items-center justify-center 
-               gap-3"
-    onClick={() => navigate("/edit")}
-  >
-    <Edit className="text-3xl" />
-    
-    <span className="text-sm font-medium">
-      Edit
-    </span>
-  </button>
-</div> */}
 
 <div className=" rounded-xl border border-amber-300 flex">
       <button 
@@ -125,6 +128,12 @@ function Profile() {
     </button>
 
 </div>
+
+
+
+
+
+
 
 <div className=" rounded-xl border border-amber-300  flex">
  <button 
@@ -204,14 +213,24 @@ function Profile() {
           <h2 className="text-3xl  text-amber-950  font-['Fraunces'] mt-1 mb-6">
             Your Holdings
           </h2>
-
-          <div className="grid sm:grid-cols-2 gap-8">
+          <div className="bg-white p-5 mb-5 rounded-3xl shadow-md border border-yellow-300 "> 
+             <h2 className="text-xl  text-yellow-800/70 uppercase font-['Fraunces'] mt-1 mb-6">
+            Portfolio
+          </h2>
+            <p>Total Current value</p>
+            <p>Total Invested</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-8 ">
 
             {/* Gold Card */}
-            <div className="bg-white rounded-3xl p-6 shadow-md border border-yellow-300">
-              <h3 className=" text-2xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
-                Gold
+            <div className="bg-white rounded-3xl p-6 shadow-md border border-yellow-300 ">
+              <div className="flex justify-between">
+        <h3 className=" text-2xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
+                Gold 
               </h3>
+              <p className="text-xl text-yellow-900">  ₹{GOLD_PRICE_PER_GRAM}/g</p>
+              </div>
+             
 
               <div className="space-y-4 mt-6">
 
@@ -219,19 +238,18 @@ function Profile() {
                   <span className="text-gray-500">Your Holdings</span>
                   <span className="font-semibold">{user.gold} g</span>
                 </div>
-
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Value Today</span>
-                  <span className="font-semibold text-yellow-600">
-                    ₹{(user.gold * goldPrice).toFixed(2)}
-                  </span>
+<div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Invested in Gold</span>
+                  <span className="font-semibold"> 920000 g</span>
                 </div>
+             
 
                 <div className="flex justify-between text-sm items-center">
-                  <span className="text-gray-500">Today's Rate</span>
+                  <span className="text-gray-500"> Your Current value </span>
                   <div className="flex items-center gap-2">
-                    ₹{goldPrice}/g
-                    {goldPercentage && (
+                     ₹ {user.gold*GOLD_PRICE_PER_GRAM}
+                    
+                    {/* {goldPercentage && (
                       <span
                         className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                           isGoldProfit
@@ -241,7 +259,7 @@ function Profile() {
                       >
                         {isGoldProfit ? "▲" : "▼"} {goldPercentage}%
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -261,9 +279,16 @@ function Profile() {
 
             {/* Silver Card */}
             <div className="bg-white rounded-3xl p-6 shadow-md border border-gray-300">
-              <h3 className="text-2xl  font-['Fraunces']  bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900  bg-clip-text text-transparent">
+              <div className="flex justify-between">
+         <h3 className="text-2xl  font-['Fraunces']  bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900  bg-clip-text text-transparent">
                 Silver
               </h3>
+              <p className="text-xl text-gray-700">
+                ₹{SILVER_PRICE_PER_GRAM}/g
+              </p>
+              </div>
+              
+              
 
               <div className="space-y-4 mt-6">
 
@@ -271,19 +296,19 @@ function Profile() {
                   <span className="text-gray-500">Your Holdings</span>
                   <span className="font-semibold">{user.silver} g</span>
                 </div>
-
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Value Today</span>
-                  <span className="font-semibold text-gray-600">
-                    ₹{(user.silver * silverPrice).toFixed(2)}
-                  </span>
+                  <span className="text-gray-500">Invested in Silver</span>
+                  <span className="font-semibold"> 20000 g</span>
                 </div>
+
 
                 <div className="flex justify-between text-sm items-center">
                   <span className="text-gray-500">Today's Rate</span>
                   <div className="flex items-center gap-2">
-                    ₹{silverPrice}/g
-                    {silverPercentage && (
+                    
+                     ₹{(user.silver * SILVER_PRICE_PER_GRAM)}
+
+                    {/* {silverPercentage && (
                       <span
                         className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                           isSilverProfit
@@ -293,7 +318,7 @@ function Profile() {
                       >
                         {isSilverProfit ? "▲" : "▼"} {silverPercentage}%
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

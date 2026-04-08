@@ -40,36 +40,36 @@ function Footer() {
      
 
       <footer
-        className="footer-root w-full bg-gradient-to-br from-[#1a1508] via-[#3f2e10] to-[#141414]">
+        className="footer-root w-full bg-gradient-to-br  from-[#1a1508] via-[#3f2e10] to-[#141414]">
 
       
         <div className=" h-px w-full" />
 
        
-        <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 ">
-          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10">
+        <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 2xl:ml-30 ">
+          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 ">
 
             
             <div className="lg:col-span-1 col-span-2 md:col-span-3">
               {/* Logo */}
 
                <div className="mb-4 flex gap-2 justify-center items-center">
-               <img className="w-13 object-contain  ml-4 md:ml-0" src={dgiLogo} alt="logo "  />    
-               <h2 className="heading-font text-4xl font-bold tracking-wide leading-none mb-1">               
+               <img className="w-13 object-contain 2xl:w-40 2xl:h-40  ml-4 md:ml-0" src={dgiLogo} alt="logo"   />    
+               <h2 className="heading-font text-4xl 2xl:text-4xl font-bold tracking-wide leading-none mb-1">               
                <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
                   <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
                 </h2>
                 </div>
                  <div className="mb-4 flex justify-center items-center">
-                <p className=" text-xs sm:text-xs md:text-sm font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
+                <p className=" text-xs sm:text-xs md:text-sm 2xl:text-2xl font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
                  Gold & Silver · Investment Platform
                 </p>
               </div>
 
               <div className=" h-px w-12 rounded-full mb-4 flex justify-center items-center" />
 
-              <p className="text-xs leading-relaxed mb-6 text-yellow-100 opacity-80" >
+              <p className="text-xs 2xl:text-3xl leading-relaxed mb-6 text-yellow-100 opacity-80" >
                 India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
               </p>
 

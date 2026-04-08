@@ -24,7 +24,7 @@ function Dashboard() {
  const goldPrice = prices.find((item) => item.metal === "GOLD");
  const silverPrice = prices.find((item) => item.metal === "SILVER");
  
-  const userName = useAuthStore((state) => state.user?.name);
+ const userName = useAuthStore((state) => state.user?.name);
 
 
  const goldData = {
@@ -162,10 +162,10 @@ const insights = [
   ];
 
   return (
-    <div className="min-h-screen 2xl:min-h-screen 2xl:py-9  font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
-      <div className="max-w-7xl mx-auto 2xl:max-w-full 2xl:h-screen ">
+    <div className="min-h-screen xl:min-h-fit 2xl:py-9   font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+      <div className="max-w-7xl mx-auto 2xl:max-w-full 2xl:min-h-fit  ">
         {/* Header */}
-        <div className="mb-8 pb-6 border-b border-amber-200 bg-blu">
+        <div className="mb-8 2xl:mb-20 pb-6 border-b border-amber-200 bg-blu">
           <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500/50 to-transparent rounded-full mb-4" />
           <h1 className="font-serif text-5xl xl:text-5xl 2xl:text-7xl tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
@@ -184,10 +184,10 @@ const insights = [
                 ● {status}
             </p>
       
-        <div className="grid md:grid-cols-2 gap-6 mb-10  2xl:h-60">
+        <div className="grid md:grid-cols-2 gap-6 mb-10 2xl:mb-40  2xl:h-60">
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-amber-300">
-            <div className="flex justify-between mb-5 ">
-              <div className="flex items-center gap-3 2xl:mb-9">
+            <div className="flex justify-between mb-5 2xl:mb-10 ">
+              <div className="flex items-center gap-3 2xl:mb-10">
                 <div className="w-11 h-11 rounded-full bg-yellow-100 flex items-center justify-center">
                   <Award className="w-5 h-5 text-yellow-600" />
                 </div>
@@ -235,8 +235,8 @@ const insights = [
 
           {/* Silver Card */}
           <div className="rounded-3xl p-6 shadow-lg bg-white border border-gray-300">
-            <div className="flex justify-between mb-5">
-              <div className="flex items-center gap-3 2xl:mb-9">
+            <div className="flex justify-between mb-10">
+              <div className="flex items-center gap-3 2xl:mb-10">
                 <div className="w-11 h-11 rounded-full bg-gray-200 flex items-center justify-center">
                   <Award className="w-5 h-5 text-gray-600" />
                 </div>
@@ -283,7 +283,7 @@ const insights = [
           </div>
         </div>
  
- <div className="flex border border-amber-300 2xl:text-4xl rounded-2xl mb-3">
+ <div className="flex border border-amber-300 2xl:text-4xl rounded-2xl mb-3 2xl:mb-10">
   {ranges.map((range) => (
     <button
       key={range}
@@ -299,12 +299,12 @@ const insights = [
 
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 2xl:gap-16 mb-10 mt-4">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 2xl:gap-16 mb-10 2xl:mb-30 mt-4">
 
   {/* Gold Chart */}
   <div className="rounded-3xl p-4 md:p-6 2xl:p-8 shadow-lg bg-white border border-amber-200 font-fraunces">
     
-    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-bold mb-5 2xl:mb-8 text-amber-900">
+    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-bold mb-5 2xl:mb-20 text-amber-900">
       Gold Price Trend
     </h3>
 
@@ -331,7 +331,7 @@ const insights = [
   {/* Silver Chart */}
   <div className="rounded-3xl p-4 md:p-6 2xl:p-8 shadow-lg bg-white border border-gray-200">
     
-    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-semibold mb-5 2xl:mb-8 text-gray-800">
+    <h3 className="font-serif text-xl md:text-2xl 2xl:text-3xl font-semibold mb-5 2xl:mb-20 text-gray-800">
       Silver Price Trend
     </h3>
 
@@ -360,8 +360,8 @@ const insights = [
         {/* Insights */}
       
 
-          <div className="mb-8">
-          <h2 className="text-xl md:text-3xl 2xl:text-5xl font-serif text-amber-900 mb-6">Why Invest in Digital Gold & Silver?</h2>
+          <div className="mb-8 2xl:mb-30">
+          <h2 className="text-xl md:text-3xl 2xl:text-5xl font-serif text-amber-900 mb-6 2xl:mb-25">Why Invest in Digital Gold & Silver?</h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 text-amber-900 gap-6 2xl:gap-9 p-1">
 
 

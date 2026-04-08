@@ -68,6 +68,7 @@ function Signup() {
  
   const [form, setForm] = useState({ 
     name: "", 
+    lastName:"",
     email: "", 
     phone: "", 
     password: "", 
@@ -124,115 +125,7 @@ function Signup() {
     return Object.keys(e).length === 0; 
   }; 
 
-  // const handleext = async () => { 
-  //   setOtpError(""); 
-  //   setErrors({}); 
-  //   setGlobalMessage(""); 
-  //   setLoading(true); 
- 
-  //   try { 
-  //     // ── Step 0: Check if email already exists 
-  //     if (step === 0) { 
-  //       if (!validateStep0()) { 
-  //         setLoading(false); 
-  //         return; 
-  //       } 
- 
-  //       const res = await axios.post(`${API_BASE}/api/auth/check-email`, { 
-  //         email: form.email.trim().toLowerCase(), 
-  //       }); 
- 
-
-  //       setStep(1); 
-  //     } 
- 
-  //     // Step 1: otp requ
-  //     else if (step === 1) { 
-  //       if (!validateStep1()) { 
-  //         setLoading(false); 
-  //         return; 
-  //       } 
- 
-  //       await axios.post(`${API_BASE}/api/auth/send-otp`, { 
-  //         phone: form.phone.trim(), 
-  //       }); 
- 
-  //       // Success → OTP was sent (backend accepted the request) 
-  //       setStep(2); 
-  //     } 
- 
-  //     // ── Step 2: Verify OTP (backend checks if entered OTP matches sent one) 
-  //     else if (step === 2) { 
-  //       if (phoneOtp.length !== 6) { 
-  //         setOtpError("Please enter 6-digit OTP"); 
-  //         setLoading(false); 
-  //         return; 
-  //       } 
- 
-  //       await axios.post(`${API_BASE}/api/auth/verify-otp`, { 
-  //         phone: form.phone.trim(), 
-  //         otp: phoneOtp, 
-  //       }); 
- 
-  //       // If we reach here → backend confirmed OTP is correct 
-  //       setStep(3); 
-  //     } 
- 
-  //     // ── Step 3: Final registration 
-  //     else if (step === 3) { 
-  //       if (!validateStep3()) { 
-  //         setLoading(false); 
-  //         return; 
-  //       } 
- 
-  //       const res = await axios.post(`${API_BASE}/api/auth/signup`, { 
-  //         name: form.name.trim(), 
-  //         email: form.email.trim().toLowerCase(), 
-  //         phone: form.phone.trim(), 
-  //         password: form.password, 
-  //       }); 
- 
-  //       // Success 
-  //       const { token, user } = res.data || {}; 
- 
-  //       if (token) localStorage.setItem("token", token); 
-  //       localStorage.setItem( 
-  //         "user", 
-  //         JSON.stringify(user || { 
-  //           name: form.name, 
-  //           email: form.email, 
-  //           phone: form.phone, 
-  //         }) 
-  //       ); 
- 
-  //       navigate("/"); 
-  //     } 
-  //   } catch (err) { 
-  //     if (axios.isAxiosError(err) && err.response) { 
-  //       const { status, data } = err.response; 
-  //       const msg = data?.message || "An error occurred. Please try again."; 
- 
-  //       if (step === 0) { 
-  //         if (status === 409 || status === 400) { 
-  //           setErrors({ email: msg }); 
-  //         } else { 
-  //           setGlobalMessage(msg); 
-  //         } 
-  //       } else if (step === 1) { 
-  //         setErrors({ phone: msg }); 
-  //       } else if (step === 2) { 
-  //         setOtpError(msg); 
-  //       } else if (step === 3) { 
-  //         setGlobalMessage(msg); 
-  //       } 
-  //     } else { 
-  //       // Network error, timeout, etc. 
-  //       setGlobalMessage("Cannot connect to server. Check your internet connection."); 
-  //     } 
-  //   } finally { 
-  //     setLoading(false); 
-  //   } 
-  // }; 
+  
  const handleNext = () => {
   setErrors({});
   setGlobalMessage("");
@@ -388,18 +281,35 @@ black">
                 <div> 
                   <label className="block text-xs uppercase tracking-widest  
                   mb-1.5 font-medium text-amber-950 opacity-65"> 
-                    Full Name 
+                    First Name 
                   </label> 
                   <input 
                     type="text" 
                     name="name" 
                     value={form.name} 
                     onChange={handleChange} 
-                    placeholder="Your full name" 
+                    placeholder="First name" 
                     className={inputClass("name")} 
                   /> 
                   {errors.name && <p className="text-red-600 text-[0.72rem] mt-1">{errors.name}</p>} 
                 </div> 
+
+                <div> 
+                  <label className="block text-xs uppercase tracking-widest  
+                  mb-1.5 font-medium text-amber-950 opacity-65"> 
+                    Last Name 
+                  </label> 
+                  <input 
+                    type="text" 
+                    name="lastName" 
+                    value={form.lastName} 
+                    onChange={handleChange} 
+                    placeholder="Last name" 
+                    className={inputClass("name")} 
+                  /> 
+                  {errors.name && <p className="text-red-600 text-[0.72rem] mt-1">{errors.name}</p>} 
+                </div> 
+
                 <div className="pt-3"> 
                   <label className="block text-xs uppercase tracking-widest mb-1  
                   font-medium text-amber-950 opacity-65"> 
@@ -444,53 +354,7 @@ text-amber-950 opacity-65">
               </div> 
             )} 
  
-            {/* Step 2: OTP verification */} 
-            {/* {step === 2 && ( 
-              <div className="space-y-3"> 
-                <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs 
-text-amber-800"> 
-                  <div className="flex">
-                    <Smartphone size={16}/>
-                    An OTP has been sent to <span className="font-semibold">+91 
-{form.phone}</span> 
-                    </div> 
-                  <br /> 
-                  <span className="text-amber-600 opacity-70">Enter the 6-digit code</span> 
-                </div> 
-                <div> 
-                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium 
-text-amber-950 opacity-65"> 
-                    OTP 
-                  </label> 
-                  <input 
-                    type="text" 
-                    maxLength={6} 
-                    value={phoneOtp} 
-                    onChange={(e) => { 
-                      setPhoneOtp(e.target.value.replace(/\D/g, "")); 
-                      setOtpError(""); 
-                    }} 
-                    placeholder="6-digit OTP" 
-                    className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber
-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mt-4 mb-1 tracking
-[0.4em] text-center font-semibold text-[#1a1000]" 
-                  /> 
-                  {otpError && <p className="text-red-600 text-[0.72rem] mt-1">{otpError}</p>} 
-                </div> 
-                <button 
-                  onClick={() => { 
-                    setStep(1); 
-                    setPhoneOtp(""); 
-                    setOtpError(""); 
-                  }} 
-                  className="text-xs text-yellow-700 underline underline-offset-2 opacity-70 
-hover:opacity-100" 
-                > 
-                  ← Change phone number 
-                </button> 
-              </div> 
-            )} 
-  */}
+
             {/* Step 3: Password */} 
             {step === 2 && ( 
               <div className="space-y-1"> 

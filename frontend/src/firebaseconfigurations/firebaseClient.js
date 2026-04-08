@@ -85,7 +85,6 @@ export async function completeMagicLinkLogin() {
 
     console.log("User logged in:", auth.currentUser.email);
 
-    // Get token (Axios wrapper will attach automatically)
     // const token = await result.user.getIdToken();
     // console.log("Firebase ID token:", token);
     const token = await result.user.getIdToken();

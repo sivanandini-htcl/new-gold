@@ -49,8 +49,8 @@ function EditProfile() {
   };
 
   return (
-    <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 flex justify-center mt-0">
-    <div className="w-full h-full mt-5"> 
+    <div className="min-h-fit  text-accent bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 flex justify-center mt-0">
+    <div className="w-full h-full mt-5  "> 
         <div className="ml-5 md:ml-20 mt-8 mb-1 ">
     <button
             onClick={() => navigate("/profile")}
@@ -63,15 +63,15 @@ function EditProfile() {
       <div className=" flex lg:flex lg:justify-start  flex-col ">
  <div className="flex  justify-start ml-4  mb-1 gap-1 md:ml-15 md:mr-60  ">
   
-  <h2 className="text-2xl font-bold font-serif text-black">
+  <h2 className="text-2xl font-bold font-serif text-black md:text-2xl lg:text-4xl">
           Profile
         </h2>
-        <h2 className="text-2xl font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
+        <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold font-serif bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
         Details
         </h2> 
     </div>
     <div className=" flex md:flex   mb-2 ">
-<p className=" text-xs uppercase tracking-widest text-center ml-4 md:ml-15 text-[#7a6a50]" >
+<p className=" text-xs md:text-xs lg:text-lg uppercase tracking-widest text-center ml-4 md:ml-15 text-[#7a6a50]" >
               {isEditing ? "Editing Mode · Update your information" : "View & Manage your account details"}
             </p>
     </div>
@@ -86,14 +86,14 @@ function EditProfile() {
             {/* Section: Personal Info */}
             <div className="flex items-center gap-2 mb-5">
               <div className="w-1 h-5 rounded-full bg-amber-800" />
-              <p className="text-xs uppercase tracking-widest font-medium text-[#7a6a50]">
+              <p className="text-xs lg:text-xl uppercase tracking-widest font-medium text-[#7a6a50]">
                 Personal Information
               </p>
             </div>
 <div className="grid grid-cols-1 w-full sm:grid-cols-3 md:grid-col-3 lg:grid-cols-3 gap-5 mb-8 md:w-full  p-3 ">
               {/* Name */}
 <div>
-            <label className="text-sm  lg:text-lg font-semibold text-amber-800">Full Name</label>
+            <label className="text-sm  lg:text-2xl  font-semibold text-amber-800">Full Name</label>
             {isEditing ? (
               <input
                 type="text"
@@ -104,13 +104,13 @@ function EditProfile() {
                 className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border lg:text-lg border-amber-500/30 rounded-md px-3 py-2 text-amber-800 text-xs">{formData.name||"Not provided"}</p>
+              <p className="mt-1 border lg:text-xl border-amber-500/30 rounded-md px-3 py-2 text-amber-800 text-xs">{formData.name||"Not provided"}</p>
             )}
             
 </div>
 
 <div>
-            <label className="text-sm font-semibold text-amber-800 lg:text-lg">Middle Name</label>
+            <label className="text-sm lg:text-2xl  font-semibold text-amber-800">Middle Name</label>
             {isEditing ? (
               <input 
                 type="text"
@@ -119,12 +119,12 @@ function EditProfile() {
                 className="border border-amber-500/30  p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-amber-500/30 lg:text-lg  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.middleName||"Not provided "}</p>
+              <p className="mt-1 border lg:text-xl  border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.middleName||"Not provided "}</p>
             )}
 </div>
 
 <div>
-            <label className="text-sm font-semibold lg:text-lg text-amber-800">Last Name</label>
+            <label className="text-sm font-semibold lg:text-2xl  text-amber-800">Last Name</label>
             {isEditing ? (
               <input
                 type="text"
@@ -134,25 +134,25 @@ function EditProfile() {
                 className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-amber-500/30 lg:text-lg rounded-md px-3 py-2 text-amber-800 text-xs">{formData.lastName||"Not provided"}</p>
+              <p className="mt-1 border border-amber-500/30   lg:text-xl rounded-md px-3 py-2 text-amber-800 text-xs">{formData.lastName||"Not provided"}</p>
             )}
 </div>
 
           {/* Phone */}
 <div>
-            <label className="text-sm font-semibold text-amber-800 lg:text-lg">Phone</label>
+            <label className="text-sm font-semibold text-amber-800 lg:text-2xl">Phone</label>
             {isEditing ? (
               <input
                 type="tel"  name="phone"  value={formData.phone}  onChange={handleChange}
                 className="border border-amber-500/30 p-2 rounded-lg w-full mt-1" />
             ) : (
-              <p className="mt-1 border border-amber-500/30 lg:text-lg rounded-md px-3 py-2 text-amber-800 text-xs">{formData.phone||"Not provided"}</p>
+              <p className="mt-1 border border-amber-500/30 lg:text-xl rounded-md px-3 py-2 text-amber-800 text-xs">{formData.phone||"Not provided"}</p>
             )}
 </div>
 
           {/* Email */}
 <div>
-            <label className="text-sm font-semibold lg:text-lg text-amber-800">Email</label>
+            <label className="text-sm font-semibold lg:text-2xl text-amber-800">Email</label>
             {isEditing ? (
               <input
                 type="email"
@@ -162,12 +162,12 @@ function EditProfile() {
                 className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-amber-500/30 lg:text-lg  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.email||"Not provided"}</p>
+              <p className="mt-1 border border-amber-500/30 lg:text-xl  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.email||"Not provided"}</p>
             )}
 </div>
 
  <div>
-            <label className="text-sm font-semibold text-amber-800 lg:text-lg">Address</label>
+            <label className="text-sm font-semibold text-amber-800 lg:text-2xl">Address</label>
             {isEditing ? (
               <input
                 type=""
@@ -176,19 +176,19 @@ function EditProfile() {
                 className="border border-amber-500/30 p-2 rounded-lg w-full mt-1"
               />
             ) : (
-              <p className="mt-1 border border-amber-500/30 lg:text-lg  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.address||"Not provided"}</p>
+              <p className="mt-1 border border-amber-500/30 lg:text-xl  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.address||"Not provided"}</p>
             )}
 </div>
 
 
 <div>
-      <label className="text-sm font-semibold text-amber-800 lg:text-lg">Gender</label>
+      <label className="text-sm font-semibold text-amber-800 lg:text-2xl">Gender</label>
             {isEditing ? (
     <select
       name="gender"
       value={formData.gender}
       onChange={handleChange}
-      className="border border-amber-500/30 p-2 lg:text-lg rounded-lg w-full mt-1 text-amber-800 ">
+      className="border border-amber-500/30 p-2 lg:text-xl rounded-lg w-full mt-1 text-amber-800 ">
 
       <option value="">Select Gender</option>
       <option value="Male">Male</option>
@@ -196,7 +196,7 @@ function EditProfile() {
       <option value="Other">Other</option>
     </select>
   ) : (
-    <p className="mt-1 border border-amber-500/30 lg:text-lg  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.gender || "Not Provided"}</p>
+    <p className="mt-1 border border-amber-500/30 lg:text-xl  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.gender || "Not Provided"}</p>
   )}
 
 </div>
@@ -216,7 +216,7 @@ function EditProfile() {
 {/* Date of Birth */}
 
 <div>
-  <label className="text-sm lg:text-lg font-semibold text-amber-800 flex">Date of Birth</label>
+  <label className="text-sm lg:text-2xl font-semibold text-amber-800 flex">Date of Birth</label>
 
   {isEditing ? (
     <input
@@ -227,7 +227,7 @@ function EditProfile() {
       className="border border-amber-500/30 text-amber-800 p-2 rounded-lg w-full mt-1"
     />
   ) : (
-    <p className="mt-1 border border-amber-500/30 lg:text-lg rounded-lg p-2 w-full bg-gray-50 text-amber-800 text-xs">
+    <p className="mt-1 border border-amber-500/30 lg:text-xl rounded-lg p-2 w-full bg-gray-50 text-amber-800 text-xs">
       {formData.dob
         ? new Date(formData.dob).toLocaleDateString()
         : "Not Provided"}
@@ -236,7 +236,7 @@ function EditProfile() {
 </div>
 
 <div>
-      <label className="text-sm lg:text-lg font-semibold text-amber-800">Marital Status</label>
+      <label className="text-sm lg:text-2xl font-semibold text-amber-800">Marital Status</label>
             {isEditing ? (
     <select
      
@@ -249,14 +249,14 @@ function EditProfile() {
      
     </select>
   ) : (
-    <p className="mt-1 border lg:text-lg border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.ma || "Not Provided"}</p>
+    <p className="mt-1 border lg:text-xl border-amber-500/30  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.ma || "Not Provided"}</p>
   )}
 
 </div>
 
 
 <div>
-      <label className="text-sm font-semibold lg:text-lg text-amber-800">Profession</label>
+      <label className="text-sm font-semibold lg:text-2xl text-amber-800">Profession</label>
             {isEditing ? (
     <select
       name="profession"
@@ -271,12 +271,12 @@ function EditProfile() {
       <option value="Other">Salaried</option>  
     </select>
   ) : (
-    <p className="mt-1 border border-amber-500/30 lg:text-lg rounded-md px-3 py-2 text-amber-800 text-xs">{formData.profession || "Not Provided"}</p>
+    <p className="mt-1 border border-amber-500/30 lg:text-xl rounded-md px-3 py-2 text-amber-800 text-xs">{formData.profession || "Not Provided"}</p>
   )}
 
 </div>
 <div>
-      <label className="text-sm font-semibold lg:text-lg  text-amber-800 ">Nationality</label>
+      <label className="text-sm font-semibold lg:text-2xl  text-amber-800 ">Nationality</label>
         {isEditing ? (
     <select
       name=""
@@ -290,7 +290,7 @@ function EditProfile() {
      
     </select>
   ) : (
-    <p className="mt-1 border border-amber-500/30 lg:text-lg  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.nationality||"Not Provided"}</p>
+    <p className="mt-1 border border-amber-500/30 lg:text-xl  rounded-md px-3 py-2 text-amber-800 text-xs">{formData.nationality||"Not Provided"}</p>
   )}
 
 </div>
@@ -302,15 +302,15 @@ function EditProfile() {
 
           {!isEditing ? (
             <>
-              <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light lg:w-40 lg:h-15  text-xs md:tracking-widest 
+              <button onClick={() => setIsEditing(true)} className=" w-25 md:w-35 font-light lg:w-50 lg:h-15  text-xs md:tracking-widest 
               bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700
-             text-black rounded-xl  gap-1  flex p-2 md:font-semibold md:text-sm lg:text-lg">
+             text-black rounded-xl  gap-1  flex p-2 md:font-semibold md:text-sm lg:text-2xl">
               <Edit3 className="text-black text-lg"  size={14} md:size={15} lg:size={30}/>
               Edit Profile
               </button>
 
               <button onClick={() => navigate("/profile")}
-                className="text-xs rounded-xl lg:text-lg md:text-lg p-2 gap-1 flex  md:text-center md:justify-center w-25 text-center  md:w-35 bg-white text-black  md:font-semibold ">
+                className="text-xs rounded-xl lg:text-lg md:text-lg p-2 gap-1 flex  md:text-center md:justify-center w-20 border border-black text-center lg:w-50  md:w-35 bg-white text-black  md:font-semibold ">
                   <ArrowLeft className="text-black text-center" size={14} md:size={15}/>
                 Back
               </button>

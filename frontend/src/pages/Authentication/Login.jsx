@@ -130,7 +130,7 @@ const sendTokenToBackend = async (user, provider) => {
         const res = await api.post(
             "/auth/firebase-login",
              { provider, credential: idToken, tenantId : "vendor_abc" },
-            { withCredentials: true }
+       
         );
         
         if (res.data.success) {
