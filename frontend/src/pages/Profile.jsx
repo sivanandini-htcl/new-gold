@@ -167,7 +167,7 @@ const components=[{
 <div className=" rounded-xl border border-amber-300  flex">
 <button 
       className="flex flex-col  items-center justify-center transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/")}
+     
     >
       <Clock className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
       History
@@ -177,7 +177,7 @@ const components=[{
 <div className="rounded-xl border border-amber-300  flex">
 <button 
       className=" flex flex-col items-center justify-center transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/")}>
+      >
       <ArrowRightLeft className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
       Transaction
     </button>
@@ -195,7 +195,7 @@ const components=[{
 <div className="rounded-xl border border-amber-300  flex">
     <button 
       className=" flex flex-col items-center justify-center transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/redeem")} >
+       >
         <Settings className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
       Settings
     </button>
@@ -217,8 +217,10 @@ const components=[{
              <h2 className="text-xl  text-yellow-800/70 uppercase font-['Fraunces'] mt-1 mb-6">
             Portfolio
           </h2>
-            <p>Total Current value</p>
-            <p>Total Invested</p>
+            <p className="font-serif text-md text-yellow-900">Total Current value</p>
+            <span className="font-semibold text-lg mb-6 text-gray-900">₹ 5247770.2</span>
+            <p className="font-serif text-md text-yellow-900">Total Invested</p>
+            <span className="font-semibold text-lg mb-6 text-gray-900">₹ 940000 </span>
           </div>
           <div className="grid sm:grid-cols-2 gap-8 ">
 
