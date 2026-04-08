@@ -250,7 +250,7 @@ const sendTokenToBackend = async (user, provider) => {
             
              {step === 1 && (
         <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold mb-4 text-center">
+          <h2 className="text-lg  font-serif mb-4 text-center">
             Enter Email or Mobile
           </h2>
 
@@ -272,7 +272,7 @@ const sendTokenToBackend = async (user, provider) => {
                NEXT
             
             </button>
-          <input
+          {/* <input
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -291,7 +291,7 @@ const sendTokenToBackend = async (user, provider) => {
               mb-5" >
               SIGN IN
             
-            </button>
+            </button> */}
              
             
 
