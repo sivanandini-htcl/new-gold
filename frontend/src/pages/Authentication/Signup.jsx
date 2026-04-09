@@ -1,13 +1,10 @@
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom"; 
-
 import logo from "../../assets/logo_1.svg"; 
-import {Smartphone,ArrowLeft} from 'lucide-react'
+import {Smartphone,ArrowLeft, CloudCog} from 'lucide-react'
 import { toast } from "react-toastify";
- 
- 
-// const STEP_LABELS = ["Personal Info", "Phone", "Verify Phone", "Set Password"]; 
-// const STEP_PERCENT = [25, 50, 75, 100]; 
+import api from "../../api/axiosInstance";
+
 const STEP_LABELS = [
   "Personal Info",
   "Email or Mobile",
@@ -16,16 +13,12 @@ const STEP_LABELS = [
 ];
 
 const STEP_PERCENT = [0, 33, 66, 100];
-
 const widthClass = {
   0: "w-0",
   33: "w-1/3",
   66: "w-2/3",
   100: "w-full"
 };
-
-
-
  
 function ProgressBar({ step }) { 
   const percent = STEP_PERCENT[step]; 
@@ -67,9 +60,15 @@ function ProgressBar({ step }) {
  
 function Signup() { 
   const navigate = useNavigate(); 
- 
-
-const [form, setForm] = useState({
+  const [step, setStep] = useState(0); 
+  const [errors, setErrors] = useState({}); 
+  const [loading, setLoading] = useState(false); 
+  const [phoneOtp, setPhoneOtp] = useState(""); 
+  const [otpError, setOtpError] = useState("");
+  const [registrationSessionId, setRegistrationSessionId] = useState("");
+  const tenantId=import.meta.env.VITE_TENANT_ID;
+  const [globalMessage, setGlobalMessage] = useState(""); 
+  const [form, setForm] = useState({
   name: "",
   lastName: "",
   contact: "",
@@ -77,25 +76,14 @@ const [form, setForm] = useState({
   password: "",
   confirmPassword: ""
 });
-
-
-
-  const [step, setStep] = useState(0); 
-  const [errors, setErrors] = useState({}); 
-  const [loading, setLoading] = useState(false); 
-  const [phoneOtp, setPhoneOtp] = useState(""); 
-  const [otpError, setOtpError] = useState("");
-  // const [otpError, setOtpError] = useState(""); 
-  const [globalMessage, setGlobalMessage] = useState(""); 
  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex = /^\+91[6-9]\d{9}$/;
+ const phoneRegex = /^\+91[6-9]\d{9}$/;
+ const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-
-
+ 
 
 const handleChange = (e) => {
   const { name, value } = e.target;
-
   setForm((prev) => ({
     ...prev,
     [name]: value
@@ -112,7 +100,6 @@ const handleChange = (e) => {
 
 const validateStep0 = () => {
   let e = {};
-
   if (!form.name.trim())
     e.name = "First name required";
 
@@ -155,71 +142,151 @@ const validateStep2 = () => {
 
 
 
- 
 const validateStep3 = () => {
+
   let e = {};
 
-  if (!form.password)
-    e.password = "Password required";
+  if (!form.password) {
+    e.password = "Password is required";
+  }
+  else if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(
+      form.password
+    )
+  ) {
+    e.password =
+      "Password must contain uppercase, lowercase, number and special character";
+  }
 
-  else if (form.password.length < 6)
-    e.password = "Minimum 6 characters";
-
-  if (!form.confirmPassword)
-    e.confirmPassword = "Confirm password";
-
-  else if (form.password !== form.confirmPassword)
-    e.confirmPassword = "Passwords do not match";
+  if (!form.confirmPassword) {
+    e.confirmPassword = "Confirm password is required";
+  }
+  else if (
+    form.password !== form.confirmPassword
+  ) {
+    e.confirmPassword =
+      "Passwords do not match";
+  }
 
   setErrors(e);
+
   return Object.keys(e).length === 0;
 };
 
+const handleNext=async()=>{
 
-
-const handleNext = () => {
-
-  // Step 0 → Name
-  if (step === 0) {
-    if (!validateStep0()) return;
-    setStep(1);
+if(step===0){
+  console.log("step0 is running");
+  if(!validateStep0())return;
+  try{
+setLoading(true)
+console.log("calling api");
+const response= await api.post("/auth/register/step1",{
+  firstName:form.name,
+  lastName:form.lastName,
+  tenantId
+});
+console.log("api called");
+setRegistrationSessionId(response.data.data.sessionId);
+toast.success("Regestration in process")
+setStep(1)
   }
 
-  // Step 1 → Email or Mobile
-  else if (step === 1) {
-    if (!validateStep1()) return;
+catch(error){
+  console.log("error"); 
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
+  console.log("MESSAGE:", error.response?.data?.message);
+  toast.error(error.response?.data?.message || "Something went wrong");
+} 
+finally{
+  setLoading(false);
+}
+}
 
-    // no backend call
-    setStep(2);
+else if(step===1){
+  console.log("step 1 is running")
+  if(!validateStep1())return;
+  
+    const isEmail=emailRegex.test(form.contact);
+    const contactType=isEmail? "email":"phone";
+    console.log("calling api")
+    try{
+      setLoading(true)
+      const res=await api.post("/auth/register/step2",{
+        registrationSessionId,
+        contactType,
+        contactValue:form.contact,
+        tenantId
+      });
+      console.log("api called")
+      toast.success("OTP Sent ")
+      setStep(2);
+  }catch(error){
+    console.log("error")
+    console.log("FULL ERROR:", error);
+    console.log("RESPONSE:", error.response);
+    console.log("DATA:", error.response?.data);
+    console.log("MESSAGE:", error.response?.data?.message);
+    toast.error(error.res?.data?.message||"failed to sent otp")
+  }finally{
+    setLoading(false)
   }
-
-  // Step 2 → OTP
-  else if (step === 2) {
-    if (!validateStep2()) return;
-
+}
+else if(step===2){
+if(!validateStep2())return;
+try  {
+  setLoading(true);
+  const otpRes=await api.post("/auth/register/verify-otp",{
+    registrationSessionId,
+    otp:form.otp,
+    tenantId    
+  });
+  if(otpRes.data.success){
+    toast.success("OTP Verified")
     setStep(3);
   }
-
-  // Step 3 → Password
-  else if (step === 3) {
-    if (!validateStep3()) return;
-
-    // store locally for now
-    const newUser = {
-      name: form.name,
-      lastName: form.lastName,
-      contact: form.contact,
-      password: form.password
-    };
-
-    localStorage.setItem("user", JSON.stringify(newUser));
-
+  console.log("step 2 ", otpRes)
+}
+ catch(error){
+  console.log("FULL ERROR:", error);
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
+  console.log("MESSAGE:", error.response?.data?.message);
+  toast.error(error.otpRes?.data?.message||"otp failed");
+}
+finally{
+  setLoading(false);
+}
+}
+ else if(step===3){
+  console.log("step 3 is running")
+  if(!validateStep3())return;
+  try{
+    setLoading(true);
+    console.log("calling api")
+    const pasRes=await api.post("/auth/register/step3",{
+      registrationSessionId,
+      tenantId,
+      password:form.password
+    });
+    console.log("api called");
+    console.log("data:", pasRes);
+    toast.success("registration Successfull")
     navigate("/");
-    toast.success("Account Created Successfully")
   }
+  catch(error){
+  console.log("FULL ERROR:", error);
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
+  console.log("MESSAGE:", error.response?.data?.message);
+  toast.error(error.response?.data?.message||"Registration failed")
+  } 
+  finally{
+    setLoading(false);
+  }
+ }
 };
-
-
  const isDisabled = () => {
 
   if (loading) return true;
@@ -255,9 +322,6 @@ const btnLabel = () => {
   return "Continue";
 };
 
-
-
- 
   return ( 
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50  via-amber-50 to-amber-50"> 
       <div className="flex-1 flex flex-col md:flex-row"> 
@@ -312,15 +376,12 @@ const btnLabel = () => {
           </div>
         </div>
 
-
-
         {/* Right side - form */} 
         <div className="flex-1 flex items-center justify-center px-5 py-10 md:py-8 md:px-10  
         lg:px-16 relative"> 
           <div className="relative w-full max-w-md bg-white/95 border border-yellow-200  
           rounded-3xl shadow-2xl p-7 lg:p-9"> 
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1 text
-black"> 
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1 text-black"> 
               Create Account 
             </h2> 
             <p className="text-center text-xs uppercase tracking-widest mb-6 text-amber-950 opacity-65"> 
@@ -356,7 +417,6 @@ black">
     />
   </>
 )}
-
             {/* Step 1: Phone */} 
       {step === 1 && (
   <>
@@ -375,7 +435,6 @@ black">
     )}
   </>
 )}
-
  
 {step === 2 && (
   <>
@@ -409,7 +468,6 @@ black">
     />
   </>
 )}
-
             {step>0 &&(<div className="flex text-sm text-amber-900/70 gap-2">
      <ArrowLeft size={20} />
       <button
@@ -420,8 +478,7 @@ black">
       </button>
             </div>)
 }
-     
-            <button 
+            <button type="button"
               onClick={handleNext} 
               disabled={isDisabled()} 
               className={`w-full mt-6 py-3.5 rounded-xl text-sm uppercase tracking-widest font semibold transition-all flex items-center justify-center gap-2 ${ 
@@ -438,9 +495,7 @@ black">
               )} 
               {btnLabel()} 
             </button> 
-        
-
-      
+             
 <p className="text-center mt-5 text-xs text-gray-600"> 
 Already have an account?{" "} 
 <button onClick={() => navigate("/")} className="text-yellow-500 underline 
@@ -452,20 +507,5 @@ Sign in here
 </div> 
 </div> 
 </div> 
-); 
-} 
+);} 
 export default Signup; 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
