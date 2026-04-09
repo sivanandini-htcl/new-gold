@@ -1,6 +1,6 @@
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom"; 
-import axios from "axios"; 
+
 import logo from "../../assets/logo_1.svg"; 
 import {Smartphone,ArrowLeft} from 'lucide-react'
 import { toast } from "react-toastify";
@@ -88,7 +88,9 @@ const [form, setForm] = useState({
   // const [otpError, setOtpError] = useState(""); 
   const [globalMessage, setGlobalMessage] = useState(""); 
  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex = /^[6-9]\d{9}$/;
+const phoneRegex = /^\+91[6-9]\d{9}$/;
+
+
 
 
 const handleChange = (e) => {
@@ -360,7 +362,7 @@ black">
   <>
     <input
       name="contact"
-      placeholder="Email or Mobile"
+      placeholder="your@gmail.com or +91 xxxxxxxxxx"
       value={form.contact}
       onChange={handleChange}
       className={inputClass("contact")}
