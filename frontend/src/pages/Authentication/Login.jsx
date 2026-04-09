@@ -57,7 +57,8 @@ function Login() {
   const handleOtpSubmit = async () => {
     try {
       // await axios.post("/api/verify-otp", { identifier, otp });
-      navigate("/dashboard");
+      navigate("/"); 
+      alert("Invalid OTP")
     } catch {
       alert("Invalid OTP");
     }

@@ -129,17 +129,10 @@ const components=[{
 
 </div>
 
-
-
-
-
-
-
 <div className=" rounded-xl border border-amber-300  flex">
  <button 
       className=" flex flex-col items-center justify-center  transition duration-300 rounded-xl p-3 text-black w-full"
-      onClick={() => navigate("/delivery")}
-    >
+      onClick={() => navigate("/delivery")} >
         <MapPin className="text-amber-900 bg-amber-200 rounded-lg p-1" size={30} />
       Delivery Address
     
