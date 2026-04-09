@@ -8,7 +8,7 @@ import {Smartphone,ArrowLeft} from 'lucide-react'
 
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
-import { auth,sendMagicLink,signInwithgoogle,getIdToken} from "../../firebaseconfigurations/firebaseClient";
+import { auth,signInwithgoogle,getIdToken} from "../../firebaseconfigurations/firebaseClient";
 
 import useAuthStore from "../../store/authStore";
 import api from "../../api/axiosInstance";
@@ -109,12 +109,11 @@ const handleGoogleLogin = async (provider, fn) => {
        const backendData= await sendTokenToBackend(result.user, provider);
      
 
-     
-      //  console.log("Backend Response:", backendData);
+   
     
    
       useAuthStore.getState().setAuth(backendData.data);
-          // console.log("Zustand:", useAuthStore.getState());
+        
         
     }catch(err){
         console.error(err);
@@ -130,7 +129,7 @@ const sendTokenToBackend = async (user, provider) => {
     try {
         const res = await api.post(
             "/auth/firebase-login",
-             { provider, credential: idToken, tenantId : "vendor_abc" },
+             { provider, credential: idToken, tenantId : import.meta.env.VITE_TENANT_ID}
        
         );
         
@@ -149,21 +148,7 @@ const sendTokenToBackend = async (user, provider) => {
 { console.error(err)}
   }
 
-  const handleMagicLink = async (e) => {
-    
-  e.preventDefault();
-
-  console.log(" Email entered:", email);
-
-  if (!email) {
-    toast.error("Enter email");
-    return;
-  }
-
-  await sendMagicLink(email);
-  console.log("send magic link ")
-};
-
+  
   return (
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
@@ -273,26 +258,7 @@ const sendTokenToBackend = async (user, provider) => {
                NEXT
             
             </button>
-          {/* <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-sm bg-white border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-4"
-            />
-            {errors.email && (
-  <p className="text-red-500 text-xs mt-1">
-    {errors.email}
-  </p>)}
-            <button
-              onClick={handleMagicLink}
-             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
-              mb-5" >
-              SIGN IN
-            
-            </button> */}
+          
              
             
 

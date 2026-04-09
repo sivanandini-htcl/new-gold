@@ -31,7 +31,7 @@ import ProductDetails from "./pages/ProductDetails";
 // import Checkout1 from "./pages/Checkout1";
 import MyOrders from "./pages/MyOrders";
 
-import LoginOrCreateAccount from "./pages/Authentication/LoginOrCreateAccount";
+
 
 function App() {
   return (
@@ -45,8 +45,7 @@ function App() {
             
         <Route path="/" element={<Login />} />
          <Route path="/signup" element={<Signup />} />
-         <Route path="/login"element={<LoginOrCreateAccount />}
-/>
+  
           
             <Route element={<LayoutWithHeader />}>
               <Route path="/dashboard" element={  
@@ -158,13 +157,6 @@ function App() {
 
 
             </Route>
-            
-            
-            
-
-
-
-            {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </BrowserRouter>
       

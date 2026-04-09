@@ -3,26 +3,28 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
 import logo from "../../assets/logo_1.svg"; 
 import {Smartphone,ArrowLeft} from 'lucide-react'
+import { toast } from "react-toastify";
  
  
 // const STEP_LABELS = ["Personal Info", "Phone", "Verify Phone", "Set Password"]; 
 // const STEP_PERCENT = [25, 50, 75, 100]; 
-const STEP_LABELS = ["Personal Info", "Phone", "Set Password"];
-const STEP_PERCENT = [0, 33, 66];
-  // const widthClass = {
-  //   25: "w-1/4",
-  //   50: "w-1/2",
-  //   75: "w-3/4",
-  //   100: "w-full",
-  // };
+const STEP_LABELS = [
+  "Personal Info",
+  "Email or Mobile",
+  "OTP Verification",
+  "Set Password"
+];
 
-  const widthClass = {
+const STEP_PERCENT = [0, 33, 66, 100];
+
+const widthClass = {
   0: "w-0",
   33: "w-1/3",
   66: "w-2/3",
-  100:"full"
-
+  100: "w-full"
 };
+
+
 
  
 function ProgressBar({ step }) { 
@@ -66,117 +68,175 @@ function ProgressBar({ step }) {
 function Signup() { 
   const navigate = useNavigate(); 
  
-  const [form, setForm] = useState({ 
-    name: "", 
-    lastName:"",
-    email: "", 
-    phone: "", 
-    password: "", 
-    confirmPassword: "", 
-  }); 
+
+const [form, setForm] = useState({
+  name: "",
+  lastName: "",
+  contact: "",
+  otp: "",
+  password: "",
+  confirmPassword: ""
+});
+
+
+
   const [step, setStep] = useState(0); 
   const [errors, setErrors] = useState({}); 
   const [loading, setLoading] = useState(false); 
   const [phoneOtp, setPhoneOtp] = useState(""); 
+  const [otpError, setOtpError] = useState("");
   // const [otpError, setOtpError] = useState(""); 
   const [globalMessage, setGlobalMessage] = useState(""); 
- 
-  const handleChange = (e) => { 
-    const { name, value } = e.target; 
-    setForm((prev) => ({ ...prev, [name]: value })); 
-    setErrors((prev) => ({ ...prev, [name]: "" })); 
-    setOtpError(""); 
-    setGlobalMessage(""); 
-  }; 
- const handleBack=()=>{
-  if(step>1)(setStep(step-1))
- };
+ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^[6-9]\d{9}$/;
 
-  const validateStep0 = () => { 
-    let e = {}; 
-    if (!form.name.trim()) e.name = "Name is required"; 
-    else if (!/^[A-Za-z\s'-]+$/.test(form.name)) 
-      e.name = "Name can only contain letters, spaces, hyphens or apostrophes"; 
-    if (!form.email.trim()) e.email = "Email is required"; 
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) 
-      e.email = "Invalid email format"; 
-    setErrors(e); 
-    return Object.keys(e).length === 0; 
-  }; 
- 
-  const validateStep1 = () => { 
-    let e = {}; 
-    if (!form.phone.trim()) e.phone = "Phone number is required"; 
-    else if (!/^[0-9]\d{9}$/.test(form.phone)) 
-      e.phone = "Enter valid 10-digit Indian mobile number"; 
-    setErrors(e); 
-    return Object.keys(e).length === 0; 
-  }; 
- 
-  const validateStep3 = () => { 
-    let e = {}; 
-    if (!form.password) e.password = "Password is required"; 
-    else if (form.password.length < 6) 
-      e.password = "Password must be at least 6 characters"; 
-    if (!form.confirmPassword) e.confirmPassword = "Please confirm password"; 
-    else if (form.password !== form.confirmPassword) 
-      e.confirmPassword = "Passwords do not match"; 
-    setErrors(e); 
-    return Object.keys(e).length === 0; 
-  }; 
 
-  
- const handleNext = () => {
-  setErrors({});
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setForm((prev) => ({
+    ...prev,
+    [name]: value
+  }));
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: ""
+  }));
+
   setGlobalMessage("");
+};
 
-  // Step 0 → Name + Email
+
+const validateStep0 = () => {
+  let e = {};
+
+  if (!form.name.trim())
+    e.name = "First name required";
+
+  if (!form.lastName.trim())
+    e.lastName = "Last name required";
+
+  setErrors(e);
+  return Object.keys(e).length === 0;
+};
+
+
+ 
+const validateStep1 = () => {
+  let e = {};
+
+  if (!form.contact.trim()) {
+    e.contact = "Enter email or mobile";
+  } 
+  else if (
+    !emailRegex.test(form.contact) &&
+    !phoneRegex.test(form.contact)
+  ) {
+    e.contact = "Enter valid email or 10 digit Indian mobile";
+  }
+
+  setErrors(e);
+  return Object.keys(e).length === 0;
+};
+
+
+const validateStep2 = () => {
+  let e = {};
+
+  if (!form.otp || form.otp.length !== 6)
+    e.otp = "Enter valid 6 digit OTP";
+
+  setErrors(e);
+  return Object.keys(e).length === 0;
+};
+
+
+
+ 
+const validateStep3 = () => {
+  let e = {};
+
+  if (!form.password)
+    e.password = "Password required";
+
+  else if (form.password.length < 6)
+    e.password = "Minimum 6 characters";
+
+  if (!form.confirmPassword)
+    e.confirmPassword = "Confirm password";
+
+  else if (form.password !== form.confirmPassword)
+    e.confirmPassword = "Passwords do not match";
+
+  setErrors(e);
+  return Object.keys(e).length === 0;
+};
+
+
+
+const handleNext = () => {
+
+  // Step 0 → Name
   if (step === 0) {
     if (!validateStep0()) return;
     setStep(1);
   }
 
-  // Step 1 → Phone
+  // Step 1 → Email or Mobile
   else if (step === 1) {
     if (!validateStep1()) return;
+
+    // no backend call
     setStep(2);
   }
 
-  // Step 2 → Password & Save
+  // Step 2 → OTP
   else if (step === 2) {
+    if (!validateStep2()) return;
+
+    setStep(3);
+  }
+
+  // Step 3 → Password
+  else if (step === 3) {
     if (!validateStep3()) return;
 
+    // store locally for now
     const newUser = {
       name: form.name,
-      email: form.email,
-      phone: form.phone,
-      password: form.password,
+      lastName: form.lastName,
+      contact: form.contact,
+      password: form.password
     };
 
     localStorage.setItem("user", JSON.stringify(newUser));
 
     navigate("/");
+    toast.success("Account Created Successfully")
   }
 };
 
 
-  // const isDisabled = () => { 
-  //   if (loading) return true; 
-  //   if (step === 0) return !form.name.trim() || !form.email.trim(); 
-  //   if (step === 1) return !form.phone.trim(); 
-  //   if (step === 2) return phoneOtp.length !== 6; 
-  //   if (step === 3) return !form.password || !form.confirmPassword; 
-  //   return false; 
-  // }; 
+ const isDisabled = () => {
 
-  const isDisabled = () => {
   if (loading) return true;
-  if (step === 0) return !form.name.trim() || !form.email.trim();
-  if (step === 1) return !form.phone.trim();
-  if (step === 2) return !form.password || !form.confirmPassword;
+
+  if (step === 0)
+    return !form.name?.trim() || !form.lastName?.trim();
+
+  if (step === 1)
+    return !form.contact?.trim();
+
+  if (step === 2)
+    return !form.otp?.trim();
+
+  if (step === 3)
+    return !form.password?.trim() || !form.confirmPassword?.trim();
+
   return false;
 };
- 
+
   const inputClass = (field) => 
     `w-full px-4 py-3 rounded-xl text-sm bg-white border focus:ring-2 outline-none mt-4 mb-1 
 transition-all ${ 
@@ -184,17 +244,16 @@ transition-all ${
         ? "border-red-500 focus:border-red-500 ring-red-200" 
         : "border-amber-200 focus:border-amber-500 focus:ring-amber-300/40 bg-[#fafaf8] text[#1a1000]" 
     }`; 
- 
-  const btnLabel = () => { 
-    if (loading) return "Please wait…"; 
-    // if (step === 1) return "Send OTP"; 
-    // if (step === 2) return "Verify & Continue"; 
-    // if (step === 3) return "Create Account"; 
-     if (step === 1) return "Continue";
-if (step === 2) return "Create Account";
-    return "Continue"; 
-  }; 
- 
+const btnLabel = () => {
+
+  if (step === 1) return "Send OTP";
+  if (step === 2) return "Verify OTP";
+  if (step === 3) return "Create Account";
+
+  return "Continue";
+};
+
+
 
  
   return ( 
@@ -276,118 +335,79 @@ black">
             )} 
  
             {/* Step 0: Name + Email */} 
-            {step === 0 && ( 
-              <div className="space-y-1"> 
-                <div> 
-                  <label className="block text-xs uppercase tracking-widest  
-                  mb-1.5 font-medium text-amber-950 opacity-65"> 
-                    First Name 
-                  </label> 
-                  <input 
-                    type="text" 
-                    name="name" 
-                    value={form.name} 
-                    onChange={handleChange} 
-                    placeholder="First name" 
-                    className={inputClass("name")} 
-                  /> 
-                  {errors.name && <p className="text-red-600 text-[0.72rem] mt-1">{errors.name}</p>} 
-                </div> 
+           {step === 0 && (
+  <>
+    <input
+      name="name"
+      placeholder="First Name"
+      value={form.name}
+      onChange={handleChange}
+      className={inputClass("name")}
+    />
 
-                <div> 
-                  <label className="block text-xs uppercase tracking-widest  
-                  mb-1.5 font-medium text-amber-950 opacity-65"> 
-                    Last Name 
-                  </label> 
-                  <input 
-                    type="text" 
-                    name="lastName" 
-                    value={form.lastName} 
-                    onChange={handleChange} 
-                    placeholder="Last name" 
-                    className={inputClass("name")} 
-                  /> 
-                  {errors.name && <p className="text-red-600 text-[0.72rem] mt-1">{errors.name}</p>} 
-                </div> 
-
-                <div className="pt-3"> 
-                  <label className="block text-xs uppercase tracking-widest mb-1  
-                  font-medium text-amber-950 opacity-65"> 
-                    Email Address 
-                  </label> 
-                  <input 
-                    type="email" 
-                    name="email" 
-                    value={form.email} 
-                    onChange={handleChange} 
-                    placeholder="you@example.com" 
-                    className={inputClass("email")} 
-                  /> 
-                  {errors.email && <p className="text-red-600 text-[0.72rem] mt
-1">{errors.email}</p>} 
-                </div> 
-              </div> 
-            )} 
+    <input
+      name="lastName"
+      placeholder="Last Name"
+      value={form.lastName}
+      onChange={handleChange}
+      className={inputClass("lastName")}
+    />
+  </>
+)}
 
             {/* Step 1: Phone */} 
-            {step === 1 && ( 
-              <div className="space-y-1"> 
-                <div> 
-                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium 
-text-amber-950 opacity-65"> 
-                    Phone Number 
-                  </label> 
-                  <input 
-                    type="tel" 
-                    name="phone" 
-                    value={form.phone} 
-                    onChange={handleChange} 
-                    placeholder="10-digit mobile number" 
-                    className={inputClass("phone")} 
-                  /> 
-                  {errors.phone && <p className="text-red-600 text-[0.72rem] mt-1">{errors.phone}</p>} 
-                </div> 
-                 <div className="flex justify-between mt-4">
-      {/* Back button disabled for step 1 */}
-     
-    </div>
-              </div> 
-            )} 
- 
+      {step === 1 && (
+  <>
+    <input
+      name="contact"
+      placeholder="Email or Mobile"
+      value={form.contact}
+      onChange={handleChange}
+      className={inputClass("contact")}
+    />
 
-            {/* Step 3: Password */} 
-            {step === 2 && ( 
-              <div className="space-y-1"> 
-                <div> 
-                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium text-amber-950 opacity-65"> 
-                    Password 
-                  </label> 
-                  <input 
-                    type="password" 
-                    name="password" 
-                    value={form.password} 
-                    onChange={handleChange} 
-                    placeholder="Min. 6 characters" 
-                    className={inputClass("password")} 
-                  /> 
-                  {errors.password && <p className="text-red-600 text-[0.72rem] mt-1">{errors.password}</p>} 
-                </div> 
-                <div className="pt-3"> 
-                  <label className="block text-xs uppercase tracking-widest mb-1.5 font-medium text-amber-950 opacity-65"> 
-                    Confirm Password 
-                  </label> 
-                  <input 
-                    type="password" 
-                    name="confirmPassword" 
-                    value={form.confirmPassword} 
-                    onChange={handleChange} 
-                    placeholder="Re-enter your password" 
-                    className={inputClass("confirmPassword")} 
-                  /> 
-                  {errors.confirmPassword && <p className="text-red-600 text-[0.72rem] mt-1">{errors.confirmPassword}</p>} 
-                </div> 
-              </div> 
-            )} 
+    {errors.contact && (
+      <p className="text-red-600 text-xs">
+        {errors.contact}
+      </p>
+    )}
+  </>
+)}
+
+ 
+{step === 2 && (
+  <>
+    <input
+      name="otp"
+      placeholder="Enter OTP"
+      value={form.otp}
+      onChange={handleChange}
+      className={inputClass("otp")}
+    />
+  </>
+)}
+{step === 3 && (
+  <>
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      value={form.password}
+      onChange={handleChange}
+      className={inputClass("password")}
+    />
+
+    <input
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      value={form.confirmPassword}
+      onChange={handleChange}
+      className={inputClass("confirmPassword")}
+    />
+  </>
+)}
+
             {step>0 &&(<div className="flex text-sm text-amber-900/70 gap-2">
      <ArrowLeft size={20} />
       <button
