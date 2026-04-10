@@ -272,8 +272,7 @@ function EditProfile() {
 {/* input div */}
     </div>
     
-    
-    
+  
 {/* form div */}
 </div>
 <div className="flex justify-center gap-4 mt-4 mb-5  text-center">
