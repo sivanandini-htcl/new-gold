@@ -8,12 +8,9 @@ const PriceProvider = ({ children }) => {
   const setStatus = usePriceStore((state) => state.setStatus);
 
   useEffect(() => {
-
     const eventSource = subscribeMetalPrices(
-
       (data) => {
         setStatus("Live Connected");
-
         if (data.prices) {
           setPrices(data.prices);
         }
@@ -22,11 +19,8 @@ const PriceProvider = ({ children }) => {
       () => {
         setStatus("Disconnected");
       }
-
     );
-
     return () => eventSource.close();
-
   }, []);
 
   return children;

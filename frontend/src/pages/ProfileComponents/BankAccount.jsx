@@ -35,9 +35,6 @@ function BankAccount() {
     if (!num) return "Not provided";
     return "•".repeat(num.length - 4) + num.slice(-4);
   };
-
- 
-  
   const displayValue = (val, fallback = "Not provided") => val || fallback;
 
   return (
@@ -79,21 +76,18 @@ function BankAccount() {
                 <CreditCard className="w-4 h-4"/>
               </div>
               
-              <div>
-                
+              <div>            
                 <p className="text-xs uppercase tracking-widest font-medium"style={{ color: "#7a6a50" }} >
                   Bank Account Information
                 </p>
                 <p className="text-xs " style={{ color: "#7a6a50" }}>
                   Used for receiving sell proceeds
-                </p>
-                
+                </p>                
               </div>
               
             </div>
-<div className="bg-yellow-700 h-px md:w-150 ml-4 opacity-40 mb-6 flex  md:ml-2 " />   
+            <div className="bg-yellow-700 h-px md:w-150 ml-4 opacity-40 mb-6 flex  md:ml-2 " />   
             <div className="divider-gold h-px w-full opacity-30 mb-6" />
-
             <div className="space-y-5 bg-white">
 
               {/* Account Holder */}
@@ -127,8 +121,7 @@ function BankAccount() {
                     value={formData.accountNumber}
                     onChange={handleChange}
                     placeholder="Enter account number"
-                    className="field-focus  border border-amber-500/30 "
-                    
+                    className="field-focus  border border-amber-500/30 "                   
                   />
                 ) : (
                   <div className="relative flex items-center  border border-amber-500/30 rounded-xl p-2 text-amber-800" >
@@ -142,8 +135,7 @@ function BankAccount() {
                     {formData.accountNumber && ( 
                       <button
                         onClick={() => setShowAccount(!showAccount)}
-                        className="ml-2 shrink-0"
-                        
+                        className="ml-2 shrink-0"                       
                       >
                         {showAccount
                           ? <EyeOff className="w-4 h-4" />
@@ -195,8 +187,7 @@ function BankAccount() {
                       value={formData.IFSC_Code}
                       onChange={handleChange}
                       placeholder="e.g. SBIN0001234"
-                      className=" border border-amber-500/30 "
-                      
+                      className=" border border-amber-500/30 "                      
                     />
                   ) : (
                     <div className=" border border-amber-500/30 rounded-xl p-2 text-amber-800">{displayValue(formData.IFSC_Code)}</div>
@@ -214,15 +205,13 @@ function BankAccount() {
                       value={formData.branchName}
                       onChange={handleChange}
                       placeholder="Branch name"
-                      className="field-focus  border border-amber-500/30 "
-                     
+                      className="field-focus  border border-amber-500/30 "                    
                     />
                   ) : (
                     <div className=" border border-amber-500/30 rounded-xl p-2 text-amber-800 " >{displayValue(formData.branchName)}</div>
                   )}
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -243,9 +232,7 @@ function BankAccount() {
               <>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700 text-sm uppercase tracking-widest font-semibold transition hover:opacity-90 "
-                  
-                >
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-yellow-800 via-yellow-300 to-yellow-700 text-sm uppercase tracking-widest font-semibold transition hover:opacity-90 ">
                   <Edit3 className="w-4 h-4  " />
                   Edit Details
                 </button>
@@ -253,8 +240,7 @@ function BankAccount() {
                 <button
                   onClick={() => navigate("/profile")}
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold transition hover:opacity-80 bg-white border border-gray-200"
-                 
-                >
+                  >
                   <ArrowLeft className="w-4 h-4" />
                   Back
                 </button>

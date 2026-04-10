@@ -3,15 +3,12 @@ import useAuthStore from "../store/authStore";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuthStore();
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
-
   return children;
 }
 

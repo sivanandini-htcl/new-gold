@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
@@ -41,8 +38,7 @@ function Header() {
 
   return (
     <header className="w-full sticky top-0 z-50 backdrop-blur-md
-    bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b
-     border-yellow-300/40 shadow-md">
+    bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b border-yellow-300/40 shadow-md">
 
       <div className="max-w-7xl mx-auto px-4 py-3 gap-3 flex items-center justify-between sm:px-6 md:mr-2 2xl:min-w-screen">
         {/* <Link to="/dashboard" className="flex items-center gap-2 no-underline"> */}

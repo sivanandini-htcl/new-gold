@@ -34,8 +34,7 @@ function ProgressBar({ step }) {
       </div> 
       <div className="w-full h-1.5 bg-amber-100 rounded-full overflow-hidden"> 
         <div 
-          className={`h-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-full transition-all duration-700 ease-in-out ${widthClass[percent]}`}
-      
+          className={`h-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-full transition-all duration-700 ease-in-out ${widthClass[percent]}`}     
         /> 
       </div> 
       
@@ -80,9 +79,7 @@ function Signup() {
  const phoneRegex = /^\+91[6-9]\d{9}$/;
  const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
- 
-
-const handleChange = (e) => {
+  const handleChange = (e) => {
   const { name, value } = e.target;
   setForm((prev) => ({
     ...prev,
@@ -97,7 +94,6 @@ const handleChange = (e) => {
   setGlobalMessage("");
 };
 
-
 const validateStep0 = () => {
   let e = {};
   if (!form.name.trim())
@@ -109,8 +105,6 @@ const validateStep0 = () => {
   setErrors(e);
   return Object.keys(e).length === 0;
 };
-
-
  
 const validateStep1 = () => {
   let e = {};
@@ -129,7 +123,6 @@ const validateStep1 = () => {
   return Object.keys(e).length === 0;
 };
 
-
 const validateStep2 = () => {
   let e = {};
 
@@ -139,8 +132,6 @@ const validateStep2 = () => {
   setErrors(e);
   return Object.keys(e).length === 0;
 };
-
-
 
 const validateStep3 = () => {
 
@@ -174,7 +165,6 @@ const validateStep3 = () => {
 };
 
 const handleNext=async()=>{
-
 if(step===0){
   console.log("step0 is running");
   if(!validateStep0())return;
@@ -211,6 +201,7 @@ else if(step===1){
     const isEmail=emailRegex.test(form.contact);
     const contactType=isEmail? "email":"phone";
     console.log("calling api")
+    
     try{
       setLoading(true)
       const res=await api.post("/auth/register/step2",{
@@ -219,6 +210,7 @@ else if(step===1){
         contactValue:form.contact,
         tenantId
       });
+      console.log("response:", res.data)
       console.log("api called")
       toast.success("OTP Sent ")
       setStep(2);
@@ -228,7 +220,7 @@ else if(step===1){
     console.log("RESPONSE:", error.response);
     console.log("DATA:", error.response?.data);
     console.log("MESSAGE:", error.response?.data?.message);
-    toast.error(error.res?.data?.message||"failed to sent otp")
+    toast.error(error.response?.data?.message||"failed to sent otp")
   }finally{
     setLoading(false)
   }
@@ -253,7 +245,7 @@ try  {
   console.log("RESPONSE:", error.response);
   console.log("DATA:", error.response?.data);
   console.log("MESSAGE:", error.response?.data?.message);
-  toast.error(error.otpRes?.data?.message||"otp failed");
+  toast.error(error.response?.data?.message||"otp failed");
 }
 finally{
   setLoading(false);
@@ -288,7 +280,6 @@ finally{
  }
 };
  const isDisabled = () => {
-
   if (loading) return true;
 
   if (step === 0)
@@ -299,7 +290,6 @@ finally{
 
   if (step === 2)
     return !form.otp?.trim();
-
   if (step === 3)
     return !form.password?.trim() || !form.confirmPassword?.trim();
 
@@ -307,8 +297,7 @@ finally{
 };
 
   const inputClass = (field) => 
-    `w-full px-4 py-3 rounded-xl text-sm bg-white border focus:ring-2 outline-none mt-4 mb-1 
-transition-all ${ 
+    `w-full px-4 py-3 rounded-xl text-sm bg-white border focus:ring-2 outline-none mt-4 mb-1 transition-all ${ 
       errors[field] 
         ? "border-red-500 focus:border-red-500 ring-red-200" 
         : "border-amber-200 focus:border-amber-500 focus:ring-amber-300/40 bg-[#fafaf8] text[#1a1000]" 
@@ -318,7 +307,6 @@ const btnLabel = () => {
   if (step === 1) return "Send OTP";
   if (step === 2) return "Verify OTP";
   if (step === 3) return "Create Account";
-
   return "Continue";
 };
 
@@ -399,14 +387,14 @@ const btnLabel = () => {
  
             {/* Step 0: Name + Email */} 
            {step === 0 && (
-  <>
-    <input
-      name="name"
-      placeholder="First Name"
-      value={form.name}
-      onChange={handleChange}
-      className={inputClass("name")}
-    />
+          <>
+             <input
+              name="name"
+              placeholder="First Name"
+              value={form.name}
+              onChange={handleChange}
+              className={inputClass("name")}
+              />
 
     <input
       name="lastName"
@@ -476,25 +464,24 @@ const btnLabel = () => {
         className="" >
         Back
       </button>
-            </div>)
-}
-            <button type="button"
-              onClick={handleNext} 
-              disabled={isDisabled()} 
-              className={`w-full mt-6 py-3.5 rounded-xl text-sm uppercase tracking-widest font semibold transition-all flex items-center justify-center gap-2 ${ 
-                isDisabled() 
-                  ? "bg-gray-300 text-gray-400 cursor-not-allowed" 
-                  : "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black" 
-              }`} 
-            > 
-              {loading && ( 
-                <svg className="animate-spin h-4 w-4 text-yellow-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> 
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/> 
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /> 
-                </svg> 
-              )} 
-              {btnLabel()} 
-            </button> 
+        </div>
+      )}
+      <button type="button"
+       onClick={handleNext} 
+       disabled={isDisabled()} 
+       className={`w-full mt-6 py-3.5 rounded-xl text-sm uppercase tracking-widest font semibold transition-all flex items-center justify-center gap-2 ${ 
+       isDisabled() 
+       ? "bg-gray-300 text-gray-400 cursor-not-allowed" 
+       : "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black" 
+       }`}  > 
+        {loading && ( 
+        <svg className="animate-spin h-4 w-4 text-yellow-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> 
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/> 
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /> 
+        </svg> 
+         )} 
+        {btnLabel()} 
+        </button> 
              
 <p className="text-center mt-5 text-xs text-gray-600"> 
 Already have an account?{" "} 

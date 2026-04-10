@@ -1,17 +1,9 @@
 // src/firebase/firebaseClient.js
 
-import api from "../api/axiosInstance";
-import { initializeApp, getApps, getApp } from "firebase/app";
-import {
-  getAuth,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithEmailLink,GoogleAuthProvider, signInWithPopup,
-} from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import toast from "react-hot-toast";
-import useAuthStore from "../store/authStore";
 
+import { initializeApp, getApps, getApp } from "firebase/app";
+import {getAuth,GoogleAuthProvider, signInWithPopup,} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 //  Initialize Firebase only in browser
 let app;
@@ -25,7 +17,6 @@ if (typeof window !== "undefined") {
     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
-
   };
 
   app = getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -36,7 +27,6 @@ export const db = getFirestore(app);
 export { auth };
 export const googleprovider= new GoogleAuthProvider();
 export const signInwithgoogle = () => signInWithPopup(auth, googleprovider);
-
 export const getIdToken = async () => {
   if (!auth?.currentUser) throw new Error("No user logged in");
   return await auth.currentUser.getIdToken();

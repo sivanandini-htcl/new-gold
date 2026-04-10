@@ -10,11 +10,9 @@ function SilverPrice() {
   return (
     <div className="bg-gray-900/80 border rounded-2xl p-4">
       <div className="text-sm mb-1">Current Silver</div>
-
       <div className="text-2xl font-bold">
         {silverPrice ? `₹ ${silverPrice}` : "Loading..."}
       </div>
-
       {silverPercentage && (
         <p
           className={`text-sm font-semibold mt-1 ${

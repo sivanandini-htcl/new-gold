@@ -17,9 +17,8 @@ function KycPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
-
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -67,7 +66,6 @@ function KycPage() {
         <div className="bg-accent text-white p-6 text-center">
           <h1 className="text-2xl font-bold">Complete Your KYC</h1>
           {/* <p className="text-sm mt-1 opacity-90">RBI compliant • Secure process</p> */}
-
           <div className="flex justify-center gap-3 mt-5">
             {[1, 2, 3, 4].map((s) => (
               <div
@@ -89,7 +87,6 @@ function KycPage() {
           {step === 1 && (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-center">Step 1: PAN Verification</h2>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                  Name as in PAN
@@ -164,7 +161,6 @@ function KycPage() {
           {step === 2 && (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-center">Step 2: Aadhaar Verification</h2>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Aadhaar Number
@@ -222,8 +218,7 @@ function KycPage() {
               <div className="flex gap-4 mt-8">
                 <button
                   onClick={handleBack}
-                  className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-medium"
-                >
+                  className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-medium">
                   Back
                 </button>
                 <button
@@ -238,7 +233,6 @@ function KycPage() {
           {step === 3 && (
             <div className="space-y-6 text-center">
               <h2 className="text-xl font-semibold">Step 3: Video / Selfie Verification</h2>
-
               <p className="text-gray-600">
                 In real flow this would open camera for liveness check or video KYC.
               </p>
@@ -283,8 +277,7 @@ function KycPage() {
           )}
 
           {step === 4 && (
-            <div className="text-center py-12">
-           
+            <div className="text-center py-12">          
               <h2 className="text-3xl font-bold text-green-600 mb-4">KYC Submitted!</h2>
               <p className="text-gray-700 mb-8">
                 {message || "Your documents are under review. You will be notified soon."}

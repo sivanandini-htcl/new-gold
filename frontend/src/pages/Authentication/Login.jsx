@@ -1,159 +1,334 @@
 
 import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {Smartphone,ArrowLeft} from 'lucide-react'
-
+import { Smartphone, ArrowLeft } from 'lucide-react'
 
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
-import { auth,signInwithgoogle,getIdToken} from "../../firebaseconfigurations/firebaseClient";
+import { auth, signInwithgoogle, getIdToken } from "../../firebaseconfigurations/firebaseClient";
 
 import useAuthStore from "../../store/authStore";
 import api from "../../api/axiosInstance";
 
-
-
 function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  // Form state
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [errors, setError] = useState({});
 
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
-
-
+  // Login flow state
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
-  const setAuth = useAuthStore((state) => state.setAuth);
-  const [identifier, setIdentifier] = useState(""); // email or mobile
-  const [step, setStep] = useState(1);
-
-
- const handleNext = () => {
-    if (!identifier) return alert("Enter email or mobile");
-    setStep(2);
-  };
-
-  // STEP 2 → Verify password
-  const handlePasswordSubmit = async () => {
-    // try {
-    //   await axios.post("/api/", { identifier, password });
-
   
-      // await axios.post("/api/", { identifier });
+  // Multi-device login state
+  const [sessionId, setSessionId] = useState(null);
+  const [otpRequired, setOtpRequired] = useState(false);
+  const [deviceInfo, setDeviceInfo] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
 
-      setStep(3);
-    // } catch {
-    //   alert("Invalid credentials");
-    // }
+  // Auth store
+  const setAuth = useAuthStore((state) => state.setAuth);
+    useEffect(() => {
+  if (step === 2 && otpRequired && sessionId) {
+    console.log("Auto-sending OTP...");
+    handleSendOtp();
+  }
+}, [step, otpRequired, sessionId]);
+
+  // Get device fingerprint info
+  const getDeviceFingerprint = async () => {
+    const screenResolution = `${window.screen.width}x${window.screen.height}`;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const userAgent = navigator.userAgent;
+    const language = navigator.language;
+  
+
+    return {
+      screenResolution,
+      timezone,
+      userAgent,
+      language,
+      deviceType: /mobile|android|iphone|ipad/i.test(userAgent) ? "mobile" : "web",
+      deviceName: `${getBrowserName()} on ${getOSName()}`,
+    };
   };
 
-  // STEP 3 → Verify OTP
-  const handleOtpSubmit = async () => {
-    try {
-      // await axios.post("/api/verify-otp", { identifier, otp });
-      navigate("/"); 
-      alert("Invalid OTP")
-    } catch {
-      alert("Invalid OTP");
+  const getBrowserName = () => {
+    const ua = navigator.userAgent;
+    if (ua.indexOf("Chrome") > -1) return "Chrome";
+    if (ua.indexOf("Safari") > -1) return "Safari";
+    if (ua.indexOf("Firefox") > -1) return "Firefox";
+    if (ua.indexOf("Edge") > -1) return "Edge";
+    return "Browser";
+  };
+
+  const getOSName = () => {
+    const ua = navigator.userAgent;
+    if (ua.indexOf("Windows") > -1) return "Windows";
+    if (ua.indexOf("Mac") > -1) return "MacBook";
+    if (ua.indexOf("Android") > -1) return "Android";
+    if (ua.indexOf("iPhone") > -1) return "iPhone";
+    return "Device";
+  };
+  // STEP 1: Verify Email/Mobile
+  const handleStep1Next = async () => {
+    if (!identifier) {
+      toast.error("Enter email or mobile number");
+      return;
     }
-  };
 
-// for phone number
-  const sendOtp = async () => {
+    setLoading(true);
     try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          { size: "invisible" }
-        );
+      const device = await getDeviceFingerprint();
+      setDeviceInfo(device);
+
+      const response = await api.post("/auth/login/step1", {
+        email: identifier,
+        tenantId: import.meta.env.VITE_TENANT_ID,
+        screenResolution: device.screenResolution,
+        timezone: device.timezone,
+      });
+      console.log("Step 1 response:", response.data);
+      // Strict success check
+      if (response.data && response.data.success === true && response.data.data) {
+        const { sessionId: newSessionId, otpRequired: isOtpRequired } = response.data.data;
+        
+        setSessionId(newSessionId);
+        setOtpRequired(isOtpRequired);
+
+        if (isOtpRequired) {
+          toast.info("OTP required for this device");
+          setStep(2); // Go to OTP step
+        } else {
+          toast.success("Proceeding to password verification");
+          setStep(2.5); // Go directly to password (skip OTP visual)
+        }
+      } else {
+        // Failed verification - stay on Step 1
+        console.error("Step 1 verification failed:", response.data);
+        toast.error(response.data?.message || "Failed to verify email/mobile");
+        setLoading(false);
+        return;
       }
-
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        phone,
-        window.recaptchaVerifier
-      );
-
-      setConfirmationResult(confirmation);
-      toast.success("OTP Sent!");
     } catch (error) {
-      toast.error(error.message);
+      console.error("Step 1 error:", error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Verification failed. Please try again.");
+      }
+      setLoading(false);
+      return;
     }
+    setLoading(false);
   };
 
-  const verifyOtp = async () => {
+  // STEP 2a: Send OTP
+  const handleSendOtp = async () => {
+    if (!sessionId) {
+      toast.error("Session not found. Please start over.");
+      return;
+    }
+
+    setLoading(true);
+    
     try {
-      await confirmationResult.confirm(otp);
-      localStorage.setItem("token", "userLoggedIn");
-      toast.success("Login Successful!");
-      navigate("/dashboard");
+      console.log("Sending OTP with sessionId:", sessionId);
+      const response = await api.post("/auth/login/step2/send-otp", {
+        sessionId,
+      });
+      console.log("Send OTP response:", response.data);
+
+      // Check for success
+      if (response.data && response.data.success === true) {
+        toast.success("OTP sent to your email/phone");
+      } else {
+        console.error("Send OTP failed:", response.data);
+        toast.error(response.data?.message || "Failed to send OTP");
+        setLoading(false);
+        return;
+      }
     } catch (error) {
-      toast.error("Invalid OTP");
+      console.error("Send OTP error:", error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to send OTP. Please try again.");
+      }
+      setLoading(false);
+      return;
     }
+    setLoading(false);
   };
 
+  // STEP 2b: Verify OTP
+  const handleVerifyOtp = async () => {
+    if (!sessionId || !otp) {
+      toast.error("Please enter OTP");
+      return;
+    }
 
+    setLoading(true);
+    try {
+      const response = await api.post("/auth/login/step2/verify-otp", {
+        sessionId,
+        otp,
+      });
 
-const handleGoogleLogin = async (provider, fn) => {
+      // Only proceed if response is successful
+      if (response.data && response.data.success === true) {
+        setSessionId(response.data.data.sessionId);
+        toast.success("OTP verified successfully");
+        setStep(2.5); // Move to password step
+        setOtp("");
+      } else {
+        // If verification failed, show error and STAY on Step 2
+        console.error("OTP verification failed:", response.data);
+        toast.error(response.data?.message || "Invalid OTP");
+        setLoading(false);
+        return; // Explicitly return so we don't proceed
+      }
+    } catch (error) {
+      console.error("Verify OTP error:", error);
+      // Handle different error types
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.response?.status) {
+        toast.error(`Error: ${error.response.status} - Invalid OTP`);
+      } else {
+        toast.error("Invalid OTP or request failed");
+      }
+      setLoading(false);
+      return; // Stay on Step 2 on error
+    }
+    // Only reach here on success
+    setLoading(false);
+  };
+
+  // STEP 3: Verify Password & Create Device Session
+  const handlePasswordSubmit = async () => {
+    if (!password || !sessionId) {
+      toast.error("Password and session required");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const device = deviceInfo || await getDeviceFingerprint();
+
+      const response = await api.post("/auth/login/step3", {
+        sessionId,
+        password,
+        deviceName: device.deviceName,
+        deviceType: device.deviceType,
+        screenResolution: device.screenResolution,
+        timezone: device.timezone,
+      });
+
+      // Strict success check before proceeding
+      if (response.data && response.data.success === true && response.data.data) {
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken, user } = response.data.data;
+
+        setAccessToken(newAccessToken);
+        setRefreshToken(newRefreshToken);
+
+        // Store tokens
+        localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("refreshToken", newRefreshToken);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Update auth store
+        useAuthStore.getState().setAuth({
+          user,
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
+
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      } else {
+        // Login failed - stay on password form
+        console.error("Password verification failed:", response.data);
+        toast.error(response.data?.message || "Login failed");
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error("Password verification error:", error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.response?.status === 401) {
+        toast.error("Invalid password. Please try again.");
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
+      setLoading(false);
+      return;
+    }
+    setLoading(false);
+  };
+
+  // Google login
+  const handleGoogleLogin = async (provider, fn) => {
     setLoading(true);
     setError("");
-    try{
-        const result = await fn();
-       const backendData= await sendTokenToBackend(result.user, provider);
-     
-
-   
-    
-   
-      useAuthStore.getState().setAuth(backendData.data);
-        
-        
-    }catch(err){
-        console.error(err);
-        setError(`Failed with ${provider} login`);
+    try {
+      const result = await fn();
+      const backendData = await sendTokenToBackend(result.user, provider);
+    } catch (err) {
+      console.error(err);
+      setError(`Failed with ${provider} login`);
+      toast.error(`Failed with ${provider} login`);
+    } finally {
+      setLoading(false);
     }
-    finally {
-        setLoading(false);
-    }
-}
+  };
 
-const sendTokenToBackend = async (user, provider) => {
+  const sendTokenToBackend = async (user, provider) => {
     const idToken = await getIdToken();
     try {
-        const res = await api.post(
-            "/auth/firebase-login",
-             { provider, credential: idToken, tenantId : import.meta.env.VITE_TENANT_ID}
-       
-        );
-        
-        if (res.data.success) {
+      const res = await api.post(
+        "/auth/firebase-login",
+        { provider, credential: idToken, tenantId: import.meta.env.VITE_TENANT_ID }
+      );
+
+      if (res.data.success) {
         toast.success("Successfully logged in");
         setCurrentUser(res.data.user || user);
-        navigate("/dashboard")
-    }else{
+        useAuthStore.getState().setAuth(res.data.data);
+        navigate("/dashboard");
+      } else {
         toast.error("Login failed");
         console.error("Backend login failed:", res.data.message);
-    } 
-    
-  return res.data;
-  
-  }catch(err)
-{ console.error(err)}
-  }
+      }
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      toast.error("Backend error");
+    }
+  };
 
-  
+  const handleBack = () => {
+    if (step === 2 || step === 2.5) {
+      setStep(1);
+      setOtp("");
+      setPassword("");
+      setOtpRequired(false);
+      setSessionId(null);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
-
-      <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508]
-       via-[#2d2210] to-[#141414] text-center">
+      
+      <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] text-center">
        <img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
         <h1 className="text-6xl font-['Fraunces']">
           <span className=" bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
@@ -170,13 +345,12 @@ const sendTokenToBackend = async (user, provider) => {
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col md:flex-row">
-        
+      <div className="flex flex-1 flex-col md:flex-row">   
         {/* dt */}
         <div className="hidden md:flex md:w-1/2 flex-col  p-16
           bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] text-center">
-            
-      <img src={logo} alt="logo" className="w-25 mx-auto flex justify-self-auto  mb-0" />
+       
+      <img src={logo} alt="logo" className="w-25  mx-auto flex justify-self-auto  mb-0" />
           <h1 className="text-7xl mt-10 font-['Fraunces'] leading-none">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
                bg-clip-text text-transparent ">
@@ -195,7 +369,7 @@ const sendTokenToBackend = async (user, provider) => {
             India's Trusted Digital Metals Platform
           </p>
 
-                  <div className="space-y-6 mt-10 text-left  font font-serif text-yellow-100 opacity-99">
+              <div className="space-y-6 mt-10 text-left  font font-serif text-yellow-100 opacity-99">
               {[
                 { icon: "◈", label: "Buy 24K Gold from just ₹1", sub: "& .999 Fine Silver at Live Rates", gold: true },
                 { icon: "◈", label: "99.9% Pure Metals", sub: "Always priced at live market rates", gold: true },
@@ -216,162 +390,139 @@ const sendTokenToBackend = async (user, provider) => {
         <div>
         </div>
         
-
-       
-
        {/* right side */}
         <div className="flex-1 flex items-center justify-center px-6 py-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
-
           <div className="w-full max-w-md bg-white/95 backdrop-blur rounded-3xl shadow-2xl border border-amber-200 p-10">
- <div className="h-0.5 w-12 mx-auto mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 " />
+            <div className="h-0.5 w-12 mx-auto mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 " />
             <h2 className=" text-2xl md:text-3xl font-serif text-center text-black mb-2">
               Welcome Back
-            </h2>
-            
-          
+            </h2>   
             <p className="text-center text-xs  uppercase tracking-widest text-amber-950  opacity-65  mb-8">
               Sign in to your DgiGold account
-            </p>
-
-            
-             {step === 1 && (
-        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
-          <h2 className="text-lg  font-serif mb-4 text-center">
-            Enter Email or Mobile
-          </h2>
-
-          <input
-            type="text"
-            placeholder="Email or Mobile Number"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
-          />
-
-       
-          <button
-              onClick={handleNext}
-             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+            </p>     
+             {/* STEP 1: Email/Mobile */}
+            {step === 1 && (
+              <div className="w-full space-y-6">
+                <input
+                  type="text"
+                  placeholder="Email or Mobile Number"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none"
+                />
+                <button
+                  onClick={handleStep1Next}
+                  disabled={loading}
+                  className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
               bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
               shadow-lg shadow-amber-600/30
-              mb-5" >
-               NEXT
-            
-            </button>
-          
-             
-            
+              disabled:opacity-50 disabled:cursor-not-allowed">
+                  {loading ? "VERIFYING..." : "NEXT"}
+                </button>
 
-            {/* OR */}
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
-              <span className="text-xs uppercase tracking-widest text-amber-700">
-                or
-              </span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
-            </div>
+                {/* OR */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+                  <span className="text-xs uppercase tracking-widest text-amber-700">
+                    or
+                  </span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+                </div>
 
-           
-            <button
-              onClick={() => handleGoogleLogin("google",signInwithgoogle)}
-              className="w-full py-3 rounded-xl text-sm flex items-center justify-center gap-3
-              bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition">
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.1-4.47 3.1-7.8z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.34H.96C.35 8.85 0 10.39 0 12s.35 3.15.96 4.66l4.55-2.45z"/>
-                <path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z"/>
-              </svg>
-              Continue with Google
-            </button>
-        </div>
-      )}
+                <button
+                  onClick={() => handleGoogleLogin("google", signInwithgoogle)}
+                  disabled={loading}
+                  className="w-full py-3 rounded-xl text-xs md:text-sm flex items-center justify-center gap-1 md:gap-3 p-0
+              bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed">
+                  <svg className="w-3 h-3 md:w-5 md:h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.1-4.47 3.1-7.8z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.34H.96C.35 8.85 0 10.39 0 12s.35 3.15.96 4.66l4.55-2.45z" />
+                    <path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z" />
+                  </svg>
+                  Continue with Google
+                </button>
+              </div>
+            )}
 
-      {/* 2->password */}
-      {step === 2 && (
-        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold mb-2 text-center">
-            Enter Password
-          </h2>
+            {/* STEP 2: OTP (Only if required) */}
+        {step === 2 && otpRequired && (
+  <div className="w-full space-y-6">
+    <p className="text-sm text-gray-600 text-center mb-4">
+      New device detected. {loading ? "Sending OTP..." : "Enter OTP sent to " + identifier}
+    </p>
 
-          {/* Show entered email/phone */}
-          <p className="text-sm text-gray-500 text-center mb-4">
-            {identifier}
-          </p>
+                <input
+                  type="text"
+                  placeholder="Enter OTP (6 digits)"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.slice(0, 6))}
+                  maxLength="6"
+                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none text-center text-2xl tracking-widest"
+                />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
-          />
-
-        
-          <button
-          onClick={handlePasswordSubmit}
-             className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+                <button
+                  onClick={handleVerifyOtp}
+                  disabled={loading || otp.length < 6}
+                  className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
               bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
               shadow-lg shadow-amber-600/30
-              mb-5" >
-               NEXT
-            
-            </button>
-        </div>
-      )}
-       
-      {/* 3 → otp only */}
-      {step === 3 && (
-        <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold mb-2 text-center">
-            Enter OTP
-          </h2>
+              disabled:opacity-50 disabled:cursor-not-allowed">
+                  {loading ? "VERIFYING..." : "VERIFY OTP"}
+                </button>
+              </div>
+            )}
 
-          <p className="text-sm text-gray-500 text-center mb-4">
-            Sent to {identifier}
-          </p>
+            {/* STEP 2.5 & 3: Password */}
+            {(step === 2.5 || (step === 2 && !otpRequired)) && (
+              <div className="w-full space-y-6">
+                <div>
+                  <p className="text-sm text-gray-600 text-center mb-4">
+                    {identifier}
+                  </p>
+                  <input
+                    type="password"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none"
+                  />
+                </div>
 
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none mb-6"
-          />
+                <button
+                  onClick={handlePasswordSubmit}
+                  disabled={loading || !password}
+                  className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
+              shadow-lg shadow-amber-600/30
+              disabled:opacity-50 disabled:cursor-not-allowed">
+                  {loading ? "SIGNING IN..." : "SIGN IN"}
+                </button>
+              </div>
+            )}
 
-          <button
-            onClick={handleOtpSubmit}
-            className="w-full py-3 rounded-xl bg-green-500 text-white"
-          >
-            VERIFY OTP
-          </button>
-
-        </div>
-      )}
-            
-            {step>1 &&(<div className="flex text-sm text-amber-900/70 gap-2">
-     <ArrowLeft size={20} />
-      <button
-        disabled={step === 0}
-        onClick={() => setStep(step-1)}
-        className="" >
-        Back
-      </button>
-            </div>)}
+            {/* Back button */}
+            {step > 1 && (
+              <div className="flex text-sm text-amber-900/70 gap-2 mt-6">
+                <ArrowLeft size={20} />
+                <button
+                  onClick={handleBack}
+                  className="hover:text-amber-900 transition">
+                  Back
+                </button>
+              </div>
+            )}
 
 
             <p className="text-center mt-7 text-xs text-gray-600">
               New here?{" "}
               <button
                 onClick={() => navigate("/signup")}
-                className="text-yellow-500  font-medium underline underline-offset-2"
-              >
+                className="text-yellow-500  font-medium underline underline-offset-2">
                 Create an account
               </button>
             </p>
              <div className="h-0.5 w-12 mx-auto mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 " />
-
           </div>
         </div>
       </div>

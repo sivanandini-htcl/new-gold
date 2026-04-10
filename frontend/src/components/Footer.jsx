@@ -39,20 +39,12 @@ function Footer() {
     <>
      
 
-      <footer
-        className="footer-root w-full bg-gradient-to-br  from-[#1a1508] via-[#3f2e10] to-[#141414]">
-
-      
+      <footer className="footer-root w-full bg-gradient-to-br  from-[#1a1508] via-[#3f2e10] to-[#141414]">
         <div className=" h-px w-full" />
-
-       
         <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 2xl:ml-30 ">
-          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 ">
-
-            
+          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 ">  
             <div className="lg:col-span-1 col-span-2 md:col-span-3">
               {/* Logo */}
-
                <div className="mb-4 flex gap-2 justify-center items-center">
                <img className="w-13 object-contain 2xl:w-40 2xl:h-40  ml-4 md:ml-0" src={dgiLogo} alt="logo"   />    
                <h2 className="heading-font text-4xl 2xl:text-4xl font-bold tracking-wide leading-none mb-1">               
@@ -68,11 +60,9 @@ function Footer() {
               </div>
 
               <div className=" h-px w-12 rounded-full mb-4 flex justify-center items-center" />
-
               <p className="text-xs 2xl:text-3xl leading-relaxed mb-6 text-yellow-100 opacity-80" >
                 India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
               </p>
-
               {/* Socials */}
               <div className="flex gap-2 text-yellow-100 opacity-80  justify-center items-center">
                 {socials.map((s, i) => {
@@ -125,7 +115,6 @@ function Footer() {
               </ul>
             </div>
             
-
             {/* ── Contact ── */}
             <div>
               <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
@@ -175,8 +164,7 @@ function Footer() {
 
         
         <div className=" h-px w-full opacity-40 " />
-<div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-700 to-gray-400 to-transparent"/>
-
+        <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-700 to-gray-400 to-transparent"/>
         {/* ── Bottom Bar ── */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-5  text-yellow-100 opacity-80">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -192,9 +180,7 @@ function Footer() {
                 <span
                   key={i}
                   className="text-xs"
-                  onClick={() => navigate(link.path)}
-                  
-                >
+                  onClick={() => navigate(link.path)} >
                   {link.label}
                 </span>
               ))}
@@ -206,7 +192,6 @@ function Footer() {
             </p>
           </div>
         </div>
-
       </footer>
     </>
   );
