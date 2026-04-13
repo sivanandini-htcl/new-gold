@@ -17,31 +17,21 @@ function Silver() {
 //  const { silverPrice, silverPercentage } = useContext(PriceContext);
 
   // const silverisProfit = Number(silverPercentage) > 0;
-  const silver_Price_Per_Gram = Number(silverPrice ?.price) || 280;
-
-//  const calculateConversion = () => {
-//     const value = parseFloat(inputValue);
-//     if (isNaN(value) || value <= 0) return 0;
-
-//     if (conversionMode === "rupees-to-grams") {
-//       return (value / silver_Price_Per_Gram).toFixed(4);
-//     } else {
-//       return (value * silver_Price_Per_Gram).toFixed(2);
-//     }
-//   };
+  
+   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
   const calculateConversion = () => {
   const grams = parseFloat(inputValue);
 
   if (isNaN(grams) || grams <= 0) return 0;
 
-  return grams * silver_Price_Per_Gram;
+  return grams * gram24ksilverPrice;
 };
 
 const getFinalCalculation = () => {
 
   const grams = parseFloat(inputValue) || 0;
 
-  const baseAmount = grams * silver_Price_Per_Gram;
+  const baseAmount = grams * gram24ksilverPrice;
   const gstRate = 0.03;
   const gstAmount = baseAmount * gstRate;
   const totalWithGST = baseAmount + gstAmount;
@@ -51,7 +41,7 @@ const getFinalCalculation = () => {
     baseAmount,
     gstAmount,
     totalWithGST,
-    formattedBase: baseAmount.toLocaleString("en-IN"),
+    formattedBase: Math.round(baseAmount),
     formattedGST: gstAmount.toLocaleString("en-IN"),
     formattedTotal: totalWithGST.toLocaleString("en-IN"),
   };
@@ -119,7 +109,7 @@ const getFinalCalculation = () => {
               </h2>
 <div className="flex items-center justify-between p-4 rounded-xl mb-6 border">
                   <span className=" text-gray-900">
-                     ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."} </span>
+                     ₹ {Math.round(gram24ksilverPrice) || "Loading..."} </span>
                     <span>
  ₹ {silverPrice ? silverPrice.changePercent.toLocaleString() : "Loading..."}   
                     </span>

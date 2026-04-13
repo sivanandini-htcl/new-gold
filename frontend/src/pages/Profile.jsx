@@ -17,8 +17,10 @@ const prices = usePriceStore((state) => state.prices) || [];
 const goldPrice = prices.find((item) => item.metal === "GOLD");
 const silverPrice = prices.find((item) => item.metal === "SILVER");
 
-const GOLD_PRICE_PER_GRAM = Number(goldPrice?.price ?? 0);
-const SILVER_PRICE_PER_GRAM = Number(silverPrice?.price ?? 0);
+ const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
+
+   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
+
 
 const components=[{
   icons:Edit,
@@ -223,7 +225,7 @@ const components=[{
         <h3 className=" text-2xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
                 Gold 
               </h3>
-              <p className="text-xl text-yellow-900">  ₹{GOLD_PRICE_PER_GRAM}/g</p>
+              <p className="text-xl text-yellow-900"> ₹{Math.round(gram24kGoldPrice) || "Loading... "}/g</p>
               </div>
              
 
@@ -242,7 +244,7 @@ const components=[{
                 <div className="flex justify-between text-sm items-center">
                   <span className="text-gray-500"> Your Current value </span>
                   <div className="flex items-center gap-2">
-                     ₹ {user.gold*GOLD_PRICE_PER_GRAM}
+                     ₹ {user.gold*gram24kGoldPrice}
                     
                     {/* {goldPercentage && (
                       <span
@@ -279,7 +281,7 @@ const components=[{
                 Silver
               </h3>
               <p className="text-xl text-gray-700">
-                ₹{SILVER_PRICE_PER_GRAM}/g
+                ₹{Math.round(gram24ksilverPrice) || "Loading... "}/g
               </p>
               </div>
               
@@ -301,7 +303,7 @@ const components=[{
                   <span className="text-gray-500">Today's Rate</span>
                   <div className="flex items-center gap-2">
                     
-                     ₹{(user.silver * SILVER_PRICE_PER_GRAM)}
+                     ₹{(user.silver * gram24ksilverPrice)}
 
                     {/* {silverPercentage && (
                       <span

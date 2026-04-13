@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 const useAuthStore = create(
   persist(
     (set) => ({
       user: null,
+      profileData: null,  // Add this
       accessToken: null,
       refreshToken: null,
       isLoading: true,
@@ -18,6 +20,12 @@ const useAuthStore = create(
           isLoading: false,
         }),
 
+      // Add this new action
+      setProfileData: (profileData) =>
+        set({
+          profileData: profileData,
+        }),
+
       updateToken: (newAccessToken) =>
         set({
           accessToken: newAccessToken,
@@ -26,6 +34,7 @@ const useAuthStore = create(
       logout: () =>
         set({
           user: null,
+          profileData: null,  // Clear on logout
           accessToken: null,
           refreshToken: null,
           isAuthenticated: false,
@@ -39,7 +48,6 @@ const useAuthStore = create(
     }),
     {
       name: "auth-storage",
-
       onRehydrateStorage: () => (state) => {
         if (state) state.isLoading = false;
       },

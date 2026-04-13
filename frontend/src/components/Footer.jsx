@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
-import dgiLogo from "../assets/logo_2.svg"
+import dgiLogo from "../assets/logo_2.svg";
 
 function Footer() {
   const navigate = useNavigate();
@@ -21,13 +21,6 @@ function Footer() {
     { label: "Delivery Address", path: "/delivery" },
   ];
 
-  const legalLinks = [
-    { label: "Privacy Policy", path: "/" },
-    { label: "Terms & Conditions", path: "/" },
-    { label: "Refund Policy", path: "/" },
-    { label: "Grievance Redressal", path: "/" },
-  ];
-
   const socials = [
     { icon: Instagram, label: "Instagram" },
     { icon: Twitter, label: "Twitter" },
@@ -36,166 +29,109 @@ function Footer() {
   ];
 
   return (
-    <>
-     
+    <footer className="w-full bg-gradient-to-br from-[#1a1508] via-[#3f2e10] to-[#141414]">
+      <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-8">
 
-      <footer className="footer-root w-full bg-gradient-to-br  from-[#1a1508] via-[#3f2e10] to-[#141414]">
-        <div className=" h-px w-full" />
-        <div className="max-w-7xl h-auto mx-auto px-4 sm:px-6 lg:px-10 py-12 2xl:ml-30 ">
-          <div className="grid grid-cols sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 ">  
-            <div className="lg:col-span-1 col-span-2 md:col-span-3">
-              {/* Logo */}
-               <div className="mb-4 flex gap-2 justify-center items-center">
-               <img className="w-13 object-contain 2xl:w-40 2xl:h-40  ml-4 md:ml-0" src={dgiLogo} alt="logo"   />    
-               <h2 className="heading-font text-4xl 2xl:text-4xl font-bold tracking-wide leading-none mb-1">               
-               <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-               bg-clip-text text-transparent font-['Fraunces']">Dgi</span>
-                  <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">Gold</span>
-                </h2>
-                </div>
-                 <div className="mb-4 flex justify-center items-center">
-                <p className=" text-xs sm:text-xs md:text-sm 2xl:text-2xl font-sans uppercase tracking-[0.2em]  text-amber-200/80 mt-2 " >
-                 Gold & Silver · Investment Platform
-                </p>
-              </div>
+        {/* Column 1 — Brand */}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-0 mb-2">
+            <img
+              className="w-16 h-16 md:w-20 md:h-20 xl:w-24 xl:h-24 object-contain"
+              src={dgiLogo}
+              alt="logo"
+            />
+            <h1 className="text-xl md:text-xl lg:text-2xl xl:text-4xl font-bold leading-none">
+              <span className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 bg-clip-text text-transparent font-['Fraunces']">DGI</span>
+              <span className="bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent font-['Fraunces']">GOLD</span>
+            </h1>
+          </div>
 
-              <div className=" h-px w-12 rounded-full mb-4 flex justify-center items-center" />
-              <p className="text-xs 2xl:text-3xl leading-relaxed mb-6 text-yellow-100 opacity-80" >
-                India's most trusted dgital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
-              </p>
-              {/* Socials */}
-              <div className="flex gap-2 text-yellow-100 opacity-80  justify-center items-center">
-                {socials.map((s, i) => {
-                  const Icon = s.icon;
-                  return (
-                    <button key={i} title={s.label}>
-                      <Icon className="w-4 h-4" />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+          <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-amber-200/80 mb-2">
+            Gold & Silver · Investment Platform
+          </p>
+          <p className="text-xs 2xl:text-sm leading-relaxed text-yellow-100/80 mb-4">
+            India's most trusted digital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
+          </p>
 
-            {/* Quick Links  */}
-            <div className="hidden md:block ">
-              <p className=" md:text-xs md:uppercase md:tracking-widest md:mb-4 md:font-medium text-yellow-100 opacity-80" >
-                Quick Links
-              </p>
-              <div className="h-px w-8 rounded-full mb-5 " />
-              <ul className="space-y-3 ">
-                {quickLinks.map((link, i) => (
-                  <li key={i}>
-                    <span
-                      className="text-yellow-100 opacity-80 "
-                      onClick={() =>navigate(link.path)} >
-                      <span >◈ {link.label}</span> 
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* ── Account ── */}
-            <div>
-              <p className="text-xs uppercase tracking-widest mb-4 font-medium text-yellow-100 opacity-80 flex justify-center items-center md:mr-29 lg:mr-24 xl:mr-39">
-                My Account
-              </p>
-              <div className=" h-px w-8 rounded-full mb-5 flex justify-center items-center " />
-              <ul className="space-y-3 text-yellow-100 opacity-80  text-xs md:text-sm p-2">
-                {accountLinks.map((link, i) => (
-                  <li key={i}>
-                    <span
-                      onClick={() => navigate(link.path)}
-                    >
-                      <span >◈</span>
-                      {link.label}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            {/* ── Contact ── */}
-            <div>
-              <p className="text-xs uppercase tracking-widest mb-4 font-medium  text-yellow-100 opacity-80" >
-                Contact Us
-              </p>
-              <div className=" h-px w-8 rounded-full mb-5 " />
-
-              <div className="space-y-4 mb-6  text-yellow-100 opacity-80">
-                <div className="flex items-start gap-3">
-                  <Mail className="w-3.5 h-3.5 mt-0.5 shrink-0"  />
-                  <span className="text-xs leading-relaxed" >
-                    support@dgigold.in
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 ">
-                  <Phone className="w-3.5 h-3.5 mt-0.5 shrink-0 "  />
-                  <span className="text-xs leading-relaxed " >
-                    1800-XXX-XXXX<br />
-                    {/* <span >Mon–Sat, 9am–6pm</span> */}
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 ">
-                  <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 "  />
-                  <span className="text-xs leading-relaxed " >
-                    DgiGold<br />
-                    Bengaluru, Karnataka, India
-                  </span>
-                </div>
-              </div>
-
-              {/* Trust badges */}
-              {/* <div className="space-y-2">
-                {["SEBI Registered", "ISO 27001 Certified", "BIS Hallmarked Gold"].map((badge, i) => (
-                  <div
-                    key={i}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mr-1 mb-1  text-yellow-100 opacity-80"
-                    
-                  >
-                    <span >◈</span>
-                    <span className="text-xs">{badge}</span>
-                  </div>
-                ))}
-              </div> */}
-            </div>
+          <div className="flex gap-3 text-yellow-100/80 mt-auto">
+            {socials.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <button key={i} title={s.label} className="hover:text-yellow-300 transition-colors">
+                  <Icon className="w-4 h-4" />
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        
-        <div className=" h-px w-full opacity-40 " />
-        <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-700 to-gray-400 to-transparent"/>
-        {/* ── Bottom Bar ── */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-5  text-yellow-100 opacity-80">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-
-            {/* Copyright */}
-            <p className="text-xs" >
-              ©{new Date().getFullYear()} DgiGold Pvt. Ltd. All rights reserved.
-            </p>
-
-            {/* Legal links */}
-            <div className="flex flex-wrap gap-4 justify-center">
-              {legalLinks.map((link, i) => (
+        {/* Column 2 — My Account */}
+        <div>
+          <p className="text-xs uppercase tracking-widest font-medium text-yellow-100/80 mb-4">
+            My Account
+          </p>
+          <ul className="space-y-3 text-yellow-100/80 text-xs md:text-sm">
+            {accountLinks.map((link, i) => (
+              <li key={i}>
                 <span
-                  key={i}
-                  className="text-xs"
-                  onClick={() => navigate(link.path)} >
+                  className="cursor-pointer hover:text-yellow-300 transition-colors"
+                  onClick={() => navigate(link.path)}
+                >
+                  <span className="mr-1">◈</span>
                   {link.label}
                 </span>
-              ))}
-            </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            {/* Made with */}
-            <p className="text-xs" >
-              {/* Crafted with in India */}
-            </p>
+        {/* Column 3 — Quick Links */}
+        <div>
+          <p className="text-xs uppercase tracking-widest font-medium text-yellow-100/80 mb-4">
+            Quick Links
+          </p>
+          <ul className="space-y-3 text-yellow-100/80 text-xs md:text-sm">
+            {quickLinks.map((link, i) => (
+              <li key={i}>
+                <span
+                  className="cursor-pointer hover:text-yellow-300 transition-colors"
+                  onClick={() => navigate(link.path)}
+                >
+                  <span className="mr-1">◈</span>
+                  {link.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Column 4 — Contact */}
+        <div>
+          <p className="text-xs uppercase tracking-widest font-medium text-yellow-100/80 mb-4">
+            Contact Us
+          </p>
+          <div className="flex flex-col gap-4 text-yellow-100/80 text-xs md:text-sm">
+            <div className="flex items-start gap-3">
+              <Mail className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              <span>support@dgigold.in</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <Phone className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              <span>1800-XXX-XXXX</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+              <span>
+                DgiGold<br />
+                Bengaluru, Karnataka, India
+              </span>
+            </div>
           </div>
         </div>
-      </footer>
-    </>
+
+      </div>
+    </footer>
   );
 }
 
 export default Footer;
-

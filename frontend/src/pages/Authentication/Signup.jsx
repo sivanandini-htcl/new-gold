@@ -1,7 +1,7 @@
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 import logo from "../../assets/logo_1.svg"; 
-import {Smartphone,ArrowLeft, CloudCog} from 'lucide-react'
+import {Smartphone,ArrowLeft, CloudCog,Eye,EyeOff} from 'lucide-react'
 import { toast } from "react-toastify";
 import api from "../../api/axiosInstance";
 
@@ -66,6 +66,9 @@ function Signup() {
   const [otpError, setOtpError] = useState("");
   const [registrationSessionId, setRegistrationSessionId] = useState("");
   const tenantId=import.meta.env.VITE_TENANT_ID;
+  const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [globalMessage, setGlobalMessage] = useState(""); 
   const [form, setForm] = useState({
   name: "",
@@ -76,7 +79,7 @@ function Signup() {
   confirmPassword: ""
 });
  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
- const phoneRegex = /^\+91[6-9]\d{9}$/;
+const phoneRegex = /^\+91\s?[6-9]\d{9}$/;
  const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
   const handleChange = (e) => {
@@ -231,7 +234,7 @@ try  {
   setLoading(true);
   const otpRes=await api.post("/auth/register/verify-otp",{
     registrationSessionId,
-    otp:form.otp,
+    otp:form.otp.trim(),
     tenantId    
   });
   if(otpRes.data.success){
@@ -245,6 +248,7 @@ try  {
   console.log("RESPONSE:", error.response);
   console.log("DATA:", error.response?.data);
   console.log("MESSAGE:", error.response?.data?.message);
+  setErrors({otp: error.response?.data?.message || "Invalid OTP"});
   toast.error(error.response?.data?.message||"otp failed");
 }
 finally{
@@ -309,6 +313,24 @@ const btnLabel = () => {
   if (step === 3) return "Create Account";
   return "Continue";
 };
+const password = form.password || "";
+
+const rules = {
+  uppercase: /[A-Z]/.test(password),
+  lowercase: /[a-z]/.test(password),
+  number: /[0-9]/.test(password),
+  special: /[^A-Za-z0-9]/.test(password),
+  length: password.length >= 8,
+};
+
+const getStrength = () => {
+  const passed = Object.values(rules).filter(Boolean).length;
+
+  if (passed <= 2) return "Weak";
+  if (passed <= 4) return "Medium";
+  return "Strong";
+};
+
 
   return ( 
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50  via-amber-50 to-amber-50"> 
@@ -437,26 +459,47 @@ const btnLabel = () => {
 )}
 {step === 3 && (
   <>
-    <input
-      type="password"
-      name="password"
-      placeholder="Password"
-      value={form.password}
-      onChange={handleChange}
-      className={inputClass("password")}
-    />
+   <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    placeholder="Password"
+    value={form.password}
+    onChange={handleChange}
+    className={`${inputClass("password")} pr-10`}
+  />
 
-    <input
-      type="password"
-      name="confirmPassword"
-      placeholder="Confirm Password"
-      value={form.confirmPassword}
-      onChange={handleChange}
-      className={inputClass("confirmPassword")}
-    />
-  </>
-)}
-            {step>0 &&(<div className="flex text-sm text-amber-900/70 gap-2">
+  {/* 👁 Eye Icon */}
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+  >
+    {showPassword ? <Eye /> : <EyeOff />}
+  </span>
+</div>
+
+
+
+ <div className="relative mt-2">
+  <input
+    type={showConfirmPassword ? "text" : "password"}
+    name="confirmPassword"
+    placeholder="Confirm Password"
+    value={form.confirmPassword}
+    onChange={handleChange}
+    className={`${inputClass("confirmPassword")} pr-10`}
+  />
+
+  <span
+    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+  >
+    {showConfirmPassword ? <Eye /> : <EyeOff />}
+  </span>
+</div>
+
+
+       {step>0 &&(<div className="flex text-sm text-amber-900/70 gap-2">
      <ArrowLeft size={20} />
       <button
         disabled={step === 0}
@@ -466,6 +509,49 @@ const btnLabel = () => {
       </button>
         </div>
       )}
+         <div className="mt-2 space-y-1 text-xs w-fit mx-auto font-serif">
+  <p className={rules.uppercase ? "text-green-500" : "text-gray-400"}>
+    {rules.uppercase ? "✔" : "✖"} At least one uppercase letter
+  </p>
+
+  <p className={rules.lowercase ? "text-green-500" : "text-gray-400"}>
+    {rules.lowercase ? "✔" : "✖"} At least one lowercase letter
+  </p>
+
+  <p className={rules.number ? "text-green-500" : "text-gray-400"}>
+    {rules.number ? "✔" : "✖"} At least one number
+  </p>
+
+  <p className={rules.special ? "text-green-500" : "text-gray-400"}>
+    {rules.special ? "✔" : "✖"} At least one special character
+  </p>
+
+  <p className={rules.length ? "text-green-500" : "text-gray-400"}>
+    {rules.length ? "✔" : "✖"} Minimum 8 characters
+  </p>
+</div>
+
+        <div className="mt-2 font-serif text-sm">
+      Strength:{" "}
+      <span
+        className={
+          !password
+            ? "text-gray-400"
+            : getStrength() === "Strong"
+            ? "text-green-600"
+            : getStrength() === "Medium"
+            ? "text-yellow-500"
+            : "text-red-500"
+        }
+      >
+        {!password ? "Enter password" : getStrength()}
+      </span>
+    </div>
+
+  </>
+  
+)}
+         
       <button type="button"
        onClick={handleNext} 
        disabled={isDisabled()} 

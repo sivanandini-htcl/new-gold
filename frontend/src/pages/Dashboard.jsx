@@ -23,9 +23,10 @@ function Dashboard() {
  const prices = usePriceStore((state) => state.prices); 
  const goldPrice = prices.find((item) => item.metal === "GOLD");
  const silverPrice = prices.find((item) => item.metal === "SILVER");
- 
  const userName = useAuthStore((state) => state.user?.name);
-
+ const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
+ const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
+ const profileData = useAuthStore((state) => state.profileData);
 
  const goldData = {
   "1D": [{ date: "Today", price: 6350 }],
@@ -162,12 +163,13 @@ const insights = [
   ];
 
   return (
+    
     <div className="min-h-screen xl:min-h-fit 2xl:py-9   font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
       <div className="max-w-7xl mx-auto 2xl:max-w-full 2xl:min-h-fit  ">
         {/* Header */}
         <div className="mb-8 2xl:mb-20 pb-6 border-b border-amber-200 bg-blu">
           <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500/50 to-transparent rounded-full mb-4" />
-          <h1 className="font-serif text-5xl xl:text-5xl 2xl:text-7xl tracking-wide">
+          <h1 className="font-serif  text-5xl xl:text-5xl 2xl:text-7xl tracking-wide">
             <span className="bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer">
               Dgi
             </span>
@@ -178,7 +180,7 @@ const insights = [
           <p className="mt-2 text-xs 2xl:text-xl uppercase tracking-widest text-amber-700">
           Gold  & Silver · Investment Platform
           </p>
-          <h2 className="mt-2 text-xs 2xl:text-xl  tracking-widest text-gray-900">Welcome {userName}</h2>
+          <h2 className="mt-2 text-xs 2xl:text-xl  tracking-widest text-gray-900">Welcome {userName||profileData?.email}</h2>
         </div>
         <p style={{ color: status === "Live Connected" ? "green" : "red" }}>
                 ● {status}
@@ -197,7 +199,7 @@ const insights = [
                   </p>
                   <h2 className="font-heading text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold font-semibold text-amber-900">
                     
-                     ₹ {goldPrice ? goldPrice.price.toLocaleString() : "Loading..."}
+                     ₹ {Math.round(gram24kGoldPrice)||"Loading..."}
                      
                      <p className="text-xs text-gray-500 mt-2">
              Updated: {goldPrice ? new Date(goldPrice.timestamp).toLocaleString() : "Loading..."}
@@ -246,7 +248,7 @@ const insights = [
                   </p>
                   <h2 className="font-heading text-2xl 2xl:font-heading 2xl:text-4xl 2xl:font-semibold font-semibold  text-gray-800">
                     
-                    ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."}
+                    ₹ { Math.round(gram24ksilverPrice) || "Loading..."}
                     <p className="text-xs text-gray-500 mt-2">
   Updated: {silverPrice ? new Date(silverPrice.timestamp).toLocaleString() : "Loading..."}
 </p>

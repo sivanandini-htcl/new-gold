@@ -19,7 +19,9 @@ function Gold() {
  const silverPrice = prices.find((item) => item.metal === "SILVER");
 
   // const isProfit = Number(goldPercentage) > 0;
-const GOLD_PRICE_PER_GRAM = Number(goldPrice?.price) || 6500;
+
+ const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
+
 
 
 
@@ -28,18 +30,18 @@ const calculateConversion = () => {
 
   if (isNaN(grams) || grams <= 0) return 0;
 
-  return grams * GOLD_PRICE_PER_GRAM;
+  return grams * gram24kGoldPrice;
 };
  
   const getFinalCalculation = () => {
 const grams = parseFloat(inputValue) || 0;
-    const baseAmount = grams * GOLD_PRICE_PER_GRAM;
+    const baseAmount = grams * gram24kGoldPrice;
     const gstAmount = baseAmount * 0.03;
     const totalWithGST = baseAmount + gstAmount;
 
     return {
       grams: grams.toFixed(4),
-      formattedBase: baseAmount.toLocaleString("en-IN"),
+      formattedBase: Math.round(baseAmount),
       formattedGST: gstAmount.toLocaleString("en-IN"),
       formattedTotal: totalWithGST.toLocaleString("en-IN"),
     };
@@ -97,7 +99,7 @@ const grams = parseFloat(inputValue) || 0;
                 Market Insights
               </h2>
               <div className="flex items-center justify-between p-4 rounded-xl mb-6 border">
-                <p>  ₹ {goldPrice ? goldPrice.price.toLocaleString() : "Loading..."}</p>
+                <p>  ₹ {Math.round(gram24kGoldPrice) || "Loading..."}</p>
                 <p> ₹ {goldPrice ? goldPrice.changePercent.toLocaleString() : "Loading..."} </p>
                 
               </div>

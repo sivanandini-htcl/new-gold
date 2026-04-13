@@ -3,8 +3,9 @@ import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from "fireb
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Smartphone, ArrowLeft } from 'lucide-react'
+import { Smartphone, ArrowLeft ,Eye,EyeOff} from 'lucide-react'
 
+import { fetchUserProfile } from "../../api/profileapi";
 import Time from "../../assets/time";
 import logo from "../../assets/logo_1.svg";
 import { auth, signInwithgoogle, getIdToken } from "../../firebaseconfigurations/firebaseClient";
@@ -32,6 +33,7 @@ function Login() {
   const [deviceInfo, setDeviceInfo] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
+  const[showPassword,setShowPassword]=useState(false);
 
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -78,58 +80,95 @@ function Login() {
     return "Device";
   };
   // STEP 1: Verify Email/Mobile
-  const handleStep1Next = async () => {
-    if (!identifier) {
-      toast.error("Enter email or mobile number");
-      return;
-    }
+const handleStep1Next = async () => {
+  if (!identifier) {
+    toast.error("Enter email or mobile number");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const device = await getDeviceFingerprint();
-      setDeviceInfo(device);
+  setLoading(true);
+  try {
+    const device = await getDeviceFingerprint();
+    setDeviceInfo(device);
 
-      const response = await api.post("/auth/login/step1", {
-        email: identifier,
-        tenantId: import.meta.env.VITE_TENANT_ID,
-        screenResolution: device.screenResolution,
-        timezone: device.timezone,
-      });
-      console.log("Step 1 response:", response.data);
-      // Strict success check
-      if (response.data && response.data.success === true && response.data.data) {
-        const { sessionId: newSessionId, otpRequired: isOtpRequired } = response.data.data;
-        
-        setSessionId(newSessionId);
-        setOtpRequired(isOtpRequired);
+    // Clean input - remove all spaces
+    let emailOrMobile = identifier.trim().replace(/\s/g, "");
+    const payload = {
+      tenantId: import.meta.env.VITE_TENANT_ID,
+      screenResolution: device.screenResolution,
+      timezone: device.timezone,
+    };
 
-        if (isOtpRequired) {
-          toast.info("OTP required for this device");
-          setStep(2); // Go to OTP step
-        } else {
-          toast.success("Proceeding to password verification");
-          setStep(2.5); // Go directly to password (skip OTP visual)
-        }
-      } else {
-        // Failed verification - stay on Step 1
-        console.error("Step 1 verification failed:", response.data);
-        toast.error(response.data?.message || "Failed to verify email/mobile");
-        setLoading(false);
-        return;
-      }
-    } catch (error) {
-      console.error("Step 1 error:", error);
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Verification failed. Please try again.");
-      }
+    console.log("Raw input:", identifier); // DEBUG
+    console.log("Cleaned input:", emailOrMobile); // DEBUG
+
+    // Check if it's a mobile number (10 digits) or email
+    if (/^\d{10}$/.test(emailOrMobile)) {
+      // 10 digits only - add country code
+      emailOrMobile = `+91${emailOrMobile}`;
+      payload.phoneNumber = emailOrMobile;
+      console.log("✓ 10-digit mobile detected, sending:", emailOrMobile);
+    } else if (/^\+91\d{10}$/.test(emailOrMobile)) {
+      // Already has +91 prefix
+      payload.phoneNumber = emailOrMobile;
+      console.log("✓ +91 mobile detected, sending:", emailOrMobile);
+    } else if (/^91\d{10}$/.test(emailOrMobile)) {
+      // Has 91 without +
+      emailOrMobile = `+${emailOrMobile}`;
+      payload.phoneNumber = emailOrMobile;
+      console.log("✓ 91 mobile detected, sending:", emailOrMobile);
+    } else if (emailOrMobile.includes("@")) {
+      // It's an email
+      payload.email = emailOrMobile;
+      console.log("✓ Email detected, sending:", emailOrMobile);
+    } else {
+      console.log("✗ Invalid format - input:", emailOrMobile);
+      toast.error("Please enter a valid email or 10-digit mobile number");
       setLoading(false);
       return;
     }
-    setLoading(false);
-  };
 
+   // DEBUG
+
+    const response = await api.post("/auth/login/step1", payload);
+  
+    
+    if (response.data && response.data.success === true && response.data.data) {
+      const { sessionId: newSessionId, otpRequired: isOtpRequired } = response.data.data;
+      
+      setSessionId(newSessionId);
+      setOtpRequired(isOtpRequired);
+
+      if (isOtpRequired) {
+        toast.info("OTP required for this device");
+        setStep(2);
+      } else {
+        toast.success("Proceeding to password verification");
+        setStep(2.5);
+      }
+    } else {
+      console.error("Step 1 verification failed:", response.data);
+      toast.error(response.data?.message || "Failed to verify email/mobile");
+      setLoading(false);
+      return;
+    }
+  } catch (error) {
+    console.error("Step 1 error:", error);
+    console.error("Error response data:", error.response?.data);
+    console.error("Error status:", error.response?.status);
+    if (error.response?.data?.message) {
+      toast.error(error.response.data.message);
+    } else if (error.response?.data?.errors) {
+      console.error("Backend validation errors:", error.response.data.errors);
+      toast.error(JSON.stringify(error.response.data.errors));
+    } else {
+      toast.error("Verification failed. Please try again.");
+    }
+    setLoading(false);
+    return;
+  }
+  setLoading(false);
+};
   // STEP 2a: Send OTP
   const handleSendOtp = async () => {
     if (!sessionId) {
@@ -212,69 +251,77 @@ function Login() {
     setLoading(false);
   };
 
-  // STEP 3: Verify Password & Create Device Session
-  const handlePasswordSubmit = async () => {
-    if (!password || !sessionId) {
-      toast.error("Password and session required");
-      return;
-    }
+// STEP 3: Verify Password & Create Device Session
+const handlePasswordSubmit = async () => {
+  if (!password || !sessionId) {
+    toast.error("Password and session required");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const device = deviceInfo || await getDeviceFingerprint();
+  setLoading(true);
+  try {
+    const device = deviceInfo || await getDeviceFingerprint();
 
-      const response = await api.post("/auth/login/step3", {
-        sessionId,
-        password,
-        deviceName: device.deviceName,
-        deviceType: device.deviceType,
-        screenResolution: device.screenResolution,
-        timezone: device.timezone,
+    const response = await api.post("/auth/login/step3", {
+      sessionId,
+      password,
+      deviceName: device.deviceName,
+      deviceType: device.deviceType,
+      screenResolution: device.screenResolution,
+      timezone: device.timezone,
+    });
+
+    // Strict success check before proceeding
+    if (response.data && response.data.success === true && response.data.data) {
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken, user } = response.data.data;
+
+      setAccessToken(newAccessToken);
+      setRefreshToken(newRefreshToken);
+
+      // Store tokens
+      localStorage.setItem("accessToken", newAccessToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Update auth store
+      useAuthStore.getState().setAuth({
+        user,
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
       });
 
-      // Strict success check before proceeding
-      if (response.data && response.data.success === true && response.data.data) {
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken, user } = response.data.data;
-
-        setAccessToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
-
-        // Store tokens
-        localStorage.setItem("accessToken", newAccessToken);
-        localStorage.setItem("refreshToken", newRefreshToken);
-        localStorage.setItem("user", JSON.stringify(user));
-
-        // Update auth store
-        useAuthStore.getState().setAuth({
-          user,
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
-        });
-
-        toast.success("Login successful!");
-        navigate("/dashboard");
-      } else {
-        // Login failed - stay on password form
-        console.error("Password verification failed:", response.data);
-        toast.error(response.data?.message || "Login failed");
-        setLoading(false);
-        return;
+      // ✅ NEW: Fetch and store profile data
+      try {
+        const profileData = await fetchUserProfile();
+        useAuthStore.getState().setProfileData(profileData);
+      } catch (profileError) {
+        console.error("Failed to fetch profile:", profileError);
+        toast.warning("Login successful but couldn't load profile");
+        // Optionally, you can still navigate even if profile fetch fails
       }
-    } catch (error) {
-      console.error("Password verification error:", error);
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else if (error.response?.status === 401) {
-        toast.error("Invalid password. Please try again.");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
+
+      toast.success("Login successful!");
+      navigate("/dashboard");
+    } else {
+      console.error("Password verification failed:", response.data);
+      toast.error(response.data?.message || "Login failed");
       setLoading(false);
       return;
     }
+  } catch (error) {
+    console.error("Password verification error:", error);
+    if (error.response?.data?.message) {
+      toast.error(error.response.data.message);
+    } else if (error.response?.status === 401) {
+      toast.error("Invalid password. Please try again.");
+    } else {
+      toast.error("Login failed. Please try again.");
+    }
     setLoading(false);
-  };
-
+    return;
+  }
+  setLoading(false);
+};
   // Google login
   const handleGoogleLogin = async (provider, fn) => {
     setLoading(true);
@@ -449,7 +496,7 @@ function Login() {
         {step === 2 && otpRequired && (
   <div className="w-full space-y-6">
     <p className="text-sm text-gray-600 text-center mb-4">
-      New device detected. {loading ? "Sending OTP..." : "Enter OTP sent to " + identifier}
+       {loading ? "Sending OTP..." : "Enter OTP sent to " + identifier}
     </p>
 
                 <input
@@ -458,7 +505,7 @@ function Login() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.slice(0, 6))}
                   maxLength="6"
-                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none text-center text-2xl tracking-widest"
+                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none text-center text-xs tracking-widest"
                 />
 
                 <button
@@ -480,15 +527,22 @@ function Login() {
                   <p className="text-sm text-gray-600 text-center mb-4">
                     {identifier}
                   </p>
+                  <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Enter Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none"
                   />
+                  <span
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+  >
+    {showPassword ? <EyeOff size={14}/> : <Eye size={14}/>}
+  </span>
+                  </div>
                 </div>
-
                 <button
                   onClick={handlePasswordSubmit}
                   disabled={loading || !password}
