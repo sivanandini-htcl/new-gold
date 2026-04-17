@@ -245,7 +245,7 @@ function Redeem() {
       </div>
 
       {/* Page */}
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 py-8 px-4 ">
   <div className="max-w-7xl mx-auto">
 
           {/*   title change*/}
@@ -325,7 +325,7 @@ function Redeem() {
             </div>
           ) : (
             // image div size in mobile view
-            <div className="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 "> 
+            <div className="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6  "> 
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}

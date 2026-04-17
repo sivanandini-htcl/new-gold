@@ -7,8 +7,6 @@ const api = axios.create({
 });
 
 
-
-
 api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
 
@@ -18,8 +16,6 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
-
-
 
 api.interceptors.response.use(
   (response) => response,

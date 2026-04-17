@@ -40,10 +40,10 @@ function Header() {
     <header className="w-full sticky top-0 z-50 backdrop-blur-md
     bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b border-yellow-300/40 shadow-md">
 
-      <div className="max-w-7xl mx-auto px-4 py-3 gap-3 flex items-center justify-between sm:px-6 md:mr-2 2xl:min-w-screen">
+      <div className="max-w-7xl mx-auto xl:ml-20 lg:ml-10 px-4 py-3 gap-3 flex items-center justify-between sm:px-6 lg:pl-1 md:mr-2 2xl:min-w-screen">
         {/* <Link to="/dashboard" className="flex items-center gap-2 no-underline"> */}
-          <img className="w-15 md:w-17 md:ml-1 2xl:h-40 2xl:w-90 2xl:ml-10 2xl:flex 2xl:justify-start object-contain  ml-4 p-0 2xl:p-10" src={dgiLogo} alt="logo "/>
-          <nav className="hidden md:flex lg:text-sm md:gap-2 md:text-xs 2xl:text-3xl 2xl:gap-10 2xl:ml-5 lg:gap-8 items-center gap-6  text-bold uppercase tracking-widest  text-yellow-500">
+          <img className="w-15 md:w-17 md:ml-1 2xl:h-40 2xl:w-90 lg:p-1 2xl:ml-10 2xl:flex 2xl:justify-start object-contain  ml-4 p-0 2xl:p-10" src={dgiLogo} alt="logo "/>
+          <nav className="hidden md:flex lg:text-sm md:gap-2 md:text-xs 2xl:text-3xl 2xl:gap-10 2xl:ml-5 lg:gap-8 lg:ml-1 items-center gap-6  text-bold uppercase tracking-widest  text-yellow-500">
           <Link to="/dashboard" className="nav-item">Dashboard</Link>
           <Link to="/gold" className="nav-item">Gold</Link>
           <Link to="/silver" className="nav-item">Silver</Link>
