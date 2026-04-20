@@ -8,6 +8,7 @@ import { useState,useEffect } from "react";
 import usePriceStore from "../store/priceStore";
 import { subscribeMetalPrices } from "../api/livestreamapi";
 import useAuthStore from "../store/authStore";
+import SlidingBanner from "../components/SlidingBanner";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -166,6 +167,7 @@ const insights = [
     
     <div className="min-h-screen xl:min-h-fit 2xl:py-9   font-serif py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
       <div className="max-w-7xl mx-auto 2xl:max-w-full 2xl:min-h-fit  ">
+        <SlidingBanner /> 
         {/* Header */}
         <div className="mb-8 2xl:mb-20 pb-6 border-b border-amber-200 bg-blu">
           <div className="h-1 flex  w-full bg-gradient-to-r from-transparent via-amber-500/50 to-transparent rounded-full mb-4" />

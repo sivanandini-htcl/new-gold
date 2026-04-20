@@ -1,155 +1,155 @@
-import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
-// import { PriceContext } from "../components/PriceProvider";
+import { useState, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import usePriceStore from "../store/priceStore";
+import { useCart } from "../components/CartContext";
+import useCartStore from "../store/cartStore";
+
 
 function Silver() {
+  const [inputValue, setInputValue] = useState("");
+  const [showReplaceModal, setShowReplaceModal] = useState(false);
+  const [pendingItem, setPendingItem] = useState(null);
 
-  const [inputValue, setInputValue] = useState(null);
-  const [showBreakdown, setShowBreakdown] = useState(false);  
+  const navigate = useNavigate();
+ 
+  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
+
   const prices = usePriceStore((state) => state.prices);
-
   const silverPrice = prices.find((item) => item.metal === "SILVER");
+  const gram24kSilverPrice = silverPrice?.caratPrices?.gram24k || 0;
 
-//  const { silverPrice, silverPercentage } = useContext(PriceContext);
+  // Safe calculation
+  const calc = useMemo(() => {
+    const grams = parseFloat(inputValue) || 0;
+    const baseAmount = grams * gram24kSilverPrice;
+    return { 
+      grams, 
+      baseAmount: Math.round(baseAmount) 
+    };
+  }, [inputValue, gram24kSilverPrice]);
 
-  // const silverisProfit = Number(silverPercentage) > 0;
-  
-   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
-  const calculateConversion = () => {
-  const grams = parseFloat(inputValue);
+  const hasValidInput = calc.grams >= 1 && gram24kSilverPrice > 0;
 
-  if (isNaN(grams) || grams <= 0) return 0;
+  // Create digital silver item
+  const createDigitalSilverItem = () => ({
+    id: `digital-silver-${Date.now()}`,
+    name: `Digital Silver .999 - ${calc.grams}g`,
+    type: "silver",
+    weight: calc.grams,
+    price: calc.baseAmount,
+    quantity: 1,
+    isDigital: true,
+    image: "",
+    purity: ".999",
+    purityText: "99.9% Pure",
+  });
 
-  return grams * gram24ksilverPrice;
-};
-
-const getFinalCalculation = () => {
-  const grams = Number(inputValue) || 0;
-  const baseAmount = grams * gram24ksilverPrice;
-  const gstRate = 0.03;
-  const gstAmount = baseAmount * gstRate;
-  const totalWithGST = baseAmount + gstAmount;
-
-  return {
-    grams,                              // number
-    baseAmount: Math.round(baseAmount), // number
-    gstAmount: parseFloat(gstAmount.toFixed(2)),  // number
-    totalAmount: parseFloat(totalWithGST.toFixed(2)), // number
-  };
-};
-
-
-  const handleBuyClick = () => {
-    const val = parseFloat(inputValue);
-    if (!val || val <= 0) {
-      toast.error("Please enter a valid amount");
+  const handleBuyNow = () => {
+    if (!hasValidInput) {
+      toast.error("Please enter a valid amount (minimum 1 gram)");
       return;
     }
-    setShowBreakdown(true);
+
+    const silverItem = createDigitalSilverItem();
+
+    // If cart is empty → add directly
+    if (cartItems.length === 0) {
+      addToCart(silverItem);
+      toast.success("Digital Silver added to cart!");
+      navigate("/cart");
+      return;
+    }
+
+    // Cart has another item → show replace modal
+    setPendingItem(silverItem);
+    setShowReplaceModal(true);
   };
 
-  const calc = getFinalCalculation();
-  const hasInput = parseFloat(inputValue) > 0;
+  // Handle Replace from Modal
+  const handleReplaceConfirm = () => {
+    if (!pendingItem) return;
+
+    replaceCartItem(pendingItem);
+    toast.success(`${pendingItem.name} added to cart`);
+
+    setShowReplaceModal(false);
+    setPendingItem(null);
+    navigate("/cart");
+  };
+
+  const handleReplaceCancel = () => {
+    setShowReplaceModal(false);
+    setPendingItem(null);
+  };
 
   return (
-   <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
-     
-      <Link to="/dashboard"
-          className="inline-flex items-center 2xl:text-2xl  gap-2 mb-6 text-xs uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Dashboard
-        </Link>
+    <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
+      
+      <Link
+        to="/dashboard"
+        className="inline-flex items-center gap-2 mb-6 text-xs 2xl:text-2xl uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
+      </Link>
 
-        {/* Title */}
-        <div className="mb-10 border-b border-gray-700/20 pb-6">
-          <div className="h-0.5 w-12 2xl:w-lg 2xl:h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
+      {/* Title */}
+      <div className="mb-10 border-b border-gray-700/20 pb-6">
+        <div className="h-0.5 w-12 2xl:w-lg 2xl:h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
 
-           
+        <h1 className="text-5xl 2xl:text-9xl bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900 font-serif bg-clip-text text-transparent p-2">
+          Buy Silver
+        </h1>
 
-          <h1 className="text-5xl 2xl:text-9xl  bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900  md:bg-gradient-to-r from-gray-700 via-gray-200 to-gray-900 font-serif bg-clip-text text-transparent p-2">
-            Buy Silver
-          </h1>
+        <p className="mt-2 text-xs 2xl:text-2xl uppercase tracking-widest text-gray-800/70 font-['Fraunces']">
+          .999 Pure · Live Rates
+        </p>
+      </div>
 
-          <p className="mt-2 text-xs 2xl:text-2xl  uppercase tracking-widest text-gray-800/70 font-['Fraunces']">
-            24K · 99.9% Pure · Live Rates
-          </p>
-        </div>
+      <div className="w-full flex items-center justify-center">
+        <div className="grid md:grid-cols-2 gap-7 w-full mx-auto mt-1 2xl:p-40 2xl:pt-10">
 
-      <div className="w-full  flex items-center justify-center">
-        
-
-        {/* Back Button */}
-
-        
-        
-  {/* <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-7 w-250  justify-center 2xl:p-40  2xl:pt-10"> */}
-
-  {/* changed width give 250 */}
-  <div className="grid md:grid-cols-2 gap-7 w-full  mx-auto mt-1 2xl:p-40  2xl:pt-10">
-
-          {/* left */}
-          <div className="space-y-9 ">
-
-            {/* insight */}
-            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70 2xl:h-170 2xl:pt-10 " >
+          {/* LEFT SIDE - Market Insights */}
+          <div className="space-y-9">
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70 2xl:h-170 2xl:pt-10">
               <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-4"></div>
 
-              <h2 className="text-2xl  2xl:text-7xl font-['Fraunces'] mb-5 text-gray-900">
+              <h2 className="text-2xl 2xl:text-7xl font-['Fraunces'] mb-5 text-gray-900">
                 Market Insights
               </h2>
-<div className="flex items-center justify-between p-4 rounded-xl mb-6 border 2xl:text-3xl 2xl:w-full 2xl:h-30 2xl:p-8">
-                  <span className=" text-gray-900">
-                     ₹ {Math.round(gram24ksilverPrice) || "Loading..."} </span>
-                    <span>
- ₹ {silverPrice ? silverPrice.changePercent.toLocaleString() : "Loading..."}   
-                    </span>
-                                  
-                 
-                  </div>
-         
 
-              {/* Price Stats */}
+              <div className="flex items-center justify-between p-4 rounded-xl mb-6 border 2xl:text-3xl 2xl:w-full 2xl:h-30 2xl:p-8">
+                <span className="text-gray-900">₹{Math.round(gram24kSilverPrice) || "Loading..."}</span>
+                <span>₹{silverPrice ? silverPrice.changePercent.toLocaleString() : "Loading..."}</span>
+              </div>
+
               <div className="space-y-3 text-sm 2xl:text-3xl 2xl:gap-10 2xl:mt-20">
                 <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">
-                    Current Price
-                  </span>
-                     <span className=" text-gray-900">
-                     ₹ {silverPrice ? silverPrice.price.toLocaleString() : "Loading..."} </span>
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Current Price</span>
+                  <span className="text-gray-900">₹{silverPrice ? silverPrice.price.toLocaleString() : "Loading..."}</span>
                 </div>
 
                 <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">
-                    Week High
-                  </span>
-                  <span className=" text-gray-900">
-                    ₹ {silverPrice?silverPrice.high.toLocaleString():"loading..."}
-                  </span>
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Week High</span>
+                  <span className="text-gray-900">₹{silverPrice ? silverPrice.high.toLocaleString() : "—"}</span>
                 </div>
 
                 <div className="flex justify-between 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">
-                    Week Low
-                  </span>
-                  <span className=" text-gray-900">
-                   ₹{silverPrice?silverPrice.low.toLocaleString():"loading..."}
-                  </span>
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Week Low</span>
+                  <span className="text-gray-900">₹{silverPrice ? silverPrice.low.toLocaleString() : "—"}</span>
                 </div>
               </div>
             </div>
 
-            {/* info card */}
-            <div className=" hidden sm:block rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
-              <h3 className="text-lg font-['Fraunces'] mb-4 2xl:text-7xl text-gray-950">
-                Why Buy Digital silver?
+            {/* Why Buy Digital Silver - Desktop */}
+            <div className="hidden sm:block rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
+              <h3 className="text-lg 2xl:text-7xl mb-4 font-['Fraunces'] text-gray-950">
+                Why Buy Digital Silver?
               </h3>
-
-              <div className="space-y-3 text-sm 2xl:space-y-9  2xl:text-4xl text-gray-900/80">
-                <p>◈ 99.9% pure  silver, hallmarked</p>
+              <div className="space-y-3 text-sm 2xl:space-y-9 2xl:text-4xl text-gray-900/80">
+                <p>◈ 99.9% pure silver, hallmarked</p>
                 <p>◈ Stored in insured, secured vaults</p>
                 <p>◈ Start investing from just ₹1</p>
                 <p>◈ Sell anytime at live market price</p>
@@ -157,127 +157,99 @@ const getFinalCalculation = () => {
             </div>
           </div>
 
-          {/* right */}
+          {/* RIGHT SIDE - Converter */}
           <div className="rounded-3xl p-3 shadow-md bg-white/90 border border-gray-600/70">
-
             <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-4"></div>
 
-            <h2 className="text-2xl font-['Fraunces'] 2xl:text-7xl mb-2 2xl:mb-5 text-gray-900 ">
+            <h2 className="text-2xl font-['Fraunces'] 2xl:text-7xl mb-2 2xl:mb-5 text-gray-900">
               Price Converter
             </h2>
-
-           
-            
-              <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6 2xl:text-3xl 2xl:mb-15">
+            <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6 2xl:text-3xl 2xl:mb-15">
               Grams → Rupees
             </p>
 
-            <div className="  bg-gray-300/60 h-12 flex justify-center items-center  rounded-xl 2xl:h-25  2xl:flex 2xl:justify-center 2xl:items-center 2xl:mb-15 mb-7">
-            <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 
-             text-shadow-red-950 w-70 md:w-120  rounded-xl h-10  text-center p-3  font-serif 2xl:w-full 2xl:h-full 2xl:text-3xl"> 
-              Grams → ₹</p>
-           </div>
-            
-          
+            <div className="bg-gray-300/60 h-12 flex justify-center items-center rounded-xl 2xl:h-25 2xl:mb-15 mb-7">
+              <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 w-full rounded-xl h-10 text-center p-3 font-serif 2xl:w-full 2xl:h-full 2xl:text-3xl">
+                Grams → ₹
+              </p>
+            </div>
 
-
-            {/* inputs*/}
             <input
               type="number"
-              placeholder="1/g"
+              placeholder="Enter grams (min 1)"
+              min="1"
+              step="0.01"
               value={inputValue}
-             onChange={(e) => {
-  const val = parseFloat(e.target.value);
-  setInputValue(isNaN(val) ? null : val);
-  setShowBreakdown(false);
-}}   className="w-full 2xl:h-30 2xl:text-3xl  2xl:mb-15  px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full 2xl:h-30 2xl:text-3xl px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
             />
 
             {/* Result */}
-            <div className="rounded-2xl  2xl:h-60  2xl:mb-15 p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
-              <p className="text-xs  2xl:text-xl uppercase tracking-widest text-gray-800/70 mb-2">
-                 You will pay
+            <div className="rounded-2xl 2xl:h-60 p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
+              <p className="text-xs 2xl:text-xl uppercase tracking-widest text-gray-800/70 mb-2">
+                You will pay
               </p>
-
-              <div className="text-4xl 2xl:text-8xl  font-bold text-gray-600">
-               {hasInput ? `₹${calc.baseAmount.toLocaleString("en-IN")}` : "—"}
-              
+              <div className="text-4xl 2xl:text-8xl font-bold text-gray-600">
+                {hasValidInput ? `₹${calc.baseAmount.toLocaleString("en-IN")}` : "—"}
               </div>
             </div>
 
-            {/* buy button */}
+            {/* Buy Now Button - Directly adds to cart */}
             <button
-              onClick={handleBuyClick}
-              disabled={!hasInput}
+              onClick={handleBuyNow}
+              disabled={!hasValidInput}
               className={`w-full py-4 2xl:text-4xl 2xl:h-30 rounded-xl text-sm uppercase tracking-widest font-serif transition ${
-                hasInput
+                hasValidInput
                   ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
-
-              
             >
               Buy Now
             </button>
-
-            {/* order details */}
-            {showBreakdown && hasInput && (
-              <div className="mt-6 rounded-2xl p-5 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100  borderborder-gray-600/70">
-                <h3 className="text-xl font-serif 2xl:text-5xl text-center mb-5 text-gray-950">
-                  Order Summary
-                </h3>
-
-                <div className="space-y-3 text-sm 2xl:text-3xl">
-                  <div className="flex justify-between border-b border-gray-700/10 pb-2">
-                    <span className="font-serif">Silver Weight</span>
-                    <span>{calc.grams} g</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-gray-700/10 pb-2">
-                    <span className="font-serif">Silver Value</span>
-                    <span>₹{calc.formattedBase}</span>
-                  </div>
-
-                  <div className="flex justify-between border-b border-gray-700/10 pb-2 text-green-700">
-                    <span className="font-serif">GST (3%)</span>
-                    <span>+ ₹{calc.formattedGST}</span>
-                  </div>
-
-                  <div className="flex justify-between 2xl:text-3xl  pt-3 text-lg text-gray-700">
-                    <span className="font-serif">Total</span>
-                    <span>₹{calc.formattedTotal}</span>
-                  </div>
-                </div>
-
-                <button className="mt-5 w-full py-3.5  2xl:text-3xl rounded-xl text-sm uppercase tracking-widest font-serif bg-gradient-to-br from-green-600 to-green-400 text-white shadow-lg hover:scale-[1.02] transition">
-                  Confirm & Proceed
-                </button>
-
-                <button
-                  onClick={() => setShowBreakdown(false)}
-                  className="mt-3 w-full text-xs 2xl:text-lg uppercase tracking-widest underline text-gray-700 hover:text-gray-900"
-                >
-                  Edit Amount
-                </button>
-              </div>
-            )}
           </div>
         </div>
-        
-            </div>
-             <div className="md:hidden rounded-3xl p-6 mt-3 shadow-md bg-white/90 border border-gray-600/70">
-              <h3 className="text-lg font-['Fraunces'] mb-4 text-gray-950">
-                Why Buy Digital silver?
-              </h3>
+      </div>
 
-              <div className="space-y-3 text-sm text-gray-900/80">
-                <p>◈ 99.9% pure  silver, hallmarked</p>
-                <p>◈ Stored in insured, secured vaults</p>
-                <p>◈ Start investing from just ₹1</p>
-                <p>◈ Sell anytime at live market price</p>
-              </div>
-      
-    </div>
+      {/* Mobile Why Buy Section */}
+      <div className="md:hidden rounded-3xl p-6 mt-3 shadow-md bg-white/90 border border-gray-600/70">
+        <h3 className="text-lg font-['Fraunces'] mb-4 text-gray-950">
+          Why Buy Digital Silver?
+        </h3>
+        <div className="space-y-3 text-sm text-gray-900/80">
+          <p>◈ 99.9% pure silver, hallmarked</p>
+          <p>◈ Stored in insured, secured vaults</p>
+          <p>◈ Start investing from just ₹1</p>
+          <p>◈ Sell anytime at live market price</p>
+        </div>
+      </div>
+
+      {/* Replace Modal */}
+      {showReplaceModal && pendingItem && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h2 className="text-lg font-semibold mb-2">Replace Cart Item?</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Your cart already has <strong>{cartItems[0]?.name}</strong>.<br />
+              Do you want to replace it with <strong>{pendingItem.name}</strong>?
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={handleReplaceCancel}
+                className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReplaceConfirm}
+                className="flex-1 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-xl text-sm font-medium"
+              >
+                Yes, Replace
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
