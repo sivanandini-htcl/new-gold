@@ -1,6 +1,6 @@
 export const jewelleryProducts = [
   {
-    id: 1,
+    id: "prod_100001",
     name: "22K Floral Gold Bar",
     type: "gold",
     purity: "22K",
@@ -14,7 +14,7 @@ export const jewelleryProducts = [
   },
 
   {
-    id: 2,
+    id: "prod_100002",
     name: "Temple Gold COIN",
     type: "gold",
     purity: "22K",
@@ -29,7 +29,7 @@ export const jewelleryProducts = [
   },
 
   {
-    id: 3,
+    id: "prod_100003",
     name: "Oxidised Silver Payal",
     type: "silver",
     purity: "925",
@@ -44,7 +44,7 @@ export const jewelleryProducts = [
   },
 
    {
-    id: 4,
+    id: "prod_100004",
     name: "22K Floral Gold Bar",
     type: "gold",
     purity: "22K",
@@ -57,7 +57,7 @@ export const jewelleryProducts = [
     description: "24k Gold bar",
   },
   {
-    id: 5,
+    id: "prod_100005",
     name: "Coin",
     type: "gold",
     purity: "22K",
@@ -71,7 +71,7 @@ export const jewelleryProducts = [
     description: "Typically feature an intricate, embossed portrait of Goddess Lakshmi, often depicted seated on a lotus, sometimes with four arms representing the goals of human life. The reverse side often features the Shree symbol, the brand logo, or the weight and purity details.",
   },
   {
-    id: 6,
+    id: "prod_100006",
     name: "Coin",
     type: "silver",
     purity: "22K",
@@ -85,7 +85,7 @@ export const jewelleryProducts = [
     description: "Typically feature an intricate, embossed portrait of Goddess Lakshmi, often depicted seated on a lotus, sometimes with four arms representing the goals of human life. The reverse side often features the Shree symbol, the brand logo, or the weight and purity details.",
   },
   {
-    id: 7,
+    id: "prod_100007",
     name: "Coin",
     type: "silver",
     purity: "22K",
@@ -99,7 +99,7 @@ export const jewelleryProducts = [
     description: "Typically feature an intricate, embossed portrait of Goddess Lakshmi, often depicted seated on a lotus, sometimes with four arms representing the goals of human life. The reverse side often features the Shree symbol, the brand logo, or the weight and purity details.",
   },
   {
-    id: 8,
+    id: "prod_100008",
     name: "Mahalakshmi Idol",
     type: "silver",
     purity: "22K",
@@ -113,7 +113,7 @@ export const jewelleryProducts = [
     description: "Typically feature an intricate, embossed portrait of Goddess Lakshmi, often depicted seated on a lotus, sometimes with four arms representing the goals of human life. The reverse side often features the Shree symbol, the brand logo, or the weight and purity details.",
   },
   {
-    id: 9,
+    id: "prod_100009",
     name: "Coin",
     type: "gold",
     purity: "22K",

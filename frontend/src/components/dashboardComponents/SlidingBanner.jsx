@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-import dg from "../assets/dg";
-import banner from "../assets/banner.jpg";
-import banner2 from "../assets/banner2.jpg";   
-import banner3 from "../assets/banner3.jpg";   
+import banner from"../../assets/banner.jpg";
+import banner3 from"../../assets/banner3.jpg";
+
+import banner4 from"../../assets/banner4.jpg";  
+import dg from "../../assets/dg";
 
    
 
@@ -22,7 +23,7 @@ const banners = [
   {
     title: "Instant Buy & Sell",
     subtitle: "No storage worries",
-   image: banner2
+   image: banner4
 
    
   },
@@ -36,7 +37,7 @@ export default function SlidingBanner() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % banners.length);
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);

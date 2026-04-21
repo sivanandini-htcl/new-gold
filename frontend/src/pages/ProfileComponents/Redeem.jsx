@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCart } from "../../components/CartContext";
+// import { useCart } from "../../components/CartContext";
 import { jewelleryProducts } from "../Data/jewelleryProducts";
 import { toast } from "react-toastify";
 import {
@@ -156,9 +156,12 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProducts.map((product) => (
                 <div key={product.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-amber-700/20">
-                  <div className="h-48 w-full bg-yellow-700/10 cursor-pointer" onClick={() => navigate(`/productdetails/${product.id}`)}>
+                  {/* bg-yellow-700/10 */}
+                  <div className="h-48 w-full p-2 cursor-pointer" onClick={() => navigate(`/productdetails/${product.id}`)}>
                     <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
                   </div>
+      <div className="w-full h-0.5 bg-gray-100"/>
+
 
                   <div className="p-4">
                     <h3 onClick={() => navigate(`/productdetails/${product.id}`)} className="font-semibold cursor-pointer">{product.name}</h3>

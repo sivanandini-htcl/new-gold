@@ -29,7 +29,7 @@ function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-gradient-to-br from-[#1a1508] via-[#3f2e10] to-[#141414]">
+    <footer className="w-full bg-gradient-to-br from-[#1a1508] via-[#3f2e10] to-[#141414] ">
       <div className="max-w-7xl 2xl:max-w-full mx-auto ml-4 p-3 px-4 py-10 grid grid-cols-1 sm:grid-cols-4 gap-8">
 
 

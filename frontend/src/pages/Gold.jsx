@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import usePriceStore from "../store/priceStore";
-import { useCart } from "../components/CartContext";
-import useCartStore from "../store/cartStore";
 
+import useCartStore from "../store/cartStore";
+import api from "../api/axiosInstance";
 
 function Gold() {
   const [inputValue, setInputValue] = useState("");
@@ -16,7 +16,7 @@ function Gold() {
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k || 0;
 
   const navigate = useNavigate();
-  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
+  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity,fetchCart } = useCartStore();
   // Safe calculation
 
 
@@ -30,51 +30,61 @@ function Gold() {
   const hasValidInput = calc.grams >= 1 && gram24kGoldPrice > 0;
 
   // Create digital gold item
-  const createDigitalGoldItem = () => ({
-    id: `digital-gold-${Date.now()}`,
-    name: `Digital Gold 24K - ${calc.grams}g`,
-    type: "gold",
-    weight: calc.grams,
-    price: calc.baseAmount,
-    quantity: 1,
-    isDigital: true,
-    image: "",
-    purity: "24K",
-    purityText: "99.9% Pure",
-  });
+  // const createDigitalGoldItem = () => ({
+  //   id: `digital-gold-${Date.now()}`,
+  //   name: `Digital Gold 24K - ${calc.grams}g`,
+  //   type: "gold",
+  //   weight: calc.grams,
+  //   price: calc.baseAmount,
+  //   quantity: 1,
+  //   isDigital: true,
+  //   image: "",
+  //   purity: "24K",
+  //   purityText: "99.9% Pure",
+  // });
 
-  const handleBuyNow = () => {
-    if (!hasValidInput) {
-      toast.error("Please enter a valid amount (minimum 1 gram)");
-      return;
-    }
+const handleBuyNow = async () => {
+  if (!hasValidInput) {
+    toast.error("Minimum 1 gram required");
+    return;
+  }
 
-    const digitalItem = createDigitalGoldItem();
-
-    // If cart is empty → add directly
-    if (cartItems.length === 0) {
-      addToCart(digitalItem);
-      toast.success("Digital Gold added to cart!");
-      navigate("/cart");
-      return;
-    }
-
-    // Cart has another item → show replace modal
-    setPendingItem(digitalItem);
-    setShowReplaceModal(true);
+  const newItem = {
+    type: "METAL",
+    metalType: "GOLD",
+    quantityInGrams: calc.grams,
   };
 
-  // Handle Replace from Modal
-  const handleReplaceConfirm = () => {
-    if (!pendingItem) return;
+  // ✅ If cart has items, show replace modal
+  if (cartItems.length > 0) {
+    setPendingItem(newItem);
+    setShowReplaceModal(true);
+    return;
+  }
 
-    replaceCartItem(pendingItem);
-    toast.success(`${pendingItem.name} added to cart`);
+  try {
+    await api.post("/cart/add", newItem);
+    await fetchCart();
+    toast.success("Added to cart");
+    navigate("/cart");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Something went wrong");
+  }
+};
 
+const handleReplaceConfirm = async () => {
+  if (!pendingItem) return;
+  try {
+    const oldItemId = cartItems[0]?.id;
+    await replaceCartItem(oldItemId, pendingItem);
+    toast.success("Cart updated");
     setShowReplaceModal(false);
     setPendingItem(null);
     navigate("/cart");
-  };
+  } catch (err) {
+    toast.error("Failed to replace item");
+  }
+};
 
   const handleReplaceCancel = () => {
     setShowReplaceModal(false);
@@ -202,32 +212,34 @@ function Gold() {
       </div>
 
       {/* Replace Modal */}
-      {showReplaceModal && pendingItem && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h2 className="text-lg font-semibold mb-2">Replace Cart Item?</h2>
-            <p className="text-sm text-gray-600 mb-6">
-              Your cart already has <strong>{cartItems[0]?.name}</strong>.<br />
-              Do you want to replace it with <strong>{pendingItem.name}</strong>?
-            </p>
-
-            <div className="flex gap-3">
-              <button
-                onClick={handleReplaceCancel}
-                className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleReplaceConfirm}
-                className="flex-1 py-3 bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-800 shadow-lg hover:scale-[1.02] text-black rounded-xl text-sm font-medium"
-              >
-                Yes, Replace
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      
+{showReplaceModal && pendingItem && (
+  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+      <h2 className="text-lg font-semibold mb-2">Replace Cart Item?</h2>
+      <p className="text-sm text-gray-600 mb-6">
+        {/* ✅ Use cartItems[0].name for existing, and calc values for new */}
+        Your cart already has <strong>{cartItems[0]?.name}</strong>.<br />
+        Replace it with{" "}
+        <strong>Digital Gold 24K — {pendingItem.quantityInGrams}g</strong>?
+      </p>
+      <div className="flex gap-3">
+        <button
+          onClick={handleReplaceCancel}
+          className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleReplaceConfirm}
+          className="flex-1 py-3 bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-800 shadow-lg hover:scale-[1.02] text-black rounded-xl text-sm font-medium"
+        >
+          Yes, Replace
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

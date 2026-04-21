@@ -1,60 +1,95 @@
-// src/store/cartStore.js
-import { create } from 'zustand';
+import { create } from "zustand";
+import api from "../api/axiosInstance";
 
 const useCartStore = create((set, get) => ({
   cartItems: [],
+  loading: false,
 
-  addToCart: (item) => {
-    set((state) => {
-      const existing = state.cartItems.find((i) => i.id === item.id);
-      if (existing) {
+  // ✅ GET CART
+ fetchCart: async () => {
+  try {
+    set({ loading: true });
+    const res = await api.get("/cart");
+
+    // ✅ Correct path: res.data.data.cart.items
+    const cart = res.data?.data?.cart;
+    const items = cart?.items || [];
+
+    const normalized = items.map((item) => {
+      if (item.type === "METAL") {
         return {
-          cartItems: state.cartItems.map((i) =>
-            i.id === item.id
-              ? { ...i, quantity: i.quantity + (item.quantity || 1) }
-              : i
-          ),
+          id: item.id,
+          name: `Digital Gold 24K - ${item.quantityInGrams}g`,
+          price: item.unitPrice,
+          quantity: 1,
+          totalPrice: item.totalPrice,
+          weight: item.quantityInGrams,
+          purity: "24K",
+          image: "",
+          isDigital: true,
+        };
+      } else {
+        return {
+          id: item.id,
+          name: item.name || `Product #${item.productId}`,
+          price: item.unitPrice,
+          quantity: item.quantity,
+          totalPrice: item.totalPrice,
+          weight: item.weightInGrams || 0,
+          purity: item.purity || "",
+          image: item.image || "",
+          isDigital: false,
         };
       }
-      return {
-        cartItems: [...state.cartItems, { ...item, quantity: item.quantity || 1 }],
-      };
     });
-  },
 
-  replaceCartItem: (newItem) => {
-    set({ cartItems: [{ ...newItem, quantity: newItem.quantity || 1 }] });
-  },
+    set({ cartItems: normalized });
 
-  removeFromCart: (id) => {
-    set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.id !== id),
-    }));
-  },
+  } catch (err) {
+    console.error("Cart fetch error:", err.response?.data || err.message);
+  } finally {
+    set({ loading: false });
+  }
+},
 
-  updateQuantity: (id, newQuantity) => {
-    if (newQuantity < 1) {
-      get().removeFromCart(id);
-      return;
+removeFromCart: async (id) => {
+  try {
+    console.log("Removing item with id:", id); // ✅ check what id is being sent
+    await api.delete(`/cart/items/${id}`, {
+      data: { reason: "User removed from cart" }
+    });
+    await get().fetchCart();
+  } catch (err) {
+    console.error("Remove failed:", err.response?.status);   // check status code
+    console.error("Remove URL:", err.config?.url);           // check exact URL called
+    console.error("Remove failed:", err.response?.data);
+    throw err;
+  }
+},
+
+replaceCartItem: async (oldItemId, newItem) => {
+  try {
+    await api.delete(`/cart/items/${oldItemId}`, {
+      data: { reason: "User removed from cart" } // ✅ same fix
+    });
+    await api.post("/cart/add", newItem);
+    await get().fetchCart();
+  } catch (err) {
+    console.error("Replace failed:", err.response?.data || err.message);
+    throw err;
+  }
+},
+
+  updateQuantity: async (id, quantity) => {
+    try {
+      await api.patch(`/cart/items/${id}`, { quantity });
+      await get().fetchCart();
+    } catch (err) {
+      console.log(err);
     }
-    set((state) => ({
-      cartItems: state.cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      ),
-    }));
   },
 
-  // Computed values
-  get totalItems() {
-    return get().cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-  },
-
-  get totalAmount() {
-    return get().cartItems.reduce(
-      (sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 0),
-      0
-    );
-  },
+  clearCart: () => set({ cartItems: [] }),
 }));
 
 export default useCartStore;

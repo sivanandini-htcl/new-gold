@@ -1,15 +1,19 @@
 import { useState, useMemo } from "react";
-import { useCart } from "../components/CartContext";
+
 import { useNavigate } from "react-router-dom";
 import {
   ShoppingCart, Trash2, ArrowRight, Package,
   Wallet, Truck, Shield, ChevronRight, Tag
 } from "lucide-react";
 import useCartStore from "../store/cartStore";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 function Cart() {
 
-const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
+// const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
+const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
+
 
   const navigate = useNavigate();
 
@@ -27,7 +31,7 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
   // Safe total calculation
   const safeTotal = useMemo(() => {
     return cartItems.reduce((sum, item) => {
-      return sum + (Number(item.price) || 0) * (Number(item.quantity) || 1);
+     return sum + (Number(item.totalPrice) || 0);
     }, 0);
   }, [cartItems]);
 
@@ -37,6 +41,9 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
   const finalAmount = effectiveIsWallet
     ? safeTotal + gst
     : safeTotal + gst + delivery + insurance;
+useEffect(() => {
+  fetchCart();
+}, []);
 
   // Empty State
   if (cartItems.length === 0) {
@@ -229,14 +236,14 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
                             )}
                           </div>
                           <p className="text-base sm:text-lg font-bold font-serif text-yellow-900 shrink-0">
-                            ₹{(item.price * item.quantity).toLocaleString("en-IN")}
+                            ₹{item.totalPrice?.toLocaleString("en-IN")}
                           </p>
                         </div>
 
                         <p className="text-xs text-yellow-800/60 mb-4">
                           {item.purity && `${item.purity} · `}{item.weight}g
                           <span className="ml-2 text-yellow-800/40">
-                            ₹{item.price.toLocaleString("en-IN")} each
+                            ₹{item.totalPrice?.toLocaleString("en-IN")} each
                           </span>
                         </p>
 
@@ -261,26 +268,27 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
                               </button>
                             </div>
 
-                            <button
-                              onClick={() => removeFromCart(item.id)}
-                              className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
-                            >
-                              <Trash2 className="w-3 h-3" />
-                              Remove
-                            </button>
+                           
                           </div>
                         )}
 
                         {/* Digital Items - Only Remove Button */}
                         {isDigital && (
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                            Remove
-                          </button>
-                        )}
+  <button
+    onClick={async () => {
+      try {
+        await removeFromCart(item.id);
+        toast.success("Item removed");
+      } catch {
+        toast.error("Failed to remove item");
+      }
+    }}
+    className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
+  >
+    <Trash2 className="w-3 h-3" />
+    Remove
+  </button>
+)}
                       </div>
                     </div>
                   );
@@ -305,8 +313,8 @@ const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } 
                       <span className="text-yellow-800/40 ml-1">×{item.quantity}</span>
                     </span>
                     <span className="text-xs font-medium text-yellow-900 shrink-0">
-                      ₹{(item.price * item.quantity).toLocaleString("en-IN")}
-                    </span>
+  ₹{item.totalPrice.toLocaleString("en-IN")}
+</span>
                   </div>
                 ))}
               </div>

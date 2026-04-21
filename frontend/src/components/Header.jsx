@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { ShoppingCart, User, LogOut, Menu, X,Heart } from "lucide-react";
-import { useWishlist } from "./WishlistContext";
+// import { useWishlist } from "./WishlistContext";
 // import dgiLogo from "../assets/dgiLogo.png";
 import dgiLogo from "../assets/logo_2.svg"
 import api from "../api/axiosInstance";
@@ -10,9 +10,9 @@ import useAuthStore from "../store/authStore";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const { totalItems } = useCart();
+ 
   const navigate = useNavigate();
-  const { wishlist } = useWishlist();
+  // const { wishlist } = useWishlist();
   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = async () => {
@@ -59,11 +59,11 @@ function Header() {
             className="relative w-9 h-9 2xl:w-15 2xl:h-15 rounded-full flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
           >
             <ShoppingCart className="w-4 h-4 2xl:w-7 2xl:h-7" />
-            {totalItems > 0 && (
+            {/* {totalItems > 0 && (
               <span className="absolute-top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-semibold bg-yellow-500 text-black">
-                {totalItems}
+                3
               </span>
-            )}
+            )} */}
           </Link>
          <Link 
             to="/wishlist" 

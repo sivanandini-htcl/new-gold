@@ -5,7 +5,7 @@ const useAuthStore = create(
   persist(
     (set) => ({
       user: null,
-      profileData: null,  // Add this
+      profileData: null,
       accessToken: null,
       refreshToken: null,
       isLoading: true,
@@ -20,21 +20,16 @@ const useAuthStore = create(
           isLoading: false,
         }),
 
-      // Add this new action
       setProfileData: (profileData) =>
-        set({
-          profileData: profileData,
-        }),
+        set({ profileData }),
 
-      updateToken: (newAccessToken) =>
-        set({
-          accessToken: newAccessToken,
-        }),
+      updateToken: (token) =>
+        set({ accessToken: token }),
 
       logout: () =>
         set({
           user: null,
-          profileData: null,  // Clear on logout
+          profileData: null,
           accessToken: null,
           refreshToken: null,
           isAuthenticated: false,
@@ -42,15 +37,10 @@ const useAuthStore = create(
         }),
 
       setLoading: (value) =>
-        set({
-          isLoading: value,
-        }),
+        set({ isLoading: value }),
     }),
     {
       name: "auth-storage",
-      onRehydrateStorage: () => (state) => {
-        if (state) state.isLoading = false;
-      },
     }
   )
 );
