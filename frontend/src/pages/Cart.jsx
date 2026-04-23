@@ -1,25 +1,25 @@
 import { useState, useMemo } from "react";
-
 import { useNavigate } from "react-router-dom";
 import {
   ShoppingCart, Trash2, ArrowRight, Package,
-  Wallet, Truck, Shield, ChevronRight, Tag
+  Wallet, Truck, Shield, ChevronRight, Tag, Clock
 } from "lucide-react";
 import useCartStore from "../store/cartStore";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
+import useAuthStore from "../store/authStore";
+import api from "../api/axiosInstance";
+
+
+
 function Cart() {
 
-// const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
-const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
-
-
+  const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
   const navigate = useNavigate();
-
   const [deliveryMode, setDeliveryMode] = useState("wallet");
+  const [showStaleModal, setShowStaleModal] = useState(false);
 
-  // Smart cart type detection
   const hasDigital = cartItems.some(item => item.isDigital === true);
   const hasPhysical = cartItems.some(item => item.isDigital !== true);
   const mixedCart = hasDigital && hasPhysical;
@@ -28,24 +28,99 @@ const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
   const effectiveMode = allDigital ? "wallet" : deliveryMode;
   const effectiveIsWallet = effectiveMode === "wallet";
 
-  // Safe total calculation
-  const safeTotal = useMemo(() => {
-    return cartItems.reduce((sum, item) => {
-     return sum + (Number(item.totalPrice) || 0);
-    }, 0);
-  }, [cartItems]);
+  // const safeTotal = useMemo(() => {
+  //   return cartItems.reduce((sum, item) => {
+  //     return sum + (Number(item.totalPrice) || 0);
+  //   }, 0);
+  // }, [cartItems]);
 
-  const gst = safeTotal * 0.03;
-  const delivery = 1550;
-  const insurance = 500;
-  const finalAmount = effectiveIsWallet
-    ? safeTotal + gst
-    : safeTotal + gst + delivery + insurance;
-useEffect(() => {
-  fetchCart();
-}, []);
+  // const gst = safeTotal * 0.03;
+  // const delivery = 1550;
+  // const insurance = 500;
+  // const finalAmount = effectiveIsWallet
+  //   ? safeTotal + gst
+  //   : safeTotal + gst + delivery + insurance;
 
-  // Empty State
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  // const isCartStale = () => {
+  //   if (cartItems.length === 0) return false;
+  //   const now = new Date();
+  //   return cartItems.some(item => {
+  //     if (!item.addedAt) return false;
+  //     const diffMinutes = (now - new Date(item.addedAt)) / (1000 * 60);
+  //     return diffMinutes >= 60;
+  //   });
+  // };
+
+  const handleProceedToCheckout = async () => {
+    // if (isCartStale()) {
+    //   setShowStaleModal(true);
+    //   return;
+    // }
+
+    try {
+      const mode = effectiveMode.toUpperCase();
+
+      console.log("Step 1: Calling cart-checkout");
+      console.log("Step 1a: Mode:", mode);
+console.log("calling api")
+      const prepareRes = await api.post("/cart/checkout/prepare", { mode });
+      if(prepareRes.success)
+        console.log("response    .......>  ",prepareRes.data)
+      
+
+
+      
+      console.log("api called")
+      console.log("Step 2: Success!");
+      console.log("Step 3: Status code:", prepareRes.status);
+      console.log("Step 4: Full response:", prepareRes.data);
+      console.log("Step 5: Prepare data:", prepareRes.data?.data);
+
+      navigate("/checkout", {
+        state: {
+          deliveryMode: effectiveMode,
+          checkoutData: prepareRes.data?.data
+        }
+      });
+
+    } catch (error) {
+        console.log("FULL ERROR:", error);
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
+  console.log("MESSAGE:", error.response?.data?.message);
+  // setErrors({otp: error.response?.data?.message || "Invalid OTP"});
+  toast.error(error.response?.data?.message||"otp failed");
+
+      const errors = error.response?.data?.data?.errors;
+      if (errors && errors.length > 0) {
+        errors.forEach(e => toast.error(e.reason || e.message));
+      } else {
+        toast.error(error.response?.data?.message || "Checkout failed.");
+      }
+    }
+  };
+
+  // const handleUpdateCart = async () => {
+  //   try {
+  //     await Promise.all(
+  //       cartItems.map(item => removeFromCart(item.id))
+  //     );
+  //     setShowStaleModal(false);
+  //     toast.success("Cart cleared. Please add items again.");
+  //     if (hasDigital) {
+  //       navigate("/gold");
+  //     } else {
+  //       navigate("/redeem");
+  //     }
+  //   } catch (err) {
+  //     toast.error("Failed to clear cart. Please try again.");
+  //   }
+  // };
+
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 px-4">
@@ -77,6 +152,38 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
 
+      {/* Stale Cart Modal */}
+      {showStaleModal && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+              <Clock className="w-6 h-6 text-yellow-700" />
+            </div>
+            <h2 className="text-lg font-semibold text-center text-yellow-950 mb-2 font-serif">
+              Price Has Been Updated
+            </h2>
+            <p className="text-sm text-gray-500 text-center mb-6">
+              Your cart was added over 60 minutes ago. Gold prices change frequently —
+              please update your cart with the latest prices before proceeding.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowStaleModal(false)}
+                className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdateCart}
+                className="flex-1 py-3 bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-800 text-black rounded-xl text-sm font-semibold hover:scale-[1.02] transition"
+              >
+                Update Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Top Header Bar */}
       <div className="bg-white border-b border-yellow-700/15 px-4 sm:px-8 py-4 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -90,7 +197,9 @@ useEffect(() => {
             <ShoppingCart className="w-4 h-4 text-yellow-700" />
             <h1 className="font-serif text-lg font-semibold text-yellow-950">
               Cart
-              <span className="ml-2 text-sm font-normal text-yellow-800/60">(1 item)</span>
+              <span className="ml-2 text-sm font-normal text-yellow-800/60">
+                ({cartItems.length} {cartItems.length === 1 ? "item" : "items"})
+              </span>
             </h1>
           </div>
           <div className="w-24" />
@@ -191,14 +300,13 @@ useEffect(() => {
             <div className="bg-white rounded-2xl border border-yellow-700/20 overflow-hidden">
               <div className="px-5 py-3 border-b border-yellow-700/10">
                 <p className="text-xs uppercase tracking-widest text-yellow-800/60 font-serif">
-                  1 item in your cart
+                  {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in your cart
                 </p>
               </div>
 
               <div className="divide-y divide-yellow-700/10">
                 {cartItems.map((item) => {
                   const isDigital = item.isDigital === true;
-
                   return (
                     <div key={item.id} className="flex gap-4 p-4 sm:p-5 hover:bg-amber-50/40 transition">
 
@@ -247,7 +355,7 @@ useEffect(() => {
                           </span>
                         </p>
 
-                        {/* Quantity Controls - ONLY for Physical Items */}
+                        {/* Physical Items - Quantity + Remove */}
                         {!isDigital && (
                           <div className="flex items-center gap-4">
                             <div className="flex items-center bg-amber-50 border border-yellow-700/20 rounded-lg overflow-hidden">
@@ -267,28 +375,40 @@ useEffect(() => {
                                 +
                               </button>
                             </div>
-
-                           
+                            <button
+                              onClick={async () => {
+                                try {
+                                  await removeFromCart(item.id);
+                                  toast.success("Item removed");
+                                } catch {
+                                  toast.error("Failed to remove item");
+                                }
+                              }}
+                              className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                              Remove
+                            </button>
                           </div>
                         )}
 
-                        {/* Digital Items - Only Remove Button */}
+                        {/* Digital Items - Remove Only */}
                         {isDigital && (
-  <button
-    onClick={async () => {
-      try {
-        await removeFromCart(item.id);
-        toast.success("Item removed");
-      } catch {
-        toast.error("Failed to remove item");
-      }
-    }}
-    className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
-  >
-    <Trash2 className="w-3 h-3" />
-    Remove
-  </button>
-)}
+                          <button
+                            onClick={async () => {
+                              try {
+                                await removeFromCart(item.id);
+                                toast.success("Item removed");
+                              } catch {
+                                toast.error("Failed to remove item");
+                              }
+                            }}
+                            className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            Remove
+                          </button>
+                        )}
                       </div>
                     </div>
                   );
@@ -313,15 +433,15 @@ useEffect(() => {
                       <span className="text-yellow-800/40 ml-1">×{item.quantity}</span>
                     </span>
                     <span className="text-xs font-medium text-yellow-900 shrink-0">
-  ₹{item.totalPrice.toLocaleString("en-IN")}
-</span>
+                      ₹{item.totalPrice?.toLocaleString("en-IN")}
+                    </span>
                   </div>
                 ))}
               </div>
 
               <div className="mx-5 border-t border-yellow-700/10" />
 
-              <div className="px-5 py-4 space-y-2.5">
+              {/* <div className="px-5 py-4 space-y-2.5">
                 <div className="flex justify-between">
                   <span className="text-xs text-yellow-800/60">Subtotal</span>
                   <span className="text-xs font-medium text-yellow-900">₹{safeTotal.toLocaleString("en-IN")}</span>
@@ -342,20 +462,20 @@ useEffect(() => {
                     </div>
                   </>
                 )}
-              </div>
+              </div> */}
 
-              <div className="mx-5 mb-4 bg-amber-50 border border-yellow-700/15 rounded-xl px-4 py-3 flex justify-between items-center">
+              {/* <div className="mx-5 mb-4 bg-amber-50 border border-yellow-700/15 rounded-xl px-4 py-3 flex justify-between items-center">
                 <span className="text-xs uppercase tracking-widest font-semibold text-yellow-900 font-serif">
                   Total
                 </span>
                 <span className="text-xl font-bold font-serif text-yellow-900">
                   ₹{finalAmount.toLocaleString("en-IN")}
                 </span>
-              </div>
+              </div> */}
 
               <div className="px-5 pb-5 space-y-3">
                 <button
-                  onClick={() => navigate("/checkout", { state: { deliveryMode: effectiveMode } })}
+                  onClick={handleProceedToCheckout}
                   className="w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2 text-yellow-950"
                 >
                   {effectiveIsWallet ? (

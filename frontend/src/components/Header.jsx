@@ -37,79 +37,79 @@ function Header() {
 };
 
   return (
-    <header className="w-full sticky top-0 z-50 backdrop-blur-md
-    bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b border-yellow-300/40 shadow-md">
+    <div className="px-3 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
 
-      <div className="max-w-7xl mx-auto xl:ml-20 lg:ml-10 px-4 py-3 gap-3 flex items-center justify-between sm:px-6 lg:pl-1 md:mr-2 2xl:min-w-screen 2xl:ml-1 2xl:mr-4">
-        {/* <Link to="/dashboard" className="flex items-center gap-2 no-underline"> */}
-          <img className="w-15 md:w-17 md:ml-1 2xl:h-40 2xl:w-90 lg:p-1 2xl:ml-2 2xl:p-3 2xl:flex 2xl:justify-start object-contain  ml-4 p-0" src={dgiLogo} alt="logo "/>
-          <nav className="hidden md:flex lg:text-sm md:gap-2 md:text-xs 2xl:text-3xl 2xl:gap-10 2xl:ml-5 lg:gap-8 lg:ml-1 items-center gap-6  text-bold uppercase tracking-widest  text-yellow-500">
-          <Link to="/dashboard" className="nav-item">Dashboard</Link>
-          <Link to="/gold" className="nav-item">Gold</Link>
-          <Link to="/silver" className="nav-item">Silver</Link>
-          <Link to="/redeem" className="nav-item">Redeem</Link>
-          <Link to="/checkout" className="nav-item">Checkout</Link>
-          <Link to="/orders" className="nav-item">MyOrders</Link>
-          <Link to="/about" className="nav-item">About</Link>    
-        </nav>
-        
-        <div className="flex items-center gap-3">
-          <Link 
-            to="/cart" 
-            className="relative w-9 h-9 2xl:w-15 2xl:h-15 rounded-full flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
-          >
-            <ShoppingCart className="w-4 h-4 2xl:w-7 2xl:h-7" />
-            {/* {totalItems > 0 && (
-              <span className="absolute-top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-semibold bg-yellow-500 text-black">
-                3
-              </span>
-            )} */}
-          </Link>
-         <Link 
-            to="/wishlist" 
-            className="hidden sm:flex w-9 h-9 2xl:w-15 2xl:h-15 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition"
-          >
-            <Heart color="#4d2200"className="w-4 h-4 2xl:w-7 2xl:h-7" strokeWidth={1} />   
-          </Link>
-          
-          <Link 
-            to="/profile" 
-            className="hidden sm:flex w-9 h-9 2xl:w-15 2xl:h-15 rounded-full items-center justify-center border border-yellow-300 bg-white text-yellow-800 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-600 transition">
-            <User className="w-4 h-4 2xl:w-7 2xl:h-7" />
-          </Link>
-          
-          <button 
-            onClick={handleLogout} 
-            className="hidden sm:flex w-9 h-9 2xl:w-15 2xl:h-15 rounded-full items-center justify-center border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-500 hover:text-gray-800 transition">
-            <LogOut className="w-4 h-4 2xl:w-7 2xl:h-7" />
-          </button>
+  <header className="mt-9 mx-1 p-3 px-5 rounded-4xl bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] border-b border-yellow-300/40">
 
-          <button 
-            className="md:hidden w-9 h-9 flex  items-center justify-center border border-yellow-300 rounded-full bg-white text-yellow-800"
-            onClick={() => setIsOpen(!isOpen)} >
-            {isOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
+    {/* MAIN HEADER ROW */}
+    <div className="flex items-center justify-between lg:grid lg:grid-cols-3">
+
+      {/* LEFT - LOGO */}
+      <div className="flex items-center">
+        <img src={dgiLogo} alt="logo" />
       </div>
 
-      
-      {isOpen && (
-        <div className="md:hidden bg-white border-t border-yellow-200 shadow-lg">
-          <div className="flex flex-col p-4 gap-4 text-sm uppercase tracking-wider text-yellow-800">
-            <Link to="/dashboard" onClick={()=>setIsOpen(false)}>Dashboard</Link>
-            <Link to="/gold" onClick={()=>setIsOpen(false)}>Gold</Link>
-            <Link to="/silver" onClick={()=>setIsOpen(false)}>Silver</Link>
-            <Link to="/redeem" onClick={()=>setIsOpen(false)}>Redeem</Link>      
-            <Link to="/profile" onClick={()=>setIsOpen(false)}>Profile</Link>
-            <Link to="/checkout" onClick={()=>setIsOpen(false)}>Checkout</Link>         
-            <Link to="/about" onClick={()=>setIsOpen(false)}>About</Link>
+      {/* CENTER - NAV (DESKTOP ONLY) */}
+      <nav className="hidden lg:flex justify-center gap-10 font-serif text-[#ddd9ce]">
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/gold">Gold</Link>
+        <Link to="/silver">Silver</Link>
+        <Link to="/redeem">Redeem</Link>
+        <Link to="/checkout">Checkout</Link>
+        <Link to="/orders">MyOrders</Link>
+        <Link to="/about">About</Link>
+      </nav>
 
-            <button onClick={handleLogout} className="text-left">Logout</button>
-          </div>
-        </div>
-      )}
-    </header>
+      {/* RIGHT - ICONS + MENU */}
+      <div className="flex items-center justify-end gap-3">
+
+        <Link to="/cart" className="relative w-9 h-9 flex items-center justify-center border border-yellow-300 bg-white text-yellow-800 rounded-full">
+          <ShoppingCart className="w-4 h-4" />
+        </Link>
+
+        <Link to="/wishlist" className="hidden sm:flex w-9 h-9 items-center justify-center border border-yellow-300 bg-white text-yellow-800 rounded-full">
+          <Heart className="w-4 h-4" />
+        </Link>
+
+        <Link to="/profile" className="hidden sm:flex w-9 h-9 items-center justify-center border border-yellow-300 bg-white text-yellow-800 rounded-full">
+          <User className="w-4 h-4" />
+        </Link>
+
+        <button
+          className="md:hidden w-9 h-9 flex items-center justify-center border border-yellow-300 rounded-full bg-white text-yellow-800"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  {/* MOBILE MENU */}
+  {isOpen && (
+    <div className="md:hidden mt-2 mx-1 rounded-2xl bg-white border border-yellow-200 shadow-lg">
+      <div className="flex flex-col p-4 gap-4 text-sm uppercase tracking-wider text-yellow-800">
+
+        <Link to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
+        <Link to="/gold" onClick={() => setIsOpen(false)}>Gold</Link>
+        <Link to="/silver" onClick={() => setIsOpen(false)}>Silver</Link>
+        <Link to="/redeem" onClick={() => setIsOpen(false)}>Redeem</Link>
+        <Link to="/profile" onClick={() => setIsOpen(false)}>Profile</Link>
+        <Link to="/checkout" onClick={() => setIsOpen(false)}>Checkout</Link>
+        <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
+
+        <button onClick={handleLogout} className="text-left">
+          Logout
+        </button>
+
+      </div>
+    </div>
+  )}
+
+</div>
   );
 }
-
 export default Header;

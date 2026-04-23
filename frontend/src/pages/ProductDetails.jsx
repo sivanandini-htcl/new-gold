@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { jewelleryProducts } from "./Data/jewelleryProducts";
-import { useCart } from "../components/CartContext";
+// import { useCart } from "../components/CartContext";
 import { toast } from "react-toastify";
 import {ArrowLeft,ShoppingCart,Weight,Tag,Gem,Shield,Truck,RefreshCw,ChevronLeft,ChevronRight,Star,ZoomIn,} from "lucide-react";
 
@@ -29,7 +29,7 @@ function getSimilar(product, all) {
 
 function ProductDetails() {
   const { id } = useParams();
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const product = jewelleryProducts.find((p) => p.id === Number(id));

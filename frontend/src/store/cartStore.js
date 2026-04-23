@@ -5,13 +5,11 @@ const useCartStore = create((set, get) => ({
   cartItems: [],
   loading: false,
 
-  // ✅ GET CART
- fetchCart: async () => {
+  //  GET CART
+fetchCart: async () => {
   try {
     set({ loading: true });
     const res = await api.get("/cart");
-
-    // ✅ Correct path: res.data.data.cart.items
     const cart = res.data?.data?.cart;
     const items = cart?.items || [];
 
@@ -27,6 +25,7 @@ const useCartStore = create((set, get) => ({
           purity: "24K",
           image: "",
           isDigital: true,
+          addedAt: item.addedAt || new Date().toISOString(), // 
         };
       } else {
         return {
@@ -39,6 +38,7 @@ const useCartStore = create((set, get) => ({
           purity: item.purity || "",
           image: item.image || "",
           isDigital: false,
+          addedAt: item.addedAt || new Date().toISOString(), //  track time
         };
       }
     });

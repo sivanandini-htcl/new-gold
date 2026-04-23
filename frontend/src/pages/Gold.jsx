@@ -55,7 +55,7 @@ const handleBuyNow = async () => {
     quantityInGrams: calc.grams,
   };
 
-  // ✅ If cart has items, show replace modal
+  //  If cart has items, show replace modal
   if (cartItems.length > 0) {
     setPendingItem(newItem);
     setShowReplaceModal(true);
@@ -218,7 +218,7 @@ const handleReplaceConfirm = async () => {
     <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
       <h2 className="text-lg font-semibold mb-2">Replace Cart Item?</h2>
       <p className="text-sm text-gray-600 mb-6">
-        {/* ✅ Use cartItems[0].name for existing, and calc values for new */}
+        {/*  Use cartItems[0].name for existing, and calc values for new */}
         Your cart already has <strong>{cartItems[0]?.name}</strong>.<br />
         Replace it with{" "}
         <strong>Digital Gold 24K — {pendingItem.quantityInGrams}g</strong>?

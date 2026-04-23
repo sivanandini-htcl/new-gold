@@ -1,0 +1,11 @@
+ const res = await fetch("/api/v1/orders/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type":    "application/json",
+        "Authorization":   `Bearer ${token}`,
+        "idempotency-key": idempotencyKey,   // ← prevents double-charge on retry
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
