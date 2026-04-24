@@ -24,7 +24,7 @@ function Gold() {
   const calc = useMemo(() => {
     const grams = parseFloat(inputValue) || 0;
     const baseAmount = grams * gram24kGoldPrice;
-    return { grams, baseAmount: Math.round(baseAmount) };
+    return { grams, baseAmount: (baseAmount) };
   }, [inputValue, gram24kGoldPrice]);
 
   const hasValidInput = calc.grams >= 1 && gram24kGoldPrice > 0;

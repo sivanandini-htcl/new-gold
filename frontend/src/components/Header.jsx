@@ -81,6 +81,11 @@ function Header() {
         >
           {isOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
+         <button 
+            onClick={handleLogout} 
+            className="hidden sm:flex w-9 h-9 2xl:w-15 2xl:h-15 rounded-full items-center justify-center border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-500 hover:text-gray-800 transition">
+            <LogOut className="w-4 h-4 2xl:w-7 2xl:h-7" />
+          </button>
 
       </div>
 

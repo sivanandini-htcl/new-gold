@@ -66,7 +66,6 @@ function Checkout() {
   const deliveryMode = location.state?.deliveryMode || 'wallet';
   const isWallet = deliveryMode === 'wallet';
   const userEmail = useAuthStore((s) => s.user?.email);
-
   const [activeStep, setActiveStep] = useState(isWallet ? 2 : 1);
   const [selectedAddress, setSelectedAddress] = useState(SAVED_ADDRESSES[0].id);
   const [addingNew, setAddingNew] = useState(false);
@@ -119,37 +118,35 @@ function Checkout() {
   const handleContinueToPayment = async () => {
     try {
       const idempotencyKey = generateHexId();
-
       const payload = {
         cartId,
         mode: isWallet ? 'WALLET' : 'DELIVERY',
         paymentProvider: 'RAZORPAY',
-        amount: finalAmount,
         checkoutSessionId: sessionId,
       };
 
       const { data } = await api.post('/orders/checkout', payload, {
         headers: { 'idempotency-key': idempotencyKey },
       });
-      console.log('print data', data);
+      console.log('print data .......', data);
 
       if (data.success) {
         const {
           razorpayOrderId, // ✅ MUST come from backend
           pricing, // ✅ in paise
           orderNumber,
+          id, //id
         } = data.data;
-
+        console.log(data.data.id); 
         if (!razorpayOrderId) {
           toast.error('Razorpay order id missing from backend');
           return;
         }
-        let amount = pricing?.totalAmount;
         openRazorpayPopup({
           order_id: razorpayOrderId,
-          amount,
           currency: 'INR',
           orderNumber,
+          backendOrderId: id, //id
         });
       }
     } catch (err) {
@@ -158,7 +155,8 @@ function Checkout() {
     }
   };
 
-  const openRazorpayPopup = ({ order_id, amount, currency, orderNumber }) => {
+  const openRazorpayPopup = ({ order_id, currency, orderNumber, backendOrderId }) => {
+    //id
     if (!window.Razorpay) {
       toast.error('Razorpay SDK not loaded');
       return;
@@ -166,21 +164,20 @@ function Checkout() {
 
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-
-      amount: amount, // ✅ already in paise
       currency: currency || 'INR',
-
       name: 'DigiGold',
       description: 'Order Payment',
 
       order_id: order_id, // ✅ Razorpay order id
 
       handler: function (response) {
+        console.log(' FULL RAZORPAY RESPONSE:', response);
         handleVerifyPayment({
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_order_id: response.razorpay_order_id,
           razorpay_signature: response.razorpay_signature,
-          orderId: orderNumber,
+          // orderId: orderNumber,
+          orderId: backendOrderId, //id
         });
       },
 
@@ -200,7 +197,6 @@ function Checkout() {
     };
 
     const rzp = new window.Razorpay(options);
-
     rzp.open();
 
     rzp.on('payment.failed', function (response) {
@@ -210,9 +206,17 @@ function Checkout() {
   };
 
   //  Verify Payment with Backend
-  const handleVerifyPayment = async (payload) => {
+  const handleVerifyPayment = async (response) => {
     try {
-      const { data } = await api.post('/orders/checkout/verify-payment', payload);
+      const res = {
+        // orderId: response.id,
+        orderId: response.orderId, //id
+        razorpayOrderId: response.razorpay_order_id,
+        razorpayPaymentId: response.razorpay_payment_id,
+        razorpaySignature: response.razorpay_signature,
+      };
+
+      const { data } = await api.post('/orders/buy/verify-payment', res);
 
       if (data.success) {
         setOrdered(true);
@@ -221,6 +225,10 @@ function Checkout() {
       }
     } catch (err) {
       console.error(err);
+      console.log('FULL ERROR:', err);
+      console.log('RESPONSE:', err.response);
+      console.log('DATA:', err.response?.data);
+      console.log('MESSAGE:', err.response?.data?.message);
       toast.error('Verification error');
     }
   };

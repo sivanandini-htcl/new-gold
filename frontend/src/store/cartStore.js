@@ -11,16 +11,18 @@ fetchCart: async () => {
     set({ loading: true });
     const res = await api.get("/cart");
     const cart = res.data?.data?.cart;
+    console.log("add to cart res",cart)
     const items = cart?.items || [];
 
     const normalized = items.map((item) => {
       if (item.type === "METAL") {
         return {
           id: item.id,
-          name: `Digital Gold 24K - ${item.quantityInGrams}g`,
+          name: item.title,
           price: item.unitPrice,
-          quantity: 1,
+           quantity: item.quantity,
           totalPrice: item.totalPrice,
+          
           weight: item.quantityInGrams,
           purity: "24K",
           image: "",

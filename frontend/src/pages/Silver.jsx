@@ -3,9 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import usePriceStore from "../store/priceStore";
-import { useCart } from "../components/CartContext";
 import useCartStore from "../store/cartStore";
-
+import api from "../api/axiosInstance";
 
 function Silver() {
   const [inputValue, setInputValue] = useState("");
@@ -13,8 +12,8 @@ function Silver() {
   const [pendingItem, setPendingItem] = useState(null);
 
   const navigate = useNavigate();
- 
-  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity } = useCartStore();
+
+  const { cartItems, replaceCartItem, fetchCart } = useCartStore();
 
   const prices = usePriceStore((state) => state.prices);
   const silverPrice = prices.find((item) => item.metal === "SILVER");
@@ -24,59 +23,55 @@ function Silver() {
   const calc = useMemo(() => {
     const grams = parseFloat(inputValue) || 0;
     const baseAmount = grams * gram24kSilverPrice;
-    return { 
-      grams, 
-      baseAmount: Math.round(baseAmount) 
+    return {
+      grams,
+      baseAmount: Math.round(baseAmount),
     };
   }, [inputValue, gram24kSilverPrice]);
 
   const hasValidInput = calc.grams >= 1 && gram24kSilverPrice > 0;
 
-  // Create digital silver item
-  const createDigitalSilverItem = () => ({
-    id: `digital-silver-${Date.now()}`,
-    name: `Digital Silver .999 - ${calc.grams}g`,
-    type: "silver",
-    weight: calc.grams,
-    price: calc.baseAmount,
-    quantity: 1,
-    isDigital: true,
-    image: "",
-    purity: ".999",
-    purityText: "99.9% Pure",
-  });
-
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (!hasValidInput) {
-      toast.error("Please enter a valid amount (minimum 1 gram)");
+      toast.error("Minimum 1 gram required");
       return;
     }
 
-    const silverItem = createDigitalSilverItem();
+    const newItem = {
+      type: "METAL",
+      metalType: "SILVER",
+      quantityInGrams: calc.grams,
+    };
 
-    // If cart is empty → add directly
-    if (cartItems.length === 0) {
-      addToCart(silverItem);
-      toast.success("Digital Silver added to cart!");
+    // If cart has items, show replace modal
+    if (cartItems.length > 0) {
+      setPendingItem(newItem);
+      setShowReplaceModal(true);
+      return;
+    }
+
+    try {
+      await api.post("/cart/add", newItem);
+      await fetchCart();
+      toast.success("Added to cart");
       navigate("/cart");
-      return;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
-
-    // Cart has another item → show replace modal
-    setPendingItem(silverItem);
-    setShowReplaceModal(true);
   };
 
-  // Handle Replace from Modal
-  const handleReplaceConfirm = () => {
+  const handleReplaceConfirm = async () => {
     if (!pendingItem) return;
-
-    replaceCartItem(pendingItem);
-    toast.success(`${pendingItem.name} added to cart`);
-
-    setShowReplaceModal(false);
-    setPendingItem(null);
-    navigate("/cart");
+    try {
+      const oldItemId = cartItems[0]?.id;
+      await replaceCartItem(oldItemId, pendingItem);
+      toast.success("Cart updated");
+      setShowReplaceModal(false);
+      setPendingItem(null);
+      navigate("/cart");
+    } catch (err) {
+      toast.error("Failed to replace item");
+    }
   };
 
   const handleReplaceCancel = () => {
@@ -86,7 +81,7 @@ function Silver() {
 
   return (
     <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
-      
+
       <Link
         to="/dashboard"
         className="inline-flex items-center gap-2 mb-6 text-xs 2xl:text-2xl uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
@@ -121,14 +116,14 @@ function Silver() {
               </h2>
 
               <div className="flex items-center justify-between p-4 rounded-xl mb-6 border 2xl:text-3xl 2xl:w-full 2xl:h-30 2xl:p-8">
-                <span className="text-gray-900">₹{Math.round(gram24kSilverPrice) || "Loading..."}</span>
-                <span>₹{silverPrice ? silverPrice.changePercent.toLocaleString() : "Loading..."}</span>
+                <p>₹{Math.round(gram24kSilverPrice) || "Loading..."}</p>
+                <p>{silverPrice ? `${silverPrice.changePercent}%` : "—"}</p>
               </div>
 
               <div className="space-y-3 text-sm 2xl:text-3xl 2xl:gap-10 2xl:mt-20">
                 <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
                   <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Current Price</span>
-                  <span className="text-gray-900">₹{silverPrice ? silverPrice.price.toLocaleString() : "Loading..."}</span>
+                  <span className="text-gray-900">₹{silverPrice ? silverPrice.price.toLocaleString() : "—"}</span>
                 </div>
 
                 <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
@@ -194,7 +189,7 @@ function Silver() {
               </div>
             </div>
 
-            {/* Buy Now Button - Directly adds to cart */}
+            {/* Buy Now Button */}
             <button
               onClick={handleBuyNow}
               disabled={!hasValidInput}
@@ -230,9 +225,9 @@ function Silver() {
             <h2 className="text-lg font-semibold mb-2">Replace Cart Item?</h2>
             <p className="text-sm text-gray-600 mb-6">
               Your cart already has <strong>{cartItems[0]?.name}</strong>.<br />
-              Do you want to replace it with <strong>{pendingItem.name}</strong>?
+              Replace it with{" "}
+              <strong>Digital Silver .999 — {pendingItem.quantityInGrams}g</strong>?
             </p>
-
             <div className="flex gap-3">
               <button
                 onClick={handleReplaceCancel}
@@ -242,7 +237,7 @@ function Silver() {
               </button>
               <button
                 onClick={handleReplaceConfirm}
-                className="flex-1 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-xl text-sm font-medium"
+                className="flex-1 py-3 bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 shadow-lg hover:scale-[1.02] text-white rounded-xl text-sm font-medium"
               >
                 Yes, Replace
               </button>

@@ -19,6 +19,12 @@ import { jewelleryProducts } from "./Data/jewelleryProducts";
 import DgiAssurance from "../components/dashboardComponents/Dgiassurance ";
 import BlogSection from "../components/dashboardComponents/Blogsection";
 import ProductCarousel from "../components/dashboardComponents/ProductCarousel.JSX";
+import dg from "../assets/dg";
+import DashboardBar from "../assets/DashboardBar.jpg";
+import BackgroundImg1 from "../assets/background1.jpg"
+import WorksCarousel from "./ImgaeSlider";
+import silver from "../assets/silver.jpg"
+import Section from "../components/dashboardComponents/SilverScroller";
 // Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -63,7 +69,7 @@ export function ProductCard({ product, navigate }) {
       variants={scaleOnHover}
       whileHover="whileHover"
       onClick={() => navigate(`/productdetails/${product.id}`)}
-      className={`bg-white border ${isGold ? "border-amber-200" : "border-gray-200"} rounded-2xl overflow-hidden cursor-pointer flex flex-col h-full`}
+      className={`bg-white border ${isGold ? "border-amber-200" : "border-gray-200"} rounded- overflow-hidden cursor-pointer flex flex-col h-full`}
     >
       <div className={`h-40 ${isGold ? "bg-white" : "bg-white"} flex items-center justify-center p-4 relative`}>
         <img
@@ -164,8 +170,8 @@ function Dashboard() {
   /* ── Chart Data ── */
 
   /* ── Products ── */
-  const featuredGold = jewelleryProducts.filter(p => p.type === "gold").slice(0, 4);
-  const featuredSilver = jewelleryProducts.filter(p => p.type === "silver").slice(0, 4);
+  const featuredGold = jewelleryProducts.filter(p => p.type === "gold").slice(0, 5);
+  const featuredSilver = jewelleryProducts.filter(p => p.type === "silver").slice(0, 5);
   
   /* ── Insights ── */
   const insights = [
@@ -194,6 +200,168 @@ function Dashboard() {
       className="min-h-screen font-serif bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 py-8 px-4"
     >
          <SlidingBanner />
+        <div className="flex flex-col md:flex-row gap-4 mb-9">
+
+  {/* GOLD RECTANGLE */}
+  <div className="flex-1 bg-white border border-amber-200 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+
+    {/* LEFT */}
+    <div className="flex items-center gap-3">
+
+      <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center">
+        <Coins size={18} color="#b45309" />
+      </div>
+
+      <div>
+        <p className="text-[10px] text-amber-700 uppercase tracking-wider">
+          Gold / 24K
+        </p>
+        <p className="font-serif font-bold text-amber-800 text-lg leading-tight">
+          ₹{Math.round(gram24kGoldPrice)?.toLocaleString("en-IN") || "—"}
+        </p>
+      </div>
+
+    </div>
+
+    {/* RIGHT */}
+    <button
+      onClick={() => navigate("/gold")}
+      className="text-[11px] font-bold px-3 py-1.5 rounded-md bg-gradient-to-r from-yellow-700 to-yellow-500 text-white"
+    >
+      Buy
+    </button>
+
+  </div>
+
+  {/* SILVER RECTANGLE */}
+  <div className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
+
+    {/* LEFT */}
+    <div className="flex items-center gap-3">
+
+      <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center">
+        <Gem size={18} color="#6b7280" />
+      </div>
+
+      <div>
+        <p className="text-[10px] text-gray-500 uppercase tracking-wider">
+          Silver / 24K
+        </p>
+        <p className="font-serif font-bold text-gray-700 text-lg leading-tight">
+          ₹{Math.round(gram24ksilverPrice)?.toLocaleString("en-IN") || "—"}
+        </p>
+      </div>
+
+    </div>
+
+    {/* RIGHT */}
+    <button
+      onClick={() => navigate("/silver")}
+      className="text-[11px] font-bold px-3 py-1.5 rounded-md bg-gray-700 text-white"
+    >
+      Buy
+    </button>
+
+  </div>
+
+</div>
+
+
+         <div className=" flex gap-30 px-40 pt-20 mb-10" >
+          <div> <p className=" text-7xl font-serif text-[#3c2415] ">Pure wealth, secured in every bar</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus error tenetur magni praesentium natus,
+             quidem harum et a aliquid doloremque, repellat ab alias provident optio, impedit fuga iusto accusantium itaque.</p></div>
+          <div className=" flex justify-end"> 
+            <img src={DashboardBar} alt="" className="w-190 h-90" />
+            </div>
+         </div>
+         <div className="mb-12   shadow-md p-4 rounded-2xl">
+
+  {/* HEADER */}
+  <div className="flex justify-between items-center mb-5">
+
+    <div>
+      <h2 className="font-serif text-2xl text-[#3c2415] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text  font-bold">
+        Featured Gold Jewellery
+      </h2>
+      <p className="text-xs text-[#3c2415] mt-1">
+        Redeem your holdings as certified gold products
+      </p>
+    </div>
+
+    <button
+      onClick={() => navigate("/redeem")}
+      className="flex items-center gap-1.5 border-2  rounded-lg px-4 py-2 text-xs text-yellow-950 font-bold hover:bg-yellow-100/20 transition"
+    >
+      View All <ChevronRight size={14} />
+    </button>
+
+  </div>
+
+  {/* PRODUCT GRID (NO CAROUSEL) */}
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+    {featuredGold.map((product) => (
+      <ProductCard
+        key={product.id}
+        product={product}
+        navigate={navigate}
+      />
+    ))}
+
+  </div>
+
+</div>
+         <div className=" flex gap-30 px-40 pt-20 mb-10" >
+           <img src={silver} alt="" className="w-190 h-90" />
+          <div> <p className=" text-7xl font-serif text-[#3c2415] ">Pure wealth, secured in every bar</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus error tenetur magni praesentium natus,
+             quidem harum et a aliquid doloremque, repellat ab alias provident optio, impedit fuga iusto accusantium itaque.</p></div>
+          <div className=" flex justify-end"> 
+           
+            </div>
+         </div>
+         <Section/>
+        <div className="mb-12  rounded-2xl shadow-md p-4">
+          
+
+  {/* HEADER */}
+  <div className="flex justify-between items-center mb-5">
+
+    <div>
+      <h2 className="font-serif text-2xl text-gray-800 font-bold">
+        Featured Silver Collection
+      </h2>
+      <p className="text-xs text-gray-500 mt-1">
+        Handpicked silver pieces for every occasion
+      </p>
+    </div>
+
+    <button
+      onClick={() => navigate("/redeem")}
+      className="flex items-center gap-1.5 border border-gray-400 rounded-lg px-4 py-2 text-xs text-gray-700 font-bold hover:bg-gray-100 transition"
+    >
+      View All <ChevronRight size={14} />
+    </button>
+
+  </div>
+
+  {/* PRODUCT GRID (NO CAROUSEL) */}
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+    {featuredSilver.map((product) => (
+      <ProductCard
+        key={product.id}
+        product={product}
+        navigate={navigate}
+      />
+    ))}
+
+  </div>
+
+</div>
+       
+                 <WorksCarousel />
       
     </div>
   );

@@ -43,15 +43,15 @@ export default function SlidingBanner() {
 
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>
-            <div className="relative h-40 md:h-96">
+            <div className="relative h-40 md:h-120">
 
               <img
                 src={banner.image}
                 alt={banner.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-fill"
               />
 
-              <div className="absolute inset-0 bg-black/40"></div>
+              <div className="absolute "></div>
 
               <div className="absolute inset-0 flex flex-col justify-center px-6 text-white">
                 <h2 className="text-lg md:text-3xl font-bold">
