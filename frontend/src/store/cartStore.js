@@ -1,86 +1,85 @@
-import { create } from "zustand";
-import api from "../api/axiosInstance";
+import { create } from 'zustand';
+import api from '../api/axiosInstance';
 
 const useCartStore = create((set, get) => ({
   cartItems: [],
   loading: false,
 
   //  GET CART
-fetchCart: async () => {
-  try {
-    set({ loading: true });
-    const res = await api.get("/cart");
-    const cart = res.data?.data?.cart;
-    console.log("add to cart res",cart)
-    const items = cart?.items || [];
+  fetchCart: async () => {
+    try {
+      set({ loading: true });
+      const res = await api.get('/cart');
+      const cart = res.data?.data?.cart;
+      // console.log("add to cart res",cart)
+      const items = cart?.items || [];
 
-    const normalized = items.map((item) => {
-      if (item.type === "METAL") {
-        return {
-          id: item.id,
-          name: item.title,
-          price: item.unitPrice,
-           quantity: item.quantity,
-          totalPrice: item.totalPrice,
-          
-          weight: item.quantityInGrams,
-          purity: "24K",
-          image: "",
-          isDigital: true,
-          addedAt: item.addedAt || new Date().toISOString(), // 
-        };
-      } else {
-        return {
-          id: item.id,
-          name: item.name || `Product #${item.productId}`,
-          price: item.unitPrice,
-          quantity: item.quantity,
-          totalPrice: item.totalPrice,
-          weight: item.weightInGrams || 0,
-          purity: item.purity || "",
-          image: item.image || "",
-          isDigital: false,
-          addedAt: item.addedAt || new Date().toISOString(), //  track time
-        };
-      }
-    });
+      const normalized = items.map((item) => {
+        if (item.type === 'METAL') {
+          return {
+            id: item.id,
+            name: item.title,
+            price: item.unitPrice,
+            quantity: item.quantity,
+            totalPrice: item.totalPrice,
 
-    set({ cartItems: normalized });
+            weight: item.quantityInGrams,
+            purity: '24K',
+            image: '',
+            isDigital: true,
+            addedAt: item.addedAt || new Date().toISOString(), //
+          };
+        } else {
+          return {
+            id: item.id,
+            name: item.name || `Product #${item.productId}`,
+            price: item.unitPrice,
+            quantity: item.quantity,
+            totalPrice: item.totalPrice,
+            weight: item.weightInGrams || 0,
+            purity: item.purity || '',
+            image: item.image || '',
+            isDigital: false,
+            addedAt: item.addedAt || new Date().toISOString(), //  track time
+          };
+        }
+      });
 
-  } catch (err) {
-    console.error("Cart fetch error:", err.response?.data || err.message);
-  } finally {
-    set({ loading: false });
-  }
-},
+      set({ cartItems: normalized });
+    } catch (err) {
+      console.error('Cart fetch error:', err.response?.data || err.message);
+    } finally {
+      set({ loading: false });
+    }
+  },
 
-removeFromCart: async (id) => {
-  try {
-    console.log("Removing item with id:", id); // ✅ check what id is being sent
-    await api.delete(`/cart/items/${id}`, {
-      data: { reason: "User removed from cart" }
-    });
-    await get().fetchCart();
-  } catch (err) {
-    console.error("Remove failed:", err.response?.status);   // check status code
-    console.error("Remove URL:", err.config?.url);           // check exact URL called
-    console.error("Remove failed:", err.response?.data);
-    throw err;
-  }
-},
+  removeFromCart: async (id) => {
+    try {
+      console.log('Removing item with id:', id); //  check what id is being sent
+      await api.delete(`/cart/items/${id}`, {
+        data: { reason: 'User removed from cart' },
+      });
+      await get().fetchCart();
+    } catch (err) {
+      console.error('Remove failed:', err.response?.status); // check status code
+      console.error('Remove URL:', err.config?.url); // check exact URL called
+      console.error('Remove failed:', err.response?.data);
+      throw err;
+    }
+  },
 
-replaceCartItem: async (oldItemId, newItem) => {
-  try {
-    await api.delete(`/cart/items/${oldItemId}`, {
-      data: { reason: "User removed from cart" } // ✅ same fix
-    });
-    await api.post("/cart/add", newItem);
-    await get().fetchCart();
-  } catch (err) {
-    console.error("Replace failed:", err.response?.data || err.message);
-    throw err;
-  }
-},
+  replaceCartItem: async (oldItemId, newItem) => {
+    try {
+      await api.delete(`/cart/items/${oldItemId}`, {
+        data: { reason: 'User removed from cart' }, // ✅ same fix
+      });
+      await api.post('/cart/add', newItem);
+      await get().fetchCart();
+    } catch (err) {
+      console.error('Replace failed:', err.response?.data || err.message);
+      throw err;
+    }
+  },
 
   updateQuantity: async (id, quantity) => {
     try {

@@ -5,11 +5,10 @@ const blogs = [
   {
     id: 1,
     tag: "Beginner's Guide",
-    tagColor: "#b45309",
-    tagBg: "#fef3c7",
     icon: Coins,
     title: "How to Use Digital Gold: Your Complete Step-by-Step Guide",
-    excerpt: "Digital gold lets you buy, store, and sell 24K gold online without physically holding it. Here's everything you need to know to get started — from your first ₹1 investment to advanced strategies.",
+    excerpt:
+      "Digital gold lets you buy, store, and sell 24K gold online without physically holding it. Here's everything you need to know to get started — from your first ₹1 investment to advanced strategies.",
     readTime: "5 min read",
     date: "Apr 18, 2026",
     featured: true,
@@ -39,11 +38,10 @@ const blogs = [
   {
     id: 2,
     tag: "Future Planning",
-    tagColor: "#065f46",
-    tagBg: "#d1fae5",
     icon: TrendingUp,
     title: "How Digital Gold Secures Your Financial Future",
-    excerpt: "From building an emergency fund to funding your child's education or retirement — digital gold is one of the most flexible and reliable wealth-building tools available to Indian investors today.",
+    excerpt:
+      "From building an emergency fund to funding your child's education or retirement — digital gold is one of the most flexible and reliable wealth-building tools available to Indian investors today.",
     readTime: "7 min read",
     date: "Apr 14, 2026",
     featured: true,
@@ -77,11 +75,10 @@ const blogs = [
   {
     id: 3,
     tag: "Safety & Trust",
-    tagColor: "#1e40af",
-    tagBg: "#dbeafe",
     icon: Shield,
     title: "Is Digital Gold Safe? Everything You Must Know",
-    excerpt: "Security, regulation, and transparency — understand how your digital gold investments are protected by law, insured vaults, and independent auditors.",
+    excerpt:
+      "Security, regulation, and transparency — understand how your digital gold investments are protected by law, insured vaults, and independent auditors.",
     readTime: "4 min read",
     date: "Apr 10, 2026",
     featured: false,
@@ -107,11 +104,10 @@ const blogs = [
   {
     id: 4,
     tag: "Smart Investing",
-    tagColor: "#7c3aed",
-    tagBg: "#ede9fe",
     icon: BookOpen,
     title: "Gold SIP vs Lump Sum: Which Strategy Wins?",
-    excerpt: "Should you invest a fixed amount monthly in gold, or make a one-time big purchase? We compare both strategies across 5, 10, and 20-year horizons with real data.",
+    excerpt:
+      "Should you invest a fixed amount monthly in gold, or make a one-time big purchase? We compare both strategies across 5, 10, and 20-year horizons with real data.",
     readTime: "6 min read",
     date: "Apr 5, 2026",
     featured: false,
@@ -136,108 +132,81 @@ const blogs = [
   },
 ];
 
+const colors = {
+  brown: "#3c2415",
+  brownMid: "#6b3f22",
+  brownLight: "#c4a882",
+  cream: "#ddd9ce",
+  creamDark: "#c8c3b5",
+  creamDarker: "#b5b0a3",
+  brownFaint: "rgba(60,36,21,0.06)",
+  brownFaint2: "rgba(60,36,21,0.12)",
+};
+
 /* ── Blog Modal ── */
 function BlogModal({ blog, onClose }) {
   const Icon = blog.icon;
+
   return (
     <div
       onClick={onClose}
-      style={{
-        position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)",
-        zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center",
-        padding: 20, backdropFilter: "blur(4px)",
-      }}
+      className="fixed inset-0 bg-[rgba(28,16,8,0.6)] z-[1000] flex items-center justify-center p-4 backdrop-blur-sm"
     >
       <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          background: "#fff",
-          borderRadius: 24,
-          width: "100%",
-          maxWidth: 680,
-          maxHeight: "88vh",
-          overflowY: "auto",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.2)",
-          position: "relative",
-        }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-cream rounded-[22px] w-full max-w-[660px] max-h-[90vh] overflow-y-auto shadow-[0_28px_80px_rgba(28,16,8,0.35)] relative"
       >
-        {/* Modal header */}
-        <div style={{
-          padding: "28px 32px 24px",
-          borderBottom: "1px solid #fde68a",
-          position: "sticky", top: 0, background: "#fff", zIndex: 10,
-          borderRadius: "24px 24px 0 0",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
-            <div style={{ flex: 1 }}>
-              <span style={{
-                background: blog.tagBg, color: blog.tagColor,
-                fontSize: 10, fontWeight: 700, padding: "3px 10px",
-                borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.1em",
-              }}>
+        {/* Header */}
+        <div className="p-[26px_28px_22px] border-b border-creamDark sticky top-0 bg-cream z-10 rounded-t-[22px]">
+          <div className="flex justify-between items-start gap-3">
+            <div className="flex-1">
+              <span className="inline-block bg-brownFaint2 text-brownMid text-[9px] font-extrabold px-3 py-[3px] rounded-full uppercase tracking-widest mb-2">
                 {blog.tag}
               </span>
-              <h2 style={{
-                fontFamily: "Georgia, serif", fontSize: 22, fontWeight: 700,
-                color: "#1c1917", margin: "12px 0 8px", lineHeight: 1.3,
-              }}>
+
+              <h2 className="font-serif text-[clamp(17px,3vw,22px)] font-bold text-brown mb-1 leading-snug">
                 {blog.title}
               </h2>
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                <span style={{ fontSize: 12, color: "#a1a1aa" }}>{blog.date}</span>
-                <span style={{ fontSize: 11, color: "#a1a1aa" }}>·</span>
-                <span style={{ fontSize: 12, color: blog.tagColor, fontWeight: 600 }}>
-                  <Clock size={11} style={{ display: "inline", marginRight: 4, verticalAlign: "middle" }} />
-                  {blog.readTime}
+
+              <div className="flex gap-3 text-[11px] text-creamDarker items-center">
+                <span>{blog.date}</span>
+                <span>·</span>
+                <span className="flex items-center gap-1">
+                  <Clock size={10} /> {blog.readTime}
                 </span>
               </div>
             </div>
+
             <button
               onClick={onClose}
-              style={{
-                width: 36, height: 36, borderRadius: "50%",
-                border: "1px solid #e5e7eb", background: "#f9fafb",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                cursor: "pointer", flexShrink: 0,
-              }}
+              className="w-[34px] h-[34px] rounded-full border border-creamDark bg-white flex items-center justify-center"
             >
-              <X size={16} color="#6b7280" />
+              <X size={15} className="text-brownMid" />
             </button>
           </div>
         </div>
 
-        {/* Modal body */}
-        <div style={{ padding: "28px 32px 36px" }}>
-          <p style={{
-            fontFamily: "Georgia, serif", fontSize: 15,
-            color: "#78350f", lineHeight: 1.8, marginBottom: 28,
-            fontStyle: "italic", borderLeft: "3px solid #fcd34d",
-            paddingLeft: 16,
-          }}>
+        {/* Body */}
+        <div className="p-[26px_28px_34px]">
+          <p className="font-serif text-[14px] text-brownMid leading-[1.8] mb-6 italic border-l-[3px] border-brownLight pl-4">
             {blog.excerpt}
           </p>
 
           {blog.content.map((section, i) => (
-            <div key={i} style={{ marginBottom: 24 }}>
-              <h3 style={{
-                fontFamily: "Georgia, serif", fontSize: 16, fontWeight: 700,
-                color: "#92400e", margin: "0 0 8px",
-                display: "flex", alignItems: "center", gap: 8,
-              }}>
-                <span style={{
-                  width: 22, height: 22, borderRadius: "50%",
-                  background: "linear-gradient(135deg, #d97706, #b45309)",
-                  color: "#fff", fontSize: 10, fontWeight: 800,
-                  display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0,
-                }}>{i + 1}</span>
+            <div key={i} className="mb-5">
+              <h3 className="font-serif text-[15px] font-bold text-brown flex items-center gap-2 mb-2">
+                <span className="w-[22px] h-[22px] rounded-full bg-brown text-cream text-[10px] font-extrabold flex items-center justify-center">
+                  {i + 1}
+                </span>
                 {section.heading}
               </h3>
-              <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.8, margin: 0, paddingLeft: 30 }}>
+
+              <p className="text-[13px] text-brownMid leading-[1.8] pl-8">
                 {section.body}
               </p>
+
               {i < blog.content.length - 1 && (
-                <div style={{ height: 1, background: "#f5f5f4", margin: "20px 0 0" }} />
+                <div className="h-[1px] bg-creamDark mt-4" />
               )}
             </div>
           ))}
@@ -247,235 +216,150 @@ function BlogModal({ blog, onClose }) {
   );
 }
 
-/* ── Blog Card ── */
-function BlogCard({ blog, onRead, featured }) {
+
+function FeaturedCard({ blog, onRead }) {
   const Icon = blog.icon;
-  if (featured) {
-    return (
-      <div
-        style={{
-          background: "#fff",
-          border: "1.5px solid #fde68a",
-          borderRadius: 20,
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          transition: "transform 0.2s ease, box-shadow 0.2s ease",
-          cursor: "pointer",
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.transform = "translateY(-3px)";
-          e.currentTarget.style.boxShadow = "0 12px 36px rgba(202,138,4,0.14)";
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "none";
-        }}
-        onClick={() => onRead(blog)}
-      >
-        {/* Card visual header */}
-        <div style={{
-          height: 120,
-          background: "linear-gradient(135deg, #fef9c3 0%, #fde68a 50%, #fef3c7 100%)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          position: "relative", overflow: "hidden",
-        }}>
-          {/* Decorative rings */}
-          <div style={{
-            position: "absolute", width: 200, height: 200, borderRadius: "50%",
-            border: "1px solid rgba(180,83,9,0.1)", top: -60, right: -60,
-          }} />
-          <div style={{
-            position: "absolute", width: 140, height: 140, borderRadius: "50%",
-            border: "1px solid rgba(180,83,9,0.08)", top: -30, right: -30,
-          }} />
-          <div style={{
-            width: 56, height: 56, borderRadius: 16,
-            background: "linear-gradient(135deg, #b45309, #d97706)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 8px 20px rgba(180,83,9,0.3)",
-          }}>
-            <Icon size={26} color="#fff" />
-          </div>
-          {/* Featured badge */}
-          <span style={{
-            position: "absolute", top: 12, left: 12,
-            background: "rgba(180,83,9,0.85)", color: "#fff",
-            fontSize: 9, fontWeight: 800, padding: "3px 8px",
-            borderRadius: 20, letterSpacing: "0.12em", textTransform: "uppercase",
-          }}>
-            Featured
-          </span>
-        </div>
 
-        <div style={{ padding: "20px 22px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
-          <span style={{
-            display: "inline-block",
-            background: blog.tagBg, color: blog.tagColor,
-            fontSize: 9, fontWeight: 800, padding: "3px 9px",
-            borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.1em",
-            marginBottom: 10,
-          }}>
-            {blog.tag}
-          </span>
-          <h3 style={{
-            fontFamily: "Georgia, serif", fontSize: 16, fontWeight: 700,
-            color: "#1c1917", lineHeight: 1.4, margin: "0 0 10px",
-          }}>
-            {blog.title}
-          </h3>
-          <p style={{ fontSize: 12, color: "#6b7280", lineHeight: 1.7, margin: "0 0 16px", flex: 1 }}>
-            {blog.excerpt.slice(0, 100)}...
-          </p>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, color: "#a1a1aa" }}>
-              <Clock size={10} style={{ display: "inline", marginRight: 4, verticalAlign: "middle" }} />
-              {blog.readTime}
-            </span>
-            <button style={{
-              display: "flex", alignItems: "center", gap: 4,
-              background: "none", border: "none",
-              color: "#b45309", fontSize: 12, fontWeight: 700,
-              fontFamily: "Georgia, serif", cursor: "pointer",
-            }}>
-              Read <ArrowRight size={13} />
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Compact card
   return (
     <div
-      style={{
-        background: "#fff",
-        border: "1px solid #f3f4f6",
-        borderRadius: 16,
-        padding: "18px 20px",
-        display: "flex", gap: 16, alignItems: "flex-start",
-        cursor: "pointer",
-        transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s",
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = "translateX(4px)";
-        e.currentTarget.style.boxShadow = "0 4px 20px rgba(202,138,4,0.1)";
-        e.currentTarget.style.borderColor = "#fde68a";
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = "translateX(0)";
-        e.currentTarget.style.boxShadow = "none";
-        e.currentTarget.style.borderColor = "#f3f4f6";
-      }}
       onClick={() => onRead(blog)}
+      className="bg-white border border-creamDark hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
     >
-      <div style={{
-        width: 44, height: 44, borderRadius: 12,
-        background: blog.tagBg, display: "flex",
-        alignItems: "center", justifyContent: "center", flexShrink: 0,
-      }}>
-        <Icon size={20} color={blog.tagColor} />
+      {/* Header */}
+      <div className="h-[110px] bg-gradient-to-br from-cream to-creamDark flex items-center justify-center relative overflow-hidden">
+        <div className="absolute w-[200px] h-[200px] rounded-full border border-[rgba(60,36,21,0.1)] -top-[70px] -right-[70px]" />
+        <div className="absolute w-[130px] h-[130px] rounded-full border border-[rgba(60,36,21,0.07)] -top-[30px] -right-[30px]" />
+
+        <div className="w-[52px] h-[52px] rounded-[14px] bg-brown flex items-center justify-center shadow-[0_8px_20px_rgba(60,36,21,0.3)] z-10">
+          <Icon size={24} className="text-cream" />
+        </div>
+
+        <span className="absolute top-2 left-2 bg-[rgba(60,36,21,0.82)] text-cream text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest">
+          Featured
+        </span>
       </div>
-      <div style={{ flex: 1 }}>
-        <span style={{
-          background: blog.tagBg, color: blog.tagColor,
-          fontSize: 9, fontWeight: 800, padding: "2px 7px",
-          borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.1em",
-        }}>
+
+      <div className="p-[18px] flex flex-col flex-1">
+        <span className="bg-brownFaint2 text-brownMid text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest mb-2 inline-block">
           {blog.tag}
         </span>
-        <h4 style={{
-          fontFamily: "Georgia, serif", fontSize: 13, fontWeight: 700,
-          color: "#1c1917", lineHeight: 1.4, margin: "6px 0 4px",
-        }}>
+
+        <h3 className="font-serif text-[14px] font-bold text-brown leading-snug mb-2">
           {blog.title}
-        </h4>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 11, color: "#a1a1aa" }}>
-            <Clock size={10} style={{ display: "inline", marginRight: 3, verticalAlign: "middle" }} />
-            {blog.readTime}
+        </h3>
+
+        <p className="text-[11px] text-brownMid leading-[1.7] mb-4 flex-1">
+          {blog.excerpt.slice(0, 95)}…
+        </p>
+
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] text-creamDarker flex items-center gap-1">
+            <Clock size={10} /> {blog.readTime}
           </span>
-          <ChevronRight size={14} color="#b45309" />
+
+          <button className="flex items-center gap-1 text-brown text-[11px] font-bold underline underline-offset-2 font-serif">
+            Read <ArrowRight size={12} />
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-/* ── Main BlogSection ── */
+
+function CompactCard({ blog, onRead }) {
+  const Icon = blog.icon;
+
+  return (
+    <div
+      onClick={() => onRead(blog)}
+      className="bg-white border border-creamDark hover:border-brownLight rounded-[14px] p-[16px_18px] flex gap-3 items-start cursor-pointer transition-all duration-200 hover:translate-x-1 hover:shadow-[0_4px_20px_rgba(60,36,21,0.09)]"
+    >
+      <div className="w-[42px] h-[42px] rounded-[12px] bg-brownFaint2 flex items-center justify-center">
+        <Icon size={20} className="text-brownMid" />
+      </div>
+
+      <div className="flex-1">
+        <span className="bg-brownFaint2 text-brownMid text-[8px] font-extrabold px-2 py-[2px] rounded-full uppercase tracking-widest">
+          {blog.tag}
+        </span>
+
+        <h4 className="font-serif text-[12px] font-bold text-brown mt-1 mb-1 leading-snug">
+          {blog.title}
+        </h4>
+
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] text-creamDarker flex items-center gap-1">
+            <Clock size={10} /> {blog.readTime}
+          </span>
+          <ChevronRight size={14} className="text-brownMid" />
+        </div>
+      </div>
+    </div>
+  );
+}
 export default function BlogSection() {
   const [activeBlog, setActiveBlog] = useState(null);
-  const featured = blogs.filter(b => b.featured);
-  const compact = blogs.filter(b => !b.featured);
+
+  const featured = blogs.filter((b) => b.featured);
+  const compact = blogs.filter((b) => !b.featured);
 
   return (
     <>
-      <div style={{ margin: "48px 0" }}>
+      <div className="mt-12 px-1 mb-3 px-3">
         {/* Header */}
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-          flexWrap: "wrap", gap: 12, marginBottom: 28,
-        }}>
+        <div className="flex justify-between items-end flex-wrap gap-3 mb-5">
           <div>
-            <p style={{
-              fontSize: 11, textTransform: "uppercase", letterSpacing: "0.2em",
-              color: "#b45309", fontFamily: "Georgia, serif", margin: "0 0 6px",
-            }}>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-brownMid font-serif mb-1">
               Learn · Grow · Invest
             </p>
-            <h2 style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: 28, fontWeight: 700, color: "#1c1917", margin: 0,
-            }}>
+
+            <h2 className="font-serif text-[clamp(22px,4vw,34px)] font-bold text-brown">
               Gold Investment Insights
             </h2>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <BookOpen size={14} color="#b45309" />
-            <span style={{ fontSize: 12, color: "#b45309", fontWeight: 600, fontFamily: "Georgia, serif" }}>
+
+          <div className="flex items-center gap-1">
+            <BookOpen size={14} className="text-brownMid" />
+            <span className="text-[12px] text-brownMid font-semibold font-serif">
               {blogs.length} Articles
             </span>
           </div>
         </div>
 
-        {/* Decorative divider */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
-          <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, #fde68a, transparent)" }} />
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 9.5,12 6,9 2.5,12 3.5,7.5 0,4.5 4.5,4.5" fill="#d97706" />
-          </svg>
-          <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, #fde68a)" }} />
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-7">
+          <div className="flex-1 h-[1px] bg-brownLight opacity-50" />
+          <div className="w-2 h-2 bg-brownMid rotate-45" />
+          <div className="flex-1 h-[1px] bg-brownLight opacity-50" />
         </div>
 
-        {/* Layout: 2 featured + 2 compact */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          {/* Left: 2 featured cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            {featured.map(b => (
-              <BlogCard key={b.id} blog={b} onRead={setActiveBlog} featured />
+        {/* Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
+          {/* Featured */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {featured.map((b) => (
+              <FeaturedCard key={b.id} blog={b} onRead={setActiveBlog} />
             ))}
           </div>
 
-          {/* Right: compact cards stacked */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{
-              background: "linear-gradient(135deg, #fef9c3, #fef3c7)",
-              borderRadius: 16, padding: "16px 20px", marginBottom: 4,
-              border: "1px solid #fde68a",
-            }}>
-              <p style={{
-                fontFamily: "Georgia, serif", fontSize: 13, color: "#92400e",
-                fontStyle: "italic", margin: 0, lineHeight: 1.6,
-              }}>
+          {/* Right Side */}
+          <div className="flex flex-col gap-4">
+            
+            {/* Quote */}
+            <div className="bg-brown rounded-[14px] p-[18px_20px] border border-brownMid">
+              <p className="font-serif text-[13px] text-cream italic leading-[1.65]">
                 "Gold is a way of going long on fear, and it has been a very good way of going long on fear from time to time."
               </p>
-              <p style={{ fontSize: 11, color: "#b45309", margin: "8px 0 0", fontWeight: 700 }}>
+              <p className="text-[10px] text-brownLight mt-2 font-bold">
                 — Warren Buffett
               </p>
             </div>
-            {compact.map(b => (
-              <BlogCard key={b.id} blog={b} onRead={setActiveBlog} featured={false} />
+
+            {/* Compact */}
+            {compact.map((b) => (
+              <CompactCard key={b.id} blog={b} onRead={setActiveBlog} />
             ))}
           </div>
         </div>

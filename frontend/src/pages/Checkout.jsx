@@ -1,6 +1,8 @@
 import { useCart } from '../components/CartContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useEffect } from "react";
+
 import {
   ArrowLeft,
   CreditCard,
@@ -113,6 +115,23 @@ function Checkout() {
     localStorage.setItem('orders', JSON.stringify([order, ...existing]));
     setOrdered(true);
   };
+//   useEffect(() => {
+//   getProfile();
+// }, []);
+
+// const getProfile = async () => {
+//   try {
+//     const { data } = await api.get("/auth/profile");
+
+//     console.log("PROFILE RESPONSE:", data);
+//   } catch (err) {
+//     console.error("PROFILE ERROR:", err);
+//     console.log("ERROR RESPONSE:", err.response);
+//     console.log("ERROR DATA:", err.response?.data);
+//     console.log("ERROR MESSAGE:", err.response?.data?.message);
+//   }
+// };
+
 
   // ── Step 1: Create Order → Step 2: Open Razorpay Popup ──
   const handleContinueToPayment = async () => {
@@ -151,7 +170,11 @@ function Checkout() {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Checkout failed');
+      console.log("FULL ERROR:", err);
+  console.log("RESPONSE:", err.response);
+  console.log("DATA:", err.response?.data);
+  console.log("MESSAGE:", err.response?.data?.message);
+  toast.error('Checkout failed');
     }
   };
 
@@ -168,7 +191,7 @@ function Checkout() {
       name: 'DigiGold',
       description: 'Order Payment',
 
-      order_id: order_id, // ✅ Razorpay order id
+      order_id: order_id, // Razorpay order id
 
       handler: function (response) {
         console.log(' FULL RAZORPAY RESPONSE:', response);
@@ -220,6 +243,8 @@ function Checkout() {
 
       if (data.success) {
         setOrdered(true);
+        toast.success("verified")
+          await api.delete("/cart");
       } else {
         toast.error('Verification failed');
       }

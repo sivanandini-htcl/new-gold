@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowLeft, Edit3, Save, X,MapPin } from "lucide-react";
+import api from "../../api/axiosInstance";
 function Delivery(){
     const[isEditing,setIsEditing]=useState(false)
     const[formData,setFormData]=useState({
@@ -32,11 +33,47 @@ function Delivery(){
 
     // }
     
-    const handleSave=()=>{
-        console.log("saved data",formData);
-        toast.success("address saved successfully");
-        setIsEditing(false);
+   const handleSave = async () => {
+  try {
+    setLoading(true);
+
+    const payload = {
+      address: formData.address,
+      address1: formData.address1,
+      address2: formData.address2,
+      landmark: formData.landmark,
+      type: formData.type,
+      pincode: formData.pincode,
+      city: formData.city,
+      district: formData.district,
+      state: formData.state,
+      contact: formData.contact,
+    };
+
+    console.log("Sending Payload:", payload);
+
+    const { data } = await api.post("delivery/addresses", payload);
+
+    console.log("ADDRESS SAVE RESPONSE:", data);
+
+    if (data.success) {
+      toast.success("Address saved successfully");
+      setIsEditing(false);
+    } else {
+      toast.error(data.message || "Failed to save address");
     }
+  } catch (err) {
+    console.error("SAVE ADDRESS ERROR:", err);
+    console.log("ERROR RESPONSE:", err.response);
+    console.log("ERROR DATA:", err.response?.data);
+    console.log("ERROR MESSAGE:", err.response?.data?.message);
+
+    toast.error(err.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
     
     return(<>
    <div className="min-h-screen text-accent bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50 flex justify-center ">

@@ -161,7 +161,7 @@ function Dashboard() {
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
   const profileData = useAuthStore((state) => state.profileData);
   
-  /* ── Chart Data ── */
+
 
   /* ── Products ── */
   const featuredGold = jewelleryProducts.filter(p => p.type === "gold").slice(0, 4);
@@ -327,17 +327,18 @@ function Dashboard() {
               </motion.button>
             </div>
           </motion.div>
+          
         </motion.div>
         
         {/* ── Stats Row ── */}
-        <motion.div 
+        {/* <motion.div 
           variants={staggerContainer}
           initial="initial"
           animate="animate"
           className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-10"
         >
           {stats.map((s, i) => <StatBadge key={i} {...s} />)}
-        </motion.div>
+        </motion.div> */}
         
         {/* ── Chart Section ── */}
         

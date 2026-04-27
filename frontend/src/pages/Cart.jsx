@@ -55,54 +55,72 @@ function Cart() {
   //   });
   // };
 
-  const handleProceedToCheckout = async () => {
-    // if (isCartStale()) {
-    //   setShowStaleModal(true);
-    //   return;
-    // }
+ const handleProceedToCheckout = async () => {
+  try {
+    // ✅ IMPORTANT:
+    // If cart has physical jewellery/product → DELIVERY only
+    // If only digital gold/silver → WALLET
 
-    try {
-      const mode = effectiveMode.toUpperCase();
+    const mode = hasPhysical ? "DELIVERY" : "WALLET";
 
-      console.log("Step 1: Calling cart-checkout");
-      console.log("Step 1a: Mode:", mode);
-console.log("calling api")
-      const prepareRes = await api.post("/cart/checkout/prepare", { mode });
-      if(prepareRes.success)
-        console.log("response    .......>  ",prepareRes.data)
-      
+    console.log("========== CHECKOUT DEBUG ==========");
+    console.log("Cart Items:", cartItems);
+    console.log("Has Digital:", hasDigital);
+    console.log("Has Physical:", hasPhysical);
+    console.log("Mixed Cart:", mixedCart);
+    console.log("Selected Checkout Mode:", mode);
+    console.log("Calling API: /cart/checkout/prepare");
+    console.log("Payload:", { mode });
 
+    // STEP 1 → Prepare checkout session
+    const prepareRes = await api.post(
+      "/cart/checkout/prepare",
+      { mode }
+    );
 
-      
-      console.log("api called")
-      console.log("Step 2: Success!");
-      console.log("Step 3: Status code:", prepareRes.status);
-      console.log("Step 4: Full response:", prepareRes.data);
-      console.log("Step 5: Prepare data:", prepareRes.data?.data);
+    console.log("========== API SUCCESS ==========");
+    console.log("Status Code:", prepareRes.status);
+    console.log("Full Response:", prepareRes.data);
+    console.log("Checkout Data:", prepareRes.data?.data);
 
-      navigate("/checkout", {
-        state: {
-          deliveryMode: effectiveMode,
-          checkoutData: prepareRes.data?.data
-        }
-      });
-
-    } catch (error) {
-        console.log("FULL ERROR:", error);
-  console.log("RESPONSE:", error.response);
-  console.log("DATA:", error.response?.data);
-  console.log("MESSAGE:", error.response?.data?.message);
-  // setErrors({otp: error.response?.data?.message || "Invalid OTP"});
-  toast.error(error.response?.data?.message||"otp failed");
-
-      const errors = error.response?.data?.data?.errors;
-      if (errors && errors.length > 0) {
-        errors.forEach(e => toast.error(e.reason || e.message));
-      } else {
-        toast.error(error.response?.data?.message || "Checkout failed.");
-      }
+    // Optional success validation
+    if (!prepareRes.data?.success) {
+      toast.error("Checkout preparation failed");
+      return;
     }
-  };
+
+    // STEP 2 → Navigate to Checkout page
+    navigate("/checkout", {
+      state: {
+        deliveryMode: mode.toLowerCase(), // delivery / wallet
+        checkoutData: prepareRes.data?.data,
+      },
+    });
+
+  } catch (error) {
+    console.log("========== CHECKOUT ERROR ==========");
+    console.log("FULL ERROR:", error);
+    console.log("RESPONSE:", error.response);
+    console.log("STATUS:", error.response?.status);
+    console.log("DATA:", error.response?.data);
+    console.log("MESSAGE:", error.response?.data?.message);
+    console.log("VALIDATION ERRORS:", error.response?.data?.data?.errors);
+
+    // Show backend validation errors if available
+    const errors = error.response?.data?.data?.errors;
+
+    if (errors && errors.length > 0) {
+      errors.forEach((err) => {
+        toast.error(err.reason || err.message);
+      });
+    } else {
+      toast.error(
+        error.response?.data?.message ||
+        "Checkout failed"
+      );
+    }
+  }
+};
 
   // const handleUpdateCart = async () => {
   //   try {

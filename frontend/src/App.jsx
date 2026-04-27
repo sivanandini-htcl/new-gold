@@ -31,7 +31,8 @@ import Checkout from "./pages/Checkout";
 import ProductDetails from "./pages/ProductDetails";
 // import Checkout1 from "./pages/Checkout1";
 import MyOrders from "./pages/MyOrders";
-
+import Metals from "./pages/Metals";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 
 
 function App() {
@@ -90,6 +91,13 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+               <Route
+                path="/metals"  element={
+                  <ProtectedRoute>
+                    <Metals />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/account"  element={
                   <ProtectedRoute>
@@ -145,7 +153,8 @@ function App() {
                       </ProtectedRoute>
              } />
           {/* <Route path="/checkout1"element={<ProtectedRoute><Checkout1/> </ProtectedRoute> }/> */}
-          <Route path="/orders"element={<ProtectedRoute><MyOrders/> </ProtectedRoute> }/>
+          <Route path="/orders" element={<ProtectedRoute><MyOrders/> </ProtectedRoute> }/>         
+          <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />
 
 
 

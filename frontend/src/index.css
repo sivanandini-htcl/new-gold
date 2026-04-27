@@ -5,12 +5,25 @@
 
 /* ------------------ THEME ------------------ */
 @theme {
+  /* Existing */
   --color-primary: var(--color-amber-500);
   --color-secondary: oklch(92.8% 0.006 264.531);
   --color-accent: oklch(12.9% 0.054 264.2);
   --color-title-color: oklch(14.7% 0.004 49.3);
+
   --font-heading: "Cormorant Garamond", serif;
-  ;
+
+  /* ✅ YOUR CUSTOM COLORS */
+  --color-brown: #3c2415;
+  --color-brownMid: #6b3f22;
+  --color-brownLight: #c4a882;
+
+  --color-cream: #ddd9ce;
+  --color-creamDark: #c8c3b5;
+  --color-creamDarker: #b5b0a3;
+
+  --color-brownFaint: rgba(60,36,21,0.06);
+  --color-brownFaint2: rgba(60,36,21,0.12);
 }
 
 /* ------------------ KEYFRAMES ------------------ */

@@ -30,54 +30,67 @@ function Silver() {
   }, [inputValue, gram24kSilverPrice]);
 
   const hasValidInput = calc.grams >= 1 && gram24kSilverPrice > 0;
+const handleBuyNow = async () => {
+  if (!hasValidInput) {
+    toast.error("Minimum 1 gram required");
+    return;
+  }
 
-  const handleBuyNow = async () => {
-    if (!hasValidInput) {
-      toast.error("Minimum 1 gram required");
-      return;
-    }
-
-    const newItem = {
-      type: "METAL",
-      metalType: "SILVER",
-      quantityInGrams: calc.grams,
-    };
-
-    // If cart has items, show replace modal
-    if (cartItems.length > 0) {
-      setPendingItem(newItem);
-      setShowReplaceModal(true);
-      return;
-    }
-
-    try {
-      await api.post("/cart/add", newItem);
-      await fetchCart();
-      toast.success("Added to cart");
-      navigate("/cart");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    }
+  const newItem = {
+    type: "METAL",
+    metalType: "SILVER",
+    quantityInGrams: calc.grams,
   };
 
-  const handleReplaceConfirm = async () => {
-    if (!pendingItem) return;
-    try {
-      const oldItemId = cartItems[0]?.id;
-      await replaceCartItem(oldItemId, pendingItem);
-      toast.success("Cart updated");
-      setShowReplaceModal(false);
-      setPendingItem(null);
-      navigate("/cart");
-    } catch (err) {
-      toast.error("Failed to replace item");
-    }
-  };
+  // If cart already has item → show replace modal
+  if (cartItems.length > 0) {
+    setPendingItem(newItem);
+    setShowReplaceModal(true);
+    return;
+  }
 
-  const handleReplaceCancel = () => {
+  try {
+    await api.post("/cart/add", newItem);
+    await fetchCart();
+    toast.success("Added to cart");
+    navigate("/cart");
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
+  }
+};
+
+const handleReplaceConfirm = async () => {
+  if (!pendingItem) return;
+
+  try {
+    const oldItemId = cartItems[0]?.id;
+
+    // replace existing cart item
+    await replaceCartItem(oldItemId, pendingItem);
+
+    // refresh latest cart data
+    await fetchCart();
+
+    toast.success("Cart updated");
+
     setShowReplaceModal(false);
     setPendingItem(null);
-  };
+
+    navigate("/cart");
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Failed to replace item"
+    );
+  }
+};
+
+const handleReplaceCancel = () => {
+  setShowReplaceModal(false);
+  setPendingItem(null);
+};
+
 
   return (
     <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
