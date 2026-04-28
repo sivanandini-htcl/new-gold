@@ -57,6 +57,7 @@ export default function OrderCard({ order }) {
             <p className="font-bold text-[#3C2415]">
               Order #{order.orderNumber || order.id}
             </p>
+       
 
             <div className="flex items-center gap-2 text-sm text-[#3C2415] mt-1">
               <Calendar size={14} />
@@ -74,7 +75,7 @@ export default function OrderCard({ order }) {
           </span>
 
           <p className="font-bold text-lg mt-2 text-[#3C2415]">
-            ₹{Number(order.totalAmount || 0).toLocaleString("en-IN")}
+            ₹{Number(order.pricing?.totalAmount || 0).toLocaleString("en-IN")}
           </p>
 
           <button

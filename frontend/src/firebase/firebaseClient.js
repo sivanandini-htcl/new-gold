@@ -1,13 +1,14 @@
 // src/firebase/firebaseClient.js
 
-
 import { initializeApp, getApps, getApp } from "firebase/app";
-import {getAuth,GoogleAuthProvider, signInWithPopup,} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getMessaging } from "firebase/messaging";  // Add this import
 
-//  Initialize Firebase only in browser
+// Initialize Firebase only in browser
 let app;
 let auth;
+let messaging;  // Add this variable
 
 if (typeof window !== "undefined") {
   const firebaseConfig = {
@@ -21,11 +22,14 @@ if (typeof window !== "undefined") {
 
   app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   auth = getAuth(app);
+  messaging = getMessaging(app);  // Add this initialization
 }
 
 export const db = getFirestore(app);
 export { auth };
-export const googleprovider= new GoogleAuthProvider();
+export { app };
+export { messaging };  // Add this export
+export const googleprovider = new GoogleAuthProvider();
 export const signInwithgoogle = () => signInWithPopup(auth, googleprovider);
 export const getIdToken = async () => {
   if (!auth?.currentUser) throw new Error("No user logged in");

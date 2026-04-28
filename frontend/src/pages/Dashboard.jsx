@@ -1,146 +1,172 @@
-
-
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
-  TrendingUp, DollarSign, Award, Shield, Zap, Star,
-  ArrowRight, ShoppingBag, Gem, BarChart2, Lock,
-  ChevronRight, Globe, Package, RefreshCw, Clock,
-  TrendingDown, BadgeCheck, Coins, Building2,
-  Sparkles, Tag, Heart, ShoppingCart, Eye
-} from "lucide-react";
+  TrendingUp,
+  DollarSign,
+  Award,
+  Shield,
+  Zap,
+  Star,
+  ArrowRight,
+  ShoppingBag,
+  Gem,
+  BarChart2,
+  Lock,
+  ChevronRight,
+  Globe,
+  Package,
+  RefreshCw,
+  Clock,
+  TrendingDown,
+  BadgeCheck,
+  Coins,
+  Building2,
+  Sparkles,
+  Tag,
+  Heart,
+  ShoppingCart,
+  Eye,
+  ArrowRightCircle,
+  
+} from 'lucide-react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Legend, AreaChart, Area
-} from "recharts";
-import { useState, useEffect } from "react";
-import usePriceStore from "../store/priceStore";
-import useAuthStore from "../store/authStore";
-import SlidingBanner from "../components/dashboardComponents/SlidingBanner";
-import { jewelleryProducts } from "./Data/jewelleryProducts";
-import DgiAssurance from "../components/dashboardComponents/Dgiassurance ";
-import BlogSection from "../components/dashboardComponents/Blogsection";
-import ProductCarousel from "../components/dashboardComponents/ProductCarousel.JSX";
-import dg from "../assets/dg";
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  AreaChart,
+  Area,
+  
+} from 'recharts';
+import { useState, useEffect } from 'react';
+import usePriceStore from '../store/priceStore';
+import useAuthStore from '../store/authStore';
+import SlidingBanner from '../components/dashboardComponents/SlidingBanner';
+import { jewelleryProducts } from './Data/jewelleryProducts';
+import DgiAssurance from '../components/dashboardComponents/Dgiassurance ';
+import BlogSection from '../components/dashboardComponents/Blogsection';
+import ProductCarousel from '../components/dashboardComponents/ProductCarousel.JSX';
+import dg from '../assets/dg';
 // import DashboardBar from "../assets/coins.png";
-import BackgroundImg1 from "../assets/background1.jpg";
-import WorksCarousel from "./ImgaeSlider";
-import silver from "../assets/silver.png";
-import Section from "../components/dashboardComponents/SilverScroller";
-import Gift from "../assets/Gift.png";
-import banner from "../assets/banner.png";
-
+import BackgroundImg1 from '../assets/background1.jpg';
+import WorksCarousel from './ImgaeSlider';
+import silver from '../assets/silver.png';
+import Section from '../components/dashboardComponents/SilverScroller';
+import Gift from '../assets/Gift.png';
+import banner from '../assets/banner.png';
 
 // ─── Animation Variants ─
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
 const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.1 } }
+  animate: { transition: { staggerChildren: 0.1 } },
 };
 
 // ─── GIFT CATEGORY DATA ──
 const corporateGiftCategories = [
   {
-    id: "cg1",
-    title: "Executive Gold Coins",
-    subtitle: "Premium 24K · Hallmarked",
-    tag: "Best Seller",
-    tagColor: "bg-amber-600",
-    icon: "🏆",
-    price: "₹4,999",
-    moq: "Min. 10 units",
-    gradient: "from-amber-900 via-amber-800 to-yellow-900",
+    id: 'cg1',
+    title: 'Executive Gold Coins',
+    subtitle: 'Premium 24K · Hallmarked',
+    tag: 'Best Seller',
+    tagColor: 'bg-amber-600',
+    icon: '🏆',
+    price: '₹4,999',
+    moq: 'Min. 10 units',
+    gradient: 'from-amber-900 via-amber-800 to-yellow-900',
   },
   {
-    id: "cg2",
-    title: "Silver Ingot Sets",
-    subtitle: "999 Fine Silver · Gift Boxed",
-    tag: "Corporate",
-    tagColor: "bg-slate-600",
-    icon: "🥈",
-    price: "₹2,499",
-    moq: "Min. 25 units",
-    gradient: "from-slate-800 via-slate-700 to-gray-800",
+    id: 'cg2',
+    title: 'Silver Ingot Sets',
+    subtitle: '999 Fine Silver · Gift Boxed',
+    tag: 'Corporate',
+    tagColor: 'bg-slate-600',
+    icon: '🥈',
+    price: '₹2,499',
+    moq: 'Min. 25 units',
+    gradient: 'from-slate-800 via-slate-700 to-gray-800',
   },
   {
-    id: "cg3",
-    title: "Branded Bar Collection",
-    subtitle: "Customizable Engraving",
-    tag: "Custom",
-    tagColor: "bg-emerald-700",
-    icon: "✨",
-    price: "₹8,999",
-    moq: "Min. 5 units",
-    gradient: "from-emerald-900 via-teal-900 to-slate-900",
+    id: 'cg3',
+    title: 'Branded Bar Collection',
+    subtitle: 'Customizable Engraving',
+    tag: 'Custom',
+    tagColor: 'bg-emerald-700',
+    icon: '✨',
+    price: '₹8,999',
+    moq: 'Min. 5 units',
+    gradient: 'from-emerald-900 via-teal-900 to-slate-900',
   },
   {
-    id: "cg4",
-    title: "Festival Gifting Kits",
-    subtitle: "Gold + Silver Combo",
-    tag: "Seasonal",
-    tagColor: "bg-rose-700",
-    icon: "🎁",
-    price: "₹6,499",
-    moq: "Min. 15 units",
-    gradient: "from-rose-900 via-pink-900 to-slate-900",
+    id: 'cg4',
+    title: 'Festival Gifting Kits',
+    subtitle: 'Gold + Silver Combo',
+    tag: 'Seasonal',
+    tagColor: 'bg-rose-700',
+    icon: '🎁',
+    price: '₹6,499',
+    moq: 'Min. 15 units',
+    gradient: 'from-rose-900 via-pink-900 to-slate-900',
   },
 ];
 
 const personalGiftCategories = [
   {
-    id: "pg1",
-    title: "Birthday Gold Coin",
-    subtitle: "Personalised · 24K Pure",
-    emoji: "🎂",
-    price: "From ₹1,499",
-    badge: "Popular",
+    id: 'pg1',
+    title: 'Birthday Gold Coin',
+    subtitle: 'Personalised · 24K Pure',
+    emoji: '🎂',
+    price: 'From ₹1,499',
+    badge: 'Popular',
   },
   {
-    id: "pg2",
-    title: "Wedding Silver Set",
-    subtitle: "Elegant Gift Box",
-    emoji: "💍",
-    price: "From ₹3,999",
-    badge: "Trending",
+    id: 'pg2',
+    title: 'Wedding Silver Set',
+    subtitle: 'Elegant Gift Box',
+    emoji: '💍',
+    price: 'From ₹3,999',
+    badge: 'Trending',
   },
   {
-    id: "pg3",
-    title: "New Baby Blessing",
-    subtitle: "22K Gold Charm",
-    emoji: "👶",
-    price: "From ₹2,199",
-    badge: "New",
+    id: 'pg3',
+    title: 'New Baby Blessing',
+    subtitle: '22K Gold Charm',
+    emoji: '👶',
+    price: 'From ₹2,199',
+    badge: 'New',
   },
   {
-    id: "pg4",
-    title: "Anniversary Pack",
-    subtitle: "Gold & Silver Duo",
-    emoji: "❤️",
-    price: "From ₹5,499",
-    badge: "Gifting",
+    id: 'pg4',
+    title: 'Anniversary Pack',
+    subtitle: 'Gold & Silver Duo',
+    emoji: '❤️',
+    price: 'From ₹5,499',
+    badge: 'Gifting',
   },
 ];
 
 // ─── PRODUCT CARD (Ecommerce Style) ──────────────────────────────
 export function ProductCard({ product, navigate }) {
-  const isGold = product.type === "gold";
+  const isGold = product.type === 'gold';
   const [wished, setWished] = useState(false);
 
   return (
     <motion.div
-      whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
+      whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}
       transition={{ duration: 0.25 }}
       onClick={() => navigate(`/productdetails/${product.id}`)}
-      className="bg-white rounded-full md:rounded-none  border border-gray-100 shadow-2xl overflow-hidden cursor-pointer flex flex-col group relative "
-   
+      className="bg-[#faf7f2] rounded-full md:rounded-none  border border-gray-100 shadow-2xl overflow-hidden cursor-pointer flex flex-col group relative "
     >
       {/* Wishlist Button */}
-
 
       {/* Purity Badge */}
       {/* <span className={`absolute top-2.5 left-2.5 z-10 text-[10px] font-bold px-2 py-0.5 rounded-full font-serif tracking-wider ${isGold ? "bg-[#3C2415] text-amber-50" : "bg-slate-600 text-slate-50"}`}>
@@ -148,17 +174,27 @@ export function ProductCard({ product, navigate }) {
       </span> */}
 
       {/* Image Area */}
-      <div className="relative  h-44 sm:h-48 2xl:h-60 bg-white overflow-hidden flex items-center justify-center p-3">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-contain transition duration-400 group-hover:scale-105"
-        />
+      <div className="relative h-44 sm:h-48 2xl:h-60 bg-[#cfc6b3] shadow-md hover:shadow-xl hover:shadow-black/20 overflow-hidden flex items-center justify-center p-3 group">
+  
+  <img
+    src={product.image}
+    alt={product.name}
+    className="w-full h-full object-contain transition duration-400 group-hover:scale-105"
+  />
+
+  {/* Black overlay on hover */}
+  <div className="absolute inset-0 bg-black/0 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+
+
+
 
         {/* Quick Add overlay */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent p-3 flex gap-2">
           <button
-            onClick={e => { e.stopPropagation(); navigate(`/productdetails/${product.id}`); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/productdetails/${product.id}`);
+            }}
             className="flex-1 flex items-center justify-center gap-1.5 text-white text-[11px] font-bold py-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition backdrop-blur-sm"
           >
             <Eye size={11} /> Quick View
@@ -167,26 +203,22 @@ export function ProductCard({ product, navigate }) {
       </div>
 
       {/* Divider */}
-      <div className={`h-px ${isGold ? "bg-amber-100" : "bg-gray-100"}`} />
+      <div className={`h-px ${isGold ? 'bg-amber-100' : 'bg-gray-100'}`} />
 
       {/* Info */}
       <div className="p-3 flex-1 flex flex-col gap-1 text-center">
         <p className="font-serif text-xs font-bold text-stone-800 line-clamp-1 2xl:text-sm">
           {product.name}
         </p>
-       
 
         {/* Rating stub */}
-
 
         <div className="mt-auto pt-2 flex items-center justify-center">
           <div>
             {/* <p className={`font-serif text-sm font-bold  text-center 2xl:text-base ${isGold ? "text-amber-900" : "text-slate-700"}`}>
               ₹{product.price.toLocaleString("en-IN")}
             </p> */}
-          
           </div>
-       
         </div>
       </div>
     </motion.div>
@@ -199,15 +231,19 @@ function CorporateGiftCard({ item, navigate }) {
     <motion.div
       whileHover={{ y: -3, scale: 1.01 }}
       transition={{ duration: 0.22 }}
-      onClick={() => navigate("/corporate-gifting")}
+      onClick={() => navigate('/corporate-gifting')}
       className={`relative rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-br ${item.gradient} p-5 flex flex-col gap-3 min-h-[180px] 2xl:min-h-[220px] border border-white/10`}
     >
-      <span className={`self-start text-[10px] font-bold px-2.5 py-0.5 rounded-full text-white ${item.tagColor} tracking-wider uppercase`}>
+      <span
+        className={`self-start text-[10px] font-bold px-2.5 py-0.5 rounded-full text-white ${item.tagColor} tracking-wider uppercase`}
+      >
         {item.tag}
       </span>
       <div className="text-3xl 2xl:text-4xl">{item.icon}</div>
       <div>
-        <p className="text-white font-serif font-bold text-sm 2xl:text-base leading-tight">{item.title}</p>
+        <p className="text-white font-serif font-bold text-sm 2xl:text-base leading-tight">
+          {item.title}
+        </p>
         <p className="text-white/60 text-[11px] mt-0.5 2xl:text-xs">{item.subtitle}</p>
       </div>
       <div className="mt-auto flex items-end justify-between">
@@ -223,22 +259,26 @@ function CorporateGiftCard({ item, navigate }) {
   );
 }
 
-// ─── Personal Gift Card ──────────────────────────────────────────
+// ─── Personal Gift Card ───────────
 function PersonalGiftCard({ item, navigate }) {
   return (
     <motion.div
       whileHover={{ y: -3 }}
       transition={{ duration: 0.2 }}
-      onClick={() => navigate("/gifting")}
+      onClick={() => navigate('/gifting')}
       className="bg-white border border-amber-100 rounded-2xl p-4 flex flex-col items-center text-center gap-2 cursor-pointer hover:border-amber-300 hover:shadow-md transition group 2xl:p-6"
     >
       <div className="text-3xl 2xl:text-4xl group-hover:scale-110 transition">{item.emoji}</div>
       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 tracking-wider uppercase">
         {item.badge}
       </span>
-      <p className="font-serif font-bold text-stone-800 text-xs 2xl:text-sm leading-tight">{item.title}</p>
+      <p className="font-serif font-bold text-stone-800 text-xs 2xl:text-sm leading-tight">
+        {item.title}
+      </p>
       <p className="text-[11px] text-gray-400 2xl:text-xs">{item.subtitle}</p>
-      <p className="text-amber-800 font-serif font-bold text-xs mt-auto 2xl:text-sm">{item.price}</p>
+      <p className="text-amber-800 font-serif font-bold text-xs mt-auto 2xl:text-sm">
+        {item.price}
+      </p>
     </motion.div>
   );
 }
@@ -248,25 +288,22 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
   return (
     <div className="flex justify-between items-end mb-5 2xl:mb-7">
       <div>
-        <h2 className={`font-serif text-xl sm:text-2xl 2xl:text-3xl font-bold leading-tight
-          ${gold
-            ? "text-[#3C2415] "
-            : "text-slate-800"
-          }`}
+        <h2
+          className={`font-serif text-xl sm:text-2xl 2xl:text-3xl font-bold leading-tight
+          ${gold ? 'text-[#3C2415] ' : 'text-slate-800'}`}
         >
           {title}
         </h2>
-        {subtitle && (
-          <p className="text-xs text-gray-400 mt-1 2xl:text-sm">{subtitle}</p>
-        )}
+        {subtitle && <p className="text-xs text-gray-400 mt-1 2xl:text-sm">{subtitle}</p>}
       </div>
       {onViewAll && (
         <button
           onClick={onViewAll}
           className={`flex items-center gap-1 text-xs font-bold font-serif px-2 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
-            ${gold
-              ? "text-[#3C2415] border border-[#3C2415] hover:bg-amber-50"
-              : "text-slate-700 border border-slate-200 hover:bg-slate-50"
+            ${
+              gold
+                ? 'text-[#3C2415] border border-[#3C2415] hover:bg-amber-50'
+                : 'text-slate-700 border border-slate-200 hover:bg-slate-50'
             }`}
         >
           View All <ChevronRight size={12} />
@@ -276,43 +313,98 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
   );
 }
 
-// ─── Main Dashboard 
+// ─── Main Dashboard
 function Dashboard() {
   const navigate = useNavigate();
-  const [selectedRange, setSelectedRange] = useState("6M");
-  const [selectedMetal, setSelectedMetal] = useState("gold");
-  const ranges = ["1D", "5D", "6M", "YTD", "1Y", "5Y", "MAX"];
+  const [selectedRange, setSelectedRange] = useState('6M');
+  const [selectedMetal, setSelectedMetal] = useState('gold');
+  const ranges = ['1D', '5D', '6M', 'YTD', '1Y', '5Y', 'MAX'];
   const goldPercentage = usePriceStore((state) => state.goldPercentage);
   const silverPercentage = usePriceStore((state) => state.silverPercentage);
   const isProfit = Number(goldPercentage) > 0;
   const silverisProfit = Number(silverPercentage) > 0;
-  const [status, setStatus] = useState("Connecting...");
+  const [status, setStatus] = useState('Connecting...');
   const prices = usePriceStore((state) => state.prices);
-  const goldPrice = prices.find((item) => item.metal === "GOLD");
-  const silverPrice = prices.find((item) => item.metal === "SILVER");
+  const goldPrice = prices.find((item) => item.metal === 'GOLD');
+  const silverPrice = prices.find((item) => item.metal === 'SILVER');
   const userName = useAuthStore((state) => state.user?.name);
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
   const profileData = useAuthStore((state) => state.profileData);
 
-  const featuredGold = jewelleryProducts.filter(p => p.type === "gold").slice(0, 4);
-  const featuredSilver = jewelleryProducts.filter(p => p.type === "silver").slice(0, 4);
-  const isLive = status === "Live Connected";
+  const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
+  const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
+  const isLive = status === 'Live Connected';
 
   const insights = [
-    { icon: Shield, title: "Hedge Against Inflation", description: "Gold and silver have historically preserved purchasing power through economic downturns and currency devaluation.", accent: "#b45309", bg: "#fef3c7" },
-    { icon: TrendingUp, title: "Long-term Growth", description: "Precious metals have appreciated consistently over decades — a proven vehicle for long-term wealth accumulation.", accent: "#065f46", bg: "#d1fae5" },
-    { icon: DollarSign, title: "Portfolio Diversification", description: "Low correlation with equities means metals can buffer portfolio volatility during market stress.", accent: "#1e40af", bg: "#dbeafe" },
-    { icon: Zap, title: "Instant Liquidity", description: "Convert digital holdings to cash in minutes — no physical storage, no logistics, no delays.", accent: "#7c3aed", bg: "#ede9fe" },
-    { icon: Lock, title: "Secure & Audited", description: "Your holdings are backed by physical metals stored in insured, SEBI-compliant vaults and audited regularly.", accent: "#dc2626", bg: "#fee2e2" },
-    { icon: Globe, title: "Globally Recognised", description: "Gold and silver are universally accepted stores of value, transcending borders and currencies.", accent: "#0369a1", bg: "#e0f2fe" },
-    { icon: BadgeCheck, title: "99.9% Purity", description: "All metal purchases are certified with hallmark purity, ensuring you always get the highest quality.", accent: "#92400e", bg: "#fef9c3" },
-    { icon: RefreshCw, title: "Anytime, Anywhere", description: "Buy, sell, or redeem your digital gold and silver 24/7 from any device with zero paperwork.", accent: "#047857", bg: "#d1fae5" },
+    {
+      icon: Shield,
+      title: 'Hedge Against Inflation',
+      description:
+        'Gold and silver have historically preserved purchasing power through economic downturns and currency devaluation.',
+      accent: '#b45309',
+      bg: '#fef3c7',
+    },
+    {
+      icon: TrendingUp,
+      title: 'Long-term Growth',
+      description:
+        'Precious metals have appreciated consistently over decades — a proven vehicle for long-term wealth accumulation.',
+      accent: '#065f46',
+      bg: '#d1fae5',
+    },
+    {
+      icon: DollarSign,
+      title: 'Portfolio Diversification',
+      description:
+        'Low correlation with equities means metals can buffer portfolio volatility during market stress.',
+      accent: '#1e40af',
+      bg: '#dbeafe',
+    },
+    {
+      icon: Zap,
+      title: 'Instant Liquidity',
+      description:
+        'Convert digital holdings to cash in minutes — no physical storage, no logistics, no delays.',
+      accent: '#7c3aed',
+      bg: '#ede9fe',
+    },
+    {
+      icon: Lock,
+      title: 'Secure & Audited',
+      description:
+        'Your holdings are backed by physical metals stored in insured, SEBI-compliant vaults and audited regularly.',
+      accent: '#dc2626',
+      bg: '#fee2e2',
+    },
+    {
+      icon: Globe,
+      title: 'Globally Recognised',
+      description:
+        'Gold and silver are universally accepted stores of value, transcending borders and currencies.',
+      accent: '#0369a1',
+      bg: '#e0f2fe',
+    },
+    {
+      icon: BadgeCheck,
+      title: '99.9% Purity',
+      description:
+        'All metal purchases are certified with hallmark purity, ensuring you always get the highest quality.',
+      accent: '#92400e',
+      bg: '#fef9c3',
+    },
+    {
+      icon: RefreshCw,
+      title: 'Anytime, Anywhere',
+      description:
+        'Buy, sell, or redeem your digital gold and silver 24/7 from any device with zero paperwork.',
+      accent: '#047857',
+      bg: '#d1fae5',
+    },
   ];
 
   return (
-    <div className="min-h-screen font-serif bg-[#faf7f2]">
-
+    <div className="min-h-screen font-serif bg-gray-100">
       {/* ── BANNER ─ */}
       <div className="  ">
         <SlidingBanner />
@@ -321,7 +413,6 @@ function Dashboard() {
       {/* ── LIVE PRICE STRIP  */}
       <div className=" mb-6 2xl:mb-10">
         <div className="flex flex-col sm:flex-row ">
-
           {/* GOLD */}
           <motion.div
             whileHover={{ y: -2 }}
@@ -332,17 +423,21 @@ function Dashboard() {
                 <Coins size={20} color="#fff" className="2xl:w-7 2xl:h-7" />
               </div>
               <div>
-                <p className="text-[10px] 2xl:text-xs text-[#3c2415] uppercase tracking-widest font-bold">Gold · 24K / gram</p>
-                <p className="font-serif font-black text-[#6b4228] text-sm 2xl:text-2xl leading-tight">
-                  ₹{Math.round(gram24kGoldPrice)?.toLocaleString("en-IN") || "—"}
+                <p className="text-[10px] 2xl:text-xs text-[#3c2415] uppercase tracking-widest font-bold">
+                  Gold · 24K / gram
                 </p>
-                <span className={`text-[11px] 2xl:text-xs font-semibold ${isProfit ? "text-green-600" : "text-red-500"}`}>
-                  {isProfit ? "▲" : "▼"} {goldPercentage}% today
+                <p className="font-serif font-black text-[#6b4228] text-sm 2xl:text-2xl leading-tight">
+                  ₹{Math.round(gram24kGoldPrice)?.toLocaleString('en-IN') || '—'}
+                </p>
+                <span
+                  className={`text-[11px] 2xl:text-xs font-semibold ${isProfit ? 'text-green-600' : 'text-red-500'}`}
+                >
+                  {isProfit ? '▲' : '▼'} {goldPercentage}% today
                 </span>
               </div>
             </div>
             <button
-              onClick={() => navigate("/gold")}
+              onClick={() => navigate('/gold')}
               className="text-[11px] 2xl:text-sm font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl bg-[#3C2415] text-white hover:from-[#754c33] transition shadow"
             >
               Buy Gold
@@ -359,23 +454,26 @@ function Dashboard() {
                 <Gem size={20} color="#fff" className="2xl:w-7 2xl:h-7" />
               </div>
               <div>
-                <p className="text-[10px] 2xl:text-xs text-slate-500 uppercase tracking-widest font-bold">Silver · 24K / gram</p>
-                <p className="font-serif font-black text-slate-800 text-sm 2xl:text-2xl leading-tight">
-                  ₹{Math.round(gram24ksilverPrice)?.toLocaleString("en-IN") || "—"}
+                <p className="text-[10px] 2xl:text-xs text-slate-500 uppercase tracking-widest font-bold">
+                  Silver · 24K / gram
                 </p>
-                <span className={`text-[11px] 2xl:text-xs font-semibold ${silverisProfit ? "text-green-600" : "text-red-500"}`}>
-                  {silverisProfit ? "▲" : "▼"} {silverPercentage}% today
+                <p className="font-serif font-black text-slate-800 text-sm 2xl:text-2xl leading-tight">
+                  ₹{Math.round(gram24ksilverPrice)?.toLocaleString('en-IN') || '—'}
+                </p>
+                <span
+                  className={`text-[11px] 2xl:text-xs font-semibold ${silverisProfit ? 'text-green-600' : 'text-red-500'}`}
+                >
+                  {silverisProfit ? '▲' : '▼'} {silverPercentage}% today
                 </span>
               </div>
             </div>
-           <button
-  onClick={() => navigate("/silver")}
-  className="text-[11px] 2xl:text-sm font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl bg-gradient-to-r from-slate-700 to-gray-600 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
->
-  Buy Silver
-</button>
+            <button
+              onClick={() => navigate('/silver')}
+              className="text-[11px] 2xl:text-sm font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl bg-gradient-to-r from-slate-700 to-gray-600 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
+            >
+              Buy Silver
+            </button>
           </motion.div>
-
         </div>
       </div>
 
@@ -387,23 +485,23 @@ function Dashboard() {
               ✦ Pure · Certified · Hallmarked
             </span>
             <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-serif font-black text-[#3C2415] leading-tight mb-3 2xl:mb-5">
-              Pure wealth,<br />
-              <span className="text-[#3C2415]">
-                secured in every bar
-              </span>
+              Pure wealth,
+              <br />
+              <span className="text-[#3C2415]">secured in every bar</span>
             </h1>
             <p className="font-serif text-sm 2xl:text-base text-[#3C2415] leading-relaxed max-w-md">
-              Invest in certified 24K digital gold backed by physical reserves. Transparent pricing, zero making charges, instant delivery to your vault.
+              Invest in certified 24K digital gold backed by physical reserves. Transparent pricing,
+              zero making charges, instant delivery to your vault.
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
               <button
-                onClick={() => navigate("/gold")}
+                onClick={() => navigate('/gold')}
                 className="px-2 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-[#3C2415] text-white font-bold text-sm 2xl:text-base hover:from-amber-700 transition shadow-lg"
               >
-                Invest  Now
+                Invest Now
               </button>
               <button
-                onClick={() => navigate("/redeem")}
+                onClick={() => navigate('/redeem')}
                 className="px-1 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl border text-[#3C2415] shadow-2xl font-bold text-sm 2xl:text-base hover:bg-amber-400/10 transition"
               >
                 View Catalogue
@@ -422,7 +520,7 @@ function Dashboard() {
           <SectionHeader
             title="Featured Gold Jewellery"
             subtitle="Redeem your holdings as certified gold products"
-            onViewAll={() => navigate("/redeem")}
+            onViewAll={() => navigate('/redeem')}
             gold={true}
           />
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 2xl:gap-5">
@@ -441,30 +539,34 @@ function Dashboard() {
       <div className="  mb-10 2xl:mb-14">
         <div className="flex flex-col  md:flex-row gap-4 2xl:gap-8 items-center bg-[#25160c]  overflow-hidden p-6 sm:p-8  border border-slate-700/30">
           <div className="md:w-1/2 2xl:w-1/2 order-2 md:order-1">
-            <img src={silver} alt="Silver" className="w-full md:w-100 md:h-100 rounded-2xl object-cover" />
+            <img
+              src={silver}
+              alt="Silver"
+              className="w-full md:w-100 md:h-100 rounded-2xl object-cover"
+            />
           </div>
           <div className="md:w-1/2 2xl:w-1/2 order-1 md:order-2">
             <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-[#DDD9CE] font-bold mb-3 bg-slate-400/10 px-3 py-1 rounded-full border border-slate-400/20">
               ✦ 999 Fine Silver · Certified
             </span>
             <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-serif font-black text-[#DDD9CE] leading-tight mb-3 2xl:mb-5">
-              Silver — the<br />
-              <span className="text-[#DDD9CE]">
-                smart investment
-              </span>
+              Silver — the
+              <br />
+              <span className="text-[#DDD9CE]">smart investment</span>
             </h1>
             <p className="font-serif text-sm 2xl:text-base text-slate-300/70 leading-relaxed max-w-md">
-              Start from just ₹10. Invest in 999 fine silver with real-time pricing, zero storage hassle, and instant redemption.
+              Start from just ₹10. Invest in 999 fine silver with real-time pricing, zero storage
+              hassle, and instant redemption.
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
               <button
-                onClick={() => navigate("/silver")}
+                onClick={() => navigate('/silver')}
                 className="px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-gradient-to-r from-slate-500 to-gray-400 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:from-slate-600 transition shadow-lg"
               >
                 Buy Silver
               </button>
               <button
-                onClick={() => navigate("/redeem")}
+                onClick={() => navigate('/redeem')}
                 className="px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
               >
                 Explore Collection
@@ -474,13 +576,13 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* ── FEATURED SILVER PRODUCTS ─────────────────────── */}
+      {/* ─ FEATURED SILVER PRODUCTS  */}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14">
         <div className="text-[#DDD9CE] rounded-3xl shadow-sm border border-slate-100  bg-[#DDD9CE] p-5 2xl:p-8">
           <SectionHeader
             title="Featured Silver Collection"
             subtitle="Handpicked silver pieces for every occasion"
-            onViewAll={() => navigate("/redeem")}
+            onViewAll={() => navigate('/redeem')}
             gold={false}
           />
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 2xl:gap-5">
@@ -490,8 +592,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
-    
 
       {/* ── CORPORATE GIFTING ───── */}
       {/* <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-6 2xl:mb-10">
@@ -555,52 +655,72 @@ function Dashboard() {
       {/* ── INSIGHTS GRID ──*/}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 py-10 2xl:py-16 bg-white">
         <div className="text-center mb-8 2xl:mb-12">
-          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-amber-600 font-bold">Why invest in precious metals</span>
-          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl font-black text-stone-800 mt-1">Built for wealth. Designed for trust.</h2>
+          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-amber-600 font-bold">
+            Why invest in precious metals
+          </span>
+          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl font-black text-stone-800 mt-1">
+            Built for wealth. Designed for trust.
+          </h2>
         </div>
-      
 
-      <div>
+        <div>
+          <div className="grid grid-cols-2  items-center gap-10">
+            <img
+              src={Gift}
+              alt=""
+              className="lg:h-140 lg:w-140 md:pr-2 flex justify-center items-center"
+            />
 
-        <div className="grid grid-cols-2  items-center gap-10">
-        <img src={Gift} alt="" className="lg:h-140 lg:w-140 flex justify-center items-center" />
-        
-          <div className=" grid items-center">
-            <div className="md:flex md:flex-col md:space-y-4">
-              <p className=" md:text-2xl font-serif font-bold text-[#3C2415]  md:font-semibold md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">Celebrate festivals with gifts that carry lasting value and timeless beauty</p>
-            </div>
-            <div>
-              <p className=" hidden md:inline-flex font-serif text-xs md:font-serif md:text-lg md:leading-relaxed">We make every occasion more meaningful,whether it’s a celebration of tradition, prosperity, or togetherness, these precious metal gifts are a
-   thoughtful way to share blessings while giving something that grows in value over time.</p>
+            <div className=" grid items-center">
+              <div className="md:flex md:flex-col md:space-y-4">
+                <p className=" md:text-2xl font-serif font-bold italic text-[#3C2415]  md:font-semibold md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">
+                  Celebrate festivals with gifts that carry lasting value and timeless beauty
+                </p>
+              </div>
+              <div>
+                <p className=" hidden md:inline-flex font-serif italic text-xs md:font-serif md:text-lg md:leading-relaxed">
+                  We make every occasion more meaningful,whether it’s a celebration of tradition,
+                  prosperity, or togetherness, these precious metal gifts are a thoughtful way to
+                  share blessings while giving something that grows in value over time.
+                </p>
+                <span className='flex gap-2 mt-3 '><p className='text-2xl'>Customise Now</p>
+                <ArrowRightCircle/></span>
+                
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 items-center gap-10 ">
-          <div className=" grid items-center">
-            <div className="md:flex md:flex-col md:space-y-4">
-              <p className=" md:text-2xl font-serif font-bold text-[#3C2415]  md:font-semibold md:leading-tight lg:text-4xl 2xl:text-6xl">Reward Excellence. Build Lasting Bonds</p>
+          <div className="grid grid-cols-2 items-center gap-10 ">
+            <div className=" grid items-center">
+              <div className="md:flex md:flex-col md:space-y-4">
+                <p className=" md:text-2xl font-serif font-bold italic text-[#3C2415]  md:font-semibold md:leading-tight lg:text-4xl 2xl:text-6xl">
+                  Reward Excellence. Build Lasting Bonds
+                </p>
+                
+              </div>
+              <div>
+                <p className=" hidden md:inline-flex font-serif text-xs italic md:font-serif md:text-lg md:mt-3 md:leading-relaxed">
+                  Dgigold offers pure gold and silver coins that make every occasion more
+                  meaningful. Whether it’s a celebration of tradition, prosperity, or togetherness,
+                  these precious metal gifts are a thoughtful way to share blessings while giving
+                  something that grows in value over time.
+                </p>
+                <span className='flex gap-2 mt-3 '><p className='text-2xl'>Gift You Employees</p>
+                <ArrowRightCircle size={30}/></span>
+              </div>
             </div>
-            <div>
-              <p className=" hidden md:inline-flex font-serif text-xs md:font-serif md:text-lg md:mt-3 md:leading-relaxed">Dgigold offers pure gold and silver coins that make every occasion more meaningful. Whether it’s a celebration of tradition, prosperity, or togetherness, these precious metal gifts are a
-   thoughtful way to share blessings while giving something that grows in value over time.</p>
-            </div>
+
+            <img
+              src={banner}
+              alt=""
+              className="lg:h-140 lg:w-140 flex justify-center items-center"
+            />
           </div>
-
-          
-          <img src={banner} alt="" className="lg:h-140 lg:w-140 flex justify-center items-center"/>
         </div>
-        
-
-      </div>
-
-      
-
       </div>
 
       {/* BLOG  */}
       <BlogSection />
-
     </div>
   );
 }

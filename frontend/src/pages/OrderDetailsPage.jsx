@@ -106,7 +106,7 @@ export default function OrderDetailsPage() {
           <div className="pt-4 text-right">
             <p className="text-sm text-gray-500">Total</p>
             <p className="text-2xl font-bold">
-              ₹{Number(singleOrder.totalAmount).toLocaleString("en-IN")}
+              ₹{orderStatus.pricing?.totalAmount}
             </p>
           </div>
         </div>
