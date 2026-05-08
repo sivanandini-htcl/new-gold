@@ -28,38 +28,15 @@ function Cart() {
   const effectiveMode = allDigital ? "wallet" : deliveryMode;
   const effectiveIsWallet = effectiveMode === "wallet";
 
-  // const safeTotal = useMemo(() => {
-  //   return cartItems.reduce((sum, item) => {
-  //     return sum + (Number(item.totalPrice) || 0);
-  //   }, 0);
-  // }, [cartItems]);
-
-  // const gst = safeTotal * 0.03;
-  // const delivery = 1550;
-  // const insurance = 500;
-  // const finalAmount = effectiveIsWallet
-  //   ? safeTotal + gst
-  //   : safeTotal + gst + delivery + insurance;
-
   useEffect(() => {
     fetchCart();
   }, []);
 
-  // const isCartStale = () => {
-  //   if (cartItems.length === 0) return false;
-  //   const now = new Date();
-  //   return cartItems.some(item => {
-  //     if (!item.addedAt) return false;
-  //     const diffMinutes = (now - new Date(item.addedAt)) / (1000 * 60);
-  //     return diffMinutes >= 60;
-  //   });
-  // };
+
 
  const handleProceedToCheckout = async () => {
   try {
-    // ✅ IMPORTANT:
-    // If cart has physical jewellery/product → DELIVERY only
-    // If only digital gold/silver → WALLET
+
 
     const mode = hasPhysical ? "DELIVERY" : "WALLET";
 
@@ -122,22 +99,6 @@ function Cart() {
   }
 };
 
-  // const handleUpdateCart = async () => {
-  //   try {
-  //     await Promise.all(
-  //       cartItems.map(item => removeFromCart(item.id))
-  //     );
-  //     setShowStaleModal(false);
-  //     toast.success("Cart cleared. Please add items again.");
-  //     if (hasDigital) {
-  //       navigate("/gold");
-  //     } else {
-  //       navigate("/redeem");
-  //     }
-  //   } catch (err) {
-  //     toast.error("Failed to clear cart. Please try again.");
-  //   }
-  // };
 
   if (cartItems.length === 0) {
     return (
@@ -168,7 +129,7 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+<div className="2xl:h-full max-w-[1440px] m-auto bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100 pb-12">
 
       {/* Stale Cart Modal */}
       {showStaleModal && (
@@ -203,32 +164,36 @@ function Cart() {
       )}
 
       {/* Top Header Bar */}
-      <div className="bg-white border-b border-yellow-700/15 px-4 sm:px-8 py-4 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <button
-            onClick={() => navigate("/redeem")}
-            className="text-xs uppercase tracking-widest text-yellow-800/60 hover:text-yellow-700 transition font-serif flex items-center gap-1"
-          >
-            ← Continue Shopping
-          </button>
-          <div className="flex items-center gap-2">
-            <ShoppingCart className="w-4 h-4 text-yellow-700" />
-            <h1 className="font-serif text-lg font-semibold text-yellow-950">
-              Cart
-              <span className="ml-2 text-sm font-normal text-yellow-800/60">
-                ({cartItems.length} {cartItems.length === 1 ? "item" : "items"})
-              </span>
-            </h1>
-          </div>
-          <div className="w-24" />
-        </div>
-      </div>
+     {/* Top Header Bar */}
+<div className="w-full bg-white border-b border-yellow-700/15 px-3 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-10">
+  <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
+    
+    <button
+      onClick={() => navigate("/redeem")}
+      className="text-[10px] sm:text-xs uppercase tracking-widest text-yellow-800/60 hover:text-yellow-700 transition font-serif flex items-center gap-1 whitespace-nowrap"
+    >
+      ← Continue Shopping
+    </button>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
+    <div className="flex items-center gap-2 min-w-0">
+      <ShoppingCart className="w-4 h-4 text-yellow-700 shrink-0" />
+      <h1 className="font-serif text-sm sm:text-base md:text-lg font-semibold text-yellow-950 truncate">
+        Cart
+        <span className="ml-1 sm:ml-2 text-[11px] sm:text-sm font-normal text-yellow-800/60">
+          ({cartItems.length} {cartItems.length === 1 ? "item" : "items"})
+        </span>
+      </h1>
+    </div>
 
-          {/* LEFT COLUMN — Items */}
-          <div className="flex-1 min-w-0 space-y-4">
+    <div className="hidden sm:block w-24" />
+  </div>
+</div>
+
+  <div className="w-full max-w-[1800px] 2xl:max-w-[2200px] mx-auto px-4 sm:px-6 lg:px-10 2xl:px-16 py-8">
+       <div className="flex flex-col lg:flex-row gap-6 2xl:gap-10 items-start">
+
+       {/* LEFT COLUMN — Items */}
+<div className="flex-1 min-w-0 w-full space-y-4 2xl:space-y-6">
 
             {/* Fulfilment Toggle */}
             {!allDigital && (
@@ -308,9 +273,9 @@ function Cart() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold font-serif text-yellow-900">Keep in Wallet</p>
-                  <p className="text-xs text-yellow-800/60 mt-0.5">Digital items are stored directly in your DigiGold wallet.</p>
+                  <p className="text-xs text-yellow-800/60 mt-0.5">Digital items are stored directly in your DgiGold wallet.</p>
                 </div>
-                <span className="ml-auto text-xs bg-yellow-100 text-yellow-800 border border-yellow-700/20 px-2 py-0.5 rounded-full">Auto Selected</span>
+                
               </div>
             )}
 
@@ -352,7 +317,7 @@ function Cart() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <div className="flex items-center gap-2 min-w-0">
-                            <h3 className="text-sm sm:text-base font-semibold font-serif text-yellow-950 truncate">
+                            <h3 className="text-sm sm:text-base 2xl:text-lg font-semibold font-serif text-yellow-950 truncate">
                               {item.name}
                             </h3>
                             {isDigital && (
@@ -436,7 +401,7 @@ function Cart() {
           </div>
 
           {/* RIGHT COLUMN — Order Summary */}
-          <div className="w-full lg:w-80 xl:w-96 shrink-0 lg:sticky lg:top-24">
+      <div className="w-full lg:w-[380px] xl:w-[420px] 2xl:w-[480px] shrink-0 lg:sticky lg:top-24">
             <div className="bg-white rounded-2xl border border-yellow-700/20 overflow-hidden shadow-sm">
               <div className="px-5 py-4 border-b border-yellow-700/10 flex items-center gap-2">
                 <Package className="w-4 h-4 text-yellow-700/60" />

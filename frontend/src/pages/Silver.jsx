@@ -93,11 +93,11 @@ const handleReplaceCancel = () => {
 
 
   return (
-    <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
+    <div className="min-h-screen max-w-[1440px] m-auto flex flex-col py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500">
 
       <Link
         to="/dashboard"
-        className="inline-flex items-center gap-2 mb-6 text-xs 2xl:text-2xl uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs uppercase tracking-widest text-gray-900 hover:text-gray-600 transition"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Dashboard
@@ -105,47 +105,47 @@ const handleReplaceCancel = () => {
 
       {/* Title */}
       <div className="mb-10 border-b border-gray-700/20 pb-6">
-        <div className="h-0.5 w-12 2xl:w-lg 2xl:h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
 
-        <h1 className="text-5xl 2xl:text-9xl bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900 font-serif bg-clip-text text-transparent p-2">
+        <h1 className=" text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl  bg-gradient-to-r from-gray-700 via-gray-400/80 to-gray-900 font-serif bg-clip-text text-transparent p-2">
           Buy Silver
         </h1>
 
-        <p className="mt-2 text-xs 2xl:text-2xl uppercase tracking-widest text-gray-800/70 font-['Fraunces']">
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-gray-800/70 font-['Fraunces']">
           .999 Pure · Live Rates
         </p>
       </div>
 
       <div className="w-full flex items-center justify-center">
-        <div className="grid md:grid-cols-2 gap-7 w-full mx-auto mt-1 2xl:p-40 2xl:pt-10">
+        <div className="grid md:grid-cols-2 gap-7 w-full mx-auto mt-1 ">
 
           {/* LEFT SIDE - Market Insights */}
           <div className="space-y-9">
-            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70 2xl:h-170 2xl:pt-10">
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
               <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-4"></div>
 
-              <h2 className="text-2xl 2xl:text-7xl font-['Fraunces'] mb-5 text-gray-900">
+              <h2 className="text-2xl 2xl:text-4xl  font-['Fraunces'] mb-5 text-gray-900">
                 Market Insights
               </h2>
 
-              <div className="flex items-center justify-between p-4 rounded-xl mb-6 border 2xl:text-3xl 2xl:w-full 2xl:h-30 2xl:p-8">
+              <div className="flex items-center 2xl:text-2xl  justify-between p-4 rounded-xl mb-6 border   ">
                 <p>₹{Math.round(gram24kSilverPrice) || "Loading..."}</p>
                 <p>{silverPrice ? `${silverPrice.changePercent}%` : "—"}</p>
               </div>
 
-              <div className="space-y-3 text-sm 2xl:text-3xl 2xl:gap-10 2xl:mt-20">
-                <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Current Price</span>
+              <div className="space-y-3 text-sm ">
+                <div className="flex justify-between border-b 2xl:text-xl border-gray-700/10 pb-2 ">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs ">Current Price</span>
                   <span className="text-gray-900">₹{silverPrice ? silverPrice.price.toLocaleString() : "—"}</span>
                 </div>
 
-                <div className="flex justify-between border-b border-gray-700/10 pb-2 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Week High</span>
+                <div className="flex justify-between border-b 2xl:text-xl  border-gray-700/10 pb-2 ">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs ">Week High</span>
                   <span className="text-gray-900">₹{silverPrice ? silverPrice.high.toLocaleString() : "—"}</span>
                 </div>
 
-                <div className="flex justify-between 2xl:pb-10">
-                  <span className="uppercase tracking-widest text-gray-800/70 text-xs 2xl:text-3xl">Week Low</span>
+                <div className="flex justify-between 2xl:text-xl ">
+                  <span className="uppercase tracking-widest text-gray-800/70 text-xs ">Week Low</span>
                   <span className="text-gray-900">₹{silverPrice ? silverPrice.low.toLocaleString() : "—"}</span>
                 </div>
               </div>
@@ -153,10 +153,10 @@ const handleReplaceCancel = () => {
 
             {/* Why Buy Digital Silver - Desktop */}
             <div className="hidden sm:block rounded-3xl p-6 shadow-md bg-white/90 border border-gray-600/70">
-              <h3 className="text-lg 2xl:text-7xl mb-4 font-['Fraunces'] text-gray-950">
+              <h3 className="text-lg 2xl:text-3xl mb-4 font-['Fraunces'] text-gray-950">
                 Why Buy Digital Silver?
               </h3>
-              <div className="space-y-3 text-sm 2xl:space-y-9 2xl:text-4xl text-gray-900/80">
+              <div className="space-y-3 text-sm 2xl:text-xl  text-gray-900/80">
                 <p>◈ 99.9% pure silver, hallmarked</p>
                 <p>◈ Stored in insured, secured vaults</p>
                 <p>◈ Start investing from just ₹1</p>
@@ -169,15 +169,15 @@ const handleReplaceCancel = () => {
           <div className="rounded-3xl p-3 shadow-md bg-white/90 border border-gray-600/70">
             <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-gray-400 to-transparent mb-4"></div>
 
-            <h2 className="text-2xl font-['Fraunces'] 2xl:text-7xl mb-2 2xl:mb-5 text-gray-900">
+            <h2 className="text-2xl  2xl:text-4xl font-['Fraunces']  mb-2  text-gray-900">
               Price Converter
             </h2>
-            <p className="text-xs uppercase tracking-widest text-gray-800/70 mb-6 2xl:text-3xl 2xl:mb-15">
+            <p className="text-xs  2xl:text-xl uppercase tracking-widest text-gray-800/70 mb-6 ">
               Grams → Rupees
             </p>
 
-            <div className="bg-gray-300/60 h-12 flex justify-center items-center rounded-xl 2xl:h-25 2xl:mb-15 mb-7">
-              <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 w-full rounded-xl h-10 text-center p-3 font-serif 2xl:w-full 2xl:h-full 2xl:text-3xl">
+            <div className="bg-gray-300/60 h-12 flex justify-center items-center rounded-xl  mb-7">
+              <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 w-full rounded-xl h-10 text-center p-3 font-serif ">
                 Grams → ₹
               </p>
             </div>
@@ -189,15 +189,15 @@ const handleReplaceCancel = () => {
               step="0.01"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="w-full 2xl:h-30 2xl:text-3xl px-4 py-3 rounded-xl text-lg bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
+              className="w-full text-lg 2xl:text-3xl px-4 py-3 rounded-xl  bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border-2 border-gray-300 focus:border-gray-400 outline-none transition mb-6 text-gray-900"
             />
 
             {/* Result */}
-            <div className="rounded-2xl 2xl:h-60 p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
-              <p className="text-xs 2xl:text-xl uppercase tracking-widest text-gray-800/70 mb-2">
+            <div className="rounded-2xl  p-5 text-center mb-6 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-100 border border-gray-600/70">
+              <p className="text-xs  uppercase tracking-widest text-gray-800/70 mb-2">
                 You will pay
               </p>
-              <div className="text-4xl 2xl:text-8xl font-bold text-gray-600">
+              <div className="text-4xl 2xl:text-5xl  font-bold text-gray-600">
                 {hasValidInput ? `₹${calc.baseAmount.toLocaleString("en-IN")}` : "—"}
               </div>
             </div>
@@ -206,7 +206,7 @@ const handleReplaceCancel = () => {
             <button
               onClick={handleBuyNow}
               disabled={!hasValidInput}
-              className={`w-full py-4 2xl:text-4xl 2xl:h-30 rounded-xl text-sm uppercase tracking-widest font-serif transition ${
+              className={`w-full py-4 2xl:text-3xl 2xl:mt-5  rounded-xl text-sm uppercase tracking-widest font-serif transition ${
                 hasValidInput
                   ? "bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"

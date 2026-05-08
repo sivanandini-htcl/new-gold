@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import {
   User, Phone, Mail, Edit, FileText, ShieldCheck, MapPin, CreditCard,
   Receipt, Clock, ArrowRightLeft, Gift, ShieldUser, Settings,
@@ -7,6 +8,7 @@ import {
 } from "lucide-react";
 import usePriceStore from "../store/priceStore";
 import useAuthStore from "../store/authStore";
+import usePortfolioStore from "../store/usePortfolioStore";
 
 const MENU_ITEMS = [
   { icon: Edit,           label: "Profile",    route: "/edit" },
@@ -56,6 +58,21 @@ export default function Profile() {
   const silverAlloc = totalValue > 0 ? ((silverValue / totalValue) * 100).toFixed(0) : 50;
 
   const fmt = (n) => n > 0 ? `₹${Math.round(n).toLocaleString("en-IN")}` : "—";
+  
+  const {
+  holdings,
+  loading,
+  error,
+  fetchHoldings,
+} = usePortfolioStore();
+useEffect(() => {
+  console.log("USE EFFECT RUNNING");
+
+  fetchHoldings();
+}, []);
+console.log("STORE HOLDINGS:", holdings);
+console.log("STORE ERROR:", error);
+console.log("STORE LOADING:", loading);
 
   return (
     <>

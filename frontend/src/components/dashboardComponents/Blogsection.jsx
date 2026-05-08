@@ -306,15 +306,15 @@ export default function BlogSection() {
 
   return (
     <>
-      <div className="mt-12 px-1 mb-3 px-3">
+      <div className="mt-12 mb-3 px-3">
         {/* Header */}
         <div className="flex justify-between items-end flex-wrap gap-3 mb-5">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-brownMid font-serif mb-1">
+            <p className="text-[10px] lg:text-xs uppercase tracking-[0.22em] text-brownMid font-serif mb-1">
               Learn · Grow · Invest
             </p>
 
-            <h2 className="font-serif text-[clamp(22px,4vw,34px)] font-bold text-brown">
+            <h2 className="font-serif text-xl lg:text-4xl font-bold text-brown">
               Gold Investment Insights
             </h2>
           </div>

@@ -16,7 +16,7 @@ const navLinks = [
   // { to: "/gold", label: "Gold" },
   // { to: "/silver", label: "Silver" },
   { to: "/metals", label: "Metals" },
-  { to: "/redeem", label: "Redeem" },
+  { to: "/redeem", label: "Shop" },
   { to: "/gifting", label: "Gifting" },
   { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
@@ -54,7 +54,7 @@ function Header() {
 
           {/* LEFT — LOGO */}
           <Link to="/dashboard" className="flex items-center">
-            <img src={dgiLogo} alt="DGI Logo" className="h-8 sm:h-9 2xl:h-12 w-auto" />
+            <img src={dgiLogo} alt="DGI Logo" className="h-10  sm:h-9 2xl:h-12 w-auto" />
           </Link>
 
           {/* CENTER — NAV (desktop) */}

@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import useCartStore from "../../store/cartStore";
 import api from "../../api/axiosInstance";
+import ProductLoadingScreen from "../../components/ProfileLoading";
 
 function Redeem() {
   const {
@@ -241,11 +242,7 @@ const handleAddToCart = async (product) => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-lg">
-        Loading products...
-      </div>
-    );
+    return <ProductLoadingScreen/>
   }
 
   return (
@@ -330,7 +327,7 @@ const handleAddToCart = async (product) => {
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold font-serif">
+            <h1 className="text-3xl md:text-4xl font-bold font-serif">
               Redeem Jewellery
             </h1>
 
@@ -365,7 +362,7 @@ const handleAddToCart = async (product) => {
                     variants={cardVariants}
                     initial="initial"
                     animate="animate"
-                    className="bg-white rounded-xl shadow-sm overflow-hidden border"
+                    className="bg-white rounded-xl shadow-sm overflow-hidden "
                   >
                     <div
                       className="h-48 w-full p-4 cursor-pointer"
@@ -410,7 +407,7 @@ const handleAddToCart = async (product) => {
                             product
                           )
                         }
-                        className="w-full mt-4 bg-yellow-500 text-white py-2 rounded-lg flex items-center justify-center gap-2"
+                        className="w-full mt-4 bg-yellow-900 text-white py-2 rounded-lg flex items-center justify-center gap-2"
                       >
                         <ShoppingCart className="w-4 h-4" />
                         Add to Cart

@@ -92,11 +92,11 @@ const handleReplaceConfirm = async () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-10 2xl:p-20 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+    <div className="min-h-screen max-w-[1440px] m-auto flex flex-col py-8 px-4 sm:px-6 lg:px-10  bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
       
       <Link
         to="/dashboard"
-        className="inline-flex items-center gap-2 mb-6 text-xs 2xl:text-2xl uppercase tracking-widest text-yellow-900 hover:text-yellow-600 transition font-['Fraunces']"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-yellow-900 hover:text-yellow-600 transition font-['Fraunces']"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Dashboard
@@ -104,40 +104,40 @@ const handleReplaceConfirm = async () => {
 
       {/* Title */}
       <div className="mb-15 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
-        <div className="h-0.5 w-12 2xl:w-lg 2xl:h-0.5 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
-        <h1 className="text-xl md:text-2xl xl:text-4xl 2xl:text-9xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent p-2">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent p-2">
           Buy Gold
         </h1>
-        <p className="mt-2 text-xs 2xl:text-2xl uppercase tracking-widest text-yellow-800/70 font-['Fraunces'] pl-3">
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-yellow-800/70 font-['Fraunces'] pl-3">
           24K · 99.9% Pure · Live Rates
         </p>
       </div>
 
       <div className="w-full flex flex-1 items-start justify-center">
-        <div className="grid md:grid-cols-2 gap-7 w-full mx-auto mt-1 2xl:p-40 2xl:pt-10">
+        <div className="grid md:grid-cols-2 gap-7 w-full mx-auto mt-1 ">
 
           {/* LEFT SIDE - Market Insights */}
           <div className="space-y-9">
-            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 2xl:h-170 2xl:pt-10">
+            <div className="rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70 ">
               <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4"></div>
-              <h2 className="text-2xl 2xl:text-7xl font-['Fraunces'] mb-5 text-yellow-950">Market Insights</h2>
+              <h2 className="text-2xl 2xl:text-4xl font-['Fraunces'] mb-5 text-yellow-950">Market Insights</h2>
               
-              <div className="flex items-center justify-between p-4 rounded-xl 2xl:text-3xl mb-6 border">
+              <div className="flex items-center 2xl:text-2xl text-yellow-950 justify-between p-4 rounded-xl  mb-6 border border-amber-900">
                 <p>₹{Math.round(gram24kGoldPrice) || "Loading..."}</p>
                 <p>{goldPrice ? `${goldPrice.changePercent}%` : "—"}</p>
               </div>
 
-              <div className="space-y-3 text-sm 2xl:text-3xl">
-                <div className="flex justify-between border-b border-yellow-700/10 pb-2">
-                  <span className="uppercase tracking-widest text-yellow-800/70">Current Price</span>
-                  <span>₹{goldPrice ? goldPrice.price.toLocaleString() : "—"}</span>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between border-b 2xl:text-xl border-yellow-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-yellow-800/70 text-xs 2xl:text-lg  ">Current Price</span>
+                  <span className="text-yellow-950">₹{goldPrice ? goldPrice.price.toLocaleString() : "—"}</span>
                 </div>
-                <div className="flex justify-between border-b border-yellow-700/10 pb-2">
-                  <span className="uppercase tracking-widest text-yellow-800/70">Week High</span>
-                  <span>₹{goldPrice ? goldPrice.high.toLocaleString() : "—"}</span>
+                <div className="flex justify-between 2xl:text-xl border-b border-yellow-700/10 pb-2">
+                  <span className="uppercase tracking-widest text-xs text-yellow-800/70 2xl:text-lg">Week High</span>
+                  <span className="text-yellow-950">₹{goldPrice ? goldPrice.high.toLocaleString() : "—"}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="uppercase tracking-widest text-yellow-800/70">Week Low</span>
+                <div className=" text-yellow-950 flex justify-between 2xl:text-xl">
+                  <span className="uppercase tracking-widest text-xs text-yellow-800/70 2xl:text-lg ">Week Low</span>
                   <span>₹{goldPrice ? goldPrice.low.toLocaleString() : "—"}</span>
                 </div>
               </div>
@@ -145,8 +145,8 @@ const handleReplaceConfirm = async () => {
 
             {/* Why Buy Digital Gold - Desktop */}
             <div className="sm:block hidden rounded-3xl p-6 shadow-md bg-white/90 border border-yellow-700/70">
-              <h3 className="text-lg 2xl:text-7xl mb-4 font-['Fraunces'] text-yellow-950">Why Buy Digital Gold?</h3>
-              <div className="space-y-3 2xl:space-y-9 text-sm 2xl:text-4xl text-yellow-900/80">
+              <h3 className="text-lg 2xl:text-3xl mb-4 font-['Fraunces'] text-yellow-950 ">Why Buy Digital Gold?</h3>
+              <div className="space-y-3 text-sm 2xl:text-xl text-yellow-900/80">
                 <p>◈ 99.9% pure 24K gold, hallmarked</p>
                 <p>◈ Stored in insured, secured vaults</p>
                 <p>◈ Start investing from just ₹1</p>
@@ -158,11 +158,11 @@ const handleReplaceConfirm = async () => {
           {/* RIGHT SIDE - Converter */}
           <div className="rounded-3xl p-2 md:p-5 shadow-md bg-white/90 border border-yellow-700/70">
             <div className="h-0.5 w-8 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4 mt-4"></div>
-            <h2 className="text-2xl font-['Fraunces'] text-yellow-950 2xl:text-7xl mb-2">Price Converter</h2>
-            <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-6">Grams → Rupees</p>
+            <h2 className="text-2xl 2xl:text-4xl font-['Fraunces'] text-yellow-950  mb-2">Price Converter</h2>
+            <p className="text-xs 2xl:text-xl uppercase tracking-widest text-yellow-800/70 mb-6">Grams → Rupees</p>
 
-            <div className="bg-yellow-200 h-12 2xl:h-25 flex justify-center items-center rounded-xl mb-7">
-              <p className="bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-yellow-950 w-full rounded-xl h-10 text-center p-3 font-serif 2xl:text-3xl">
+            <div className="bg-yellow-200 h-12  flex justify-center items-center rounded-xl mb-7">
+              <p className="  2xl:text-2xl bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-yellow-950 w-full rounded-xl h-10 text-center p-3 font-serif ">
                 Grams → ₹
               </p>
             </div>
@@ -174,12 +174,12 @@ const handleReplaceConfirm = async () => {
               step="0.01"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-lg 2xl:h-30 2xl:text-3xl bg-gradient-to-br from-amber-50 to-amber-50 border-2 border-yellow-200 focus:border-yellow-600 outline-none mb-6"
+              className="w-full px-4 py-3 rounded-xl text-lg 2xl:text-3xl  bg-gradient-to-br from-amber-50 to-amber-50 border-2 border-yellow-200 focus:border-yellow-600 outline-none mb-6"
             />
 
             <div className="rounded-2xl p-5 text-center mb-6 bg-gradient-to-br from-amber-50 to-amber-50 border border-yellow-700/70">
               <p className="text-xs uppercase tracking-widest text-yellow-800/70 mb-2">You will pay</p>
-              <div className="text-4xl 2xl:text-8xl font-bold text-yellow-600">
+              <div className="text-3xl xl:text-4xl 2xl:text-5xl mb-7 font-bold text-yellow-600">
                 {hasValidInput ? `₹${calc.baseAmount.toLocaleString("en-IN")}` : "—"}
               </div>
             </div>
@@ -188,7 +188,7 @@ const handleReplaceConfirm = async () => {
             <button
               onClick={handleBuyNow}
               disabled={!hasValidInput}
-              className={`w-full 2xl:text-4xl 2xl:h-30 py-4 rounded-xl text-sm uppercase tracking-widest font-['Fraunces'] transition ${
+              className={`w-full py-4 rounded-xl text-sm 2xl:text-3xl 2xl:mt-5  uppercase tracking-widest font-['Fraunces'] transition ${
                 hasValidInput
                   ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-lg hover:scale-[1.02]"
                   : "bg-yellow-100 text-yellow-400 cursor-not-allowed"
