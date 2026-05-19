@@ -380,8 +380,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
-      <div className="md:hidden py-10 px-6 bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] text-center">
+    <div className="min-h-screen flex flex-col justify-center">
+      <div className="md:hidden py-10 px-6 bg-gradient-to-br from-background via-[#2f2f33] to-[#111112] text-center">
         <img src={logo} alt="logo" className="w-12 mx-auto mb-2" />
         <h1 className="text-6xl font-['Fraunces']">
           <span
@@ -395,7 +395,7 @@ function Login() {
           </span>
         </h1>
         <div className="h-0.5  w-full mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent" />
-        <p className="text-xs uppercase tracking-widest text-amber-200 mt-2">
+        <p className="text-xs uppercase tracking-widest text-primary/70 mt-2">
           Gold & Silver Investment
         </p>
       </div>
@@ -404,7 +404,7 @@ function Login() {
         {/* dt */}
         <div
           className="hidden md:flex md:w-1/2 flex-col  p-16
-          bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] text-center"
+         bg-gradient-to-br from-background via-[#2f2f33] to-[#111112] text-center"
         >
           <img src={logo} alt="logo" className="w-25  mx-auto flex justify-self-auto  mb-0" />
           <h1 className="text-7xl mt-10 font-['Fraunces'] leading-none">
@@ -420,14 +420,14 @@ function Login() {
           </h1>
           <div className="h-0.5 w-12 w-full mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent" />
 
-          <p className="text-xs uppercase tracking-widest text-amber-200 opacity-50 mt-2  mt-0">
+          <p className="text-xs uppercase tracking-widest text-primary/70  mt-2  ">
             Gold & Silver Investment
           </p>
-          <p className="text-amber-200 mt-3 tracking-widest text-sm font-style: italic  opacity-30">
+          <p className="text-primary mt-3 tracking-widest text-sm font-style: italic  ">
             India's Trusted Digital Metals Platform
           </p>
 
-          <div className="space-y-6 mt-10 text-left  font font-serif text-yellow-100 opacity-99">
+          <div className="space-y-6 mt-10 text-left  font font-serif text-primary opacity-99">
             {[
               {
                 icon: '◈',
@@ -462,7 +462,7 @@ function Login() {
                 </span>
                 <div>
                   <p className="font-medium text-sm">{f.label}</p>
-                  <p className="text-xs font-light text-gray-500">{f.sub}</p>
+                  <p className="text-xs font-light text-secondary">{f.sub}</p>
                 </div>
               </div>
             ))}
@@ -471,13 +471,13 @@ function Login() {
         <div></div>
 
         {/* right side */}
-        <div className="flex-1 flex items-center justify-center px-6 py-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
-          <div className="w-full max-w-md bg-white/95 backdrop-blur rounded-3xl shadow-2xl border border-amber-200 p-10">
+        <div className="flex-1 flex items-center justify-center px-6 py-10 bg-[#111112]">
+          <div className="w-full max-w-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] backdrop-blur rounded-3xl shadow-2xl border border-white/20  p-10">
             <div className="h-0.5 w-12 mx-auto mt-5 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 " />
-            <h2 className=" text-2xl md:text-3xl font-serif text-center text-black mb-2">
+            <h2 className=" text-2xl md:text-3xl font-serif text-center text-primary mb-2">
               Welcome Back
             </h2>
-            <p className="text-center text-xs  uppercase tracking-widest text-amber-950  opacity-65  mb-8">
+            <p className="text-center text-xs  uppercase tracking-widest text-primary/80  opacity-65  mb-8">
               Sign in to your DgiGold account
             </p>
             {/* STEP 1: Email/Mobile */}
@@ -488,15 +488,15 @@ function Login() {
                   placeholder="Email or Mobile Number"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none"
+                  className="w-full px-4 py-3  text-gray-200 rounded-xl border border-white/20  focus:border-white/20 focus:ring-2 focus:ring-white/60 outline-none"
                 />
                 <button
                   onClick={handleStep1Next}
                   disabled={loading}
                   className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
-              disabled:opacity-50 disabled:cursor-not-allowed"
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800
+              shadow-sm shadow-amber-600/30
+              disabled:opacity-50 disabled:cursor-not-allowed text-background"
                 >
                   {loading ? 'VERIFYING...' : 'NEXT'}
                 </button>
@@ -504,14 +504,14 @@ function Login() {
                 {/* OR */}
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
-                  <span className="text-xs uppercase tracking-widest text-amber-700">or</span>
+                  <span className="text-xs uppercase tracking-widest text-primary/70">or</span>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
                 </div>
 
                 <button
                   onClick={() => handleGoogleLogin('google', signInwithgoogle)}
                   disabled={loading}
-                  className="w-full py-3 rounded-xl text-xs md:text-sm flex items-center justify-center gap-1 md:gap-3 p-0
+                  className="w-full py-3 rounded-xl text-xs text-black md:text-sm flex items-center justify-center gap-1 md:gap-3 p-0
               bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <svg className="w-3 h-3 md:w-5 md:h-5" viewBox="0 0 24 24">
@@ -540,7 +540,7 @@ function Login() {
             {/* STEP 2: OTP (Only if required) */}
             {step === 2 && otpRequired && (
               <div className="w-full space-y-6">
-                <p className="text-sm text-gray-600 text-center mb-4">
+                <p className="text-sm text-white/70 text-center mb-4">
                   {loading ? 'Sending OTP...' : 'Enter OTP sent to ' + identifier}
                 </p>
 
@@ -550,15 +550,15 @@ function Login() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.slice(0, 6))}
                   maxLength="6"
-                  className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none text-center text-xs tracking-widest"
+                  className="w-full px-4 py-3 rounded-xl text-lg border border-white/20 focus:border-whit-30 focus:ring-2 focus:ring-white/60 outline-none text-center  tracking-widest"
                 />
 
                 <button
                   onClick={handleVerifyOtp}
                   disabled={loading || otp.length < 6}
                   className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background
+              shadow-sm shadow-amber-600/30
               disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'VERIFYING...' : 'VERIFY OTP'}
@@ -570,18 +570,18 @@ function Login() {
             {(step === 2.5 || (step === 2 && !otpRequired)) && (
               <div className="w-full space-y-6">
                 <div>
-                  <p className="text-sm text-gray-600 text-center mb-4">{identifier}</p>
+                  <p className="text-sm text-primary/80 text-center mb-4">{identifier}</p>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Enter Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/30 outline-none"
+                      className="w-full px-4 py-3 rounded-xl  text-lg border border-white/20 focus:border-white/30 focus:ring-2 focus:ring-white/50 text-secondary outline-none"
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer "
                     >
                       {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                     </span>
@@ -591,8 +591,8 @@ function Login() {
                   onClick={handlePasswordSubmit}
                   disabled={loading || !password}
                   className="w-full py-3 px-4 rounded-xl text-sm  tracking-widest font-semibold
-              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-              shadow-lg shadow-amber-600/30
+              bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background
+              shadow-sm shadow-amber-600/30
               disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'SIGNING IN...' : 'SIGN IN'}
@@ -602,7 +602,7 @@ function Login() {
 
             {/* Back button */}
             {step > 1 && (
-              <div className="flex text-sm text-amber-900/70 gap-2 mt-6">
+              <div className="flex text-sm text-primary/80 gap-2 mt-6">
                 <ArrowLeft size={20} />
                 <button onClick={handleBack} className="hover:text-amber-900 transition">
                   Back
@@ -610,11 +610,11 @@ function Login() {
               </div>
             )}
 
-            <p className="text-center mt-7 text-xs text-gray-600">
+            <p className="text-center mt-7 text-xs text-white/70">
               New here?{' '}
               <button
                 onClick={() => navigate('/signup')}
-                className="text-yellow-500  font-medium underline underline-offset-2"
+                className="text-primary  font-medium underline underline-offset-2"
               >
                 Create an account
               </button>

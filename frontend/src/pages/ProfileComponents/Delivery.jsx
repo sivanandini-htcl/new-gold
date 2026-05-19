@@ -162,28 +162,27 @@ function AddressCard({ address, onEdit, onDelete, onSetDefault, loading }) {
 
   return (
     <div
-      className={`relative bg-white rounded-2xl shadow-sm border-2 transition-all ${
-        address.isDefault ? "border-amber-400" : "border-gray-100"
-      }`}
-      style={{ fontFamily: "'DM Sans', sans-serif" }}
+      className="relative bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22]  border border-white/20 rounded-2xl shadow-sm  transition-all "
+      
+
     >
       {address.isDefault && (
-        <div className="absolute top-3 right-3 flex items-center gap-1 text-amber-500 text-xs font-semibold bg-amber-50 px-2 py-1 rounded-full">
+        <div className="absolute top-3 right-3 flex items-center gap-1 text-primary/70 text-xs font-semibold bg-[#111112] px-2 py-1 rounded-full">
           <Star size={11} fill="currentColor" />
           Default
         </div>
       )}
 
       <div className="p-5">
-        <div className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full mb-3 capitalize">
+        <div className="inline-flex items-center gap-1.5 bg-[#111112] text-primary/70 border border-white/20 text-xs font-medium px-2.5 py-1 rounded-full mb-3 capitalize">
           {icon}
           {address.label || "Address"}
         </div>
 
-        <p className="font-semibold text-gray-800 text-sm">{address.fullName}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{address.phoneNumber}</p>
+        <p className="font-semibold text-white/70 text-sm">{address.fullName}</p>
+        <p className="text-xs text-white/70 mt-0.5">{address.phoneNumber}</p>
 
-        <p className="text-sm text-gray-600 mt-2 leading-relaxed">
+        <p className="text-sm text-white/70 mt-2 leading-relaxed">
           {[
             address.addressLine1,
             address.addressLine2,
@@ -195,10 +194,10 @@ function AddressCard({ address, onEdit, onDelete, onSetDefault, loading }) {
             .join(", ")}
         </p>
 
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-primary/50">
           <button
             onClick={() => onEdit(address)}
-            className="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium text-primary/70 border border-white/20 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-400 transition-colors"
           >
             <Edit3 size={13} />
             Edit
@@ -217,7 +216,7 @@ function AddressCard({ address, onEdit, onDelete, onSetDefault, loading }) {
             <button
               onClick={() => onSetDefault(address.id)} // ✅ FIXED: was address._id
               disabled={loading}
-              className="ml-auto flex items-center gap-1.5 text-xs font-medium text-amber-600 hover:text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
+              className="ml-auto flex items-center gap-1.5 text-xs font-medium text-primary/70 hover:text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
             >
               <CheckCircle size={13} />
               Set Default
@@ -289,7 +288,7 @@ function Delivery() {
 
   return (
     <div
-      className="min-h-screen bg-amber-50"
+      className="min-h-screen bg-background"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');`}</style>
@@ -297,7 +296,7 @@ function Delivery() {
       <div className="max-w-2xl mx-auto px-4 py-8">
         <button
           onClick={() => navigate("/profile")}
-          className="flex items-center gap-2 text-xs text-gray-500 hover:text-gray-800 transition-colors mb-6"
+          className="flex items-center gap-2 text-xs text-primary/70 hover:text-gray-800 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Profile
@@ -305,10 +304,10 @@ function Delivery() {
 
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold font-serif text-primary">
               Delivery Addresses
             </h2>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-white/70 mt-1">
               {addresses?.length || 0} saved address
               {addresses?.length !== 1 ? "es" : ""}
             </p>
@@ -316,7 +315,7 @@ function Delivery() {
 
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-colors"
+            className="flex items-center gap-2 bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-colors"
           >
             <Plus size={16} />
             Add Address
@@ -329,8 +328,8 @@ function Delivery() {
           </div>
         ) : addresses.length === 0 ? (
           <div className="text-center py-16">
-            <MapPin size={36} className="mx-auto text-amber-300 mb-3" />
-            <p className="text-gray-500 text-sm">No addresses saved yet.</p>
+            <MapPin size={36} className="mx-auto text-primary mb-3" />
+            <p className="text-white/70 text-sm">No addresses saved yet.</p>
             <button
               onClick={() => setShowForm(true)}
               className="mt-4 text-amber-600 text-sm font-medium hover:underline"

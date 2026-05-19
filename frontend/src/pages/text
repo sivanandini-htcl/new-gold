@@ -29,7 +29,6 @@ Paragraph    = xl:text-xl → 20px
 Buttons      = xl:text-lg → 18px
 Hero Heading = xl:text-7xl → 72px
 
-
 2XL (4K / Ultra Wide):
 Heading      = 2xl:text-6xl → 60px
 Subheading   = 2xl:text-4xl → 36px
@@ -38,7 +37,6 @@ Buttons      = 2xl:text-xl → 20px
 Hero Heading = 2xl:text-8xl → 96px
 
 Recommended Production Setup:
-
 Hero        → text-4xl md:text-5xl lg:text-6xl xl:text-7xl
 Heading     → text-2xl md:text-3xl lg:text-4xl
 Subheading  → text-lg md:text-xl lg:text-2xl

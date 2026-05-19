@@ -8,7 +8,7 @@ function Metals() {
   const isGold = selected === "gold";
 
   return (
-    <div className={`relative transition-colors duration-500 ${isGold ? "bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100" : "bg-gradient-to-br from-gray-200 via-gray-100 to-gray-500"}`}>
+    <div className={`relative transition-colors duration-500 ${isGold ? "bg-background" : "bg-background"}`}>
       
       {/* Toggle — sits at the top of the page content, below the Header */}
       <div className="flex justify-center pt-5 pb-2">

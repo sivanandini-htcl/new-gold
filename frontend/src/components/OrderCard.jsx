@@ -45,21 +45,21 @@ export default function OrderCard({ order }) {
   const StatusIcon = cfg.icon;
 
   return (
-    <div className="bg-white rounded-xl text-[#3C2415] p-5 mb-4 shadow-sm">
+    <div className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-xl text-[#3C2415] p-5 mb-4 shadow-sm">
       <div className="flex justify-between items-center">
 
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center">
-            <Package className="text-amber-700" />
+            <Package className="text-background" />
           </div>
 
           <div>
-            <p className="font-bold text-[#3C2415]">
+            <p className="font-bold text-primary/70">
               Order #{order.orderNumber || order.id}
             </p>
        
 
-            <div className="flex items-center gap-2 text-sm text-[#3C2415] mt-1">
+            <div className="flex items-center gap-2 text-sm text-white/70 mt-1">
               <Calendar size={14} />
               {order.mode || "Jewellery Order"}
             </div>
@@ -68,19 +68,19 @@ export default function OrderCard({ order }) {
 
         <div className="text-right">
           <span
-            className={`inline-flex items-center gap-1 px-3 text-[#3C2415] py-1 rounded-full text-xs font-bold ${cfg.bg} ${cfg.color}`}
+            className={`inline-flex items-center gap-1 px-3 text-background py-1 rounded-full text-xs font-bold ${cfg.bg} ${cfg.color}`}
           >
             <StatusIcon size={14} />
             {cfg.label}
           </span>
 
-          <p className="font-bold text-lg mt-2 text-[#3C2415]">
+          <p className="font-bold text-lg mt-2 text-white/70">
             ₹{Number(order.pricing?.totalAmount || 0).toLocaleString("en-IN")}
           </p>
 
           <button
             onClick={() => navigate(`/orders/${order.id}`)}
-            className="mt-3 flex items-center gap-1 text-[#3C2415] font-semibold"
+            className="mt-3 flex items-center gap-1 text-primary/60 font-normal"
           >
             View Details
             <ChevronRight size={16} />

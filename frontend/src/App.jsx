@@ -9,7 +9,7 @@ import Signup from "./pages/Authentication/Signup";
 import Login from "./pages/Authentication/Login";
 import EditProfile from "./pages/ProfileComponents/EditProfile";
 
-import KycPage from "./pages/KYC.jsx/KycPage";
+import KycPage from "./pages/ProfileComponents/KycPage";
 import Nominee from "./pages/ProfileComponents/Nominee";
 import Delivery from "./pages/ProfileComponents/Delivery";
 import BankAccount from "./pages/ProfileComponents/BankAccount";
@@ -33,7 +33,8 @@ import ProductDetails from "./pages/ProductDetails";
 import MyOrders from "./pages/MyOrders";
 import Metals from "./pages/Metals";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
-
+import Transactions from "./pages/ProfileComponents/Transaction";
+import Analytics from "./pages/Analytics";
 
 function App() {
   return (
@@ -41,11 +42,10 @@ function App() {
       <PriceProvider/>
         <BrowserRouter>
           <ToastContainer position="top-right" autoClose={2000} theme="dark" />
-                 <Toaster />
-
+          <Toaster />
           <Routes>
             
-        <Route path="/" element={<Login />} />
+         <Route path="/" element={<Login />} />
          <Route path="/signup" element={<Signup />} />
   
           
@@ -84,6 +84,7 @@ function App() {
               <Route
                 path="/nominee"   element={ <ProtectedRoute> <Nominee /> </ProtectedRoute>  }
               />
+
               <Route
                 path="/delivery"  element={
                   <ProtectedRoute>
@@ -126,6 +127,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/analytics"  element={
+                  <ProtectedRoute>
+                    <Analytics />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path="/cart"  element={
                   <ProtectedRoute>
@@ -152,6 +162,13 @@ function App() {
                       <Checkout />
                       </ProtectedRoute>
              } />
+
+              <Route path="/transactions" element={
+                      <ProtectedRoute>
+                      <Transactions />
+                      </ProtectedRoute>
+             } />
+
           {/* <Route path="/checkout1"element={<ProtectedRoute><Checkout1/> </ProtectedRoute> }/> */}
           <Route path="/orders" element={<ProtectedRoute><MyOrders/> </ProtectedRoute> }/>         
           <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />

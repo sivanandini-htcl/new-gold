@@ -10,6 +10,7 @@ import { ShoppingCart, User, LogOut, Menu, X, Heart, Gift } from "lucide-react";
 import dgiLogo from "../assets/logo_2.svg";
 import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
+import Analytics from "../pages/Analytics";
 
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
@@ -17,8 +18,10 @@ const navLinks = [
   // { to: "/silver", label: "Silver" },
   { to: "/metals", label: "Metals" },
   { to: "/redeem", label: "Shop" },
-  { to: "/gifting", label: "Gifting" },
-  { to: "/checkout", label: "Checkout" },
+  { to: "/analytics", label: "Analytics" },
+
+
+  // { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
   { to: "/about", label: "About" },
   
@@ -46,11 +49,11 @@ function Header() {
   };
 
   return (
-    <div className="sticky top-0 z-50 px-3 sm:px-5 lg:px-8 2xl:px-16 bg-[#faf7f2] py-3 2xl:py-4">
+    <div className="sticky top-0 z-50 px-3 sm:px-5 lg:px-8 2xl:px-16 bg-background py-3 2xl:py-4">
 
-      <header className="rounded-2xl 2xl:rounded-3xl bg-gradient-to-r from-[#1a1508] via-[#2d2210] to-[#141414] border border-yellow-400/20 shadow-lg shadow-black/20 mt-10">
+      <header className="rounded-2xl 2xl:rounded-3xl bg-[#111117] border border-yellow-400/20 shadow-lg shadow-black/20 mt-1">
 
-        <div className="flex items-center justify-between px-4 py-3 sm:px-5 2xl:px-8 2xl:py-4 lg:grid lg:grid-cols-3">
+        <div className="flex items-center justify-between px-4 py-1 md:py-2 lg:py-3 sm:px-5 2xl:px-8 2xl:py-4 lg:grid lg:grid-cols-3">
 
           {/* LEFT — LOGO */}
           <Link to="/dashboard" className="flex items-center">
@@ -58,7 +61,7 @@ function Header() {
           </Link>
 
           {/* CENTER — NAV (desktop) */}
-          <nav className="hidden lg:flex justify-center gap-6 2xl:gap-8 font-serif text-sm 2xl:text-base text-[#ddd9ce]">
+          <nav className="hidden md:flex justify-center gap-6 2xl:gap-8 font-serif text-sm 2xl:text-base text-[#ddd9ce]">
             {navLinks.map(link => (
               <Link
                 key={link.to}
@@ -78,9 +81,9 @@ function Header() {
             {/* Cart */}
             <Link
               to="/cart"
-              className="relative w-9 h-9 2xl:w-11 2xl:h-11 flex items-center justify-center border border-[#DDD9CE]  bg-amber-400/10 text-[#DDD9CE] rounded-full hover:bg-amber-400/20 transition group"
+              className="relative w-9 h-9 2xl:w-11 2xl:h-11 flex items-center justify-center border border-white/20 bg-[#111112] rounded-full transition group"
             >
-              <ShoppingCart className="w-4 h-4 2xl:w-5 2xl:h-5" />
+              <ShoppingCart className="w-4 h-4 2xl:w-5 2xl:h-5 text-secondary" />
               <span className="absolute -top-1 -right-1 w-4 h-4 2xl:w-5 2xl:h-5 text-[9px] 2xl:text-[10px] font-black bg-[#DDD9CE] text-[#3C2415] rounded-full flex items-center justify-center">
                 0
               </span>
@@ -89,38 +92,38 @@ function Header() {
             {/* Gifting shortcut */}
             <Link
               to="/gifting"
-              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-[#DDD9CE]  bg-amber-400/10 text-[#DDD9CE] rounded-full hover:bg-amber-400/20 transition"
+              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-white/20 bg-[#111112] rounded-full transition"
             >
-              <Gift className="w-4 h-4 2xl:w-5 2xl:h-5" />
+              <Gift className="w-4 h-4 2xl:w-5 2xl:h-5 text-secondary" />
             </Link>
 
             {/* Wishlist */}
-            <Link
+            {/* <Link
               to="/wishlist"
               className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-[#DDD9CE]  bg-amber-400/10 text-[#DDD9CE] rounded-full hover:bg-amber-400/20 transition"
             >
               <Heart className="w-4 h-4 2xl:w-5 2xl:h-5" />
-            </Link>
+            </Link> */}
 
             {/* Profile */}
             <Link
               to="/profile"
-              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-[#DDD9CE]  bg-amber-400/10 text-[#DDD9CE] rounded-full hover:bg-amber-400/20 transition"
+              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-white/20 bg-[#111112] rounded-full transition"
             >
-              <User className="w-4 h-4 2xl:w-5 2xl:h-5" />
+              <User className="w-4 h-4 2xl:w-5 2xl:h-5 text-secondary" />
             </Link>
 
             {/* Logout */}
             <button
               onClick={handleLogout}
-              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 rounded-full items-center justify-center border border-[#DDD9CE]  bg-red-400/5 text-red-400/70 hover:bg-red-400/15 hover:text-red-300 hover:border-red-400/40 transition"
+              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 rounded-full items-center justify-center border border-white/20  bg-red-400/5 text-red-400/70 hover:bg-red-400/15 hover:text-red-300 hover:border-red-400/40 transition"
             >
               <LogOut className="w-4 h-4 2xl:w-5 2xl:h-5" />
             </button>
 
             {/* Hamburger (mobile) */}
             <button
-              className="lg:hidden w-9 h-9 flex items-center justify-center border border-amber-400/30 rounded-full bg-amber-400/10 text-amber-300"
+              className="lg:hidden w-9 h-9 flex items-center justify-center border border-white/20 bg-[#111112] rounded-full"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={16} /> : <Menu size={16} />}
@@ -133,7 +136,7 @@ function Header() {
 
       {/* MOBILE MENU */}
       {isOpen && (
-        <div className="lg:hidden mt-2 rounded-2xl bg-gradient-to-br from-[#1a1508] to-[#2a1d08] border border-amber-400/20 shadow-xl overflow-hidden">
+        <div className="md:hidden mt-2 rounded-2xl bg-gradient-to-br from-[#1a1508] to-[#2a1d08] border border-amber-400/20 shadow-xl overflow-hidden">
           <div className="flex flex-col p-4 gap-1">
             {navLinks.map(link => (
               <Link

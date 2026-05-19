@@ -15,7 +15,7 @@ const PAGE_SIZE = 10;
 
 function LoadingSkeleton() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
         <div className="mb-4 text-5xl text-[#5f3e0d] animate-pulse">
           ✦
@@ -36,17 +36,17 @@ function EmptyState({ onExplore }) {
         <ShoppingBag size={32} color="#c9a97a" />
       </div>
 
-      <h2 className="text-[#f5e6d2] text-[24px] sm:text-[28px] font-semibold mb-[10px]">
+      <h2 className="text-primary text-[24px] sm:text-[28px] font-semibold mb-[10px]">
         No Orders Yet
       </h2>
 
-      <p className="text-[#8a7060] text-[14px] leading-[1.6] mb-8 max-w-md mx-auto">
+      <p className="text-primary/70 text-[14px] leading-[1.6] mb-8 max-w-md mx-auto">
         Your jewellery orders will appear here
       </p>
 
       <button
         onClick={onExplore}
-        className="bg-[linear-gradient(135deg,#c9a97a,#a07840)] text-[#1a0a00] rounded-xl px-8 py-[14px] text-[14px] font-semibold uppercase tracking-[0.06em] hover:opacity-95 transition-all duration-200"
+        className="bg-[linear-gradient(135deg,#c9a97a,#a07840)] text-primary/70 rounded-xl px-8 py-[14px] text-[14px] font-semibold uppercase tracking-[0.06em] hover:opacity-95 transition-all duration-200"
       >
         Explore Jewellery
       </button>
@@ -57,16 +57,16 @@ function EmptyState({ onExplore }) {
 function StatCard({ label, value, sub }) {
   return (
     <div className="flex-1 min-w-[140px] rounded-2xl border border-[#c9a97a2e] bg-white/[0.04] p-5 sm:p-6">
-      <p className="text-[#5f3e0d] text-[11px] uppercase tracking-[0.12em] mb-2">
+      <p className="text-primary text-[11px] uppercase tracking-[0.12em] mb-2">
         {label}
       </p>
 
-      <p className="text-[#5f3e0d] text-[28px] sm:text-[32px] leading-none font-semibold break-words">
+      <p className="text-white text-[28px] sm:text-[32px] leading-none font-semibold break-words">
         {value}
       </p>
 
       {sub && (
-        <p className="text-[#5f3e0d] text-[12px] mt-[6px]">
+        <p className="text-primary/50 text-[12px] mt-[6px]">
           {sub}
         </p>
       )}
@@ -176,7 +176,7 @@ export default function OrdersPage() {
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gray-100  pb-20 font-sans">
+    <div className="relative min-h-screen overflow-hidden bg-background  pb-20 font-sans">
       {/* Background Glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[20%] top-[10%] h-[500px] w-[500px] rounded-full bg-[#c9a97a14] blur-3xl" />
@@ -185,7 +185,7 @@ export default function OrdersPage() {
       </div>
 
       {/* Header */}
-      <div className="sticky top-0 z-10 border-b border-[#c9a97a1f] bg-[rgba(26,10,0,0.85)] px-4 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
+      <div className="sticky top-0 z-10  px-4 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
         <div className="mx-auto max-w-[720px]">
           <button
             className="mb-3 inline-flex items-center gap-[6px] text-[13px] tracking-[0.04em] text-[#8a7060] transition-colors duration-200 hover:text-[#c9a97a]"
@@ -195,20 +195,20 @@ export default function OrdersPage() {
             Back
           </button>
 
-          <div className="flex flex-wrap items-end justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <h1 className="text-[30px] font-semibold leading-none text-[#f5e6d2] sm:text-[38px]">
               My{" "}
-              <span className="font-normal italic text-[#c9a97a]">
+              <span className="font-normal italic text-primary">
                 Orders
               </span>
             </h1>
 
-            {orders.length > 0 && (
+            {/* {orders.length > 0 && (
               <p className="pb-1 text-[12px] uppercase tracking-[0.1em] text-[#6a5040]">
                 {orders.length} order
                 {orders.length !== 1 ? "s" : ""}
               </p>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -217,7 +217,7 @@ export default function OrdersPage() {
       <div className="relative z-[1]  mx-auto max-w-[720px] px-[14px] pt-5 sm:px-5 sm:pt-8">
         {/* Stats */}
         {orders.length > 0 && (
-          <div className="mb-8 flex   flex-wrap gap-2 sm:gap-3">
+          <div className="mb-8 flex  text-primary flex-wrap gap-2 sm:gap-3">
             <StatCard
               label="Total Orders"
               value={orders.length}

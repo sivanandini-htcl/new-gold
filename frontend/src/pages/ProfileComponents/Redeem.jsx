@@ -8,16 +8,13 @@ import {
   Search,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 import useCartStore from "../../store/cartStore";
 import api from "../../api/axiosInstance";
-import ProductLoadingScreen from "../../components/ProfileLoading";
+import PageLoader from "../../components/ProfileLoading";
 
 function Redeem() {
-  const {
-    cartItems,
-    replaceCartItem,
-    fetchCart,
-  } = useCartStore();
+  const { cartItems, fetchCart } = useCartStore();
 
   const navigate = useNavigate();
 
@@ -26,11 +23,33 @@ function Redeem() {
 
   const [metalType, setMetalType] = useState("gold");
   const [filterOpen, setFilterOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
 
   const [showReplaceModal, setShowReplaceModal] = useState(false);
+
   const [pendingItem, setPendingItem] = useState(null);
+
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const getCartType = () => {
+    if (cartItems.length === 0) return null;
+
+    const hasMetal = cartItems.some(
+      (item) => item.type === "METAL"
+    );
+
+    const hasProduct = cartItems.some(
+      (item) => item.type === "PRODUCT"
+    );
+
+    if (hasMetal && !hasProduct) return "METAL";
+
+    if (hasProduct && !hasMetal) return "PRODUCT";
+
+    return "MIXED";
+  };
 
   const [filters, setFilters] = useState({
     shape: "",
@@ -60,6 +79,7 @@ function Redeem() {
       setProducts(fetchedProducts);
     } catch (error) {
       console.error("Fetch products error:", error);
+
       toast.error("Failed to load products");
     } finally {
       setLoading(false);
@@ -95,12 +115,13 @@ function Redeem() {
     });
 
     setSearchQuery("");
+
     setSortBy("");
   };
 
   const activeFilterCount =
-    Object.values(filters).filter(Boolean).length +
-    (searchQuery ? 1 : 0);
+    Object.values(filters).filter(Boolean)
+      .length + (searchQuery ? 1 : 0);
 
   const filteredProducts = products
     .filter(
@@ -134,76 +155,98 @@ function Redeem() {
       return 0;
     });
 
-const handleAddToCart = async (product) => {
-  const newItem = {
-    type: "PRODUCT",
-    productId: product.id, // backend product id
-    quantity: 1,
+  const handleAddToCart = async (product) => {
+    const newItem = {
+      type: "PRODUCT",
+      productId: product.id,
+      quantity: 1,
+    };
+
+    const cartType = getCartType();
+
+    // If metals exist -> ask replace
+    if (cartType === "METAL") {
+      setPendingItem({
+        ...newItem,
+        name: product.name,
+      });
+
+      setShowReplaceModal(true);
+
+      return;
+    }
+
+    try {
+      const res=await api.post("/cart/add", newItem);
+
+      await fetchCart();
+
+      toast.success("Added to cart");
+      console.log("added:" , res.data)
+
+      navigate("/cart");
+    } catch (err) {
+      console.error(err);
+
+      toast.error("Failed to add to cart");
+    }
   };
 
-  console.log("Sending payload:", newItem);
-
-  // if cart already has item → show replace modal
-  if (cartItems.length > 0) {
-    setPendingItem(newItem);
-    setShowReplaceModal(true);
-    return;
-  }
-
-  try {
-    await api.post("/cart/add", newItem);
-
-    await fetchCart();
-
-    toast.success(`${product.name} added to cart`);
-
-    navigate("/cart");
-  } catch (error) {
-    console.error("Add to cart error:", error.response?.data);
-
-    toast.error(
-      error.response?.data?.message ||
-      "Failed to add to cart"
-    );
-  }
-};
-
-
   const handleReplaceConfirm = async () => {
-  if (!pendingItem) return;
+    if (!pendingItem || isProcessing) return;
 
-  try {
-    const oldItemId = cartItems[0]?.id;
+    setIsProcessing(true);
 
-    await replaceCartItem(oldItemId, pendingItem);
+    try {
+      // Remove ALL cart items
+      for (const item of cartItems) {
+        await api.delete(`/cart/items/${item.id}`, {
+          data: {
+            reason: "Replacing metals with product",
+          },
+        });
+      }
 
-    await fetchCart();
+      // Add new product
+     const prod= await api.post("/cart/add", {
+        type: pendingItem.type,
+        productId: pendingItem.productId,
+        quantity: pendingItem.quantity,
+      });
+        
 
-    toast.success("Cart updated");
+      // Refresh cart
+      await fetchCart();
 
-    setShowReplaceModal(false);
-    setPendingItem(null);
+      toast.success("Cart updated");
 
-    navigate("/cart");
-  } catch (error) {
-    console.error("Replace error:", error.response?.data);
+      setShowReplaceModal(false);
 
-    toast.error(
-      error.response?.data?.message ||
-      "Failed to replace item"
-    );
-  }
-};
+      setPendingItem(null);
 
+      navigate("/cart");
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to replace cart"
+      );
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   const pageVariants = {
     initial: {
       opacity: 0,
       y: 30,
     },
+
     animate: {
       opacity: 1,
       y: 0,
+
       transition: {
         duration: 0.5,
         ease: "easeOut",
@@ -216,9 +259,11 @@ const handleAddToCart = async (product) => {
       opacity: 0,
       y: 40,
     },
+
     animate: (index) => ({
       opacity: 1,
       y: 0,
+
       transition: {
         delay: index * 0.07,
         duration: 0.45,
@@ -231,8 +276,10 @@ const handleAddToCart = async (product) => {
     closed: {
       x: "-100%",
     },
+
     open: {
       x: 0,
+
       transition: {
         type: "spring",
         stiffness: 300,
@@ -242,7 +289,13 @@ const handleAddToCart = async (product) => {
   };
 
   if (loading) {
-    return <ProductLoadingScreen/>
+    return(
+      <PageLoader
+      title="Loading Cart"
+      subtitle="Syncing balances"
+      icon={<ShoppingCart size={30} color="background" />}
+    />
+    );
   }
 
   return (
@@ -273,7 +326,7 @@ const handleAddToCart = async (product) => {
         animate={
           filterOpen ? "open" : "closed"
         }
-        className="fixed top-0 left-0 h-full w-[300px] bg-white z-50 p-6 overflow-y-auto shadow-2xl"
+        className="fixed top-0 left-0 h-full w-[300px] bg-white text-background z-50 p-6 overflow-y-auto shadow-2xl"
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-serif">
@@ -316,32 +369,32 @@ const handleAddToCart = async (product) => {
         {activeFilterCount > 0 && (
           <button
             onClick={clearFilters}
-            className="w-full py-2.5 bg-yellow-500 text-white rounded-xl"
+            className="w-full py-2.5 bg-background text-white rounded-xl"
           >
             Clear All Filters
           </button>
         )}
       </motion.div>
 
-      {/* Main Page */}
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-8 px-4">
+      {/* Main */}
+      <div className="min-h-screen bg-background py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold font-serif">
-              Redeem Jewellery
+            <h1 className="text-3xl md:text-4xl font-bold font-serif text-white/70">
+              Redeem <span className="text-primary">Jewellery</span> 
             </h1>
 
-            <p className="text-sm text-gray-500 mt-2">
-              Redeem your digital holdings
-            </p>
+            
           </div>
 
           <div className="flex justify-end mb-6">
             <button
               onClick={() =>
+
+
                 setFilterOpen(true)
               }
-              className="flex items-center gap-2 border bg-white px-4 py-2 rounded-lg"
+              className="flex items-center gap-2 border bg-primaryGoldGradient  text-background  px-4 py-2 rounded-lg"
             >
               <SlidersHorizontal className="w-4 h-4" />
               Filters
@@ -362,7 +415,7 @@ const handleAddToCart = async (product) => {
                     variants={cardVariants}
                     initial="initial"
                     animate="animate"
-                    className="bg-white rounded-xl shadow-sm overflow-hidden "
+                    className="bg-white rounded-xl shadow-sm overflow-hidden text-background"
                   >
                     <div
                       className="h-48 w-full p-4 cursor-pointer"
@@ -395,7 +448,7 @@ const handleAddToCart = async (product) => {
                       <p className="font-bold text-lg mt-2">
                         ₹
                         {(
-                          product.price || 0
+                          product.metalPrice || 0
                         ).toLocaleString(
                           "en-IN"
                         )}
@@ -407,7 +460,7 @@ const handleAddToCart = async (product) => {
                             product
                           )
                         }
-                        className="w-full mt-4 bg-yellow-900 text-white py-2 rounded-lg flex items-center justify-center gap-2"
+                        className="w-full mt-4 bg-primaryGoldGradient  text-background py-2 rounded-lg flex items-center justify-center gap-2"
                       >
                         <ShoppingCart className="w-4 h-4" />
                         Add to Cart
@@ -427,20 +480,31 @@ const handleAddToCart = async (product) => {
           <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
               <h2 className="text-lg font-semibold mb-2">
-                Replace Cart Item?
+                Clear Cart?
               </h2>
 
+              <p className="text-sm text-gray-600 mb-4">
+                Your cart currently has:
+              </p>
+
+              <div className="bg-amber-50 rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="text-sm text-gray-700 py-1.5 border-b border-yellow-200 last:border-b-0"
+                  >
+                    • {item.name}
+                  </div>
+                ))}
+              </div>
+
               <p className="text-sm text-gray-600 mb-6">
-                Your cart already has{" "}
-                <strong>
-                  {cartItems[0]?.name}
-                </strong>
-                <br />
-                Replace it with{" "}
+                All digital metals will be removed
+                and replaced with{" "}
                 <strong>
                   {pendingItem.name}
                 </strong>
-                ?
+                .
               </p>
 
               <div className="flex gap-3">
@@ -449,6 +513,7 @@ const handleAddToCart = async (product) => {
                     setShowReplaceModal(
                       false
                     );
+
                     setPendingItem(null);
                   }}
                   className="flex-1 py-3 border rounded-xl"
@@ -460,9 +525,16 @@ const handleAddToCart = async (product) => {
                   onClick={
                     handleReplaceConfirm
                   }
-                  className="flex-1 py-3 bg-yellow-500 text-white rounded-xl"
+                  disabled={isProcessing}
+                  className={`flex-1 py-3 rounded-xl transition ${
+                    isProcessing
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-yellow-500 text-white"
+                  }`}
                 >
-                  Yes, Replace
+                  {isProcessing
+                    ? "Processing..."
+                    : "Clear & Replace"}
                 </button>
               </div>
             </div>

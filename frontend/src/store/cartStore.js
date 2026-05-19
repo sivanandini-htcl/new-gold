@@ -14,36 +14,57 @@ const useCartStore = create((set, get) => ({
       // console.log("add to cart res",cart)
       const items = cart?.items || [];
 
-      const normalized = items.map((item) => {
-        if (item.type === 'METAL') {
-          return {
-            id: item.id,
-            name: item.title,
-            price: item.unitPrice,
-            quantity: item.quantity,
-            totalPrice: item.totalPrice,
+     const normalized = items.map((item) => {
+  // DIGITAL METAL
+  if (item.type === 'METAL') {
+    return {
+      id: item.id,
 
-            weight: item.quantityInGrams,
-            purity: '24K',
-            image: '',
-            isDigital: true,
-            addedAt: item.addedAt || new Date().toISOString(), //
-          };
-        } else {
-          return {
-            id: item.id,
-            name: item.name || `Product #${item.productId}`,
-            price: item.unitPrice,
-            quantity: item.quantity,
-            totalPrice: item.totalPrice,
-            weight: item.weightInGrams || 0,
-            purity: item.purity || '',
-            image: item.image || '',
-            isDigital: false,
-            addedAt: item.addedAt || new Date().toISOString(), //  track time
-          };
-        }
-      });
+      // IMPORTANT
+      type: item.type,
+      metalType: item.metalType,
+
+      name: item.title,
+      price: item.unitPrice,
+      quantity: item.quantity,
+      totalPrice: item.totalPrice,
+
+      weight: item.quantityInGrams,
+      purity: '24K',
+      image: '',
+
+      isDigital: true,
+      addedAt:
+        item.addedAt ||
+        new Date().toISOString(),
+    };
+  }
+
+  // PHYSICAL PRODUCT
+  return {
+    id: item.id,
+
+    // IMPORTANT
+    type: item.type,
+
+    name:
+      item.name ||
+      `Product #${item.productId}`,
+
+    price: item.unitPrice,
+    quantity: item.quantity,
+    totalPrice: item.totalPrice,
+
+    weight: item.weightInGrams || 0,
+    purity: item.purity || '',
+    image: item.image || '',
+
+    isDigital: false,
+    addedAt:
+      item.addedAt ||
+      new Date().toISOString(),
+  };
+});
 
       set({ cartItems: normalized });
     } catch (err) {

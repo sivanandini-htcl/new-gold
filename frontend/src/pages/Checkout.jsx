@@ -76,11 +76,11 @@ function AddressFormModal({ onClose, onSave, loading }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-      <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-amber-100 bg-amber-50">
+      <div className="bg-[#111112] border border-white/20  w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-primary/40 text-primary/50">
           <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-amber-500" />
-            <span className="font-semibold text-gray-800 text-sm">Add New Address</span>
+            <MapPin size={18} className="text-primary" />
+            <span className="font-semibold text-primary/70 text-sm 2xl:text-2xl">Add New Address</span>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors">
             ✕
@@ -96,7 +96,7 @@ function AddressFormModal({ onClose, onSave, loading }) {
                   name={name}
                   value={formData[name]}
                   onChange={handleChange}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition"
+                  className="w-full border border-white/70 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent transition"
                   placeholder={label}
                 />
               </div>
@@ -125,7 +125,7 @@ function AddressFormModal({ onClose, onSave, loading }) {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+              className="flex-1 bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
             >
               {loading ? 'Saving...' : 'Save Address'}
             </button>
@@ -316,7 +316,7 @@ function Checkout() {
   // ── Order Confirmed ──
   if (ordered) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-background">
         <div className="rounded-3xl p-12 text-center shadow-lg max-w-sm w-full bg-white border border-yellow-700/30">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 bg-green-100">
             <CheckCircle className="w-8 h-8 text-green-600" />
@@ -339,21 +339,22 @@ function Checkout() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+    <div className="min-h-screen py-8 px-4 sm:px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <button
             onClick={() => navigate('/cart')}
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest transition text-yellow-900 hover:text-yellow-600 mb-3"
+            className="inline-flex items-center gap-2 text-xs 2xl:text-md uppercase tracking-widest transition text-primary/70 hover:text-yellow-600 mb-3"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Cart
           </button>
           <div className="text-center">
-            <h1 className="font-serif text-xl md:text-3xl font-bold text-center">Secure Checkout</h1>
-            <div className="inline-flex items-center gap-2 mt-2 px-4 py-1.5 rounded-full bg-amber-100 border border-yellow-700/20">
-              {isWallet ? <Wallet className="w-3.5 h-3.5 text-yellow-700" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
-              <span className="text-xs uppercase tracking-widest text-yellow-800/70 font-serif">
+            <h1 className="font-serif text-xl md:text-3xl text-center 2xl:text-3xl text-primary">Secure {" "}
+              <span className=''>Checkout</span> </h1>
+            <div className="inline-flex items-center gap-2 mt-2 px-4 py-1.5 rounded-full bg-primaryGoldGradient border border-yellow-700/20">
+              {isWallet ? <Wallet className="w-3.5 h-3.5 text-yellow-900" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
+              <span className="text-xs 2xl:text-lg uppercase tracking-widest text-background font-serif">
                 {isWallet ? 'Keep in Wallet' : 'Delivery to Address'}
               </span>
             </div>
@@ -364,19 +365,19 @@ function Checkout() {
           <div className="lg:col-span-2 space-y-3">
 
             {/* STEP 0: Login — always done */}
-            <div className="bg-white rounded-xl p-4 border border-yellow-700/20 flex justify-between items-center">
+            <div className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-xl p-4 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full flex items-center justify-center bg-green-100">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <CheckCircle className="w-4 h-4 text-green-600/70" />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-yellow-800/60">Step 1</p>
-                  <p className="text-sm font-semibold font-serif">Login / Account</p>
+                  <p className="text-xs 2xl:text-xl uppercase tracking-widest  text-primary/70">Step 1</p>
+                  <p className="text-sm 2xl:text-lg text-white/70 font-semibold font-serif">Login / Account</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xs font-medium text-green-600">Verified ✓</p>
-                <p className="text-xs text-yellow-800/60">{userEmail}</p>
+                <p className="text-xs font-medium 2xl:text-lg text-green-600/70">Verified ✓</p>
+                <p className="text-xs 2xl:text-xl text-white/70">{userEmail}</p>
               </div>
             </div>
 
@@ -384,22 +385,22 @@ function Checkout() {
             {!isWallet && (
               <>
                 {activeStep === 1 ? (
-                  <div className="rounded-3xl p-6 shadow-md bg-white border border-yellow-900/40">
+                  <div className="rounded-3xl p-6 shadow-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
                     <div className="flex items-center gap-3 mb-5">
-                      <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center">
-                        <span className="text-xs font-bold text-amber-950">2</span>
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 flex items-center justify-center">
+                        <span className="text-xs  font-bold text-amber-950">2</span>
                       </div>
                       <div>
-                        <p className="text-xs uppercase tracking-widest text-yellow-800/60">Step 2</p>
-                        <p className="text-base font-semibold flex items-center gap-2 font-serif">
-                          <MapPin className="w-4 h-4 text-yellow-700" /> Delivery Address
+                        <p className="text-xs 2xl:text-xl uppercase tracking-widest text-primary/70">Step 2</p>
+                        <p className="text-base 2xl:text-lg font-semibold flex items-center gap-2 font-serif text-white/70">
+                          <MapPin className="w-4 h-4 text-primary" /> Delivery Address
                         </p>
                       </div>
                     </div>
 
                     {/* Address list from store */}
                     {addrLoading ? (
-                      <p className="text-sm text-yellow-800/60 text-center py-4">Loading addresses...</p>
+                      <p className="text-sm 2xl:text-xl text-primary/70 text-center py-4">Loading addresses...</p>
                     ) : (
                       <div className="space-y-3 mb-4">
                         {addresses.map((addr) => {
@@ -410,30 +411,31 @@ function Checkout() {
                               onClick={() => setSelectedAddressId(addr.id)}
                               className={`rounded-xl p-4 cursor-pointer border-2 transition ${
                                 selectedAddressId === addr.id
-                                  ? 'border-yellow-600 bg-amber-50'
-                                  : 'border-yellow-700/20 hover:border-yellow-400'
+                                  ? 'border-white/20 bg-[#111112]'
+                                  : 'border-white/10 hover:border-white/70'
                               }`}
                             >
                               <div className="flex items-start gap-3">
                                 {/* Radio button */}
                                 <div
                                   className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                                    selectedAddressId === addr.id ? 'border-yellow-600' : 'border-gray-400'
+                                    selectedAddressId === addr.id ? 'border-white/70' : 'border-gray-400'
                                   }`}
                                 >
                                   {selectedAddressId === addr.id && (
-                                    <div className="w-2 h-2 rounded-full bg-yellow-600" />
+                                    <div className="w-2 h-2 rounded-full bg-white" />
                                   )}
                                 </div>
 
                                 <div className="flex-1">
-                                  <div className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs font-medium px-2 py-0.5 rounded-full mb-1 capitalize">
+                                  <div className="inline-flex items-center gap-1.5  bg-primary text-amber-900 text-xs  2xl:text-lg px-2 font-medium px-2 py-0.5 rounded-full mb-1 capitalize">
                                     {icon}
-                                    {addr.label || 'Address'}
+                                    <span className='text-background'>{addr.label || 'Address'}</span>
+                                
                                   </div>
-                                  <p className="text-sm font-medium">{addr.fullName}</p>
-                                  <p className="text-xs text-yellow-800/60">{addr.phoneNumber}</p>
-                                  <p className="text-xs text-yellow-800/60 mt-0.5">
+                                  <p className="text-sm 2xl:text-2xl font-medium text-white/70 ">{addr.fullName}</p>
+                                  <p className="text-xs 2xl:text-2xl text-white/70">{addr.phoneNumber}</p>
+                                  <p className="text-xs 2xl:text-2xl text-white/70 mt-0.5">
                                     {[addr.addressLine1, addr.addressLine2, addr.city, addr.state, addr.pincode]
                                       .filter(Boolean)
                                       .join(', ')}
@@ -447,7 +449,7 @@ function Checkout() {
                         {/* Add New Address button */}
                         <button
                           onClick={() => setShowAddModal(true)}
-                          className="w-full py-3 rounded-2xl text-sm inline-flex items-center justify-center gap-2 border border-yellow-900/40 text-yellow-900 hover:opacity-80 transition"
+                          className="w-full py-3 2xl:text-2xl rounded-2xl text-sm inline-flex items-center justify-center gap-2 text-primary border border-white/50  hover:bg-[#111112] transition"
                         >
                           <Plus className="w-4 h-4" /> Add New Address
                         </button>
@@ -462,7 +464,7 @@ function Checkout() {
                         }
                         setActiveStep(2);
                       }}
-                      className="w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
+                      className="w-full text-black 2xl:text-2xl bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
                     >
                       Deliver Here <ChevronRight className="w-4 h-4 text-black" />
                     </button>
@@ -470,7 +472,7 @@ function Checkout() {
                 ) : (
                   activeStep > 1 && (
                     <div
-                      className="bg-white rounded-xl p-4 border border-yellow-700/20 flex justify-between items-center cursor-pointer"
+                      className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-xl p-4  flex justify-between items-center cursor-pointer"
                       onClick={() => setActiveStep(1)}
                     >
                       <div className="flex items-center gap-3">
@@ -478,15 +480,15 @@ function Checkout() {
                           <CheckCircle className="w-4 h-4 text-green-600" />
                         </div>
                         <div>
-                          <p className="text-xs uppercase tracking-widest text-yellow-800/60">Step 2 · Delivery Address</p>
-                          <p className="text-sm font-medium font-serif">
+                          <p className="text-xs uppercase tracking-widest 2xl:text-xl text-primary/70">Step 2 · Delivery Address</p>
+                          <p className="text-sm 2xl:text-xl font-medium font-serif text-primary">
                             {selectedAddress
                               ? `${selectedAddress.addressLine1}, ${selectedAddress.city}`
                               : 'No address selected'}
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs uppercase tracking-widest text-yellow-700">Change</span>
+                      <span className="text-xs 2xl:text-xl uppercase tracking-widest text-yellow-700">Change</span>
                     </div>
                   )
                 )}
@@ -495,24 +497,24 @@ function Checkout() {
 
             {/* STEP 2: Order Summary */}
             {activeStep === 2 ? (
-              <div className="rounded-3xl p-6 shadow-md bg-white border border-yellow-900/40">
+              <div className="rounded-3xl p-6 shadow-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 ">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center">
-                    <span className="text-xs font-bold text-amber-950">{isWallet ? '2' : '3'}</span>
+                    <span className="text-xs 2xl:text-2xl font-bold text-amber-950 ">{isWallet ? '2' : '3'}</span>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-yellow-800/60">
+                    <p className="text-xs 2xl:text-xl uppercase tracking-widest text-primary/70">
                       {isWallet ? 'Step 2' : 'Step 3'}
                     </p>
-                    <p className="text-base font-semibold flex items-center gap-2 font-serif">
-                      <Package className="w-4 h-4 text-yellow-700" /> Order Summary
+                    <p className="text-base  2xl:text-xl font-semibold flex items-center gap-2 font-serif text-white/70">
+                      <Package className="w-4 h-4 text-primary/80" /> Order Summary
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-3 mb-4">
                   {cartItems.map((item) => (
-                    <div key={item.id} className="flex gap-3 items-center py-2 border border-yellow-900/20 p-3 rounded-lg">
+                    <div key={item.id} className="flex gap-3 items-center py-2 border border-white/20 p-3 rounded-lg">
                       <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-amber-50 flex items-center justify-center">
                         {item.image ? (
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
@@ -520,18 +522,18 @@ function Checkout() {
                           <span className="text-xl text-yellow-600">◈</span>
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate font-serif">{item.name}</p>
-                        <p className="text-xs text-yellow-800/60">{item.weight}g · Qty {item.quantity}</p>
+                      <div className="flex-1 min-w-0 text-white/70">
+                        <p className="text-sm 2xl:text-xl font-medium truncate font-serif">{item.name}</p>
+                        <p className="text-xs 2xl:text-xl text-primary/70"> Qty {item.quantity}</p>
                       </div>
-                      <p className="text-sm font-semibold shrink-0 font-serif">₹{item.totalPrice}</p>
+                      <p className="text-sm 2xl:text-2xl font-semibold shrink-0 text-white/70 ">₹{item.totalPrice}</p>
                     </div>
                   ))}
                 </div>
 
                 <button
                   onClick={handleContinueToPayment}
-                  className="w-full py-3.5 bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
+                  className="w-full 2xl:text-2xl py-3.5 text-black bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
                 >
                   Continue to Payment <ChevronRight className="w-4 h-4" />
                 </button>
@@ -547,7 +549,7 @@ function Checkout() {
                       <CheckCircle className="w-4 h-4 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-xs uppercase tracking-widest text-yellow-800/60">
+                      <p className="text-xs 2xl:text-xl uppercase tracking-widest text-primary/70">
                         {isWallet ? 'Step 2' : 'Step 3'} · Order Summary
                       </p>
                       <p className="text-sm font-medium font-serif">
@@ -555,7 +557,7 @@ function Checkout() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs uppercase tracking-widest text-yellow-700">Change</span>
+                  <span className="text-xs  2xl:text-xl uppercase tracking-widest text-yellow-700">Change</span>
                 </div>
               )
             )}
@@ -606,13 +608,13 @@ function Checkout() {
 
           {/* RIGHT: Price Summary */}
           <div className="lg:col-span-1">
-            <div className="rounded-3xl p-6 shadow-md sticky top-24 bg-white border border-yellow-700/20">
-              <div className="bg-yellow-700 h-0.5 w-8 rounded-full mx-auto mb-5" />
-              <h2 className="text-2xl font-semibold mb-5 text-center font-serif">Price Details</h2>
+            <div className="rounded-3xl p-6 shadow-md sticky top-24 bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
+              <div className=" h-0.5 w-8 rounded-full mx-auto mb-5" />
+              <h2 className="text-2xl 2xl:text-2xl font-semibold mb-5 text-center font-serif text-primary">Price Details</h2>
 
-              <div className="flex items-center justify-center gap-2 mb-4 py-2 rounded-xl bg-amber-50 border border-yellow-700/20">
-                {isWallet ? <Wallet className="w-3.5 h-3.5 text-yellow-700" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
-                <span className="text-xs uppercase tracking-widest text-yellow-800/70 font-serif">
+              <div className="flex items-center justify-center gap-2 mb-4 py-2 rounded-xl bg-primaryGoldGradient border border-yellow-700/20">
+                {isWallet ? <Wallet className="w-3.5 h-3.5 text-yellow-900" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
+                <span className="text-xs 2xl:text-lg uppercase tracking-widest text-background font-serif">
                   {isWallet ? 'Keep in Wallet' : 'Delivery'}
                 </span>
               </div>
@@ -629,20 +631,20 @@ function Checkout() {
                   .map((r, i) => (
                     <div key={i}>
                       <div className="flex justify-between py-2">
-                        <span className="text-xs text-yellow-800/70">{r.label}</span>
-                        <span className="text-xs font-medium text-yellow-800/70">{r.val}</span>
+                        <span className="text-xs 2xl:text-xl text-primary/70">{r.label}</span>
+                        <span className="text-xs 2xl:text-xl font-medium text-white/70">{r.val}</span>
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
                     </div>
                   ))}
               </div>
 
-              <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-amber-100">
-                <span className="text-xs uppercase tracking-widest font-semibold text-yellow-900">Total Amount</span>
-                <span className="text-2xl font-bold font-serif text-yellow-900">₹{finalAmount}</span>
+              <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
+                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-primary/70">Total Amount</span>
+                <span className="text-xl font-bold  text-white/80">₹{finalAmount}</span>
               </div>
 
-              <div className="rounded-2xl p-4 space-y-2 bg-amber-50 border border-yellow-700/10">
+              <div className="rounded-2xl p-4 space-y-2 bg-[#111112] border border-yellow-700/10">
                 {[
                   { icon: Shield, text: 'BIS Hallmarked jewellery' },
                   { icon: Truck, text: isWallet ? 'Securely stored in vault' : 'Free insured delivery' },
@@ -651,8 +653,8 @@ function Checkout() {
                   const Icon = t.icon;
                   return (
                     <div key={i} className="flex items-center gap-2">
-                      <Icon className="w-3.5 h-3.5 shrink-0 text-yellow-700/60" />
-                      <span className="text-xs text-yellow-800/60">{t.text}</span>
+                      <Icon className="w-3.5 h-3.5 shrink-0 text-primary/60" />
+                      <span className="text-xs 2xl:text-xl text-white/60">{t.text}</span>
                     </div>
                   );
                 })}
@@ -660,7 +662,7 @@ function Checkout() {
 
               <div className="flex items-center justify-center gap-2 mt-4">
                 <span>◈</span>
-                <p className="text-xs text-yellow-800/60">Crafted with care · Delivered with trust</p>
+                <p className="text-xs 2xl:text-md text-yellow-lg">Crafted with care · Delivered with trust</p>
                 <span>◈</span>
               </div>
             </div>

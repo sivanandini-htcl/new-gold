@@ -150,21 +150,21 @@ function BlogModal({ blog, onClose }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-[rgba(28,16,8,0.6)] z-[1000] flex items-center justify-center p-4 backdrop-blur-sm"
+      className="fixed inset-0 bg-background/20 z-[1000] flex items-center justify-center p-4 backdrop-blur-sm"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-cream rounded-[22px] w-full max-w-[660px] max-h-[90vh] overflow-y-auto shadow-[0_28px_80px_rgba(28,16,8,0.35)] relative"
+        className="bg-background rounded-[22px] w-full max-w-[660px] max-h-[90vh] overflow-y-auto shadow-[0_28px_80px_rgba(28,16,8,0.35)] relative"
       >
         {/* Header */}
-        <div className="p-[26px_28px_22px] border-b border-creamDark sticky top-0 bg-cream z-10 rounded-t-[22px]">
+        <div className="p-[26px_28px_22px] bg-[#111117] border-b border-creamDark sticky top-0 bg-cream z-10 rounded-t-[22px]">
           <div className="flex justify-between items-start gap-3">
             <div className="flex-1">
               <span className="inline-block bg-brownFaint2 text-brownMid text-[9px] font-extrabold px-3 py-[3px] rounded-full uppercase tracking-widest mb-2">
                 {blog.tag}
               </span>
 
-              <h2 className="font-serif text-[clamp(17px,3vw,22px)] font-bold text-brown mb-1 leading-snug">
+              <h2 className="font-serif  text-[clamp(17px,3vw,22px)] font-bold text-brown mb-1 leading-snug">
                 {blog.title}
               </h2>
 
@@ -223,11 +223,11 @@ function FeaturedCard({ blog, onRead }) {
   return (
     <div
       onClick={() => onRead(blog)}
-      className="bg-white border border-creamDark hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
+      className="bg- border border-white/40 hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
     >
       {/* Header */}
-      <div className="h-[110px] bg-gradient-to-br from-cream to-creamDark flex items-center justify-center relative overflow-hidden">
-        <div className="absolute w-[200px] h-[200px] rounded-full border border-[rgba(60,36,21,0.1)] -top-[70px] -right-[70px]" />
+      <div className="h-[110px] bg-gradient-to-br from-gray/70 to-gray-200 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute w-[200px] h-[200px] rounded-full border-white/40 -top-[70px] -right-[70px]" />
         <div className="absolute w-[130px] h-[130px] rounded-full border border-[rgba(60,36,21,0.07)] -top-[30px] -right-[30px]" />
 
         <div className="w-[52px] h-[52px] rounded-[14px] bg-brown flex items-center justify-center shadow-[0_8px_20px_rgba(60,36,21,0.3)] z-10">
@@ -240,24 +240,24 @@ function FeaturedCard({ blog, onRead }) {
       </div>
 
       <div className="p-[18px] flex flex-col flex-1">
-        <span className="bg-brownFaint2 text-brownMid text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest mb-2 inline-block">
+        <span className="bg-brownFaint2 text-primary/50 text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest mb-2 inline-block">
           {blog.tag}
         </span>
 
-        <h3 className="font-serif text-[14px] font-bold text-brown leading-snug mb-2">
+        <h3 className="font-serif text-[14px] font-bold text-primary leading-snug mb-2">
           {blog.title}
         </h3>
 
-        <p className="text-[11px] text-brownMid leading-[1.7] mb-4 flex-1">
+        <p className="text-[11px] text-white/70 leading-[1.7] mb-4 flex-1">
           {blog.excerpt.slice(0, 95)}…
         </p>
 
         <div className="flex justify-between items-center">
-          <span className="text-[10px] text-creamDarker flex items-center gap-1">
+          <span className="text-[10px] text-primary/70 flex items-center gap-1">
             <Clock size={10} /> {blog.readTime}
           </span>
 
-          <button className="flex items-center gap-1 text-brown text-[11px] font-bold underline underline-offset-2 font-serif">
+          <button className="flex items-center gap-1 text-primary/60 text-[11px] font-bold underline underline-offset-2 font-serif">
             Read <ArrowRight size={12} />
           </button>
         </div>
@@ -273,23 +273,23 @@ function CompactCard({ blog, onRead }) {
   return (
     <div
       onClick={() => onRead(blog)}
-      className="bg-white border border-creamDark hover:border-brownLight rounded-[14px] p-[16px_18px] flex gap-3 items-start cursor-pointer transition-all duration-200 hover:translate-x-1 hover:shadow-[0_4px_20px_rgba(60,36,21,0.09)]"
+      className="bg-background border border-white/40 hover:border-brownLight rounded-[14px] p-[16px_18px] flex gap-3 items-start cursor-pointer transition-all duration-200 hover:translate-x-1 hover:shadow-[0_4px_20px_rgba(60,36,21,0.09)]"
     >
-      <div className="w-[42px] h-[42px] rounded-[12px] bg-brownFaint2 flex items-center justify-center">
-        <Icon size={20} className="text-brownMid" />
+      <div className="w-[42px] h-[42px] rounded-[12px]  bg-brownFaint2 flex items-center justify-center">
+        <Icon size={20} className="text-primary/70" />
       </div>
 
       <div className="flex-1">
-        <span className="bg-brownFaint2 text-brownMid text-[8px] font-extrabold px-2 py-[2px] rounded-full uppercase tracking-widest">
+        <span className="bg-brownFaint2 text-primary/70 text-[8px] font-extrabold px-2 py-[2px] rounded-full uppercase tracking-widest">
           {blog.tag}
         </span>
 
-        <h4 className="font-serif text-[12px] font-bold text-brown mt-1 mb-1 leading-snug">
+        <h4 className="font-serif text-[12px] font-bold text-brown mt-1 mb-1 leading-snug text-primary">
           {blog.title}
         </h4>
 
         <div className="flex justify-between items-center">
-          <span className="text-[10px] text-creamDarker flex items-center gap-1">
+          <span className="text-[10px] text-white/70 flex items-center gap-1">
             <Clock size={10} /> {blog.readTime}
           </span>
           <ChevronRight size={14} className="text-brownMid" />
@@ -306,15 +306,15 @@ export default function BlogSection() {
 
   return (
     <>
-      <div className="mt-12 mb-3 px-3">
+      <div className="mt-12  px-7">
         {/* Header */}
         <div className="flex justify-between items-end flex-wrap gap-3 mb-5">
           <div>
-            <p className="text-[10px] lg:text-xs uppercase tracking-[0.22em] text-brownMid font-serif mb-1">
+            <p className="text-[10px] lg:text-xs uppercase tracking-[0.22em] text-primary/50 font-serif mb-1">
               Learn · Grow · Invest
             </p>
 
-            <h2 className="font-serif text-xl lg:text-4xl font-bold text-brown">
+            <h2 className="font-serif text-xl lg:text-4xl font-bold text-primary">
               Gold Investment Insights
             </h2>
           </div>
@@ -348,11 +348,11 @@ export default function BlogSection() {
           <div className="flex flex-col gap-4">
             
             {/* Quote */}
-            <div className="bg-brown rounded-[14px] p-[18px_20px] border border-brownMid">
-              <p className="font-serif text-[13px] text-cream italic leading-[1.65]">
+            <div className="bg-brown rounded-[14px] p-[18px_20px] border border-white/40">
+              <p className="font-serif text-[13px] text-primary/60 italic leading-[1.65]">
                 "Gold is a way of going long on fear, and it has been a very good way of going long on fear from time to time."
               </p>
-              <p className="text-[10px] text-brownLight mt-2 font-bold">
+              <p className="text-[12px] text-white/70 mt-2 font-normal">
                 — Warren Buffett
               </p>
             </div>

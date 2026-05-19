@@ -162,7 +162,7 @@ export function ProductCard({ product, navigate }) {
       whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}
       transition={{ duration: 0.25 }}
       onClick={() => navigate(`/productdetails/${product.id}`)}
-      className="bg-[#faf7f2] rounded-xl md:rounded-none  border border-black/10 shadow-2xl overflow-hidden cursor-pointer flex flex-col group relative "
+      className=" rounded-xl md:rounded-none  border border-black/10 shadow-2xl overflow-hidden cursor-pointer flex flex-col group relative "
     >
       {/* Wishlist Button */}
 
@@ -172,7 +172,7 @@ export function ProductCard({ product, navigate }) {
       </span> */}
 
       {/* Image Area */}
-      <div className="relative h-44 sm:h-48 2xl:h-60 bg-[#cfc6b3] shadow-md hover:shadow-xl hover:shadow-black/20 overflow-hidden flex items-center justify-center p-3 group">
+      <div className="relative h-44 sm:h-48 2xl:h-60  shadow-md hover:shadow-xl hover:shadow-black/20 overflow-hidden flex items-center justify-center p-3 group">
         <img
           src={product.image}
           alt={product.name}
@@ -201,7 +201,7 @@ export function ProductCard({ product, navigate }) {
 
       {/* Info */}
       <div className="p-3 flex-1 flex flex-col gap-1 text-center">
-        <p className="font-serif text-xs font-bold text-stone-800 line-clamp-1 2xl:text-sm">
+        <p className="font-serif text-xs text-secondary font-bold line-clamp-1 2xl:text-sm">
           {product.name}
         </p>
 
@@ -284,11 +284,11 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
       <div>
         <h2
           className={`font-serif text-xl sm:text-2xl 2xl:text-3xl font-bold leading-tight
-          ${gold ? 'text-[#3C2415] ' : 'text-slate-800'}`}
+          ${gold ? 'text-primary ' : 'text-secondary'}`}
         >
           {title}
         </h2>
-        {subtitle && <p className="text-xs text-gray-400 mt-1 2xl:text-sm">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-secondary mt-1 2xl:text-sm">{subtitle}</p>}
       </div>
       {onViewAll && (
         <button
@@ -296,8 +296,8 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
           className={`flex items-center gap-1 text-xs font-bold font-serif px-2 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
             ${
               gold
-                ? 'text-[#3C2415] border border-[#3C2415] hover:bg-amber-50'
-                : 'text-slate-700 border border-slate-200 hover:bg-slate-50'
+                ? 'text-primary border border-[#3C2415] hover:bg-amber-50'
+                : 'text-slate-300 border border-slate-200 hover:bg-slate-50'
             }`}
         >
           View All <ChevronRight size={12} />
@@ -398,7 +398,7 @@ function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen max-w-[1440px] m-auto font-serif bg-gray-100 ">
+    <div className="min-h-screen max-w-[1440px] m-auto font-serif bg-background mb-10 ">
       {/* ── BANNER ─ */}
       <div className="  ">
         <SlidingBanner />
@@ -410,17 +410,17 @@ function Dashboard() {
           {/* GOLD */}
           <motion.div
             whileHover={{ y: -2 }}
-            className="flex-1 bg-gradient-to-br from-slate-50 to-gray-50   px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg"
+            className="flex-1 bg-[#111117]   px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg"
           >
             <div className="flex items-center gap-3 2xl:gap-4">
-              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl bg-[#3c2415] flex items-center justify-center shadow">
-                <Coins size={20} color="#fff" className="2xl:w-7 2xl:h-7" />
+              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl  bg-gradient-to-br from-primary/70 to-primary/90  flex items-center justify-center shadow">
+                <Coins size={20}  className="2xl:w-7 2xl:h-7 text-background" />
               </div>
               <div>
-                <p className="text-[10px] md:text-lg 2xl:text-2xl text-[#3c2415]  tracking-widest font-bold">
+                <p className="text-[10px] md:text-lg 2xl:text-2xl text-primary  tracking-widest font-bold">
                   GOLD · 24K / g
                 </p>
-                <p className="font-serif font-black text-[#6b4228] text-sm md:text-lg 2xl:text-2xl leading-tight">
+                <p className="font-medium  text-white/70 text-sm md:text-lg 2xl:text-2xl leading-tight">
                   ₹{Math.round(gram24kGoldPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
@@ -432,7 +432,7 @@ function Dashboard() {
             </div>
             <button
               onClick={() => navigate('/gold')}
-              className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl bg-[#3C2415] text-white hover:from-[#754c33] transition shadow"
+              className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/50 text-primary hover:from-[#754c33] transition shadow"
             >
               Buy Gold
             </button>
@@ -441,17 +441,17 @@ function Dashboard() {
           {/* SILVER */}
           <motion.div
             whileHover={{ y: -2 }}
-            className="flex-1 bg-gradient-to-br from-slate-50 to-gray-50 border border-slate-200  px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-sm"
+            className="flex-1 bg-[#111117]  px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-sm"
           >
             <div className="flex items-center gap-3 2xl:gap-4">
-              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl bg-gradient-to-br from-slate-600 to-gray-500 flex items-center justify-center shadow">
-                <Gem size={20} color="#fff" className="2xl:w-7 2xl:h-7" />
+              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl bg-gradient-to-br from-slate-200 to-gray-500 flex items-center justify-center shadow">
+                <Gem size={20}  className="2xl:w-7 2xl:h-7 text-background" />
               </div>
               <div>
-                <p className="text-[10px] md:text-lg 2xl:text-2xl text-slate-500  tracking-widest font-bold">
+                <p className="text-[10px] md:text-lg 2xl:text-2xl text-gray-400 tracking-widest font-bold">
                   SILVER · 24K / g
                 </p>
-                <p className="font-serif md:text-lg font-black text-slate-800 text-sm 2xl:text-2xl leading-tight">
+                <p className="font-medium md:text-lg  text-white/70 text-sm 2xl:text-2xl leading-tight">
                   ₹{Math.round(gram24ksilverPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
@@ -463,7 +463,7 @@ function Dashboard() {
             </div>
             <button
               onClick={() => navigate('/silver')}
-              className="text-[11px] md:text-sm 2xl:text-xl font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl bg-gradient-to-r from-slate-700 to-gray-600 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
+              className="text-[11px] md:text-sm 2xl:text-xl font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/40 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
             >
               Buy Silver
             </button>
@@ -473,30 +473,30 @@ function Dashboard() {
 
       {/* ── HERO BANNER: GOLD ────── */}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14 ">
-        <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-[#DDD9CE] rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12 shadow-xl">
+        <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12  shadow-2xl">
           <div className="md:w-1/2 2xl:w-1/2">
-            <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-[#3C2415] font-bold mb-3 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+            <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-primary font-bold mb-3 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 ">
               ✦ Pure · Certified · Hallmarked
             </span>
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-black text-[#3C2415] leading-tight mb-3 2xl:mb-2">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-black text-primary leading-tight mb-3 2xl:mb-2">
               Pure wealth,
               <br />
-              <span className="text-[#3C2415] lg:text-5xl sm:text-4xl text-2xl 2xl:text-6xl">secured in every bar</span>
+              <span className="text-primary lg:text-5xl sm:text-4xl text-2xl 2xl:text-6xl">secured in every bar</span>
             </h1>
-            <p className="font-serif text-sm md:text-lg 2xl:text-base text-[#3C2415] leading-relaxed max-w-md">
+            <p className="font-serif text-sm md:text-lg 2xl:text-base text-secondary leading-relaxed max-w-md">
               Invest in certified 24K digital gold backed by physical reserves. Transparent pricing,
               zero making charges, instant delivery to your vault.
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
               <button
                 onClick={() => navigate('/gold')}
-                className="px-2 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-[#3C2415] text-white font-bold text-sm 2xl:text-base hover:from-amber-700 transition shadow-lg"
+                className="px-2 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-primaryGoldGradient text-background font-bold text-sm 2xl:text-base hover:from-amber-700 transition shadow-lg"
               >
                 Invest Now
               </button>
               <button
                 onClick={() => navigate('/redeem')}
-                className="px-1 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl border text-[#3C2415] shadow-2xl font-bold text-sm 2xl:text-base hover:bg-amber-400/10 transition"
+                className="px-1 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-primaryGoldGradient border text-background shadow-2xl font-bold text-sm 2xl:text-base hover:bg-amber-400/10 transition"
               >
                 View Catalogue
               </button>
@@ -509,15 +509,15 @@ function Dashboard() {
       </div>
 
       {/* ── FEATURED GOLD PRODUCTS ── */}
-      <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14  text-[#3C2415]">
-        <div className=" rounded-2xl bg-[#DDD9CE] shadow-sm  p-5 2xl:p-8">
+      <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14 ">
+        <div className=" rounded-2xl   bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 shadow-sm  p-5 2xl:p-8">
           <SectionHeader
             title="Featured Gold Jewellery"
             subtitle="Redeem your holdings as certified gold products"
             onViewAll={() => navigate('/redeem')}
             gold={true}
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 2xl:gap-5">
+          <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 2xl:gap-5">
             {featuredGold.map((product) => (
               <ProductCard key={product.id} product={product} navigate={navigate} />
             ))}
@@ -553,15 +553,16 @@ function Dashboard() {
               hassle, and instant redemption.
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
-              <button
-                onClick={() => navigate('/silver')}
-                className="px-1 text-sm py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-gradient-to-r from-slate-500 to-gray-400 text-[#DDD9CE] font-semibold 2xl:text-base hover:from-slate-600 transition shadow-lg"
+              
+               <button
+                onClick={() => navigate('/redeem')}
+                className=" px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] bg-gradient-to-r from-slate-500 to-gray-400 text-[#DDD9CE]  font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
               >
                 Buy Silver
               </button>
               <button
                 onClick={() => navigate('/redeem')}
-                className=" text-sm px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
+                className="  px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
               >
                 Explore Collection
               </button>
@@ -572,7 +573,7 @@ function Dashboard() {
 
       {/* ─ FEATURED SILVER PRODUCTS  */}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14">
-        <div className="text-[#DDD9CE] text-lg rounded-3xl shadow-sm border border-slate-100  bg-[#DDD9CE] p-5 2xl:p-8">
+        <div className="text-[#DDD9CE] text-lg rounded-3xl shadow-sm bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-5 2xl:p-8">
           <SectionHeader
             title="Featured Silver Collection"
             subtitle="Handpicked silver pieces for every occasion"
@@ -647,12 +648,12 @@ function Dashboard() {
       </div>
 
       {/* ── INSIGHTS GRID ──*/}
-      <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 py-10 2xl:py-16 bg-white">
+      <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 py-10 2xl:py-16 bg-[#111117]">
         <div className="text-center mb-8 2xl:mb-12">
-          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-amber-600 font-bold">
+          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-primary/60 font-bold">
             Why invest in precious metals
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl font-black text-stone-800 mt-1">
+          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl font-black text-primary/80 mt-1">
             Built for wealth. Designed for trust.
           </h2>
         </div>
@@ -667,19 +668,19 @@ function Dashboard() {
 
             <div className=" grid items-center">
               <div className="md:flex md:flex-col md:space-y-4">
-                <p className=" text-sm md:text-xl font-serif font-bold italic text-[#3C2415]  md:font-semibold md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">
+                <p className=" text-sm md:text-xl font-serif font-bold italic text-primary  md:font-semibold md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">
                   Celebrate festivals with gifts that carry lasting value and timeless beauty
                 </p>
               </div>
               <div>
-                <p className=" hidden md:inline-flex font-serif italic text-xs md:font-serif md:text-lg md:leading-relaxed">
+                <p className=" hidden md:inline-flex text-white/70 font-serif italic text-xs md:font-serif md:text-lg md:leading-relaxed">
                   We make every occasion more meaningful,whether it’s a celebration of tradition,
                   prosperity, or togetherness, these precious metal gifts are a thoughtful way to
                   share blessings while giving something that grows in value over time.
                 </p>
                 <span className="flex gap-2 mt-3 ">
-                  <p className="text-sm md:text-xl">Customise Now</p>
-                  <ArrowRightCircle size={20} />
+                  <p className="text-sm text-primary/70 md:text-xl">Customise Now</p>
+                  <ArrowRightCircle size={20} className='text-primary/70 mt-1' />
                 </span>
               </div>
             </div>
@@ -688,20 +689,20 @@ function Dashboard() {
           <div className="grid grid-cols-2 items-center gap-10 ">
             <div className=" grid items-center">
               <div className="md:flex md:flex-col md:space-y-4">
-                <p className=" text-sm mt-8 md:text-xl font-serif font-bold italic text-[#3C2415]  md:font-semibold md:leading-tight lg:text-4xl 2xl:text-6xl">
+                <p className=" text-sm mt-8 md:text-xl font-serif font-bold italic text-primary  md:font-semibold md:leading-tight lg:text-4xl 2xl:text-6xl">
                   Reward Excellence. Build Lasting Bonds
                 </p>
               </div>
               <div>
-                <p className=" hidden  md:inline-flex font-serif text-xs italic md:font-serif md:text-lg md:mt-3 md:leading-relaxed">
+                <p className=" hidden  md:inline-flex text-white/70 font-serif text-xs italic md:font-serif md:text-lg md:mt-3 md:leading-relaxed">
                   Dgigold offers pure gold and silver coins that make every occasion more
                   meaningful. Whether it’s a celebration of tradition, prosperity, or togetherness,
                   these precious metal gifts are a thoughtful way to share blessings while giving
                   something that grows in value over time.
                 </p>
                 <span className="flex gap-1 mt-3 ">
-                  <p className="text-sm md:text-xl">Gift Your Employees</p>
-                  <ArrowRightCircle size={20} />
+                  <p className="text-sm md:text-xl text-primary/70">Gift Your Employees</p>
+                  <ArrowRightCircle size={20} className='text-primary/70 mt-1'/>
                 </span>
               </div>
             </div>

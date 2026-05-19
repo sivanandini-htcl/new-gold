@@ -25,16 +25,16 @@ function ProgressBar({ step }) {
   return ( 
     <div className="mb-6"> 
       <div className="flex justify-between items-center mb-1.5"> 
-        <span className="text-[0.65rem] uppercase tracking-widest text-amber-950 opacity-60 font-medium"> 
+        <span className="text-[0.65rem] uppercase tracking-widest text-secondary opacity-60 font-medium"> 
           {STEP_LABELS[step]} 
         </span> 
-        <span className="text-[0.65rem] font-semibold text-yellow-700 opacity-80 tracking-wide"> 
+        <span className="text-[0.65rem] font-semibold text-secondary opacity-80 tracking-wide"> 
           {percent}% 
         </span> 
       </div> 
-      <div className="w-full h-1.5 bg-amber-100 rounded-full overflow-hidden"> 
+      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden"> 
         <div 
-          className={`h-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-full transition-all duration-700 ease-in-out ${widthClass[percent]}`}     
+          className={`h-full bg-primary rounded-full transition-all duration-700 ease-in-out ${widthClass[percent]}`}     
         /> 
       </div> 
       
@@ -44,10 +44,10 @@ function ProgressBar({ step }) {
             <div 
               className={`w-2 h-2 rounded-full transition-all duration-500 ${ 
                 i < step 
-                  ? "bg-yellow-600" 
+                  ? "bg-white border border-background" 
                   : i === step 
-                  ? "bg-yellow-500 ring-2 ring-yellow-300" 
-                  : "bg-amber-100 border border-amber-200" 
+                  ? "bg-background ring-2 ring-white/70" 
+                  : "bg-amber-100 border border-white" 
               }`} 
             /> 
           </div> 
@@ -301,10 +301,10 @@ finally{
 };
 
   const inputClass = (field) => 
-    `w-full px-4 py-3 rounded-xl text-sm bg-white border focus:ring-2 outline-none mt-4 mb-1 transition-all ${ 
+    `w-full px-4 py-3 rounded-xl text-sm  border focus:ring-2 outline-none mt-4 mb-1 transition-all ${ 
       errors[field] 
         ? "border-red-500 focus:border-red-500 ring-red-200" 
-        : "border-amber-200 focus:border-amber-500 focus:ring-amber-300/40 bg-[#fafaf8] text[#1a1000]" 
+        : "border-white/20 focus:border-white/20 focus:ring-white/30 bg-gradient-to-r from-[#38393E] via-[#38393E] to-[#1A1A22] text-gray-200" 
     }`; 
 const btnLabel = () => {
 
@@ -333,11 +333,11 @@ const getStrength = () => {
 
 
   return ( 
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50  via-amber-50 to-amber-50"> 
+    <div className="min-h-screen flex flex-col bg-[#111112]"> 
       <div className="flex-1 flex flex-col md:flex-row"> 
         {/* Left side - branding */} 
          <div className=" md:w-1/2  relative flex flex-col justify-center items-center p-10 lg:p-16
-            bg-gradient-to-br from-[#1a1508] via-[#2d2210] to-[#141414] overflow-hidden">
+            bg-gradient-to-br from-background via-[#2f2f33] to-[#111112] overflow-hidden">
          <img src={logo} alt="logo"  className="w-25  " />
         
           {/* <div className="absolute top-16 right-12 w-48 h-48 rounded-full bg-yellow-400 opacity-20 blur-2xl animate-float"></div>
@@ -356,14 +356,14 @@ const getStrength = () => {
             </span>
           </h1>
             <div className="h-0.5  w-full mt-3 mb-2 bg-gradient-to-r from-transparent via-yellow-400 to-gray-400 to-transparent"/>
-            <p className="text-xs uppercase tracking-widest text-amber-200 opacity-50 ">
+            <p className="text-xs uppercase tracking-widest text-primary/80 opacity-50 ">
               Gold & Silver · Investment Platform
             </p>
-            <p className="mt-8 mb-10 text-xl lg:text-2xl font-light italic text-amber-200 opacity-90 ">
+            <p className="mt-8 mb-10 text-xl lg:text-2xl font-light italic text-white/80 opacity-90 ">
               Create Your Secure Digital Account
             </p>
 
-            <div className="hidden md:block space-y-6 text-left text-yellow-100 opacity-99">
+            <div className="hidden md:block space-y-6 text-left  opacity-99">
               {[
                 { icon: "◈", label: "Buy 24K Gold from just ₹1", sub: "& .999 Fine Silver at Live Rates", gold: true },
                 { icon: "◈", label: "99.9% Pure Metals", sub: "Always priced at live market rates", gold: true },
@@ -373,14 +373,14 @@ const getStrength = () => {
                 <div key={i} className="flex items-start gap-4  animate-fadeInUp" >
                   <span className={`text-lg mt-1 ${f.gold ? "text-yellow-100 opacity-99" : "text-gray-400"}`}>{f.icon}</span>
                   <div>
-                    <p className="font-medium text-sm">{f.label}</p>
-                    <p className="text-xs font-light text-gray-500">{f.sub}</p>
+                    <p className="font-medium text-sm text-primary">{f.label}</p>
+                    <p className="text-xs font-light text-secondary">{f.sub}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <p className="mt-12 pt-8 text-xs uppercase tracking-widest text-amber-200 opacity-50  border-t border-yellow-400">
+            <p className="mt-12 pt-8 text-xs uppercase tracking-widest text-primary/70 border-t border-yellow-400">
               Join thousands already investing in digital metals
             </p>
           </div>
@@ -389,12 +389,12 @@ const getStrength = () => {
         {/* Right side - form */} 
         <div className="flex-1 flex items-center justify-center px-5 py-10 md:py-8 md:px-10  
         lg:px-16 relative"> 
-          <div className="relative w-full max-w-md bg-white/95 border border-yellow-200  
+          <div className="relative w-full max-w-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  
           rounded-3xl shadow-2xl p-7 lg:p-9"> 
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1 text-black"> 
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif text-center mb-1 text-primary"> 
               Create Account 
             </h2> 
-            <p className="text-center text-xs uppercase tracking-widest mb-6 text-amber-950 opacity-65"> 
+            <p className="text-center text-xs uppercase tracking-widest mb-6 text-primary/80 opacity-65"> 
               Start your DigiGold journey today 
             </p> 
  
@@ -499,7 +499,7 @@ const getStrength = () => {
 </div>
 
 
-       {step>0 &&(<div className="flex text-sm text-amber-900/70 gap-2">
+       {step>0 &&(<div className="flex text-sm text-primary/70 mt-3 gap-2">
      <ArrowLeft size={20} />
       <button
         disabled={step === 0}
@@ -510,28 +510,28 @@ const getStrength = () => {
         </div>
       )}
          <div className="mt-2 space-y-1 text-xs w-fit mx-auto font-serif">
-  <p className={rules.uppercase ? "text-green-500" : "text-gray-400"}>
+  <p className={rules.uppercase ? "text-green-600/90" : "text-gray-400"}>
     {rules.uppercase ? "✔" : "✖"} At least one uppercase letter
   </p>
 
-  <p className={rules.lowercase ? "text-green-500" : "text-gray-400"}>
+  <p className={rules.lowercase ? "text-green-600/90" : "text-gray-400"}>
     {rules.lowercase ? "✔" : "✖"} At least one lowercase letter
   </p>
 
-  <p className={rules.number ? "text-green-500" : "text-gray-400"}>
+  <p className={rules.number ? "text-green-600/90" : "text-gray-400"}>
     {rules.number ? "✔" : "✖"} At least one number
   </p>
 
-  <p className={rules.special ? "text-green-500" : "text-gray-400"}>
+  <p className={rules.special ? "text-green-600/90" : "text-gray-400"}>
     {rules.special ? "✔" : "✖"} At least one special character
   </p>
 
-  <p className={rules.length ? "text-green-500" : "text-gray-400"}>
+  <p className={rules.length ? "text-green-600/90" : "text-gray-400"}>
     {rules.length ? "✔" : "✖"} Minimum 8 characters
   </p>
 </div>
 
-        <div className="mt-2 font-serif text-sm">
+        <div className="mt-2 font-serif text-sm text-white/60">
       Strength:{" "}
       <span
         className={
@@ -541,7 +541,7 @@ const getStrength = () => {
             ? "text-green-600"
             : getStrength() === "Medium"
             ? "text-yellow-500"
-            : "text-red-500"
+            : "text-red-600/60"
         }
       >
         {!password ? "Enter password" : getStrength()}
@@ -569,7 +569,7 @@ const getStrength = () => {
         {btnLabel()} 
         </button> 
              
-<p className="text-center mt-5 text-xs text-gray-600"> 
+<p className="text-center mt-5 text-xs text-white/70"> 
 Already have an account?{" "} 
 <button onClick={() => navigate("/")} className="text-yellow-500 underline 
 underline-offset-2"> 

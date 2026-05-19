@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Shield, TrendingUp, Zap, HeartHandshake } from "lucide-react";
-import Time from "../assets/time";
+import WTime from "../assets/time";
+import Time from"../assets/time.png";
 
 
 
@@ -51,18 +52,18 @@ function About() {
     { name: "", role: "Head of Compliance", initial: "D" },
   ];
 
-  // const milestones = [
-  //   { year: "2020", event: "DgiGold founded in Bengaluru with a vision to democratize precious metal investing." },
-  //   { year: "2021", event: "Launched gold investment platform. Crossed ₹10 Cr in assets under management within 6 months." },
-  //   { year: "2022", event: "Added Silver investment. Reached 50,000 active users and expanded vault capacity." },
-  //   { year: "2023", event: "Introduced jewellery redemption, gifting features, and live price alerts." },
-  //   { year: "2024", event: "Surpassed 2 lakh investors. Crossed ₹500 Cr in managed precious metals." },
-  // ];
+  const milestones = [
+    { year: "2023", event: "DgiGold founded in Bengaluru with a vision to democratize precious metal investing." },
+    { year: "2024", event: "Launched gold investment platform. Crossed ₹10 Cr in assets under management within 6 months." },
+    { year: "2025", event: "Added Silver investment. Reached 50,000 active users and expanded vault capacity." },
+    { year: "2026", event: "Introduced jewellery redemption, gifting features, and live price alerts." },
+  
+  ];
 
   return (
     <>
       
-      <div className=" min-h-screen bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+      <div className=" min-h-screen bg-background">
         <section className="relative overflow-hidden py-2 px-4 sm:px-6 lg:px-10 ">
           {/* decorative bg circles */}
           {/* <div
@@ -82,12 +83,12 @@ function About() {
               <span className="font-['Fraunces'] bg-gradient-to-r from-gray-600 via-gray-300 to-gray-500 bg-clip-text text-transparent">Gold</span>
             </h1>
 
-            <p className="text-xs uppercase tracking-[0.3em] mb-8 text-yellow-800/50" >
+            <p className="text-xs uppercase tracking-[0.3em] mb-8 text-primary/50" >
              Gold & Silver · Investment Platform
             </p>
 
             <p
-              className="font-['Fraunces'] italic text-yellow-950  text-sm md:text-3xl lg:text-3xl sm:text-xl xl:text:6xl 2xl:text-5xl  leading-relaxed mb-10 max-w-2xl 2xl:max-w-6xl mx-auto" >
+              className="font-['Fraunces'] italic text-primary/80  text-sm md:text-3xl lg:text-3xl sm:text-xl xl:text:6xl 2xl:text-5xl  leading-relaxed mb-10 max-w-2xl 2xl:max-w-6xl mx-auto" >
               "Bringing the timeless value of precious metals into the digital age — accessible, transparent, and secure for every Indian."
             </p>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto" />
@@ -97,15 +98,15 @@ function About() {
         <section className="px-4 sm:px-6 lg:px-10 mb-16 ">
           <div
             className="max-w-7xl mx-auto rounded-3xl p-6 sm:p-8 shadow-xl  2xl:max-w-svh"  >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x text-yellow-950 bg-amber-100 shadow-lg w-full rounded-lg p-2" >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x text-primary/30 bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 shadow-lg w-full rounded-lg p-2" >
               {stats.map((stat, i) => (
                 <div key={i} className="text-center 2xl:gap-5  px-4">
                   <p
-                    className="text-lg sm:text-2xl md:text-xl  2xl:text-5xl font-serif mb-1 2xl:mb-6 text-yellow-700"
+                    className="text-lg sm:text-2xl md:text-xl  2xl:text-5xl font-serif mb-1 2xl:mb-6 text-primary/60 "
                   >
                     {stat.value}
                   </p>
-                  <p className="text-xs sm:text-xl 2xl:text-4xl italic font-serif font-light -tracking-normal gap-2" >
+                  <p className="text-xs sm:text-xl 2xl:text-4xl italic font-serif font-light -tracking-normal gap-2 text-white/70 " >
                     {stat.label}
                   </p>
                 </div>
@@ -115,28 +116,28 @@ function About() {
         </section>
 
   
-        <section className="px-4 sm:px-6 lg:px-10 mb-16bg-yellow-200 p-3">
+        <section className="px-4 sm:px-6 lg:px-10 mb-16  p-3">
           <div className="max-w-5xl 2xl:max-w-7xl 2xl:mx-auto mx-auto ">
             <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
               {/* Text */}
               <div>
-                <p className="text-xs 2xl:text-2xl uppercase tracking-widest mb-2" >Our Mission</p>
-                <h2 className=" text-2xl 2xl:text-5xl md:text-4xl sm:text-5xl font-serif mb-1 text-yellow-950" >
+                <p className="text-xs 2xl:text-2xl uppercase tracking-widest mb-2 text-primary/50" >Our Mission</p>
+                <h2 className=" text-2xl 2xl:text-5xl md:text-4xl sm:text-5xl font-serif mb-1 text-primary/70" >
                   Gold & Silver for Everyone
                 </h2>
                 <div className="h-0.5 w-12 rounded-full mb-5 " />
              
                   
 
-                <div className="p-5 m-4 rounded-2xl ml-1 bg-amber-100 shadow w-full h-full" >
-<p className="text-xs md:text-sm 2xl:text-2xl leading-relaxed mb-4 font-serif text-yellow-800/90" >
+                <div className="p-5 m-4 rounded-2xl ml-1 bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 shadow w-full h-full" >
+                <p className="text-xs md:text-sm 2xl:text-2xl leading-relaxed mb-4 font-serif text-white/70" >
                   For generations, gold and silver have been India's most trusted stores of value. But physical precious metals come with friction — storage risks, high entry costs, and illiquidity.
                 </p>
-                <p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-yellow-800/90" >
+                <p className="text-xs md:text-sm leading-relaxed mb-4 font-serif text-white/70" >
                   DgiGold was built to remove every barrier. We let anyone — a student, a homemaker, a retiree — invest in 24K gold and .999 fine silver from just ₹1, at live market prices, with the same security as a bank vault.
                 </p>
-                <p className=" text-xs md:text-sm leading-relaxed font-serif text-yellow-800/90">
+                <p className=" text-xs md:text-sm leading-relaxed font-serif text-white/70">
                   Because wealth-building shouldn't be a privilege. It should be a right.
                 </p>
                 </div>
@@ -145,18 +146,14 @@ function About() {
           
               {/* Visual Card */}
            
-     <div
-  className=" h-full w-full rounded-3xl p-10 shadow-md 
-  bg-no-repeat bg-cover bg-center
-  text-white font-serif flex flex-col justify-start items-start
- bg-[url('assets/time.png')] "
->
-  <div className=" space-y-4  md:space-y-4 w-full max-w-xs  ">
-    {[
-      {icon: "◈", text: "24K 99.9% Pure Gold", sub: "Hallmarked & certified" },
-      {icon: "◈", text: ".999 Fine Silver", sub: "Live market rates always" },
-      {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" },
-       {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" }, 
+                <div className=" hidden md:block h-full w-full rounded-3xl p-10 shadow-md bg-no-repeat bg-cover bg-center
+           text-white/60 font-serif flex flex-col justify-start items-start bg-[url('assets/time.png')] ">
+        <div className=" space-y-4  md:space-y-4 w-full max-w-xs  ">
+      {[
+        {icon: "◈", text: "24K 99.9% Pure Gold", sub: "Hallmarked & certified" },
+        {icon: "◈", text: ".999 Fine Silver", sub: "Live market rates always" },
+        {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" },
+        {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" }, 
       
     ].map((item, i) => (
       <div key={i} className="flex flex-col ">
@@ -168,14 +165,34 @@ function About() {
     ))}
   </div>
 </div>      
+
+   <div className=" sm-block md:hidden h-full w-full rounded-3xl  shadow-md bg-no-repeat bg-cover bg-center
+           text-white/60 font-serif flex flex-col justify-start items-start ">
+            <img src={Time} alt="" className=" object-fill rounded-t-2xl" />
+        <div className=" space-y-4  p-4  text-center md:space-y-4 w-full max-w-xs  ">
+      {[
+        {icon: "◈", text: "24K 99.9% Pure Gold", sub: "Hallmarked & certified" },
+        {icon: "◈", text: ".999 Fine Silver", sub: "Live market rates always" },
+        {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" },
+        {icon: "◈", text: "Start from ₹1", sub: "No minimum investment" }, 
+      
+    ].map((item, i) => (
+      <div key={i} className="flex flex-col ">
+        <p className="text-xm font-serif">{item.text}</p>
+        <p className="text-xs opacity-80">{item.sub}</p>
+      </div>
+    ))}
+  </div>
+</div>      
+
             </div>
           </div>
         </section>
 
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-5xl mx-auto">
-            <p className="text-xs uppercase tracking-widest mb-2 text-center bg" >Why DgiGold</p>
-            <h2 className=" text-3xl heading-font  sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
+            <p className="text-xs uppercase tracking-widest mb-1 mt-4 text-center text-primary/50" >Why DgiGold</p>
+            <h2 className=" text-3xl heading-font  sm:text-5xl font-serif mb-2 text-center text-white/70" >
               Our Commitments
             </h2>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
@@ -186,18 +203,18 @@ function About() {
                 return (
                   <div
                     key={i}
-                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-yellow-100  text-yellow-900">
+                    className="card-hover rounded-3xl p-6 shadow-md flex gap-4 bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  text-white/70">
                     <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5 bg-amber-200"
+                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5 bg-[#111112]"
                   
                     >
-                      <Icon className="w-5 h-5 text-yellow-500" />
+                      <Icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-serif mb-1 text-yellow-900" >
+                      <h3 className="text-xl font-serif mb-1 text-primary/80" >
                         {val.title}
                       </h3>
-                      <p className="text-xs leading-relaxed text-yellow-800/90" >
+                      <p className="text-xs leading-relaxed text-white/70" >
                         {val.description}
                       </p>
                     </div>
@@ -209,55 +226,55 @@ function About() {
         </section>
 
        
-        <section className="px-4 sm:px-6 lg:px-10 mb-16">
+        {/* <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-3xl mx-auto">
-            {/* <p className="text-xs uppercase tracking-widest mb-2 text-center" >Our Story</p>
+            <p className="text-xs uppercase tracking-widest mb-2 text-center" >Our Story</p>
             <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               The Journey
-            </h2> */}
+            </h2>
             <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
 
             <div className="relative pl-8">
-              {/* vertical line */}
+           
               <div
                 className="absolute left-3 top-2 bottom-2 w-0.5 rounded-full timeline-line"
               />
 
               <div className="space-y-8">
-                {/* {milestones.map((m, i) => ( */}
-                  {/* <div key={i} className="relative flex gap-5 items-start bg-white"> */}
-                    {/* dot */}
-                    {/* <div
+                {milestones.map((m, i) => (
+                   <div key={i} className="relative flex gap-5 items-start text-primary/50"> 
+                  
+                    <div
                       className="absolute -left-5 w-4 h-4 rounded-full border-2 shrink-0 mt-1"
                      
-                    /> */}
-                    {/* <div
+                    /> 
+                     <div
                       className="rounded-2xl p-4 shadow-sm flex-1 card-hover"
                       
-                    > */}
-                      {/* <span
+                    > 
+                      <span
                         className="text-xs uppercase tracking-widest font-serif"
                        
-                      > */}
-                        {/* {m.year} */}
-                      {/* </span> */}
-                      {/* <p className="text-sm leading-relaxed mt-1" > */}
-                        {/* {m.event} */}
-                      {/* </p> */}
-                    {/* </div> */}
-                  {/* </div> */}
-                {/* ))} */}
+                      > 
+                         {m.year} 
+                      </span> 
+                       <p className="text-sm leading-relaxed mt-1" > 
+                        {m.event} 
+                      </p> 
+                     </div> 
+                  </div> 
+                 ))} 
               </div>
             </div>
           </div>
           
-        </section>
+        </section> */}
 
    
         <section className="px-4 sm:px-6 lg:px-10 mb-16">
           <div className="max-w-5xl mx-auto">
-            <p className="text-xs uppercase tracking-widest mb-2 text-center" >The People</p>
-            <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
+            <p className="text-xs uppercase tracking-widest mb-2 text-center text-primary/50" >The People</p>
+            <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-primary/" >
               Meet the Team
             </h2>
             <div className=" h-0.5 w-12 rounded-full mx-auto mb-10" />
@@ -266,7 +283,7 @@ function About() {
               {team.map((member, i) => (
                 <div
                   key={i}
-                  className="card-hover rounded-3xl p-6 shadow-md text-center bg-white"           
+                  className="card-hover rounded-3xl p-6 shadow-md text-center bg-[#111112]"           
                 >
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"         
@@ -290,50 +307,48 @@ function About() {
         </section>
 
       
-        <section className="px-4 p-20 md:p-20 sm:px-6 lg:px-10 pb-16 bg-gradient-to-br from-[#1a1508]
-       via-[#5a4017] to-[#141414]">
-          <div className="max-w-3xl mx-auto bg-amber-100 rounded-2xl">
+        <section className="px-4 p-20 md:p-20 sm:px-6 lg:px-10 pb-16 bg-background">
+          <div className="max-w-3xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl">
             <div
               className="rounded-3xl p-3 shadow-lg text-center">
               <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
 
-              <h2 className="text-xl md:text-4xl sm:text-5xl font-serif mb-3 text-yellow-950">
+              <h2 className="text-xl md:text-4xl sm:text-5xl font-serif mb-3 text-white/70">
                 Ready to Start Investing?
               </h2>
               
-              <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto" >
+              <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto text-primary/70" >
                 Join over 2 lakh Indians who trust DgiGold to grow and protect their wealth through gold and silver.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <button
+                {/* <button
                   onClick={() => navigate("/gold")}
                   className="transition hover:opacity-90
                   py-3 px-4 rounded-xl text-sm  tracking-widest font-serif bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-shadow-red-950
-                  shadow-lg shadow-amber-600/30 mb-5"                 
+                  shadow-lg  mb-5 text-background"                 
                 >
                   Buy Gold
-                </button>
+                </button> */}
                 <button
-                  onClick={() => navigate("/silver")}
-                  className="transition hover:opacity-90
-                   py-3 px-4 rounded-xl text-sm  tracking-widest font-serif
-              bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900
-              shadow-lg shadow-amber-600/30
-              mb-5"
+                  onClick={() => navigate("/metals")}
+                className="transition hover:opacity-90
+              py-3 px-4 rounded-xl text-sm  tracking-widest font-serif  bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 
+              shadow-lg 
+              mb-5 text-background"
                   
                 >
-                  Buy Silver
+                  Explore More
                 </button>
-                <button
+                {/* <button
                   onClick={() => navigate("/dashboard")}
                   className="transition hover:opacity-90
                    py-3 px-4 rounded-xl text-sm  tracking-widest font-serif
-              bg-white
-              shadow-lg shadow-amber-600/30
-              mb-5 ">
+              bg-white/50
+              shadow-lg 
+              mb-5 text-background">
                   Dashboard
-                </button>
+                </button> */}
               </div>
             
 

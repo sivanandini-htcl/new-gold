@@ -7,6 +7,7 @@ const useOrderStore = create((set) => ({
   orders: [],
   singleOrder: null,
   orderStatus: null,
+  
   loading: false,
   error: null,
 
@@ -35,9 +36,9 @@ const useOrderStore = create((set) => ({
     }
   },
 
-  // =========================
-  // GET /orders/:orderId
-  // =========================
+
+  // GET :orderId
+
   fetchOrderById: async (orderId) => {
     try {
       set({ loading: true, error: null });
@@ -47,7 +48,7 @@ const useOrderStore = create((set) => ({
       console.log("Single Order:", res.data);
 
       set({
-        singleOrder: res.data?.data || null,
+        singleOrder: res.data?.data.order || null,
         loading: false,
       });
     } catch (err) {
@@ -60,9 +61,9 @@ const useOrderStore = create((set) => ({
     }
   },
 
-  // =========================
+
   // GET /orders/:orderId/status
-  // =========================
+
   fetchOrderStatus: async (orderId) => {
     try {
       const res = await api.get(`/orders/${orderId}/status`);
