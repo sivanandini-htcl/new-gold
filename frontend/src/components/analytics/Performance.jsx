@@ -66,11 +66,12 @@ const Performance = () => {
 useEffect(()=>{
   const fetchPerformance=async()=>{
     try{
-      const res=await api.get("/analytics/customer/metals/performance")
-      console.log("performance:" ,res);
+      const res=await api.get('/analytics/customer/metals/performance' )
+      console.log("performance:" ,res.data);
      setPerformanceData(res.data?.data);
 
-    }catch(err){
+    } 
+    catch(err){
       console.log("FULL ERROR:", err);
       console.log("RESPONSE:", err.response);
       console.log("DATA:", err.response?.data);
@@ -81,7 +82,6 @@ useEffect(()=>{
  }
 ,[])
 
-  
   return (
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-10">
           {/* Allocation Donut Chart */}
@@ -163,13 +163,13 @@ useEffect(()=>{
                       <Gem size={24} className={metal.metal === 'GOLD' ? 'text-amber-400' : 'text-gray-300'} />
                     </div>
                     <div>
-                      <h4 className="text-2xl font-bold text-white">{metal.metal}</h4>
+                      <h4 className="text-md font-bold text-white">{metal.metal}</h4>
                       <span className="text-sm text-zinc-400">{metal.allocationPercent}% portfolio</span>
                     </div>
                   </div>
                   <div className={`px-4 py-2 rounded-2xl flex items-center gap-1 ${metal.unrealizedGainPercent > 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                     <TrendingUp size={16} />
-                    <span className="text-sm font-bold">{metal.unrealizedGainPercent}%</span>
+                    <span className="text-xs ">{metal.unrealizedGainPercent}%</span>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm">

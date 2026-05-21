@@ -8,7 +8,7 @@ import api from './axiosInstance';
  */
 export const checkKYCStatus = async (entityType = 'CUSTOMER') => {
   try {
-    const response = await api.get('/kyc/status', {
+    const response = await api.get('/kyc/status', { 
       params: { entityType },
     });
 
@@ -18,12 +18,7 @@ export const checkKYCStatus = async (entityType = 'CUSTOMER') => {
   }
 };
 
-/**
- * =========================
- * GET KYC DETAILS
- * GET /kyc/details
- * =========================
- */
+/* GET /kyc/details*/
 export const getKYCDetails = async (entityType = 'CUSTOMER') => {
   try {
     const response = await api.get('/kyc/details', {
@@ -36,12 +31,7 @@ export const getKYCDetails = async (entityType = 'CUSTOMER') => {
   }
 };
 
-/**
- * =========================
- * SEND PAN OTP
- * POST /:kycId/verify/pan/otp/send
- * =========================
- */
+/* POST /:kycId/verify/pan/otp/send */
 export const sendPanOtp = async (panNumber) => {
   console.log('panNumber', panNumber);
   try {
@@ -59,17 +49,7 @@ export const sendPanOtp = async (panNumber) => {
   }
 };
 
-/**
- * =========================
- * VERIFY PAN OTP
- * POST /:kycId/verify/pan/otp/verify
- * payload:
- * {
- *   sessionId,
- *   otp
- * }
- * =========================
- */
+/* POST /:kycId/verify/pan/otp/verify*/
 export const verifyPanOtp = async (sessionId, otp) => {
   try {
     console.log('kycapi page', otp);

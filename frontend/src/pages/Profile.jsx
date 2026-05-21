@@ -11,6 +11,8 @@ import usePriceStore from "../store/priceStore";
 import useAuthStore from "../store/authStore";
 import usePortfolioStore from "../store/usePortfolioStore";
 import api from "../api/axiosInstance";
+import useKycStore from "../store/useKYCStore.JS";
+import useMpinStore from "../store/useMpinStore";
 
 const MENU_ITEMS = [
   { icon: Edit,           label: "Profile",    route: "/edit" },
@@ -58,6 +60,10 @@ const[wallet,setWallet]=useState( null);
   const isProfit       = totalPnL >= 0;
   const goldAlloc   = totalValue > 0 ? ((goldValue   / totalValue) * 100).toFixed(0) : 50;
   const silverAlloc = totalValue > 0 ? ((silverValue / totalValue) * 100).toFixed(0) : 50;
+  const kycStatus = useKycStore((state) => state.kycStatus);
+const loadKycProgress = useKycStore((state) => state.loadKycProgress);
+const mpinCreated = useMpinStore((state) => state.mpinCreated);
+const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 
 useEffect(() => {
   const fetchHoldings = async () => {
@@ -75,6 +81,9 @@ useEffect(() => {
   };
 
   fetchHoldings();
+   loadKycProgress();
+  fetchMPINStatus();
+
 
 }, []);
 
@@ -108,6 +117,11 @@ useEffect(() => {
                     <span className="text-xs font-medium bg-amber-100 text-background border border-primary/70 px-2 py-0.5 rounded-full shrink-0">
                       Premium
                     </span>
+                      {kycStatus === "approved" && (
+    <span className="text-[10px] px-2 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+      KYC Verified
+    </span>
+  )}
                   </div>
                   <div className="flex flex-wrap gap-x-4 gap-y-1">
                     {[
@@ -126,7 +140,20 @@ useEffect(() => {
 
               {/* Menu grid */}
               <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2">
-                {MENU_ITEMS.map(({ icon: Icon, label, route }) => (
+         {/* {MENU_ITEMS
+  .filter((item) => {
+    if (
+      item.label === "KYC" &&
+      kycStatus === "approved" &&
+      mpinCreated
+    ) {
+      return false;
+    }
+
+    return true;
+  })
+  .map(({ icon: Icon, label, route }) => ( */}
+         {MENU_ITEMS.map(({ icon: Icon, label, route }) => (
                   <button
                     key={label}
                     className=" flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl border border-white/20 bg-[#111112] cursor-pointer"

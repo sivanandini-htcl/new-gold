@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+
 import {
   TrendingUp, TrendingDown, PieChart as PieChartIcon,
   BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp
 } from 'lucide-react';
+
 import {
   PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area,
   LineChart, Line
 } from 'recharts';
+
 import api from '../api/axiosInstance';
 import Performance from '../components/analytics/Performance';
 import MonthlyInv from '../components/analytics/MonthlyInv';
@@ -25,9 +28,6 @@ const portfolioSummary = {
   totalOrders: 3
 };
 
-
-
-
 const monthlyTrendsData = [
   { month: "2025-12", monthLabel: "Dec", investedINR: 5000, ordersCount: 1, portfolioValueAtEnd: 12000, gainINR: 7000 },
   { month: "2026-01", monthLabel: "Jan", investedINR: 7000, ordersCount: 1, portfolioValueAtEnd: 24500, gainINR: 17500 },
@@ -35,42 +35,6 @@ const monthlyTrendsData = [
   { month: "2026-03", monthLabel: "Mar", investedINR: 10000, ordersCount: 1, portfolioValueAtEnd: 68500, gainINR: 58500 },
   { month: "2026-04", monthLabel: "Apr", investedINR: 31200, ordersCount: 3, portfolioValueAtEnd: 84472.32, gainINR: 53272.32 }
 ];
-
-
-
-
-
-
-
-
-// --------- HELPER COMPONENTS -------
-const AnimatedNumber = ({ value, prefix = '', suffix = '', decimals = 2, duration = 1.2 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (isInView) {
-      let startTime;
-      const startValue = 0;
-      const endValue = value;
-      const animate = (currentTime) => {
-        if (!startTime) startTime = currentTime;
-        const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const newValue = startValue + (endValue - startValue) * eased;
-        setDisplayValue(newValue);
-        if (progress < 1) requestAnimationFrame(animate);
-        else setDisplayValue(endValue);
-      };
-      requestAnimationFrame(animate);
-    } else {
-      setDisplayValue(0);
-    }
-  }, [isInView, value, duration]);
-
-  return <span ref={ref}>{prefix}{displayValue.toFixed(decimals)}{suffix}</span>;
-};
 
 const LoadingSkeleton = () => (
   <div className="animate-pulse space-y-4">
@@ -99,10 +63,9 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-// -------------- MAIN DASHBOARD ---------
+// -- MAIN DASHBOARD --
 const Analytics = () => {
   const [isLoading, setIsLoading] = useState(true);
-
   const[portfolio,setPortfolio]=useState('null')
 
   useEffect(() => {
@@ -116,7 +79,6 @@ const Analytics = () => {
       const res=await api.get("/analytics/customer/portfolio/overview")
       console.log("response: " ,res);
       setPortfolio(res.data?.data);
-
     }catch(err){
       console.log("FULL ERROR:", err);
       console.log("RESPONSE:", err.response);
@@ -127,6 +89,7 @@ const Analytics = () => {
   fetchPortifolio();
  }
 ,[])
+
   const sparklineData = monthlyTrendsData.map(item => ({ value: item.portfolioValueAtEnd, month: item.monthLabel }));
 
   if (isLoading) {
@@ -153,7 +116,6 @@ const Analytics = () => {
         <div className="absolute -top-40 -right-40 w-80 h-80 md:w-96 md:h-96 bg-amber-500/10 rounded-full blur-[100px]" />
         <div className="absolute bottom-0 left-0 w-80 h-80 md:w-96 md:h-96 bg-purple-500/5 rounded-full blur-[120px]" />
       </div>
-
       <div className="relative z-10 p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -169,8 +131,8 @@ const Analytics = () => {
           </div>
           <div className="flex items-center gap-3 backdrop-blur-md bg-white/5 px-4 py-2.5 rounded-full border border-white/10">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm text-zinc-300">Live Data</span>
-            <Sparkles size={16} className="text-amber-400" />
+            <span className="text-xs text-zinc-300">Live Data</span>
+            {/* <Sparkles size={16} className="text-amber-400" /> */}
           </div>
         </motion.div>
 
@@ -189,22 +151,22 @@ const Analytics = () => {
                 <div>
                   <p className="text-zinc-400 text-sm tracking-wide">TOTAL PORTFOLIO VALUE</p>
                   <div className="flex items-baseline gap-3 flex-wrap">
-                    <h2 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
-                      ₹<AnimatedNumber value={portfolio?.currentValue} decimals={0} />
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white ">
+                      {/* ₹{portfolio?.currentValue}*/} 123456
                     </h2>
-                    <span className="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-1 mt-2 sm:mt-0">
-                      <TrendingUp size={16} /> +{portfolio?.unrealizedGainPercent}%
+                    <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-1 mt-2 sm:mt-0">
+                      <TrendingUp size={16} /> +{portfolio?.unrealizedGainPercent}% 
                     </span>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Invested</p>
-                    <p className="text-white text-lg md:text-xl font-semibold">₹{portfolio?.totalInvested.toLocaleString()}</p>
+                    <p className="text-white text-lg md:text-xl font-semibold">₹{portfolio?.totalInvested}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Unrealized Gain</p>
-                    <p className="text-green-400 text-lg md:text-xl font-semibold">+₹{portfolio?.unrealizedGain.toLocaleString()}</p>
+                    <p className="text-green-400 text-lg md:text-xl font-semibold">+₹{portfolio?.unrealizedGain}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Holdings</p>

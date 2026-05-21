@@ -43,7 +43,7 @@ const MonthlyInv = () => {
           className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 mb-10"
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+            <h3 className="text-md font-semibold text-white flex items-center gap-2">
               <BarChart3 size={22} className="text-amber-400" /> Monthly Investment Trends
             </h3>
             <div className="flex gap-2 bg-white/5 p-1 rounded-xl">
@@ -58,6 +58,7 @@ const MonthlyInv = () => {
               ))}
             </div>
           </div>
+          
           <ResponsiveContainer width="100%" height={320} className="md:h-[380px]">
             {chartType === 'area' && (
               <AreaChart data={monthlyTrendsData}>

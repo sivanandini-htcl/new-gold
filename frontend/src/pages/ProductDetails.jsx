@@ -104,7 +104,7 @@ function ProductDetails() {
   // LOADING
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="w-10 h-10 animate-spin text-yellow-600" />
       </div>
     );
@@ -205,7 +205,7 @@ function ProductDetails() {
         </div>
       )}
 
-      <div className="min-h-screen max-w-full font-serif py-8 px-4 overflow-x-hidden lg:px-10 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-100">
+      <div className="min-h-screen max-w-full font-serif py-8 px-4 overflow-x-hidden lg:px-10 bg-background">
         <div className="max-w-7xl mx-auto">
           {/* BACK */}
           <button
@@ -303,12 +303,12 @@ function ProductDetails() {
             </div>
 
             {/* RIGHT */}
-            <div className="rounded-2xl p-6 sm:p-8 shadow-md bg-white">
-              <h1 className="text-xl font-serif font-bold uppercase mb-2">
+            <div className="rounded-2xl p-6 sm:p-8 shadow-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
+              <h1 className="text-xl text-primary font-serif font-bold uppercase mb-2">
                 {product.name}
               </h1>
 
-              <p className="text-2xl font-bold text-yellow-600 mb-2">
+              <p className="text-2xl font-bold text-white/70 mb-2">
                 ₹{Number(product.metalPrice).toLocaleString("en-IN")}
               </p>
 
@@ -324,17 +324,17 @@ function ProductDetails() {
                   return (
                     <div
                       key={i}
-                      className="rounded-xl px-4 py-3 bg-white border border-yellow-500/10"
+                      className="rounded-xl px-4 py-3 bg-[#111117]"
                     >
                       <div className="flex items-center gap-1 mb-1">
-                        <Icon className="w-3 h-3 text-yellow-600" />
+                        <Icon className="w-3 h-3 text-primary/70" />
 
                         <span className="text-xs uppercase tracking-widest text-gray-500">
                           {s.label}
                         </span>
                       </div>
 
-                      <p className="text-sm font-semibold">
+                      <p className="text-sm font-semibold text-secondary">
                         {s.value}
                       </p>
                     </div>
@@ -343,7 +343,7 @@ function ProductDetails() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className="font-serif font-bold text-xl mb-3">
+              <div className="font-serif font-bold text-xl text-secondary mb-3">
                 About this product
               </div>
 
@@ -358,8 +358,8 @@ function ProductDetails() {
                 onClick={() => handleAddToCart(product)}
                 className={`w-full py-4 rounded-xl text-lg uppercase tracking-widest font-semibold flex items-center justify-center gap-2 ${
                   isGold
-                    ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 shadow-lg shadow-amber-600/30 text-black"
-                    : "bg-gradient-to-br from-gray-400 via-gray-300 to-gray-500 text-black"
+                    ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 shadow-lg shadow-amber-600/30 text-background"
+                    : "bg-gradient-to-br from-gray-400 via-gray-300 to-gray-500 text-background"
                 }`}
               >
                 <ShoppingCart className="w-4 h-4" />

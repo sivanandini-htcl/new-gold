@@ -469,7 +469,7 @@ const getStrength = () => {
     className={`${inputClass("password")} pr-10`}
   />
 
-  {/* 👁 Eye Icon */}
+  {/* Eye Icon */}
   <span
     onClick={() => setShowPassword(!showPassword)}
     className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"

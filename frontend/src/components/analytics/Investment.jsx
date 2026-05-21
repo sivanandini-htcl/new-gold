@@ -5,11 +5,7 @@ import {
   TrendingUp, TrendingDown, PieChart as PieChartIcon,
   BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp
 } from 'lucide-react';
-import {
-  PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area,
-  LineChart, Line
-} from 'recharts';
+
 
 const investmentMetrics = {
   averageOrderValue: 10400,
@@ -50,10 +46,6 @@ const [invest,setInvest]=useState([]);
  fetchInvestment();
  }
 ,[])
-
-
-
-
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">

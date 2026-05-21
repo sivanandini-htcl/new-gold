@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import useKycStore from '../../store/useKYCStore.JS';
 import {
   submitKYC,
   verifyPanOtp,
@@ -8,260 +8,37 @@ import {
   sendAadhaarOtp,
   verifyAadhaarOtp,
   resumeKYC,
+  checkKYCStatus,
 } from '../../api/kycapi';
 
 function KycPage() {
   const navigate = useNavigate();
-
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [sessionId, setSessionId] = useState('');
-  const [aadharsession, setaadharSession] = useState('');
-  const [docSessionId, setDocSession] = useState('');
-  const [formData, setFormData] = useState({
-    panNumber: '',
-    panOtp: '',
-
-    aadhaarNumber: '',
-    aadhaarOtp: '',
-
-    panFile: null,
-    aadhaarFileFront: null,
-    aadhaarFileBack: null,
-    selfieFile: null,
-  });
-
-  const [verified, setVerified] = useState({
-    pan: false,
-    aadhaar: false,
-  });
-
-  const loadKycProgress = async () => {
-    try {
-      setInitialLoading(true);
-
-      const data = await resumeKYC();
-
-      console.log('full response', data);
-
-      // restore verification state
-      setVerified({
-        pan: Boolean(data.pan?.verified),
-        aadhaar: Boolean(data.aadhaar?.verified),
-      });
-      console.log('aadhaar verified from backend', data.aadhaar?.verified);
-      console.log('pan  verified from backend', data.pan?.verified);
-
-      // restore step
-      if (data.currentPhase === 'pan') {
-        setCurrentStep(1);
-      } else if (data.currentPhase === 'aadhaar') {
-        setCurrentStep(2);
-      } else if (data.currentPhase === 'submit') {
-        setCurrentStep(3);
-      }
-
-      // restore form values
-      setFormData((prev) => ({
-        ...prev,
-        panNumber: data.pan?.identifier || '',
-        aadhaarNumber: data.aadhaar?.identifier || '',
-      }));
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setInitialLoading(false);
-    }
-  };
+  const {
+    currentStep,
+    kycStatus,
+    loading,
+    initialLoading,
+    error,
+    success,
+    formData,
+    verified,
+    setCurrentStep,
+    handleInputChange,
+    handleFileChange,
+    handleSendPanOtp,
+    handleVerifyPanOtp,
+    handleSendAadhaarOtp,
+    handleVerifyAadhaarOtp,
+    handleFinalSubmit,
+    loadKycProgress,
+  } = useKycStore();
 
   useEffect(() => {
     loadKycProgress();
     console.log('hello');
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    setError('');
-    setSuccess('');
-  };
-
-  const handleFileChange = (e, field) => {
-    const file = e.target.files[0];
-
-    if (!file) return;
-
-    setFormData((prev) => ({
-      ...prev,
-      [field]: file,
-    }));
-  };
-
-  // =========================
-  // PAN OTP
-  // =========================
-  const handleSendPanOtp = async () => {
-    if (!formData.panNumber) {
-      setError('Enter PAN number');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      console.log(formData.panNumber);
-      const response = await sendPanOtp(formData.panNumber);
-
-      if (response.success) {
-        setSuccess('PAN OTP sent successfully');
-        setSessionId(response.data?.sessionId);
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to send PAN OTP');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyPanOtp = async () => {
-    if (!formData.panOtp) {
-      setError('Enter PAN OTP');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-    try {
-      console.log(formData.panOtp);
-      const response = await verifyPanOtp(sessionId, formData.panOtp);
-
-      if (response.success) {
-        setSuccess('PAN verified successfully');
-        await loadKycProgress();
-      }
-    } catch (err) {
-      setError(err.message || 'PAN verification failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================
-  // AADHAAR OTP
-  // =========================
-  const handleSendAadhaarOtp = async () => {
-    if (!formData.aadhaarNumber) {
-      setError('Enter Aadhaar number');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await sendAadhaarOtp(formData.aadhaarNumber);
-
-      if (response.success) {
-        setSuccess('Aadhaar OTP sent successfully');
-        console.log('otp sent');
-        setaadharSession(response.data?.sessionId);
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to send Aadhaar OTP');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyAadhaarOtp = async () => {
-    if (!formData.aadhaarOtp) {
-      setError('Enter Aadhaar OTP');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await verifyAadhaarOtp(aadharsession, formData.aadhaarOtp);
-
-      if (response.success) {
-        setSuccess('Aadhaar verified successfully');
-        await loadKycProgress();
-        setDocSession(response.data?.sessionId);
-      }
-    } catch (err) {
-      setError(err.message || 'Aadhaar verification failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================
-  // FINAL SUBMIT
-  // =========================
-
-  const handleFinalSubmit = async () => {
-    console.log(formData);
-
-    if (!formData.panFile) {
-      setError('Upload PAN front image');
-      return;
-    }
-
-    if (!formData.aadhaarFileFront) {
-      setError('Upload Aadhaar front image');
-      return;
-    }
-
-    if (!formData.aadhaarFileBack) {
-      setError('Upload Aadhaar back image');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const documents = [
-        formData.panFile,
-        formData.aadhaarFileFront,
-        formData.aadhaarFileBack,
-      ].filter(Boolean);
-
-      const payload = {
-        entityType: 'CUSTOMER',
-        panVerificationSessionId: sessionId,
-        aadhaarVerificationSessionId: aadharsession,
-        // pan: formData.panNumber,
-        documentCategory: 'identity',
-        documents,
-      };
-      const response = await submitKYC(payload);
-
-      if (response.success) {
-        await loadKycProgress();
-      }
-    } catch (err) {
-      console.log(err.response);
-      console.log(err.response?.data);
-      console.log(err.response?.data?.data);
-      setError(err.message || 'KYC submission failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   if (initialLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -276,7 +53,6 @@ function KycPage() {
         {/* Header */}
         <div className="bg-accent p-6 text-center">
           <h1 className="text-3xl font-bold text-white/70">KYC Verification</h1>
-
           <p className="text-sm mt-2 text-white/50">Complete verification step by step</p>
         </div>
 
@@ -316,9 +92,8 @@ function KycPage() {
             </div>
           )}
 
-          {/* ========================= */}
           {/* STEP 1 - PAN */}
-          {/* ========================= */}
+
           {currentStep === 1 && (
             <div>
               <h2 className="text-2xl font-bold text-white/90 mb-6">PAN Verification</h2>
@@ -390,9 +165,8 @@ function KycPage() {
             </div>
           )}
 
-          {/* ========================= */}
           {/* STEP 2 - AADHAAR */}
-          {/* ========================= */}
+
           {currentStep === 2 && (
             <div>
               <button
@@ -432,7 +206,9 @@ function KycPage() {
                     </button>
 
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-white/70">Enter OTP</label>
+                      <label className="block mb-2 text-sm font-medium text-white/70">
+                        Enter OTP
+                      </label>
 
                       <input
                         type="text"
@@ -464,9 +240,8 @@ function KycPage() {
             </div>
           )}
 
-          {/* ========================= */}
           {/* STEP 3 - DOCUMENTS */}
-          {/* ========================= */}
+
           {currentStep === 3 && (
             <div>
               <button
@@ -492,7 +267,9 @@ function KycPage() {
 
                 {/* Aadhaar Front */}
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-white/70">Aadhaar Front</label>
+                  <label className="block mb-2 text-sm font-medium text-white/70">
+                    Aadhaar Front
+                  </label>
 
                   <input
                     type="file"
@@ -504,7 +281,9 @@ function KycPage() {
 
                 {/* Aadhaar Back */}
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-white/70">Aadhaar Back</label>
+                  <label className="block mb-2 text-sm font-medium text-white/70">
+                    Aadhaar Back
+                  </label>
 
                   <input
                     type="file"
@@ -513,18 +292,6 @@ function KycPage() {
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-secondary bg-[#111112]"
                   />
                 </div>
-
-                {/* Selfie */}
-                {/* <div>
-                  <label className="block mb-2 text-sm font-medium text-black">Selfie</label>
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'selfieFile')}
-                    className="w-full border border-gray-300 rounded-lg px-4 py- text-black"
-                  />
-                </div> */}
 
                 <button
                   onClick={handleFinalSubmit}
@@ -537,18 +304,41 @@ function KycPage() {
             </div>
           )}
 
-          {/* ========================= */}
           {/* STEP 4 - SUCCESS */}
-          {/* ========================= */}
+
           {currentStep === 4 && (
             <div className="text-center py-12">
               <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-5xl">✓</span>
               </div>
 
-              <h2 className="text-3xl font-bold text-green-600 mb-4">KYC Submitted</h2>
-
+              <h2 className="text-3xl font-normal text-green-600/40 mb-4 uppercase">{kycStatus}</h2>
               <p className="text-gray-600 mb-8">Your KYC is under review.</p>
+
+              <button
+                onClick={() => navigate('/profile')}
+                className="w-full bg-accent py-4 rounded-lg font-bold text-black"
+              >
+                Back to Profile
+              </button>
+            </div>
+          )}
+
+          {currentStep === 5 && (
+            <div className="text-center py-12 ">
+              <div className="w-24 h-24 bg-green-400/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                <span className="text-5xl">✓</span>
+              </div>
+
+              <h2 className="text-3xl font-bold text-green-400 mb-2">KYC Approved!</h2>
+              <p className="text-white/60 mb-8">Your account is verified and ready to use.</p>
+
+              <button
+                onClick={() => navigate('/mpin-setup')}
+                className="w-full border border-accent bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white mb-4"
+              >
+                Set up MPIN
+              </button>
 
               <button
                 onClick={() => navigate('/profile')}
