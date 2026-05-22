@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 import {
-  TrendingUp, TrendingDown, PieChart as PieChartIcon,
+  TrendingUp, TrendingDown, 
   BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp
 } from 'lucide-react';
 
 import {
-  PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
+   Cell, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area,
   LineChart, Line
 } from 'recharts';
@@ -17,7 +17,7 @@ import Performance from '../components/analytics/Performance';
 import MonthlyInv from '../components/analytics/MonthlyInv';
 import Investment from '../components/analytics/Investment';
 
-// ---- DUMMY DATA ------
+//DUMMY DATA 
 const portfolioSummary = {
   totalInvested: 31200,
   currentValue: 84472.32,
@@ -38,11 +38,11 @@ const monthlyTrendsData = [
 
 const LoadingSkeleton = () => (
   <div className="animate-pulse space-y-4">
-    <div className="h-8 bg-white/10 rounded w-3/4"></div>
-    <div className="h-24 bg-white/5 rounded-xl"></div>
+    <div className="h-8 bg-secondary/10 rounded w-3/4"></div>
+    <div className="h-24 bg-secondary/5 rounded-xl"></div>
     <div className="space-y-2">
-      <div className="h-4 bg-white/10 rounded"></div>
-      <div className="h-4 bg-white/10 rounded w-5/6"></div>
+      <div className="h-4 bg-secondary/10 rounded"></div>
+      <div className="h-4 bg-secondary/10 rounded w-5/6"></div>
     </div>
   </div>
 );
@@ -50,8 +50,8 @@ const LoadingSkeleton = () => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#1A1A23]/90 backdrop-blur-md border border-white/20 rounded-xl p-3 shadow-xl">
-        <p className="text-white text-sm font-semibold">{label}</p>
+      <div className="bg-[#1A1A23]/90 backdrop-blur-md border border-secondary/20 rounded-xl p-3 shadow-xl">
+        <p className="text-secondary text-sm font-semibold">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} className="text-sm" style={{ color: entry.color || entry.fill }}>
             {entry.name}: ₹{entry.value}
@@ -124,13 +124,13 @@ const Analytics = () => {
           className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
         >
           <div>
-            <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-4xl font-bold bg-primary bg-clip-text text-transparent">
               Analytics Dashboard
             </h1>
             <p className="text-zinc-400 mt-1 text-xs md:text-base">Track your precious metals portfolio in real-time</p>
           </div>
-          <div className="flex items-center gap-3 backdrop-blur-md bg-white/5 px-4 py-2.5 rounded-full border border-white/10">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <div className="flex items-center gap-3 backdrop-blur-md bg-secondary/5 px-4 py-2.5 rounded-full border border-secondary/10">
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
             <span className="text-xs text-zinc-300">Live Data</span>
             {/* <Sparkles size={16} className="text-amber-400" /> */}
           </div>
@@ -142,7 +142,7 @@ const Analytics = () => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative backdrop-blur-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 rounded-3xl p-6 md:p-8 lg:p-10 overflow-hidden"
+            className="relative backdrop-blur-2xl bg-gradient-to-br from-secondary/[0.07] to-secondary/[0.02] border border-secondary/10 rounded-3xl p-6 md:p-8 lg:p-10 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-purple-500/5" />
             <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -151,7 +151,7 @@ const Analytics = () => {
                 <div>
                   <p className="text-zinc-400 text-sm tracking-wide">TOTAL PORTFOLIO VALUE</p>
                   <div className="flex items-baseline gap-3 flex-wrap">
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white ">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-normal text-secondary ">
                       {/* ₹{portfolio?.currentValue}*/} 123456
                     </h2>
                     <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-1 mt-2 sm:mt-0">
@@ -162,7 +162,7 @@ const Analytics = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Invested</p>
-                    <p className="text-white text-lg md:text-xl font-semibold">₹{portfolio?.totalInvested}</p>
+                    <p className="text-secondary text-lg md:text-xl font-semibold">₹{portfolio?.totalInvested}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Unrealized Gain</p>
@@ -170,17 +170,17 @@ const Analytics = () => {
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Holdings</p>
-                    <p className="text-white text-lg md:text-xl font-semibold">{portfolio?.holdingsCount}</p>
+                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolio?.holdingsCount}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Days Active</p>
-                    <p className="text-white text-lg md:text-xl font-semibold">{portfolioSummary.daysActive}</p>
+                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolioSummary.daysActive}</p>
                   </div>
                 </div>
               </div>
 
               {/* Sparkline */}
-              <div className="bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10">
+              <div className="bg-secondary/5 rounded-2xl p-4 md:p-6 border border-secondary/10">
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-xs text-zinc-400">Last 5 months trend</span>
                   <ChevronUp size={16} className="text-green-400" />
@@ -209,7 +209,7 @@ const Analytics = () => {
        <Investment/>
 
         {/* Footer */}
-        <div className="text-center text-xs text-zinc-600 pt-10 mt-12 border-t border-white/10">
+        <div className="text-center text-xs text-zinc-600 pt-10 mt-12 border-t border-secondary/10">
           © 2026 Precious Metals Platform | Real-time analytics • Secure • Insured
         </div>
       </div>

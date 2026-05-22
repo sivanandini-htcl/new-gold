@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import {
@@ -34,7 +34,8 @@ const QUICK_ACTIONS = [
 
 export default function Profile() {
   const navigate = useNavigate();
-const[wallet,setWallet]=useState( null);
+  const[wallet,setWallet]=useState(null);
+  const[metalWallet,setMetalWallet]=useState(null)
   const username  = useAuthStore((s) => s.user?.name);
   const userEmail = useAuthStore((s) => s.user?.email);
   const prices    = usePriceStore((s) => s.prices) || [];
@@ -71,6 +72,10 @@ useEffect(() => {
       const res = await api.post("/holdings");
       setWallet(res.data?.data);
       console.log("Wallet Response:", res.data);
+      const holdRes=await api.get("/holdings/summary")
+      setMetalWallet(holdRes.data?.data);
+      console.log("metals res",holdRes.data)
+      
     } catch (err) {
       console.log("FULL ERROR:", err);
       console.log("RESPONSE:", err.response);
@@ -256,7 +261,7 @@ useEffect(() => {
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                     <span className="text-xs text-secondary">
-                      Live · ₹{gram24kGold ? Math.round(gram24kGold).toLocaleString("en-IN") : "—"}/g
+                      Live · ₹{metalWallet?.metals?.[0]?.livePriceINRPerGram || "Loading..."}/g
                     </span>
                   </div>
                 </div>
@@ -269,10 +274,10 @@ useEffect(() => {
               {/* 2×2 stat grid */}
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
-                  { label: "Current Value", val: fmt(goldValue),        bold: true },
-                  { label: "P&L",           val: goldValue > 0 ? `${goldPnL >= 0 ? "+" : ""}₹${Math.abs(Math.round(goldPnL)).toLocaleString("en-IN")}` : "—", profit: goldPnL >= 0 },
-                  { label: "Invested",      val: `₹${goldInvested.toLocaleString("en-IN")}` },
-                  { label: "Return",        val: goldInvested > 0 ? `${((goldPnL/goldInvested)*100).toFixed(2)}%` : "—", profit: goldPnL >= 0 },
+                  { label: "Current Value", val:  `₹${metalWallet?.metals?.[0]?.currentValueINR ??"Loading.."}`, bold: true },
+                  { label: "P&L",           val: `₹${metalWallet?.metals?.[0]?.profitLossINR ??"Loading.."}`},
+                  { label: "Invested",      val: `₹${metalWallet?.metals?.[0]?.investedINR ??"Loading.."}`},
+                  { label: "Return",        val: `₹${metalWallet?.metals?.[0]?.returnPercent ??"Loading.."}` },
                 ].map((s, i) => (
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs  uppercase tracking-wider mb-1" >{s.label}</p>
@@ -321,7 +326,8 @@ useEffect(() => {
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                     <span className="text-xs text-white/70">
-                      Live · ₹{gram24kSilver ? Math.round(gram24kSilver).toLocaleString("en-IN") : "—"}/g
+                      Live · ₹{metalWallet?.metals?.[1]?.livePriceINRPerGram || "Loading..."}/g
+                    
                     </span>
                   </div>
                 </div>
@@ -333,10 +339,10 @@ useEffect(() => {
 
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
-                  { label: "Current Value", val: fmt(silverValue),      bold: true },
-                  { label: "P&L",           val: silverValue > 0 ? `${silverPnL >= 0 ? "+" : ""}₹${Math.abs(Math.round(silverPnL)).toLocaleString("en-IN")}` : "—", profit: silverPnL >= 0 },
-                  { label: "Invested",      val: `₹${silverInvested.toLocaleString("en-IN")}` },
-                  { label: "Return",        val: silverInvested > 0 ? `${((silverPnL/silverInvested)*100).toFixed(2)}%` : "—", profit: silverPnL >= 0 },
+                  { label: "Current Value", val: `₹${metalWallet?.metals?.[1]?.currentValueINR ??"Loading.."}`,bold: true },
+                  { label: "P&L",           val: `₹${metalWallet?.metals?.[1]?.profitLossINR ??"Loading.."}`},
+                  { label: "Invested",      val: `₹${metalWallet?.metals?.[1]?.investedINR ??"Loading.."}` },
+                  { label: "Return",        val:`₹${metalWallet?.metals?.[1]?.returnPercent ??"Loading.."}`},
                 ].map((s, i) => (
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs text-secondary uppercase tracking-wider mb-1">{s.label}</p>

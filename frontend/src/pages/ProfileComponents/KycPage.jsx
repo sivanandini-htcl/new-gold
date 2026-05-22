@@ -62,7 +62,7 @@ function KycPage() {
             <div key={step} className="flex-1 flex items-center">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-bold
-                ${currentStep > step ? 'bg-green-900 border border-background text-white/90' : 'bg-gray-200 text-gray-500'}`}
+                ${currentStep > step ? 'bg-green-900/60 border border-background text-white/90' : 'bg-gray-200 text-gray-500'}`}
               >
                 {step}
               </div>

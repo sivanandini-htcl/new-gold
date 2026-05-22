@@ -59,16 +59,16 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 const Performance = () => {
-    const [performanceData, setPerformanceData] = useState([]);
+    const[performanceData, setPerformanceData] = useState([]);
     const[loading,setLoading]=useState(true)
 
 
 useEffect(()=>{
   const fetchPerformance=async()=>{
     try{
-      const res=await api.get('/analytics/customer/metals/performance' )
-      console.log("performance:" ,res.data);
-     setPerformanceData(res.data?.data);
+      const res=await api.get('/analytics/customer/portfolio/allocation' )
+      console.log("portfolio allocation:" ,res.data);
+      setPerformanceData(res.data?.data);
 
     } 
     catch(err){
@@ -105,8 +105,8 @@ useEffect(()=>{
                     <stop offset="100%" stopColor="#E4C48C" />
                   </linearGradient>
                   <linearGradient id="silverGradient" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#E0E0E0" />
-                    <stop offset="100%" stopColor="#A9A9A9" />
+                    <stop offset="0%" stopColor="#B5ADAA" />
+                    <stop offset="100%" stopColor="#B5ADAA" />
                   </linearGradient>
                 </defs>
                 <Pie

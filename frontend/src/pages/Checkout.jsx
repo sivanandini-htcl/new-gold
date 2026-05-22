@@ -219,11 +219,12 @@ function Checkout() {
    }),
       };
       console.log('FULL PAYLOAD:', payload); 
+      console.log("calling checkout");
 
       const { data } = await api.post('/orders/checkout', payload, {
         headers: { 'idempotency-key': idempotencyKey },
       });
-
+console.log("called checkout")
       if (data.success) {
         const { razorpayOrderId, orderNumber, id } = data.data;
         if (!razorpayOrderId) {
@@ -270,13 +271,14 @@ function Checkout() {
 
   const handleVerifyPayment = async (response) => {
     try {
+      console.log("calling verify");
       const { data } = await api.post('/orders/buy/verify-payment', {
         orderId: response.orderId,
         razorpayOrderId: response.razorpay_order_id,
         razorpayPaymentId: response.razorpay_payment_id,
         razorpaySignature: response.razorpay_signature,
       });
-
+console.log("called verify");
       if (data.success) {
         setOrdered(true);
         toast.success('Payment verified');

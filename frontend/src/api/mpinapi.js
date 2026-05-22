@@ -65,9 +65,7 @@ function generateIdempotencyKey() {
 }
 
 /**
- * =========================
  * VALIDATE MPIN
- * =========================
  */
 export const validateMPIN = (mpin) => {
   // Check length

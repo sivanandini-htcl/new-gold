@@ -1,7 +1,5 @@
 // Header.jsx — Responsive sm → 2xl
-// ✅ Cohesive dark gold navbar
-// ✅ Clean icon buttons with tooltips on 2xl
-// ✅ Improved mobile menu
+
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -61,7 +59,7 @@ function Header() {
           </Link>
 
           {/* CENTER — NAV (desktop) */}
-          <nav className="hidden md:flex justify-center gap-6 2xl:gap-8 font-serif text-sm 2xl:text-base text-[#ddd9ce]">
+          <nav className="hidden md:flex justify-center gap-6 2xl:gap-8 font-serif text-sm 2xl:text-2xl text-[#ddd9ce]">
             {navLinks.map(link => (
               <Link
                 key={link.to}
@@ -136,23 +134,23 @@ function Header() {
 
       {/* MOBILE MENU */}
       {isOpen && (
-        <div className="md:hidden mt-2 rounded-2xl bg-gradient-to-br from-[#1a1508] to-[#2a1d08] border border-amber-400/20 shadow-xl overflow-hidden">
+        <div className="md:hidden mt-2 rounded-2xl bg-[#111117] shadow-xl overflow-hidden">
           <div className="flex flex-col p-4 gap-1">
             {navLinks.map(link => (
               <Link
                 key={link.to}
                 to={link.to}
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-sm font-serif text-amber-100/80 hover:bg-amber-400/10 hover:text-amber-300 transition"
+                className="px-4 py-2.5 rounded-xl text-sm font-serif border-white/20  hover:bg-amber-400/10 hover:text-amber-300 transition"
               >
                 {link.label}
               </Link>
             ))}
-            <div className="border-t border-amber-400/10 mt-2 pt-2 flex gap-2">
-              <Link to="/wishlist" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-amber-300/70 border border-amber-400/20 rounded-xl hover:bg-amber-400/10 transition">
+            <div className="border-t border-white/20 mt-2 pt-2 flex gap-2">
+              <Link to="/wishlist" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <Heart size={13} /> Wishlist
               </Link>
-              <Link to="/profile" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-amber-300/70 border border-amber-400/20 rounded-xl hover:bg-amber-400/10 transition">
+              <Link to="/profile" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <User size={13} /> Profile
               </Link>
               <button onClick={handleLogout} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400/70 border border-red-400/20 rounded-xl hover:bg-red-400/10 transition">

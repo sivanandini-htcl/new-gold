@@ -193,7 +193,7 @@ const formattedDate = seconds
               className="absolute left-0 top-[12px] z-[1] h-[2px] bg-[#111112] transition-all duration-700 ease-out"
               style={{
                 width: `${
-                  (currentStep / (STEPS.length - 1)) * 100
+                  (currentStep / (STEPS.length -1)) * 100
                 }%`,
               }}
             />
@@ -374,6 +374,13 @@ const formattedDate = seconds
               value={fmt(p.subtotal)}
               icon={ShoppingBag}
             />
+              <PricingRow
+              label={`GST ${
+                p.gstPercent ? `(${p.gstPercent}%)` : ""
+              }`}
+              value={fmt(p.gstAmount)}
+              
+            />
 
             <PricingRow
               label="Discount"
@@ -393,13 +400,7 @@ const formattedDate = seconds
               icon={Truck}
             />
 
-            <PricingRow
-              label={`GST ${
-                p.gstPercent ? `(${p.gstPercent}%)` : ""
-              }`}
-              value={fmt(p.gstAmount)}
-              
-            />
+          
 
             <PricingRow
               label="Handling fee"
