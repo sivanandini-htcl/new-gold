@@ -16,13 +16,13 @@ import useMpinStore from "../store/useMpinStore";
 
 const MENU_ITEMS = [
   { icon: Edit,           label: "Profile",    route: "/edit" },
-  { icon: FileText,       label: "Nominee",    route: "/nominee" },
-  { icon: ShieldCheck,    label: "KYC",        route: "/kycpage" },
-  { icon: MapPin,         label: "Address",    route: "/delivery" },
-  { icon: CreditCard,     label: "Account",    route: "/account" },
-  { icon: Receipt,        label: "Billing",    route: "/billing" },
-  { icon: ArrowRightLeft, label: "Transfers",  route: "/transactions" },
-  { icon: Settings,       label: "Settings",   route: null },
+  { icon: FileText,       label: "Nominee",    route: "/nominee"},
+  { icon: ShieldCheck,    label: "KYC",        route: "/kycpage"},
+  { icon: MapPin,         label: "Address",    route: "/delivery"},
+  { icon: CreditCard,     label: "Account",    route: "/account"},
+  { icon: Receipt,        label: "Wallet",     route: "/wallet"},
+  { icon: ArrowRightLeft, label: "Transfers",  route: "/transactions"},
+  // { icon: Settings,       label: "Settings",   route: null},
 ];
 
 const QUICK_ACTIONS = [
@@ -48,20 +48,10 @@ export default function Profile() {
   const gram24kSilver   = silverPriceData?.caratPrices?.gram24k || 0;
 
   const user = { phone: "9876543210", userId: "QWF12345678XXXX", gold: 12, silver: 14 };
+const [loading,setLoading]=useState(false)
 
-  const goldValue      = user.gold   * gram24kGold;
-  const silverValue    = user.silver * gram24kSilver;
-  const totalValue     = goldValue + silverValue;
-  const totalInvested  = 940000;
-  const goldInvested   = 920000;
-  const silverInvested = 20000;
-  const goldPnL        = goldValue   - goldInvested;
-  const silverPnL      = silverValue - silverInvested;
-  const totalPnL       = totalValue  - totalInvested;
-  const isProfit       = totalPnL >= 0;
-  const goldAlloc   = totalValue > 0 ? ((goldValue   / totalValue) * 100).toFixed(0) : 50;
-  const silverAlloc = totalValue > 0 ? ((silverValue / totalValue) * 100).toFixed(0) : 50;
-  const kycStatus = useKycStore((state) => state.kycStatus);
+
+const kycStatus = useKycStore((state) => state.kycStatus);
 const loadKycProgress = useKycStore((state) => state.loadKycProgress);
 const mpinCreated = useMpinStore((state) => state.mpinCreated);
 const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
@@ -69,12 +59,13 @@ const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 useEffect(() => {
   const fetchHoldings = async () => {
     try {
+      setLoading(true);
       const res = await api.post("/holdings");
       setWallet(res.data?.data);
-      console.log("Wallet Response:", res.data);
+      console.log("holdings:", res.data);
       const holdRes=await api.get("/holdings/summary")
       setMetalWallet(holdRes.data?.data);
-      console.log("metals res",holdRes.data)
+      console.log("hold summary",holdRes.data)
       
     } catch (err) {
       console.log("FULL ERROR:", err);
@@ -82,6 +73,8 @@ useEffect(() => {
       console.log("DATA:", err.response?.data);
       console.log("MESSAGE:", err.response?.data?.message);
 
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -94,6 +87,28 @@ useEffect(() => {
 
   const fmt = (n) => n > 0 ? `₹${Math.round(n).toLocaleString("en-IN")}` : "—";
   
+if (loading) {
+    return(
+      <div className="animate-pulse">
+     <div className="animate-pulse flex gap-4 mt-10  p-4">
+    <div className="h-50 w-160 bg-secondary/8 rounded-lg p-4 grid md:grid-cols-4 gap-4">
+  {[...Array(8)].map((_,index)=>(
+
+       <div   key={index} className="h-20 w-20 bg-secondary/8 rounded-2xl"/>
+  ))}
+    </div>
+    <div className="h-50 w-70 bg-secondary/7 rounded-lg "></div>
+   </div>
+
+<div className="felx gap=4">
+  <div className="w-full h-60 bg-secondary/7"></div>
+  <div className="w-full h-60 bg-secondary/7"></div>
+
+</div>
+    </div>
+    
+    );
+  }
 
   return (
     <>
@@ -101,9 +116,7 @@ useEffect(() => {
       <div className="pf-root  min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto space-y-4">
 
-          {/*
-              ROW 1 — Profile + Portfolio
-          */}
+          {/* ROW 1 — Profile + Portfolio */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             {/* ── Profile Card (2/3) ── */}
@@ -178,7 +191,7 @@ useEffect(() => {
             {/* ── Portfolio Summary (1/3) ── */}
             <div className="md:col-span-1 rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm relative overflow-hidden">
               {/* Decorative bg circle */}
-              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gray-800 pointer-events-none" />
+              {/* <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gray-800 pointer-events-none" /> */}
 
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={14} className="text-primary/70" />
@@ -189,7 +202,7 @@ useEffect(() => {
                {wallet?.portfolio?.currentValueINR}
               </p>
 
-              <div className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full mb-4 ${
+              {/* <div className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full mb-4 ${
                 isProfit ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-600 border border-red-200"
               }`}>
                 {isProfit
@@ -199,27 +212,32 @@ useEffect(() => {
                 {totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : "0"}%
                 &nbsp;·&nbsp;
                 {isProfit ? "+" : ""}₹{Math.abs(Math.round(totalPnL)).toLocaleString("en-IN")}
-              </div>
+              </div> */}
 
               {/* Allocation bar */}
               <div className="mb-2">
                 <div className="flex justify-between text-xs text-secondary mb-1">
-                  <span>Gold {goldAlloc}%</span>
-                  <span>Silver {silverAlloc}%</span>
+                  <span>Gold </span>
+                  <span>{wallet?.holdings?.[0]?.availableGrams}</span>
+        
                 </div>
-                <div className="h-2 w-full rounded-full overflow-hidden bg-secondary flex">
+                 <div className="flex justify-between text-xs text-secondary mb-1">
+                 <span>Silver </span>
+                  <span>{wallet?.holdings?.[1]?.availableGrams}</span>
+</div>
+                {/* <div className="h-2 w-full rounded-full overflow-hidden bg-secondary flex">
                   <div
                     className="h-full rounded-l-full bg-gradient-to-r from-amber-500 to-yellow-400 transition-all"
                     style={{ width: `${goldAlloc}%` }}
                   />
                   <div className="h-full flex-1 rounded-r-full bg-gradient-to-r from-stone-400 to-stone-300" />
-                </div>
+                </div> */}
               </div>
 
               <div className="flex justify-between mt-3">
                 {[
-                  { col: "bg-amber-400", label: "Gold",   val: fmt(goldValue) },
-                  { col: "bg-stone-400", label: "Silver", val: fmt(silverValue) },
+                  { col: "bg-amber-400", label: "Gold",   val: "1234" },
+                  { col: "bg-stone-400", label: "Silver", val: "12345" },
                 ].map(a => (
                   <div key={a.label} className="flex items-center gap-1.5">
                     <div className={`w-2 h-2 rounded-full ${a.col}`} />
@@ -236,8 +254,12 @@ useEffect(() => {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-secondary mb-0.5">Unrealised P&L</p>
-                  <p className={`text-sm font-bold ${isProfit ? "text-green-600" : "text-red-500"}`}>
-                    {isProfit ? "+" : ""}₹{wallet?.portfolio?.unrealizedPnLINR}
+                  {/* <p className="text-sm font-bold ">
+                    ₹{wallet?.portfolio?.unrealizedPnLINR}
+                  </p> */}
+                  <p className={`text-xs font-bold 
+                    ${wallet?.portfolio?.unrealizedPnLINR >=0? "text-green-500":"text-red-500"}`} >
+₹{wallet?.portfolio?.unrealizedPnLINR}
                   </p>
                 </div>
               </div>
@@ -291,14 +313,14 @@ useEffect(() => {
               </div>
 
               {/* progress bar */}
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full bg-yellow-600"
                     style={{ width: `${Math.min(100, Math.abs(goldInvested > 0 ? (goldPnL/goldInvested)*100 : 0))}%` }}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex gap-2">
                 <button
@@ -355,14 +377,14 @@ useEffect(() => {
                 ))}
               </div>
 
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full bg-stone-700 "
                     style={{ width: `${Math.min(100, Math.abs(silverInvested > 0 ? (silverPnL/silverInvested)*100 : 0))}%` }}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex gap-2">
                 <button

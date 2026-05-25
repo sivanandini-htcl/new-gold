@@ -90,6 +90,7 @@ export default function OrderDetailsPage() {
     loading,
   } = useOrderStore();
   const seconds = singleOrder?.updatedAt?._seconds;
+  const isWalletOrder = singleOrder?.mode?.toLowerCase() === "wallet";
 
 const formattedDate = seconds
   ? new Date(seconds * 1000).toLocaleString("en-IN")
@@ -232,8 +233,8 @@ const formattedDate = seconds
             })}
           </div>
         </div>
-
-        {/* Address Section */}
+{!isWalletOrder&&( 
+       
         <div className="grid gap-4 md:grid-cols-2">
           {/* Shipping Address */}
           <div className="rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
@@ -311,7 +312,7 @@ const formattedDate = seconds
             </div>
           </div>
         </div>
-
+)}
         {/* Items */}
         <div className="overflow-hidden rounded-2xl  bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
           <div className="flex items-center gap-2 border-b border-white/20 px-5 py-4">
@@ -342,7 +343,7 @@ const formattedDate = seconds
                   </p>
 
                   <p className="mt-[2px] font-mono text-[12px] text-white/60">
-                    Qty {item.quantity} 
+                    Qty : {item.quantityInGrams} 
                   </p>
                   <p className="mt-[2px] font-mono text-[12px] text-white/60">
              
@@ -352,7 +353,7 @@ const formattedDate = seconds
               </div>
 
               <p className="m-0 self-end font-mono text-[14px] font-bold text-white sm:self-auto">
-                {fmt(item.unitPrice)}
+                {fmt(item.unitPrice)}/g
               </p>
             </div>
           ))}

@@ -111,13 +111,21 @@ useEffect(() => {
 };
 
 if (pageLoading) {
-  return (
-    <PageLoader
-      title="Loading wallet"
-      subtitle="Syncing balances"
-      icon={<Wallet size={30} color="#fdf6ef" />}
-    />
-  );
+
+    return(
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-20 p-4">
+    <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+  </div>
+    );
+  
 }
   if (cartItems.length === 0) {
     return (

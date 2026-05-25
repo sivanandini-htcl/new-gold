@@ -11,9 +11,9 @@ const useOrderStore = create((set) => ({
   loading: false,
   error: null,
 
-  // =========================
+
   // GET /orders
-  // =========================
+  
   fetchOrders: async () => {
     try {
       set({ loading: true, error: null });

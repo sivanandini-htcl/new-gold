@@ -6,7 +6,7 @@ import api from './axiosInstance';
 export const checkMPINStatus = async () => {
   try {
     const response = await api.get('/security/mpin/status');
-    console.log("mpin status",response)
+    // console.log("mpin status",response)
     return response.data;
     
   } catch (error) {

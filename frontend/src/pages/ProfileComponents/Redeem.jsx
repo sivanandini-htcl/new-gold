@@ -196,7 +196,6 @@ function Redeem() {
     if (!pendingItem || isProcessing) return;
 
     setIsProcessing(true);
-
     try {
       // Remove ALL cart items
       for (const item of cartItems) {
@@ -214,20 +213,14 @@ function Redeem() {
         quantity: pendingItem.quantity,
       });
         
-
       // Refresh cart
       await fetchCart();
-
       toast.success("Cart updated");
-
       setShowReplaceModal(false);
-
       setPendingItem(null);
-
       navigate("/cart");
     } catch (error) {
       console.error(error);
-
       toast.error(
         error.response?.data?.message ||
           "Failed to replace cart"
@@ -290,11 +283,17 @@ function Redeem() {
 
   if (loading) {
     return(
-      <PageLoader
-      title="Loading Cart"
-      subtitle="Syncing balances"
-      icon={<ShoppingCart size={30} color="background" />}
-    />
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-20 p-4">
+    <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+    <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+  </div>
     );
   }
 

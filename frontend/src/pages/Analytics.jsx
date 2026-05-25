@@ -173,8 +173,8 @@ const Analytics = () => {
                     <p className="text-secondary text-lg md:text-xl font-semibold">{portfolio?.holdingsCount}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-zinc-500 text-xs">Days Active</p>
-                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolioSummary.daysActive}</p>
+                    <p className="text-zinc-500 text-xs">Total Orders</p>
+                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolio?.totalOrders}</p>
                   </div>
                 </div>
               </div>

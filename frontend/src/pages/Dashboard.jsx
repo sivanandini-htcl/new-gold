@@ -293,10 +293,10 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
       {onViewAll && (
         <button
           onClick={onViewAll}
-          className={`flex items-center gap-1 text-xs font-bold font-serif px-2 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
+          className={`flex items-center text-[10px] gap-1  font-bold font-serif px-4 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
             ${
               gold
-                ? 'text-primary border border-[#3C2415] hover:bg-amber-50'
+                ? 'text-primary border border-white/20 hover:bg-amber-50'
                 : 'text-slate-300 border border-slate-200 hover:bg-slate-50'
             }`}
         >
@@ -556,13 +556,13 @@ function Dashboard() {
               
                <button
                 onClick={() => navigate('/redeem')}
-                className=" px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] bg-gradient-to-r from-slate-500 to-gray-400 text-[#DDD9CE]  font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
+                className=" px-2 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 bg-gradient-to-r from-slate-500 to-gray-400 text-secondary  font-bold text-xs md:text-md 2xl:text-base hover:bg-slate-400/10 transition"
               >
                 Buy Silver
               </button>
               <button
                 onClick={() => navigate('/redeem')}
-                className="  px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
+                className="  px-2 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 text-[#DDD9CE] font-bold text-sm 2xl:text-base hover:bg-slate-400/10 transition"
               >
                 Explore Collection
               </button>

@@ -13,21 +13,6 @@ import OrderCard from "../components/OrderCard";
 
 const PAGE_SIZE = 10;
 
-function LoadingSkeleton() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="mb-4 text-5xl text-[#5f3e0d] animate-pulse">
-          ✦
-        </div>
-
-        <p className="text-[#5f3e0d] text-[18px] tracking-[0.15em] uppercase font-light">
-          Loading orders
-        </p>
-      </div>
-    </div>
-  );
-}
 
 function EmptyState({ onExplore }) {
   return (
@@ -57,11 +42,11 @@ function EmptyState({ onExplore }) {
 function StatCard({ label, value, sub }) {
   return (
     <div className="flex-1 min-w-[140px] rounded-2xl border border-[#c9a97a2e] bg-white/[0.04] p-5 sm:p-6">
-      <p className="text-primary text-[11px] uppercase tracking-[0.12em] mb-2">
+      <p className="text-primary text-xs uppercase tracking-[0.12em] mb-2">
         {label}
       </p>
 
-      <p className="text-white text-[28px] sm:text-[32px] leading-none font-semibold break-words">
+      <p className="text-white text-xs sm:text-[32px] leading-none font-semibold ">
         {value}
       </p>
 
@@ -173,7 +158,24 @@ export default function OrdersPage() {
   const handleNext = () =>
     setCurrentPage((p) => Math.min(totalPages, p + 1));
 
-  if (loading) return <LoadingSkeleton />;
+  if (loading) {
+    return(
+    <>
+     <div className="px-60 rounded-2xl m-2 gap-3 flex">
+      <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+     </div>
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-1 gap-3 px-60 rounded-2xl  m-2">
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+    </div>
+      </> 
+    );
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background  pb-20 font-sans">
@@ -254,7 +256,7 @@ export default function OrdersPage() {
             <div className="mb-6 flex items-center gap-3">
               <div className="h-px flex-1 bg-[#c9a97a26]" />
 
-              <span className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] text-[#6a5040]">
+              <span className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] text-[#6a5040] text-xs">
                 Page {currentPage} of {totalPages}
               </span>
 

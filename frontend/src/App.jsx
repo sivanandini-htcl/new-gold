@@ -15,7 +15,7 @@ import Nominee from './pages/ProfileComponents/Nominee';
 import Delivery from './pages/ProfileComponents/Delivery';
 import BankAccount from './pages/ProfileComponents/BankAccount';
 // import BuyGold from "./pages/ProfileComponents/BuyGold";
-import Billing from './pages/ProfileComponents/Billing';
+import Wallet from './pages/ProfileComponents/Wallet';
 import Redeem from './pages/ProfileComponents/Redeem';
 import Cart from './pages/Cart';
 import { ToastContainer } from 'react-toastify';
@@ -149,10 +149,10 @@ function App() {
                 }
               /> */}
             <Route
-              path="/billing"
+              path="/wallet"
               element={
                 <ProtectedRoute>
-                  <Billing />
+                  <Wallet />
                 </ProtectedRoute>
               }
             />
