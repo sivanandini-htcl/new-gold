@@ -16,7 +16,7 @@ import useMpinStore from "../store/useMpinStore";
 
 const MENU_ITEMS = [
   { icon: Edit,           label: "Profile",    route: "/edit" },
-  { icon: FileText,       label: "Nominee",    route: "/nominee"},
+  // { icon: FileText,       label: "Nominee",    route: "/nominee"},
   { icon: ShieldCheck,    label: "KYC",        route: "/kycpage"},
   { icon: MapPin,         label: "Address",    route: "/delivery"},
   { icon: CreditCard,     label: "Account",    route: "/account"},
@@ -113,14 +113,14 @@ if (loading) {
   return (
     <>
 
-      <div className="pf-root  min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
+      <div className="  min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8 " >
         <div className="max-w-7xl mx-auto space-y-4">
 
           {/* ROW 1 — Profile + Portfolio */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             {/* ── Profile Card (2/3) ── */}
-            <div className="md:col-span-2  rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm">
+            <div className="md:col-span-3 rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm">
 
               {/* User info */}
               <div className="flex items-start gap-3 sm:gap-4 mb-4 pb-4 border-b border-white/20">
@@ -154,44 +154,30 @@ if (loading) {
                     ))}
                   </div>
                 </div>
+                <div className=" hidden md:block flex-col items-center gap-2 mb-3">
+                  <div className="flex gap-2">
+                    <Wallet size={14} className="text-primary/70" />
+                <p className="text-xs uppercase tracking-widest text-primary font-normal">Total Portfolio</p>
+
+                  </div>
+                
+                <p className=" text-sm md:text-xl text-center sm:text-3xl font-normal text-primary mb-1">
+               {wallet?.portfolio?.currentValueINR}
+              </p>
+              </div>
+
+              
               </div>
 
               {/* Menu grid */}
-              <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2">
-         {/* {MENU_ITEMS
-  .filter((item) => {
-    if (
-      item.label === "KYC" &&
-      kycStatus === "approved" &&
-      mpinCreated
-    ) {
-      return false;
-    }
 
-    return true;
-  })
-  .map(({ icon: Icon, label, route }) => ( */}
-         {MENU_ITEMS.map(({ icon: Icon, label, route }) => (
-                  <button
-                    key={label}
-                    className=" flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl border border-white/20 bg-[#111112] cursor-pointer"
-                    onClick={() => route && navigate(route)}
-                  >
-                    <div className="mico w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#111112] border border-white/20 flex items-center justify-center transition-all">
-                      <Icon size={17} className="text-" />
-                    </div>
-                    <span className="text-center text-xs md:text-sm text-secondary font-medium leading-tight">
-                      {label}
-                    </span>
-                  </button>
-                ))}
-              </div>
             </div>
 
+
+
             {/* ── Portfolio Summary (1/3) ── */}
-            <div className="md:col-span-1 rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm relative overflow-hidden">
-              {/* Decorative bg circle */}
-              {/* <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gray-800 pointer-events-none" /> */}
+            {/* <div className="md:col-span-1 rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm relative overflow-hidden">
+              
 
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={14} className="text-primary/70" />
@@ -202,19 +188,9 @@ if (loading) {
                {wallet?.portfolio?.currentValueINR}
               </p>
 
-              {/* <div className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full mb-4 ${
-                isProfit ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-600 border border-red-200"
-              }`}>
-                {isProfit
-                  ? <TrendingUp size={11} />
-                  : <TrendingDown size={11} />}
-                {isProfit ? "+" : ""}
-                {totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : "0"}%
-                &nbsp;·&nbsp;
-                {isProfit ? "+" : ""}₹{Math.abs(Math.round(totalPnL)).toLocaleString("en-IN")}
-              </div> */}
+          
 
-              {/* Allocation bar */}
+ 
               <div className="mb-2">
                 <div className="flex justify-between text-xs text-secondary mb-1">
                   <span>Gold </span>
@@ -225,13 +201,7 @@ if (loading) {
                  <span>Silver </span>
                   <span>{wallet?.holdings?.[1]?.availableGrams}</span>
 </div>
-                {/* <div className="h-2 w-full rounded-full overflow-hidden bg-secondary flex">
-                  <div
-                    className="h-full rounded-l-full bg-gradient-to-r from-amber-500 to-yellow-400 transition-all"
-                    style={{ width: `${goldAlloc}%` }}
-                  />
-                  <div className="h-full flex-1 rounded-r-full bg-gradient-to-r from-stone-400 to-stone-300" />
-                </div> */}
+              
               </div>
 
               <div className="flex justify-between mt-3">
@@ -254,21 +224,34 @@ if (loading) {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-secondary mb-0.5">Unrealised P&L</p>
-                  {/* <p className="text-sm font-bold ">
-                    ₹{wallet?.portfolio?.unrealizedPnLINR}
-                  </p> */}
+            
                   <p className={`text-xs font-bold 
                     ${wallet?.portfolio?.unrealizedPnLINR >=0? "text-green-500":"text-red-500"}`} >
 ₹{wallet?.portfolio?.unrealizedPnLINR}
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
+          </div>
+          <div className="w-full bg-[#111117] rounded-2xl grid grid-cols-3 md:grid md:grid-cols-6 gap-2 md:gap-4 ">
+{MENU_ITEMS.map(({ icon: Icon, label, route }) => (
+                  <button
+                    key={label}
+                    className=" flex  items-center gap-1.5 p-2 sm:p-3  cursor-pointer"
+                    onClick={() => route && navigate(route)}
+                  >
+                    <div className=" w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center transition-all">
+                      <Icon size={17} className="text-" />
+                    </div>
+                    <span className="text-center text-xs md:text-sm text-secondary font-medium leading-tight hover:text-primary">
+                      {label}
+                    </span>
+                  </button>
+                ))}
           </div>
 
         
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
             {/* ── Gold Card ── */}
             <div className=" rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm">
               {/* top accent */}
@@ -277,7 +260,7 @@ if (loading) {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className=" text-2xl sm:text-3xl font-bold text-primary">Gold</h3>
+                    <h3 className=" text-2xl sm:text-3xl font-serif text-primary">Gold</h3>
                     <span className="text-xs border border-white/20 bg-[#111112] text-primary/70 px-2 py-0.5 rounded-full font-medium">24K</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-1">
@@ -297,9 +280,9 @@ if (loading) {
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
                   { label: "Current Value", val:  `₹${metalWallet?.metals?.[0]?.currentValueINR ??"Loading.."}`, bold: true },
-                  { label: "P&L",           val: `₹${metalWallet?.metals?.[0]?.profitLossINR ??"Loading.."}`},
+                  // { label: "P&L",           val: `₹${metalWallet?.metals?.[0]?.profitLossINR ??"Loading.."}`},
                   { label: "Invested",      val: `₹${metalWallet?.metals?.[0]?.investedINR ??"Loading.."}`},
-                  { label: "Return",        val: `₹${metalWallet?.metals?.[0]?.returnPercent ??"Loading.."}` },
+                  // { label: "Return",        val: `₹${metalWallet?.metals?.[0]?.returnPercent ??"Loading.."}` },
                 ].map((s, i) => (
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs  uppercase tracking-wider mb-1" >{s.label}</p>
@@ -342,7 +325,7 @@ if (loading) {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="hf text-2xl sm:text-3xl font-bold ss">Silver</h3>
+                    <h3 className="hf text-2xl sm:text-3xl font-serif ">Silver</h3>
                     <span className="text-xs border border-white/20 bg-[#111112] text-primary/70 px-2 py-0.5 rounded-full font-medium">.999</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-1">
@@ -362,9 +345,9 @@ if (loading) {
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
                   { label: "Current Value", val: `₹${metalWallet?.metals?.[1]?.currentValueINR ??"Loading.."}`,bold: true },
-                  { label: "P&L",           val: `₹${metalWallet?.metals?.[1]?.profitLossINR ??"Loading.."}`},
+                  // { label: "P&L",           val: `₹${metalWallet?.metals?.[1]?.profitLossINR ??"Loading.."}`},
                   { label: "Invested",      val: `₹${metalWallet?.metals?.[1]?.investedINR ??"Loading.."}` },
-                  { label: "Return",        val:`₹${metalWallet?.metals?.[1]?.returnPercent ??"Loading.."}`},
+                  // { label: "Return",        val:`₹${metalWallet?.metals?.[1]?.returnPercent ??"Loading.."}`},
                 ].map((s, i) => (
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs text-secondary uppercase tracking-wider mb-1">{s.label}</p>

@@ -204,7 +204,7 @@ function AddressCard({ address, onEdit, onDelete, onSetDefault, loading }) {
           </button>
 
           <button
-            onClick={() => onDelete(address.id)} // ✅ FIXED: was address._id
+            onClick={() => onDelete(address.id)} //  FIXED: was address._id
             disabled={loading}
             className="flex items-center gap-1.5 text-xs font-medium text-red-400 hover:text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
           >
@@ -214,7 +214,7 @@ function AddressCard({ address, onEdit, onDelete, onSetDefault, loading }) {
 
           {!address.isDefault && (
             <button
-              onClick={() => onSetDefault(address.id)} // ✅ FIXED: was address._id
+              onClick={() => onSetDefault(address.id)} //  FIXED: was address._id
               disabled={loading}
               className="ml-auto flex items-center gap-1.5 text-xs font-medium text-primary/70 hover:text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors"
             >
@@ -341,7 +341,7 @@ function Delivery() {
           <div className="grid gap-4">
             {addresses.map((address) => (
               <AddressCard
-                key={address.id} // ✅ FIXED: was address._id
+                key={address.id} //  FIXED: was address._id
                 address={address}
                 loading={loading}
                 onEdit={(a) => setEditingAddress(a)}

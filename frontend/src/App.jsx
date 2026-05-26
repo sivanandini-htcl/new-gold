@@ -35,6 +35,7 @@ import Metals from './pages/Metals';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import Transactions from './pages/ProfileComponents/Transaction';
 import Analytics from './pages/Analytics';
+import MpinPage from './pages/Mpin';
 
 function App() {
   return (
@@ -226,6 +227,17 @@ function App() {
                 </ProtectedRoute>
               }
             />
+             <Route
+              path="/mpin"
+              element={
+                <ProtectedRoute>
+                 <MpinPage/>
+                </ProtectedRoute>
+              }
+            />
+
+
+
             <Route
               path="/orders/:id"
               element={
@@ -243,6 +255,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            
           </Route>
         </Routes>
       </BrowserRouter>
