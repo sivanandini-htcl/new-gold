@@ -61,10 +61,10 @@ const MpinPage = ({ onSuccess, onBack }) => {
 
   return (
 
-    <div className=' bg-[#0a0a12] flex flex-col items-center justify-between py-3  px-6 z-50 overflow-hidden'>
+    <div className=' bg-background flex flex-col items-center justify-between py-3  px-6 z-50 overflow-hidden'>
 
       {/* Glow */}
-      <div className='absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(201,168,76,0.12)_0%,transparent_70%)] pointer-events-none' />
+      <div className='absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full  pointer-events-none' />
 
       {/* Back */}
       <div className='relative w-full max-w-xs flex items-center'>
@@ -140,7 +140,7 @@ const MpinPage = ({ onSuccess, onBack }) => {
                     ? 'border-red-500 bg-red-500'
 
                     : filled
-                    ? 'border border-background bg-white/70 shadow-[0_0_10px_rgba(201,168,76,0.45)] scale-110'
+                    ? 'border border-background bg-white/70  scale-110'
                     : 'border-white/15 bg-transparent'
                   }
                 `}

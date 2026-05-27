@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import dgiLogo from '../../assets/dgiLogo.png'
 import { useNavigate } from 'react-router-dom'
+import useBankAccountStore from '../../store/bankAccountStore'
+import { useEffect } from 'react'
 
 const Wallet = () => {
   const [balanceVisible, setBalanceVisible] = useState(false)
@@ -14,23 +16,29 @@ const Wallet = () => {
   const [selectedBank, setSelectedBank] = useState(1)
   const [amountConfirmed, setAmountConfirmed] = useState(false)  // NEW
   const navigate=useNavigate();
+   const {
+    bankAccounts,
+    loading,
+    addBankAccount,
+    getBankAccounts,
+    deleteBankAccount,
+    updateBankAccount
+  } = useBankAccountStore();
 
-  const [banks, setBanks] = useState([
-    { id: 1, bankName: 'IDFC First Bank', accountNumber: '4567' },
-    { id: 2, bankName: 'HDFC Bank', accountNumber: '9832' },
-  ])
+    useEffect(() => {
+      getBankAccounts();
+      
+    }, []);
+
+
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
-  const onSubmit = (data) => {
-    console.log(data)
-    setSaved(true)
-    setTimeout(() => {
-      setSaved(false)
-      setShowModal(false)
-      reset()
-    }, 900)
-  }
+const onSubmit = async (data) => {
+
+  const res = await addBankAccount(data);
+
+}
 
   const handleNext = () => {
     if (!amount || Number(amount) <= 0) return
@@ -153,11 +161,11 @@ const Wallet = () => {
           <div className="flex flex-col gap-2">
             <p className="text-[10px] uppercase tracking-[0.12em] text-white/40 font-semibold px-1">Select Bank Account</p>
             <div className="border border-white/10 rounded-2xl overflow-hidden bg-white/[0.03]">
-              {banks.map((bank) => {
+              {bankAccounts.map((bank,index) => {
                 const isSelected = selectedBank === bank.id
                 return (
                   <button
-                    key={bank.id}
+                    key={bank.id||index}
                     onClick={() => setSelectedBank(bank.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3.5 border-b border-white/10 transition-all
                       ${isSelected ? 'bg-[#c9a84c]/10 border-[#c9a84c]/30' : 'hover:bg-white/5'}`}
@@ -174,7 +182,7 @@ const Wallet = () => {
                     <div className="flex-1 min-w-0 text-left">
                       <p className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-white/80'}`}>{bank.bankName}</p>
                       <p className="text-xs text-white/40 mt-0.5" >
-                        •••• •••• {bank.accountNumber}
+                         {bank.accountNumber}
                       </p>
                     </div>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
@@ -216,12 +224,52 @@ const Wallet = () => {
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-                {[
-                  { id: 'holderName', label: 'Account Holder Name', placeholder: 'Name', type: 'text', rules: { required: 'Name is required' } },
-                  { id: 'bankName', label: 'Bank Name', placeholder: 'Bank', type: 'text', rules: { required: 'Bank name is required' } },
-                  { id: 'accountNumber', label: 'Account Number', placeholder: 'Enter account number', type: 'number', rules: { required: 'Account number is required', minLength: { value: 8, message: 'Minimum 8 digits' } } },
-                  { id: 'ifsc', label: 'IFSC Code', placeholder: 'e.g. ABCD0012345', type: 'text', rules: { required: 'IFSC code is required' } },
-                ].map(({ id, label, placeholder, type, rules }) => (
+                {[ {   id: 'accountHolderName',   label: 'Account Holder Name',   placeholder: 'Name',   type: 'text',   rules: {
+                required: 'Name is required'
+    }
+  },
+
+  {
+    id: 'bankName',
+    label: 'Bank Name',
+    placeholder: 'Bank',
+    type: 'text',
+    rules: {
+      required: 'Bank name is required'
+    }
+  },
+
+  {
+    id: 'accountNumber',
+    label: 'Account Number',
+    placeholder: 'Enter account number',
+    type: 'number',
+    rules: {
+      required: 'Account number is required'
+    }
+  },
+
+  {
+    id: 'confirmAccountNumber',
+    label: 'Confirm Account Number',
+    placeholder: 'Confirm account number',
+    type: 'number',
+    rules: {
+      required:
+        'Confirm account number is required'
+    }
+  },
+
+  {
+    id: 'ifscCode',
+    label: 'IFSC Code',
+    placeholder: 'e.g. HDFC0001234',
+    type: 'text',
+    rules: {
+      required: 'IFSC code is required'
+    }
+  },
+].map(({ id, label, placeholder, type, rules }) => (
                   <div key={id} className="flex flex-col gap-1">
                     <label className="text-[10px] uppercase tracking-[0.1em] text-white/40 font-semibold">{label}</label>
                     <input

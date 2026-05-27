@@ -36,6 +36,7 @@ import OrderDetailsPage from './pages/OrderDetailsPage';
 import Transactions from './pages/ProfileComponents/Transaction';
 import Analytics from './pages/Analytics';
 import MpinPage from './pages/Mpin';
+import TestingPage from './pages/TestingPage';
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Silver />
+                </ProtectedRoute>
+              }
+            />
+             <Route
+              path="/testing"
+              element={
+                <ProtectedRoute>
+                  <TestingPage />
                 </ProtectedRoute>
               }
             />

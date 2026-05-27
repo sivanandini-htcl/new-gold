@@ -9,6 +9,7 @@ import dgiLogo from "../assets/logo_2.svg";
 import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
 import Analytics from "../pages/Analytics";
+import TestingPage from "../pages/TestingPage";
 
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
@@ -17,13 +18,11 @@ const navLinks = [
   { to: "/metals", label: "Metals" },
   { to: "/redeem", label: "Shop" },
   { to: "/analytics", label: "Analytics" },
-
-
   // { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
+  // { to: "/testing", label: " Testing" },
+  { to: "/profile", label: " Profile" },
   { to: "/about", label: "About" },
-  
-
 ];
 
 function Header() {

@@ -59,7 +59,7 @@ const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 useEffect(() => {
   const fetchHoldings = async () => {
     try {
-      setLoading(true);
+      
       const res = await api.post("/holdings");
       setWallet(res.data?.data);
       console.log("holdings:", res.data);
