@@ -8,13 +8,11 @@ import PriceProvider from './components/PriceProvider';
 import Signup from './pages/Authentication/Signup';
 import Login from './pages/Authentication/Login';
 import EditProfile from './pages/ProfileComponents/EditProfile';
-
 import KycPage from './pages/ProfileComponents/KycPage';
-import MPINSetupPage from './pages/ProfileComponents/MPINSetupPage';
 import Nominee from './pages/ProfileComponents/Nominee';
 import Delivery from './pages/ProfileComponents/Delivery';
 import BankAccount from './pages/ProfileComponents/BankAccount';
-// import BuyGold from "./pages/ProfileComponents/BuyGold";
+
 import Wallet from './pages/ProfileComponents/Wallet';
 import Redeem from './pages/ProfileComponents/Redeem';
 import Cart from './pages/Cart';
@@ -24,19 +22,24 @@ import { Toaster } from 'react-hot-toast';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
-// import Redeemq from "./pages/ProfileComponents/redeem2";
+
 import About from './pages/About';
 import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import ProductDetails from './pages/ProductDetails';
-// import Checkout1 from "./pages/Checkout1";
+
 import MyOrders from './pages/MyOrders';
 import Metals from './pages/Metals';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import Transactions from './pages/ProfileComponents/Transaction';
 import Analytics from './pages/Analytics';
+import MPINSetupPage from './pages/ProfileComponents/MPINSetupPage';
 import MpinPage from './pages/Mpin';
 import TestingPage from './pages/TestingPage';
+import Sell from './pages/Sell';
+import GoldSell from './components/sell/GoldSell';
+import SilverSell from './components/sell/SilverSell';
+
 
 function App() {
   return (
@@ -48,7 +51,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
           <Route element={<LayoutWithHeader />}>
             <Route
               path="/dashboard"
@@ -58,6 +60,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/gold"
               element={
@@ -66,6 +69,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/silver"
               element={
@@ -74,6 +78,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
              <Route
               path="/testing"
               element={
@@ -82,6 +87,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+          
+
             <Route
               path="/profile"
               element={
@@ -90,6 +98,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/edit"
               element={
@@ -99,6 +108,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/kycpage"
               element={
@@ -108,6 +118,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/mpin-setup"
               element={
@@ -117,6 +128,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/nominee"
               element={
@@ -135,6 +147,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/metals"
               element={
@@ -143,6 +156,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/account"
               element={
@@ -151,6 +165,31 @@ function App() {
                 </ProtectedRoute>
               }
             />
+                <Route
+              path="/sell"
+              element={
+                <ProtectedRoute>
+                  <Sell />
+                </ProtectedRoute>
+              }
+            />
+                  <Route
+              path="/goldsell"
+              element={
+                <ProtectedRoute>
+                  <GoldSell />
+                </ProtectedRoute>
+              }
+            />    
+              <Route
+              path="/sell"
+              element={
+                <ProtectedRoute>
+                  <SilverSell />
+                </ProtectedRoute>
+              }
+            />
+
             {/* <Route
                 path="/buygold"  element={
                   <ProtectedRoute>
@@ -183,6 +222,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+           
 
             <Route
               path="/cart"

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
 const MpinPage = ({ onSuccess, onBack }) => {
-
   const [pin, setPin] = useState([])
   const [status, setStatus] = useState('idle')
   const [shake, setShake] = useState(false)
@@ -73,16 +73,8 @@ const MpinPage = ({ onSuccess, onBack }) => {
           onClick={onBack}
           className='w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 active:scale-90 transition-all'
         >
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2.5'
-          >
-            <path d='M19 12H5M12 5l-7 7 7 7' />
-          </svg>
+         <ArrowLeft/>
+          
         </button>
 
       </div>

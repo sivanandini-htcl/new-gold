@@ -312,7 +312,7 @@ if (loading) {
                 >
                   <Zap size={13} /> Buy
                 </button>
-                <button className="flex-1 border border-amber-200 text-amber-700 bg-amber-50 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-amber-100 transition">
+                <button onClick={() => navigate("/mpin")} className="flex-1 border border-amber-200 text-amber-700 bg-amber-50 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-amber-100 transition">
                   <ArrowUpRight size={13} /> Sell
                 </button>
               </div>

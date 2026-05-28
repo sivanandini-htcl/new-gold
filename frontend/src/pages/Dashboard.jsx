@@ -58,6 +58,8 @@ import Section from '../components/dashboardComponents/SilverScroller';
 import Gift from '../assets/Gift.png';
 import banner from '../assets/banner.png';
 
+
+
 // ─── Animation Variants ─
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -220,62 +222,62 @@ export function ProductCard({ product, navigate }) {
 }
 
 // ─── Corporate Gift Card ──────────────────────────────────────────
-function CorporateGiftCard({ item, navigate }) {
-  return (
-    <motion.div
-      whileHover={{ y: -3, scale: 1.01 }}
-      transition={{ duration: 0.22 }}
-      onClick={() => navigate('/corporate-gifting')}
-      className={`relative rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-br ${item.gradient} p-5 flex flex-col gap-3 min-h-[180px] 2xl:min-h-[220px] border border-white/10`}
-    >
-      <span
-        className={`self-start text-[10px] font-bold px-2.5 py-0.5 rounded-full text-white ${item.tagColor} tracking-wider uppercase`}
-      >
-        {item.tag}
-      </span>
-      <div className="text-3xl 2xl:text-4xl">{item.icon}</div>
-      <div>
-        <p className="text-white font-serif font-bold text-sm 2xl:text-base leading-tight">
-          {item.title}
-        </p>
-        <p className="text-white/60 text-[11px] mt-0.5 2xl:text-xs">{item.subtitle}</p>
-      </div>
-      <div className="mt-auto flex items-end justify-between">
-        <div>
-          <p className="text-amber-300 font-bold text-sm 2xl:text-base font-serif">{item.price}</p>
-          <p className="text-white/40 text-[10px]">{item.moq}</p>
-        </div>
-        <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
-          <ArrowRight size={14} className="text-white" />
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+// function CorporateGiftCard({ item, navigate }) {
+//   return (
+//     <motion.div
+//       whileHover={{ y: -3, scale: 1.01 }}
+//       transition={{ duration: 0.22 }}
+//       onClick={() => navigate('/corporate-gifting')}
+//       className={`relative rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-br ${item.gradient} p-5 flex flex-col gap-3 min-h-[180px] 2xl:min-h-[220px] border border-white/10`}
+//     >
+//       <span
+//         className={`self-start text-[10px] font-bold px-2.5 py-0.5 rounded-full text-white ${item.tagColor} tracking-wider uppercase`}
+//       >
+//         {item.tag}
+//       </span>
+//       <div className="text-3xl 2xl:text-4xl">{item.icon}</div>
+//       <div>
+//         <p className="text-white font-serif font-bold text-sm 2xl:text-base leading-tight">
+//           {item.title}
+//         </p>
+//         <p className="text-white/60 text-[11px] mt-0.5 2xl:text-xs">{item.subtitle}</p>
+//       </div>
+//       <div className="mt-auto flex items-end justify-between">
+//         <div>
+//           <p className="text-amber-300 font-bold text-sm 2xl:text-base font-serif">{item.price}</p>
+//           <p className="text-white/40 text-[10px]">{item.moq}</p>
+//         </div>
+//         <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
+//           <ArrowRight size={14} className="text-white" />
+//         </div>
+//       </div>
+//     </motion.div>
+//   );
+// }
 
 // ─── Personal Gift Card ───────────
-function PersonalGiftCard({ item, navigate }) {
-  return (
-    <motion.div
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.2 }}
-      onClick={() => navigate('/gifting')}
-      className="bg-white border border-amber-100 rounded-2xl p-4 flex flex-col items-center text-center gap-2 cursor-pointer hover:border-amber-300 hover:shadow-md transition group 2xl:p-6"
-    >
-      <div className="text-3xl 2xl:text-4xl group-hover:scale-110 transition">{item.emoji}</div>
-      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 tracking-wider uppercase">
-        {item.badge}
-      </span>
-      <p className="font-serif font-bold text-stone-800 text-xs 2xl:text-sm leading-tight">
-        {item.title}
-      </p>
-      <p className="text-[11px] text-gray-400 2xl:text-xs">{item.subtitle}</p>
-      <p className="text-amber-800 font-serif font-bold text-xs mt-auto 2xl:text-sm">
-        {item.price}
-      </p>
-    </motion.div>
-  );
-}
+// function PersonalGiftCard({ item, navigate }) {
+//   return (
+//     <motion.div
+//       whileHover={{ y: -3 }}
+//       transition={{ duration: 0.2 }}
+//       onClick={() => navigate('/gifting')}
+//       className="bg-white border border-amber-100 rounded-2xl p-4 flex flex-col items-center text-center gap-2 cursor-pointer hover:border-amber-300 hover:shadow-md transition group 2xl:p-6"
+//     >
+//       <div className="text-3xl 2xl:text-4xl group-hover:scale-110 transition">{item.emoji}</div>
+//       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 tracking-wider uppercase">
+//         {item.badge}
+//       </span>
+//       <p className="font-serif font-bold text-stone-800 text-xs 2xl:text-sm leading-tight">
+//         {item.title}
+//       </p>
+//       <p className="text-[11px] text-gray-400 2xl:text-xs">{item.subtitle}</p>
+//       <p className="text-amber-800 font-serif font-bold text-xs mt-auto 2xl:text-sm">
+//         {item.price}
+//       </p>
+//     </motion.div>
+//   );
+// }
 
 // ─── Section Header ───────────────────────────────────────────────
 function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
@@ -329,6 +331,7 @@ function Dashboard() {
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
+    const username  = useAuthStore((s) => s.user?.name);
 
   const insights = [
     {
@@ -400,9 +403,11 @@ function Dashboard() {
   return (
     <div className="min-h-screen max-w-[1440px] m-auto font-serif bg-background mb-10 ">
       {/* ── BANNER ─ */}
+      
       <div className="  ">
         <SlidingBanner />
       </div>
+     
 
       {/* ── LIVE PRICE STRIP  */}
       <div className=" mb-6 2xl:mb-10">
@@ -475,9 +480,11 @@ function Dashboard() {
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14 ">
         <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12  shadow-2xl">
           <div className="md:w-1/2 2xl:w-1/2">
+          <p className="text-primary text-2xl">Welcome, {userName}</p>
             <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-primary font-bold mb-3 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 ">
-              ✦ Pure · Certified · Hallmarked
+              ✦ Pure · Certified · Hallmarked  
             </span>
+            
             <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-black text-primary leading-tight mb-3 2xl:mb-2">
               Pure wealth,
               <br />

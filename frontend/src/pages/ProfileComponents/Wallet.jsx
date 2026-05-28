@@ -5,16 +5,23 @@ import dgiLogo from '../../assets/dgiLogo.png'
 import { useNavigate } from 'react-router-dom'
 import useBankAccountStore from '../../store/bankAccountStore'
 import { useEffect } from 'react'
+import MpinModal from '../../components/MpinModal'
+import api from '../../api/axiosInstance'
+import { v4 as uuidv4 } from 'uuid'
 
-const Wallet = () => {
+  const Wallet = () => {
   const [balanceVisible, setBalanceVisible] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false)
   const [showBankSection, setShowBankSection] = useState(false)
+  const [showMpin, setShowMpin] = useState(false);
+
+  const [nloading, setnLoading] = useState(false);
   const [showModal, setShowModal] = useState(false)
   const [amount, setAmount] = useState('')
   const [saved, setSaved] = useState(false)
   const [selectedBank, setSelectedBank] = useState(1)
   const [amountConfirmed, setAmountConfirmed] = useState(false)  // NEW
+  const [mpinLoading, setMpinLoading] = useState(false);
   const navigate=useNavigate();
    const {
     bankAccounts,
@@ -24,11 +31,25 @@ const Wallet = () => {
     deleteBankAccount,
     updateBankAccount
   } = useBankAccountStore();
+   
+ const fetchWallet = async () => {
+  try {
+    const response = await api.get("/wallet/balance");
 
-    useEffect(() => {
-      getBankAccounts();
-      
-    }, []);
+    console.log("Wallet Balance:", response.data);
+  } catch (error) {
+    console.log("Error:", error);
+
+    console.log("RESPONSE:", error.response);
+    console.log("DATA:", error.response?.data);
+    console.log("MESSAGE:", error.response?.data?.message);
+  }
+};
+
+useEffect(() => {
+  getBankAccounts();
+  fetchWallet();
+}, []);
 
 
 
@@ -104,7 +125,7 @@ const onSubmit = async (data) => {
               </div>
               <div className="text-right">
                 <p className="text-[10px] uppercase tracking-[0.1em] text-white/30 mb-1">Card Holder</p>
-                <p className="text-sm font-semibold text-white/80">SIVA</p>
+              <p className="text-sm font-semibold text-white/80">SIVA</p>
               </div>
             </div>
           </div>
@@ -205,9 +226,10 @@ const onSubmit = async (data) => {
 
         {/* ── Submit ── */}
         {showBankSection && (
-          <button onClick={()=>navigate('/mpin')} className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm hover:brightness-110 active:scale-98 transition-all">
-            Submit
-          </button>
+          <button onClick={() => setShowMpin(true)}
+    className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm">
+    Submit
+     </button>
         )}
 
         {/* ── Modal ── */}
@@ -293,7 +315,49 @@ const onSubmit = async (data) => {
         )}
 
       </div>
+
+      <MpinModal
+  open={showMpin}
+  loading={mpinLoading}
+  onClose={() => setShowMpin(false)}
+  title="Confirm Withdrawal"
+  subtitle={`Withdraw ₹${amount}`}
+  onSubmit={async (mpin) => {
+
+    try {
+
+      setMpinLoading(true)
+
+      const payload = {
+        amount: Number(amount),
+        accountId: selectedBank,
+        mpin,
+   
+        idempotencyKey: uuidv4(),
+      };
+
+      console.log(payload);
+
+      const response = await api.post("/wallet/withdrawals/request", payload);
+
+      setShowMpin(false);
+
+    } catch (err) {
+      console.log("err"); 
+  console.log("RESPONSE:", err.response);
+  console.log("DATA:", err.response?.data);
+  console.log("MESSAGE:", err.response?.data?.message);
+
+      throw err;
+
+    } finally {
+
+      setMpinLoading(false)
+    }
+  }}
+/>
     </div>
+    
   )
 }
 

@@ -230,7 +230,7 @@ fetchMPINStatus: async () => {
 
     const response = await checkMPINStatus();
 
-    // console.log("MPIN STATUS RESPONSE:", response);
+    console.log("MPIN STATUS RESPONSE:", response);
 
     set({
       mpinCreated:

@@ -10,7 +10,7 @@ import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
 import Analytics from "../pages/Analytics";
 import TestingPage from "../pages/TestingPage";
-
+import Sell from "../pages/Sell";
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
   // { to: "/gold", label: "Gold" },
@@ -21,8 +21,12 @@ const navLinks = [
   // { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
   // { to: "/testing", label: " Testing" },
+    { to: "/sell", label: " Sell" },
   { to: "/profile", label: " Profile" },
   { to: "/about", label: "About" },
+  { to: "/goldsell ", label: "Gold Sell" },
+  { to: "/silversell", label: "Silver Sell" },
+
 ];
 
 function Header() {

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { ArrowLeft, Plus, X, Trash2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import useBankAccountStore from "../../store/bankAccountStore";
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Plus, X, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import useBankAccountStore from '../../store/bankAccountStore';
 
 const BankAccount = () => {
   const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState(false);
-  const [saved, setSaved] = useState(false)
+  const [saved, setSaved] = useState(false);
 
   const {
     bankAccounts,
@@ -32,75 +32,64 @@ const BankAccount = () => {
     },
   });
 
-  const accountNumber = watch("accountNumber");
-  const isDefault = watch("isDefault");
+  const accountNumber = watch('accountNumber');
+  const isDefault = watch('isDefault');
 
   useEffect(() => {
     getBankAccounts();
-    
   }, []);
 
   const fields = [
     {
-      name: "accountHolderName",
-      label: "Account Holder Name",
+      name: 'accountHolderName',
+      label: 'Account Holder Name',
     },
     {
-      name: "accountNumber",
-      label: "Account Number",
+      name: 'accountNumber',
+      label: 'Account Number',
     },
     {
-      name: "confirmAccountNumber",
-      label: "Confirm Account Number",
+      name: 'confirmAccountNumber',
+      label: 'Confirm Account Number',
     },
     {
-      name: "ifscCode",
-      label: "IFSC Code",
+      name: 'ifscCode',
+      label: 'IFSC Code',
     },
     {
-      name: "bankName",
-      label: "Bank Name",
+      name: 'bankName',
+      label: 'Bank Name',
     },
   ];
 
   const onSubmit = async (data) => {
+    const res = await addBankAccount(data);
 
-  const res =
-    await addBankAccount(data);
+    if (res.success) {
+      const accountId = res.data.data.id;
 
-  if (res.success) {
+      await verifyBankAccount(accountId);
 
-    const accountId =
-      res.data.data.id;
+      getBankAccounts();
 
-    await verifyBankAccount(
-      accountId
-    );
+      setSaved(true);
 
-    getBankAccounts();
+      setTimeout(() => {
+        setSaved(false);
 
-    setSaved(true);
+        setShowModal(false);
 
-    setTimeout(() => {
-
-      setSaved(false);
-
-      setShowModal(false);
-
-      reset();
-
-    }, 1000);
-  }
-}
-
+        reset();
+      }, 1000);
+    }
+  };
 
   return (
     <div className="min-h-screen max-w-6xl w-full p-3 bg-background">
       <div className="p-3">
-
         {/* Back Button */}
         <button
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate('/profile')}
           className="flex items-center gap-2 text-xs text-primary/70 hover:text-gray-800 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -109,9 +98,7 @@ const BankAccount = () => {
 
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold font-serif text-primary">
-            Bank Accounts
-          </h2>
+          <h2 className="text-2xl font-bold font-serif text-primary">Bank Accounts</h2>
 
           <button
             onClick={() => setShowForm(true)}
@@ -125,9 +112,9 @@ const BankAccount = () => {
         {/* Loading */}
         {loading && (
           <div className="text-center text-white/60 py-10 gap-3 flex flex-col">
-       {[...Array(3)].map((_,index)=>(
-        <div key={index} className="h-50 w-ful bg-secondary/7 rounded-2xl"/>
-       )   )  }
+            {[...Array(3)].map((_, index) => (
+              <div key={index} className="h-50 w-ful bg-secondary/7 rounded-2xl" />
+            ))}
           </div>
         )}
 
@@ -140,55 +127,41 @@ const BankAccount = () => {
 
         {/* Accounts List */}
         <div className="space-y-4">
-   {Array.isArray(bankAccounts) &&
-  bankAccounts.map((item) => (
-            <div
-              key={item.id}
-              className="border border-white/10 rounded-2xl p-5 bg-white/5"
-            >
-              <div className="flex items-start justify-between">
-                
-                <div className="space-y-2">
-                  <p className="text-white font-medium">
-                    {item.accountHolderName}
-                  </p>
+          {Array.isArray(bankAccounts) &&
+            bankAccounts.map((item) => (
+              <div key={item.id} className="border border-white/10 rounded-2xl p-5 bg-white/5">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <p className="text-white font-medium">{item.accountHolderName}</p>
 
-                  <p className="text-sm text-white/70">
-                    Acc No: {item.accountNumber}
-                  </p>
+                    <p className="text-sm text-white/70">Acc No: {item.accountNumber}</p>
 
-                  <p className="text-sm text-white/70">
-                    Bank: {item.bankName}
-                  </p>
+                    <p className="text-sm text-white/70">Bank: {item.bankName}</p>
 
-                  <p className="text-sm text-white/70">
-                    IFSC: {item.ifscCode}
-                  </p>
+                    <p className="text-sm text-white/70">IFSC: {item.ifscCode}</p>
 
-                  {item.isDefault && (
-                    <span className="inline-block text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-full mt-2">
-                      Default Account
-                    </span>
-                  )}
+                    {item.isDefault && (
+                      <span className="inline-block text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-full mt-2">
+                        Default Account
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => deleteBankAccount(item.id)}
+                    className="text-red-400 hover:text-red-500"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => deleteBankAccount(item.id)}
-                  className="text-red-400 hover:text-red-500"
-                >
-                  <Trash2 size={18} />
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         {/* Modal */}
         {showForm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-            
             <div className="bg-[#111117] border border-white/10 rounded-2xl w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-
               {/* Close */}
               <button
                 onClick={() => setShowForm(false)}
@@ -198,22 +171,15 @@ const BankAccount = () => {
               </button>
 
               {/* Title */}
-              <h2 className="text-xl md:text-2xl font-bold text-white mb-6">
-                Add Bank Account
-              </h2>
+              <h2 className="text-xl md:text-2xl font-bold text-white mb-6">Add Bank Account</h2>
 
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)}>
-
                 {/* Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                   {fields.map((field) => (
                     <div key={field.name}>
-
-                      <label className="block text-xs text-white/70 mb-2">
-                        {field.label}
-                      </label>
+                      <label className="block text-xs text-white/70 mb-2">{field.label}</label>
 
                       <input
                         type="text"
@@ -222,18 +188,14 @@ const BankAccount = () => {
                         {...register(field.name, {
                           required: `${field.label} is required`,
                           validate:
-                            field.name === "confirmAccountNumber"
-                              ? (value) =>
-                                  value === accountNumber ||
-                                  "Account numbers do not match"
+                            field.name === 'confirmAccountNumber'
+                              ? (value) => value === accountNumber || 'Account numbers do not match'
                               : undefined,
                         })}
                       />
 
                       {errors[field.name] && (
-                        <p className="text-red-500 text-xs mt-1">
-                          {errors[field.name].message}
-                        </p>
+                        <p className="text-red-500 text-xs mt-1">{errors[field.name].message}</p>
                       )}
                     </div>
                   ))}
@@ -241,11 +203,8 @@ const BankAccount = () => {
 
                 {/* Default Toggle */}
                 <div className="mt-6 flex items-center justify-between border border-white/10 rounded-xl px-4 py-4">
-
                   <div>
-                    <p className="text-white text-sm font-medium">
-                      Set as Default Account
-                    </p>
+                    <p className="text-white text-sm font-medium">Set as Default Account</p>
 
                     <p className="text-white/50 text-xs mt-1">
                       This account will be used as primary bank account
@@ -254,34 +213,24 @@ const BankAccount = () => {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setValue("isDefault", !isDefault)
-                    }
+                    onClick={() => setValue('isDefault', !isDefault)}
                     className={`w-14 h-7 rounded-full flex items-center px-1 transition-all duration-300 ${
-                      isDefault
-                        ? "bg-green-500"
-                        : "bg-gray-600"
+                      isDefault ? 'bg-green-500' : 'bg-gray-600'
                     }`}
                   >
                     <div
                       className={`w-5 h-5 bg-white rounded-full transition-all duration-300 ${
-                        isDefault
-                          ? "translate-x-7"
-                          : "translate-x-0"
+                        isDefault ? 'translate-x-7' : 'translate-x-0'
                       }`}
                     />
                   </button>
                 </div>
 
                 {/* Hidden Input */}
-                <input
-                  type="hidden"
-                  {...register("isDefault")}
-                />
+                <input type="hidden" {...register('isDefault')} />
 
                 {/* Buttons */}
                 <div className="flex justify-end gap-3 mt-8">
-
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
@@ -295,9 +244,8 @@ const BankAccount = () => {
                     disabled={loading}
                     className="text-xs px-5 py-2.5 rounded-xl bg-white text-black font-semibold hover:bg-gray-200 disabled:opacity-50"
                   >
-                    {loading ? "Saving..." : "Save Account"}
+                    {loading ? 'Saving...' : 'Save Account'}
                   </button>
-
                 </div>
               </form>
             </div>
