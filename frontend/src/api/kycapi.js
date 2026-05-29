@@ -11,7 +11,7 @@ export const checkKYCStatus = async (entityType = 'CUSTOMER') => {
     const response = await api.get('/kyc/status', { 
       params: { entityType },
     });
-
+console.log("kyc status",response.data)
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

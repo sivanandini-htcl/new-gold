@@ -7,7 +7,7 @@ const MpinModal = ({
   onSubmit,
   loading = false,
   title = "Enter MPIN",
-  subtitle = "Enter your 4-digit MPIN",
+  subtitle = "Enter your 6-digit MPIN",
 }) => {
 
   const [pin, setPin] = useState([]);
@@ -29,14 +29,14 @@ const MpinModal = ({
       return;
     }
 
-    if (pin.length >= 4) return;
+    if (pin.length >= 6) return;
 
     setPin((prev) => [...prev, val]);
   };
 
   const handleSubmit = async () => {
 
-    if (pin.length < 4) return;
+    if (pin.length < 6) return;
 
     try {
 
@@ -93,7 +93,7 @@ const MpinModal = ({
         {/* PIN Dots */}
         <div className="flex justify-center gap-4 mb-8">
 
-          {[...Array(4)].map((_, i) => {
+          {[...Array(6)].map((_, i) => {
 
             const filled = pin[i];
 
@@ -146,7 +146,7 @@ const MpinModal = ({
               return (
                 <button
                   key={idx}
-                  disabled={pin.length < 4 || loading}
+                  disabled={pin.length < 6 || loading}
                   onClick={handleSubmit}
                   className="h-14 rounded-2xl bg-primary text-background font-bold"
                 >

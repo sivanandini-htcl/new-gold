@@ -13,6 +13,7 @@ import { saveFCMTokenToBackend } from '../../firebase/message';
 
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axiosInstance';
+import { getDeviceFingerprint,saveDeviceFingerprint } from '../../utils/deviceFingerprint';
 
 function Login() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function Login() {
   const [refreshToken, setRefreshToken] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
+
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
   useEffect(() => {
@@ -46,39 +48,39 @@ function Login() {
   }, [step, otpRequired, sessionId]);
 
   // Get device fingerprint info
-  const getDeviceFingerprint = async () => {
-    const screenResolution = `${window.screen.width}x${window.screen.height}`;
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const userAgent = navigator.userAgent;
-    const language = navigator.language;
+  // const getDeviceFingerprint = async () => {
+  //   const screenResolution = `${window.screen.width}x${window.screen.height}`;
+  //   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //   const userAgent = navigator.userAgent;
+  //   const language = navigator.language;
 
-    return {
-      screenResolution,
-      timezone,
-      userAgent,
-      language,
-      deviceType: /mobile|android|iphone|ipad/i.test(userAgent) ? 'mobile' : 'web',
-      deviceName: `${getBrowserName()} on ${getOSName()}`,
-    };
-  };
+  //   return {
+  //     screenResolution,
+  //     timezone,
+  //     userAgent,
+  //     language,
+  //     deviceType: /mobile|android|iphone|ipad/i.test(userAgent) ? 'mobile' : 'web',
+  //     deviceName: `${getBrowserName()} on ${getOSName()}`,
+  //   };
+  // };
 
-  const getBrowserName = () => {
-    const ua = navigator.userAgent;
-    if (ua.indexOf('Chrome') > -1) return 'Chrome';
-    if (ua.indexOf('Safari') > -1) return 'Safari';
-    if (ua.indexOf('Firefox') > -1) return 'Firefox';
-    if (ua.indexOf('Edge') > -1) return 'Edge';
-    return 'Browser';
-  };
+  // const getBrowserName = () => {
+  //   const ua = navigator.userAgent;
+  //   if (ua.indexOf('Chrome') > -1) return 'Chrome';
+  //   if (ua.indexOf('Safari') > -1) return 'Safari';
+  //   if (ua.indexOf('Firefox') > -1) return 'Firefox';
+  //   if (ua.indexOf('Edge') > -1) return 'Edge';
+  //   return 'Browser';
+  // };
 
-  const getOSName = () => {
-    const ua = navigator.userAgent;
-    if (ua.indexOf('Windows') > -1) return 'Windows';
-    if (ua.indexOf('Mac') > -1) return 'MacBook';
-    if (ua.indexOf('Android') > -1) return 'Android';
-    if (ua.indexOf('iPhone') > -1) return 'iPhone';
-    return 'Device';
-  };
+  // const getOSName = () => {
+  //   const ua = navigator.userAgent;
+  //   if (ua.indexOf('Windows') > -1) return 'Windows';
+  //   if (ua.indexOf('Mac') > -1) return 'MacBook';
+  //   if (ua.indexOf('Android') > -1) return 'Android';
+  //   if (ua.indexOf('iPhone') > -1) return 'iPhone';
+  //   return 'Device';
+  // };
   // STEP 1: Verify Email/Mobile
   const handleStep1Next = async () => {
     if (!identifier) {
@@ -88,8 +90,9 @@ function Login() {
 
     setLoading(true);
     try {
-      const device = await getDeviceFingerprint();
-      setDeviceInfo(device);
+     const device = getDeviceFingerprint();
+     setDeviceInfo(device);
+     saveDeviceFingerprint(device);
 
       // Clean input - remove all spaces
       let emailOrMobile = identifier.trim().replace(/\s/g, '');

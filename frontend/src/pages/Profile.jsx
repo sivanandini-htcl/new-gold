@@ -13,6 +13,8 @@ import usePortfolioStore from "../store/usePortfolioStore";
 import api from "../api/axiosInstance";
 import useKycStore from "../store/useKYCStore.JS";
 import useMpinStore from "../store/useMpinStore";
+import fetchHoldingsData from "../api/holdingsApi";
+
 
 const MENU_ITEMS = [
   { icon: Edit,           label: "Profile",    route: "/edit" },
@@ -58,24 +60,12 @@ const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 
 useEffect(() => {
   const fetchHoldings = async () => {
-    try {
+    
+      const data = await fetchHoldingsData();
+        setWallet(data.wallet);
+        setMetalWallet(data.metalWallet);
       
-      const res = await api.post("/holdings");
-      setWallet(res.data?.data);
-      console.log("holdings:", res.data);
-      const holdRes=await api.get("/holdings/summary")
-      setMetalWallet(holdRes.data?.data);
-      console.log("hold summary",holdRes.data)
-      
-    } catch (err) {
-      console.log("FULL ERROR:", err);
-      console.log("RESPONSE:", err.response);
-      console.log("DATA:", err.response?.data);
-      console.log("MESSAGE:", err.response?.data?.message);
 
-    }finally{
-      setLoading(false)
-    }
   };
 
   fetchHoldings();
@@ -272,7 +262,7 @@ if (loading) {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-secondary uppercase tracking-widest mb-0.5">Holdings</p>
-                  <p className="hf text-xl font-bold text-secondary">{user.gold}g</p>
+                  <p className="hf text-xs font-bold text-secondary">{metalWallet?.metals?.[0]?.quantityGrams || "Loading..."}/g</p>
                 </div>
               </div>
 
@@ -312,7 +302,7 @@ if (loading) {
                 >
                   <Zap size={13} /> Buy
                 </button>
-                <button onClick={() => navigate("/mpin")} className="flex-1 border border-amber-200 text-amber-700 bg-amber-50 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-amber-100 transition">
+                <button onClick={() => navigate("/goldsell")} className="flex-1 border border-amber-200 text-amber-700 bg-amber-50 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-amber-100 transition">
                   <ArrowUpRight size={13} /> Sell
                 </button>
               </div>
@@ -338,7 +328,7 @@ if (loading) {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-secondary uppercase tracking-widest mb-0.5">Holdings</p>
-                  <p className=" text-secondary text-xl font-bold text-stone-8">{user.silver}g</p>
+                  <p className=" text-secondary text-xl font-bold text-stone-8">{metalWallet?.metals?.[1]?.quantityGrams || "0"}/g</p>
                 </div>
               </div>
 

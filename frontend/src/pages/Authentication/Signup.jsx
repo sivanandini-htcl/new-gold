@@ -139,7 +139,6 @@ const validateStep2 = () => {
 const validateStep3 = () => {
 
   let e = {};
-
   if (!form.password) {
     e.password = "Password is required";
   }
@@ -161,9 +160,7 @@ const validateStep3 = () => {
     e.confirmPassword =
       "Passwords do not match";
   }
-
   setErrors(e);
-
   return Object.keys(e).length === 0;
 };
 

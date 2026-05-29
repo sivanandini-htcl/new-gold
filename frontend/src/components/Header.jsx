@@ -25,7 +25,7 @@ const navLinks = [
   { to: "/profile", label: " Profile" },
   { to: "/about", label: "About" },
   { to: "/goldsell ", label: "Gold Sell" },
-  { to: "/silversell", label: "Silver Sell" },
+  // { to: "/silversell", label: "Silver Sell" },
 
 ];
 

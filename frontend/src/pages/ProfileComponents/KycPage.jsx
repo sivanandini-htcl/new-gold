@@ -35,7 +35,7 @@ function KycPage() {
 
   useEffect(() => {
     loadKycProgress();
-    console.log('hello');
+    // console.log('hello');
   }, []);
 
   
