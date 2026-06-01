@@ -154,17 +154,17 @@ function BlogModal({ blog, onClose }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-background rounded-[22px] w-full max-w-[660px] max-h-[90vh] overflow-y-auto shadow-[0_28px_80px_rgba(28,16,8,0.35)] relative"
+        className="bg-[#111117] rounded-[22px] w-full max-w-[660px] max-h-[90vh] overflow-y-auto shadow-[0_28px_80px_rgba(28,16,8,0.35)] relative"
       >
         {/* Header */}
         <div className="p-[26px_28px_22px] bg-[#111117] border-b border-creamDark sticky top-0 bg-cream z-10 rounded-t-[22px]">
           <div className="flex justify-between items-start gap-3">
             <div className="flex-1">
-              <span className="inline-block bg-brownFaint2 text-brownMid text-[9px] font-extrabold px-3 py-[3px] rounded-full uppercase tracking-widest mb-2">
+              <span className=" text-white/70 inline-block bg-brownFaint2 text-brownMid text-[9px] font-extrabold px-3 py-[3px] rounded-full uppercase tracking-widest mb-2">
                 {blog.tag}
               </span>
 
-              <h2 className="font-serif  text-[clamp(17px,3vw,22px)] font-bold text-brown mb-1 leading-snug">
+              <h2 className="font-serif text-white/70 text-[clamp(17px,3vw,22px)] font-bold text-brown mb-1 leading-snug">
                 {blog.title}
               </h2>
 
@@ -179,7 +179,7 @@ function BlogModal({ blog, onClose }) {
 
             <button
               onClick={onClose}
-              className="w-[34px] h-[34px] rounded-full border border-creamDark bg-white flex items-center justify-center"
+              className="w-[34px] h-[34px] rounded-full border border-creamDark bg-background flex items-center justify-center"
             >
               <X size={15} className="text-brownMid" />
             </button>
@@ -188,25 +188,25 @@ function BlogModal({ blog, onClose }) {
 
         {/* Body */}
         <div className="p-[26px_28px_34px]">
-          <p className="font-serif text-[14px] text-brownMid leading-[1.8] mb-6 italic border-l-[3px] border-brownLight pl-4">
+          <p className="font-serif text-[14px] text-white/70 text-brownMid leading-[1.8] mb-6 italic border-l-[3px] border-white/20 pl-4">
             {blog.excerpt}
           </p>
 
           {blog.content.map((section, i) => (
             <div key={i} className="mb-5">
-              <h3 className="font-serif text-[15px] font-bold text-brown flex items-center gap-2 mb-2">
-                <span className="w-[22px] h-[22px] rounded-full bg-brown text-cream text-[10px] font-extrabold flex items-center justify-center">
+              <h3 className="font-serif text-[15px] text-white/70 font-bold text-brown flex items-center gap-2 mb-2">
+                <span className="w-[22px] h-[22px]  text-white/70 rounded-full bg-brown text-cream text-[10px] font-extrabold flex items-center justify-center">
                   {i + 1}
                 </span>
                 {section.heading}
               </h3>
 
-              <p className="text-[13px] text-brownMid leading-[1.8] pl-8">
+              <p className="text-[13px] text-white/70 leading-[1.8] pl-8">
                 {section.body}
               </p>
 
               {i < blog.content.length - 1 && (
-                <div className="h-[1px] bg-creamDark mt-4" />
+                <div className="h-[1px] text-white/70 mt-4" />
               )}
             </div>
           ))}
@@ -223,12 +223,12 @@ function FeaturedCard({ blog, onRead }) {
   return (
     <div
       onClick={() => onRead(blog)}
-      className="bg- border border-white/40 hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
+      className="bg- border border-white/20 hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
     >
       {/* Header */}
       <div className="h-[110px] bg-gradient-to-br from-gray/70 to-gray-200 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute w-[200px] h-[200px] rounded-full border-white/40 -top-[70px] -right-[70px]" />
-        <div className="absolute w-[130px] h-[130px] rounded-full border border-[rgba(60,36,21,0.07)] -top-[30px] -right-[30px]" />
+        <div className="absolute w-[200px] h-[200px] rounded-full border-white/20 -top-[70px] -right-[70px]" />
+        <div className="absolute w-[130px] h-[130px] rounded-full border border-white/20 -top-[30px] -right-[30px]" />
 
         <div className="w-[52px] h-[52px] rounded-[14px] bg-brown flex items-center justify-center shadow-[0_8px_20px_rgba(60,36,21,0.3)] z-10">
           <Icon size={24} className="text-cream" />
@@ -273,7 +273,7 @@ function CompactCard({ blog, onRead }) {
   return (
     <div
       onClick={() => onRead(blog)}
-      className="bg-background border border-white/40 hover:border-brownLight rounded-[14px] p-[16px_18px] flex gap-3 items-start cursor-pointer transition-all duration-200 hover:translate-x-1 hover:shadow-[0_4px_20px_rgba(60,36,21,0.09)]"
+      className="bg-background border border-white/20 hover:border-brownLight rounded-[14px] p-[16px_18px] flex gap-3 items-start cursor-pointer transition-all duration-200 hover:translate-x-1 hover:shadow-[0_4px_20px_rgba(60,36,21,0.09)]"
     >
       <div className="w-[42px] h-[42px] rounded-[12px]  bg-brownFaint2 flex items-center justify-center">
         <Icon size={20} className="text-primary/70" />
@@ -348,7 +348,7 @@ export default function BlogSection() {
           <div className="flex flex-col gap-4">
             
             {/* Quote */}
-            <div className="bg-brown rounded-[14px] p-[18px_20px] border border-white/40">
+            <div className="bg-brown rounded-[14px] p-[18px_20px] border border-white/20">
               <p className="font-serif text-[13px] text-primary/60 italic leading-[1.65]">
                 "Gold is a way of going long on fear, and it has been a very good way of going long on fear from time to time."
               </p>

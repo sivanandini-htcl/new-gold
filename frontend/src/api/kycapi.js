@@ -1,16 +1,16 @@
 import api from './axiosInstance';
 
 /**
- * =========================
  * CHECK KYC STATUS
  * GET /kyc/status
- * =========================
  */
 export const checkKYCStatus = async (entityType = 'CUSTOMER') => {
   try {
     const response = await api.get('/kyc/status', { 
       params: { entityType },
     });
+console.log("kyc ",response)
+
 console.log("kyc status",response.data)
     return response.data;
   } catch (error) {
@@ -69,10 +69,9 @@ export const verifyPanOtp = async (sessionId, otp) => {
 };
 
 /**
- * =========================
+
  * SEND AADHAAR OTP
  * POST /kyc/verify/aadhaar/send-otp
- * =========================
  */
 export const sendAadhaarOtp = async (aadhaarNumber) => {
   try {
@@ -91,10 +90,8 @@ export const sendAadhaarOtp = async (aadhaarNumber) => {
 };
 
 /**
- * =========================
  * VERIFY AADHAAR OTP
  * POST /kyc/verify/aadhaar/verify-otp
- * =========================
  */
 export const verifyAadhaarOtp = async (sessionId, otp) => {
   try {
@@ -113,11 +110,9 @@ export const verifyAadhaarOtp = async (sessionId, otp) => {
   }
 };
 
-/**
- * =========================
+/*
  * SUBMIT NEW KYC
  * POST /kyc/submit
- * =========================
  */
 export const submitKYC = async (payload) => {
   try {
@@ -170,12 +165,8 @@ export const submitKYC = async (payload) => {
 };
 
 // resume api
-/**
- * =========================
- * RESUME KYC
- * GET /kyc/resume
- * =========================
- */
+/* RESUME KYC
+ * GET /kyc/resume*/
 
 export const resumeKYC = async () => {
   try {
@@ -191,12 +182,9 @@ export const resumeKYC = async () => {
   }
 };
 
-/**
- * =========================
- * UPDATE KYC
+/** UPDATE KYC
  * PUT /kyc/update
- * =========================
- */
+*/
 export const updateKYC = async (formData) => {
   try {
     const fd = new FormData();
@@ -242,11 +230,10 @@ export const updateKYC = async (formData) => {
   }
 };
 
-/**
- * =========================
+/*
  * DELETE KYC
  * DELETE /kyc
- * =========================
+
  */
 export const deleteKYC = async () => {
   try {
@@ -262,10 +249,9 @@ export const deleteKYC = async () => {
   }
 };
 
-/**
- * =========================
+/*
  * VALIDATORS
- * =========================
+
  */
 export const validators = {
   validatePAN: (pan) => {
@@ -316,11 +302,8 @@ export const validators = {
   },
 };
 
-/**
- * =========================
- * FEATURE ACCESS
- * =========================
- */
+/*FEATURE ACCESS*/
+
 export const featureAccess = {
   NOT_SUBMITTED: {
     dashboard: false,
@@ -368,11 +351,7 @@ export const featureAccess = {
   },
 };
 
-/**
- * =========================
- * CHECK FEATURE ACCESS
- * =========================
- */
+/* CHECK FEATURE ACCESS*/
 export const canAccessFeature = (featureName, kycStatus) => {
   return featureAccess[kycStatus]?.[featureName] ?? false;
 };

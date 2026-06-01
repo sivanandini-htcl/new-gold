@@ -24,7 +24,7 @@ function MPINSetupPage() {
       <div className="max-w-2xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-2xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-accent p-6 text-center">
-          <h1 className="text-3xl font-bold text-white/70"> Set Your MPIN</h1>
+          <h1 className="text-3xl font-serif text-white/70"> Set Your MPIN</h1>
           <p className="text-sm mt-2 text-white/50">
             Secure your account and authorize transactions
           </p>
@@ -57,7 +57,7 @@ function MPINSetupPage() {
           </div>
 
           {/* Form Section */}
-          <div className="space-y-6">
+          <div className="space-y-6 ">
             {/* MPIN Input */}
             <div>
               <label className="block text-sm font-medium text-white/70 mb-2">
@@ -75,21 +75,8 @@ function MPINSetupPage() {
 }
        onKeyDown={(e) => handleBackspace( e, 'mpin', index, e.target.previousSibling )
 }
-          className="
-        w-12 h-14
-        rounded-xl
-        border border-white/20
-        bg-secondary
-        text-background
-        text-center
-        text-xl
-        font-semibold
-        outline-none
-        focus:border-accent
-        focus:ring-2
-        focus:ring-accent/40
-      "
-                  />
+          className=" w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
+        text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 " />
                 ))}
               </div>
               {mpinValidation && (
@@ -106,7 +93,7 @@ function MPINSetupPage() {
             {/* Confirm MPIN Input */}
             <div>
               <label className="block text-sm font-medium text-white/70 mb-2">Confirm MPIN</label>
-              <div className="flex gap-3 justify-center">
+              <div className="flex gap-2 justify-center p-2">
                 {[...Array(6)].map((_, index) => (
                   <input
                     key={index}
@@ -130,7 +117,7 @@ function MPINSetupPage() {
   )
 }
                     className="
-        w-12 h-14
+        w-9 h-10
         rounded-xl
         border border-white/20
         bg-secondary

@@ -10,6 +10,7 @@ const GoldSell = () => {
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [error, setError] = useState(null);
+  const[successModal,setSuccessModal]=useState(false);
 
   const totalValue = metalWallet?.metals?.[0]?.currentValueINR; 
 
@@ -41,6 +42,7 @@ try{
 
 const response = await api.post('/orders/sell', payload);
 console.log('Sell order response:', response.data);
+setSuccessModal(true);
 }
 catch(error){
   console.log("error"); 
@@ -102,7 +104,7 @@ catch(error){
                   <div className="flex justify-between">
                     <span className="text-xl font-bold text-white tracking-tight">
                    
-                      {metalWallet?.metals?.[0]?.currentValueINR || "Loading..."}
+                      ₹{metalWallet?.metals?.[0]?.currentValueINR || "Loading..."}
                     </span>
                     <span className="text-xl font-bold text-white tracking-tight">
                       {metalWallet?.metals?.[0]?.quantityGrams}/g
@@ -134,7 +136,7 @@ catch(error){
           </div>
 
           {/* input and button container */}
-          <div className="border border-white/7 p-3 relative w-full h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
+          <div className="border border-white/7 p-3 relative w-full h-full rounded-2xl overflow-hidden bg-[#0a0a12]">
             {/* input field */}
             <div>
               <div className="mb-6">
@@ -145,13 +147,13 @@ catch(error){
 
                   <input
                     type="number"
-                    placeholder="0"
+                    placeholder="Minimum 100"
                     value={amount}
                     onChange={(e) => {
                       setAmount(e.target.value);
                       setError(null);
                     }}
-                    className="bg-transparent outline-none w-full text-3xl "
+                    className="bg-transparent outline-none w-full text-xl "
                   />
                 </div>
 
@@ -159,7 +161,7 @@ catch(error){
               </div>
             </div>
             {/* QUICK BUTTONS */}
-            <div className="flex gap-3 mb-6 overflow-auto">
+            <div className="flex justify-center gap-3 mb-6 overflow-auto">
               {[500, 1000, 5000].map((amt) => (
                 <button
                   key={amt}
@@ -170,16 +172,19 @@ catch(error){
                 </button>
               ))}
 
-              <button
+              {/* <button
                 onClick={() => setAmount(String(totalValue))}
                 className="px-5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm"
               >
                 Sell All
-              </button>
-              <button
+              </button> */}
+             
+            </div>
+            <div className="flex justify-end">
+             <button
                 onClick={handleReview}
                 disabled={!amount || Number(amount) < 100 || Number(amount) > totalValue}
-                className={`px-5 py-2 rounded-xl border border-white/10 text-sm ${
+                className={`px-5 py-2 rounded-xl border border-white/10 text-sm flex justify-end ${
                   !amount || Number(amount) < 100 || Number(amount) > totalValue
                     ? 'bg-white/10 text-white/30 cursor-not-allowed'
                     : 'bg-primary text-background hover:bg-amber-500/90 transition'
@@ -246,6 +251,25 @@ catch(error){
             </div>
           </div>
         )} */}
+             { successModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
+    <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
+      <h2 className="text-lg font-bold text-white">Sell Successful</h2>
+      <p className="mt-3 text-sm text-white/70">
+        Your sell request has been submitted successfully.Amount will be credited to your DGI Gold wallet within 24 hours
+      </p>
+      <button
+        onClick={() => {
+          setSuccessModal(false);
+     
+        }}
+        className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ const Wallet = () => {
   const [amountConfirmed, setAmountConfirmed] = useState(false); // NEW
   const [mpinLoading, setMpinLoading] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
+  const[successModal,setSuccessModal] = useState(false);
   const navigate = useNavigate();
   const {
     bankAccounts,
@@ -84,7 +85,7 @@ const Wallet = () => {
 
   return (
     <div
-      style={{ fontFamily: "'Syne', sans-serif" }}
+     
       className="min-h-screen bg-[#0f0f17] flex flex-col items-center py-10 px-4"
     >
       <link
@@ -100,7 +101,7 @@ const Wallet = () => {
               <div key={i} className="w-full h-2 bg-white rounded-full" />
             ))}
           </div>
-          <div className="absolute -top-16 -right-16 w-52 h-52 font-mono rounded-full pointer-events-none" />
+          <div className="absolute -top-16 -right-16 w-52 h-52  rounded-full pointer-events-none" />
 
           <div className="relative z-10 flex flex-col justify-between h-full p-5">
             <div className="flex justify-between items-start">
@@ -118,7 +119,7 @@ const Wallet = () => {
                 Available Balance
               </p>
               <div className="flex items-center gap-2.5">
-                <span className="text-3xl  text-white tracking-tight">
+                <span className="text-3xl  text-white ">
                   {balanceVisible ? `₹ ${walletBalance?.balance}` : '₹ ••••••'}
                 </span>
                 <button
@@ -408,6 +409,7 @@ const Wallet = () => {
             const response = await api.post('/wallet/withdrawals/request', payload);
             console.log('RESPONSE:', response);
             setShowMpin(false);
+            setSuccessModal(true);
           } catch (err) {
             console.log('err');
             console.log('RESPONSE:', err.response);
@@ -420,6 +422,25 @@ const Wallet = () => {
           }
         }}
       />
+      { successModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
+    <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
+      <h2 className="text-lg font-bold text-white">Withdrawal Successful</h2>
+      <p className="mt-3 text-sm text-white/70">
+        Your withdrawal request has been submitted successfully.Amount will be credited to yourbank account within 24 hours
+      </p>
+      <button
+        onClick={() => {
+          setSuccessModal(false);
+     
+        }}
+        className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 };

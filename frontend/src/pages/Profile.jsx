@@ -17,7 +17,7 @@ import fetchHoldingsData from "../api/holdingsApi";
 
 
 const MENU_ITEMS = [
-  { icon: Edit,           label: "Profile",    route: "/edit" },
+  { icon: Edit,           label: "Profile",    route: "" },
   // { icon: FileText,       label: "Nominee",    route: "/nominee"},
   { icon: ShieldCheck,    label: "KYC",        route: "/kycpage"},
   { icon: MapPin,         label: "Address",    route: "/delivery"},
@@ -49,7 +49,7 @@ export default function Profile() {
   const gram24kGold     = goldPriceData?.caratPrices?.gram24k   || 0;
   const gram24kSilver   = silverPriceData?.caratPrices?.gram24k || 0;
 
-  const user = { phone: "9876543210", userId: "QWF12345678XXXX", gold: 12, silver: 14 };
+  const user = { phone: "9876543210", userId: "QWF12345678XXXX" };
 const [loading,setLoading]=useState(false)
 
 
@@ -64,8 +64,6 @@ useEffect(() => {
       const data = await fetchHoldingsData();
         setWallet(data.wallet);
         setMetalWallet(data.metalWallet);
-      
-
   };
 
   fetchHoldings();
@@ -102,7 +100,6 @@ if (loading) {
 
   return (
     <>
-
       <div className="  min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8 " >
         <div className="max-w-7xl mx-auto space-y-4">
 
@@ -147,20 +144,14 @@ if (loading) {
                 <div className=" hidden md:block flex-col items-center gap-2 mb-3">
                   <div className="flex gap-2">
                     <Wallet size={14} className="text-primary/70" />
-                <p className="text-xs uppercase tracking-widest text-primary font-normal">Total Portfolio</p>
-
+                    <p className="text-xs uppercase tracking-widest text-primary font-normal">Total Portfolio</p>
                   </div>
                 
                 <p className=" text-sm md:text-xl text-center sm:text-3xl font-normal text-primary mb-1">
                {wallet?.portfolio?.currentValueINR}
               </p>
               </div>
-
-              
               </div>
-
-              {/* Menu grid */}
-
             </div>
 
 
@@ -262,7 +253,7 @@ if (loading) {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-secondary uppercase tracking-widest mb-0.5">Holdings</p>
-                  <p className="hf text-xs font-bold text-secondary">{metalWallet?.metals?.[0]?.quantityGrams || "Loading..."}/g</p>
+                  <p className="hf text-xl font-bold text-secondary">{metalWallet?.metals?.[0]?.quantityGrams || "Loading..."}/g</p>
                 </div>
               </div>
 
@@ -350,15 +341,6 @@ if (loading) {
                 ))}
               </div>
 
-              {/* <div className="mb-4">
-                <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-stone-700 "
-                    style={{ width: `${Math.min(100, Math.abs(silverInvested > 0 ? (silverPnL/silverInvested)*100 : 0))}%` }}
-                  />
-                </div>
-              </div> */}
-
               <div className="flex gap-2">
                 <button
                   onClick={() => navigate("/silver")}
@@ -366,23 +348,23 @@ if (loading) {
                 >
                   <Zap size={13} /> Buy
                 </button>
-                <button className="flex-1 border border-stone-200 text-background bg-white/90 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-stone-100 transition">
+                <button
+                  onClick={() => navigate("/silversell")}
+                  className="flex-1 border border-stone-200 text-background bg-white/90 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-stone-100 transition"
+                >
                   <ArrowUpRight size={13} /> Sell
                 </button>
               </div>
             </div>
           </div>
 
-          {/* ════════════════════════════
-              ROW 3 — Quick Actions
-          ════════════════════════════ */}
+          {/* ROW 3 — Quick Actions*/}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {QUICK_ACTIONS.map(({ icon: Icon, label, sub, iconBg, iconBorder, iconColor, route }) => (
               <div
                 key={label}
                 className={`qcard bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-2xl  p-4 shadow-sm ${route ? "cursor-pointer" : ""}`}
-                onClick={() => route && navigate(route)}
-              >
+                onClick={() => route && navigate(route)}>
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-9 h-9 rounded-xl ${iconBg} border ${iconBorder} flex items-center justify-center`}>
                     <Icon size={16} className={iconColor} />

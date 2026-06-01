@@ -47,10 +47,10 @@ function Footer() {
             </h1> */}
           </div>
 
-          <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-amber-200/80 mb-2">
+          <p className="text-xs font-serif md:text-sm uppercase tracking-[0.2em] text-amber-200/80 mb-2">
             Gold & Silver · Investment Platform
           </p>
-          <p className="text-xs 2xl:text-2xl leading-relaxed text-yellow-100/80 mb-4">
+          <p className="text-xs 2xl:text-2xl leading-relaxed font-serif text-yellow-100/80 mb-4">
             India's most trusted digital gold & silver platform. Invest from ₹1 with bank-grade security, live market rates, and insured vaults.
           </p>
 
@@ -68,17 +68,17 @@ function Footer() {
 
         {/* Column 2 — My Account */}
         <div>
-          <p className="text-xs uppercase tracking-widest font-medium 2xl:text-2xl text-yellow-100/80 mb-4">
+          <p className="text-xs uppercase tracking-widest font-serif 2xl:text-2xl text-yellow-100/80 mb-4">
             My Account
           </p>
-          <ul className="space-y-3 text-yellow-100/80 text-xs 2xl:text-2xl md:text-sm">
+          <ul className="space-y-3 text-yellow-100/80 text-xs 2xl:text-2xl md:text-sm font-serif">
             {accountLinks.map((link, i) => (
               <li key={i}>
                 <span
-                  className="cursor-pointer hover:text-yellow-300 transition-colors"
+                  className="cursor-pointer hover:text-yellow-300 transition-colors font-serif"
                   onClick={() => navigate(link.path)}
                 >
-                  <span className="mr-1">◈</span>
+                  <span className="mr-1 font-serif">◈</span>
                   {link.label}
                 </span>
               </li>
@@ -88,14 +88,14 @@ function Footer() {
 
         {/* Column 3 — Quick Links */}
         <div>
-          <p className="text-xs uppercase tracking-widest 2xl:text-3xl font-medium text-yellow-100/80 mb-4">
+          <p className="text-xs uppercase tracking-widest 2xl:text-3xl font-serif text-yellow-100/80 mb-4">
             Quick Links
           </p>
-          <ul className="space-y-3 text-yellow-100/80 2xl:text-2xl  text-xs md:text-sm">
+          <ul className="space-y-3 text-yellow-100/80 text-xs 2xl:text-2xl   md:text-sm">
             {quickLinks.map((link, i) => (
               <li key={i}>
                 <span
-                  className="cursor-pointer hover:text-yellow-300 mb-4 transition-colors"
+                  className="cursor-pointer hover:text-yellow-300 mb-4 transition-colors font-serif"
                   onClick={() => navigate(link.path)}
                 >
                   <span className="mr-1">◈</span>
@@ -108,21 +108,21 @@ function Footer() {
 
         {/* Column 4 — Contact */}
         <div>
-          <p className="text-xs uppercase tracking-widest 2xl:text-2xl font-medium text-yellow-100/80 mb-4 2xl:mt-0">
+          <p className="text-xs uppercase tracking-widest 2xl:text-2xl font-serif text-yellow-100/80 mb-4 2xl:mt-0">
             Contact Us
           </p>
           <div className="flex flex-col gap-4 text-yellow-100/80 2xl:text-2xl text-xs md:text-sm">
             <div className="flex items-start gap-3 2xl:mb-5">
               <Mail className="w-3.5 h-3.5 mt-0.5 shrink-0 2xl:w-12 2xl:h-12" />
-              <span>support@dgigold.in</span>
+              <span className="font-serif">support@dgigold.in</span>
             </div>
             <div className="flex items-start gap-3 2xl:mb-5">
               <Phone className="w-3.5 h-3.5 mt-0.5 shrink-0 2xl:w-12 2xl:h-12" />
-              <span>1800-XXX-XXXX</span>
+              <span className="">1800-XXX-XXXX</span>
             </div>
             <div className="flex items-start gap-3">
               <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 2xl:w-12 2xl:h-12" />
-              <span>
+              <span className="font-serif">
                 DgiGold<br />
                 Bengaluru, Karnataka, India
               </span>

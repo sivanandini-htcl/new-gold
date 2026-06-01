@@ -49,15 +49,15 @@ function KycPage() {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <div className="max-w-2xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
+      <div className="max-w-7xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-accent p-6 text-center">
-          <h1 className="text-3xl font-bold text-white/70">KYC Verification</h1>
+          <h1 className="text-3xl font-serif text-white/70">KYC Verification</h1>
           <p className="text-sm mt-2 text-white/50">Complete verification step by step</p>
         </div>
 
         {/* Stepper */}
-        <div className="flex items-center justify-between px-6 py-5 border-b">
+        <div className="flex items-center justify-center px-6 py-5 border-b">
           {[1, 2, 3].map((step) => (
             <div key={step} className="flex-1 flex items-center">
               <div
@@ -69,8 +69,7 @@ function KycPage() {
 
               {step !== 3 && (
                 <div
-                  className={`flex-1 h-1
-                  ${currentStep > step ? 'bg-green-800/70' : 'bg-gray-200'}`}
+                  className={`flex-1 h-1 ${currentStep > step ? 'bg-green-800/70' : 'bg-gray-200'}`}
                 />
               )}
             </div>
@@ -330,12 +329,12 @@ function KycPage() {
                 <span className="text-5xl">✓</span>
               </div>
 
-              <h2 className="text-3xl font-bold text-green-400 mb-2">KYC Approved!</h2>
+              <h2 className="text-3xl font-serif text-green-600 mb-2">KYC Approved!</h2>
               <p className="text-white/60 mb-8">Your account is verified and ready to use.</p>
 
               <button
                 onClick={() => navigate('/mpin-setup')}
-                className="w-full border border-accent bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white mb-4"
+                className="w-full border border-white/20 bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white/70 mb-4"
               >
                 Set up MPIN
               </button>

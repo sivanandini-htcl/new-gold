@@ -135,10 +135,10 @@ function Silver() {
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-3"></div>
 
         <h1 className=" text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl  bg-gradient-to-r from-gray-400 via-gray-400/60 to-gray-900 font-serif bg-clip-text text-transparent p-2">
-          Buy Silver
+          BUY SILVER
         </h1>
 
-        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-gray-300/70 font-['Fraunces']">
+        <p className="mt-2 text-xs 2xl:text-xl ml-2  uppercase tracking-widest text-gray-300/70 font-['Fraunces']">
           .999 Pure · Live Rates
         </p>
       </div>

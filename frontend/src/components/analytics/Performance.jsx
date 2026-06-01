@@ -68,7 +68,7 @@ useEffect(()=>{
     try{
       const res=await api.get('/analytics/customer/portfolio/allocation' )
       console.log("portfolio allocation:" ,res.data);
-      setPerformanceData(res.data?.data);
+      setPerformanceData(res.data?.data?.metals || []);
 
     } 
     catch(err){
@@ -133,14 +133,18 @@ useEffect(()=>{
               </PieChart>
             </ResponsiveContainer>
             <div className="flex justify-center gap-6 mt-6">
-              {allocationData.map(metal => (
+              {performanceData.filter((metal) => metal.metal !== "PLATINUM").map(metal => (
                 <div key={metal.metal} className="text-center">
-                  <p className="text-sm font-medium text-zinc-300">{metal.metal}</p>
+                  <p className="text-sm font-medium text-zinc-300"> {metal.metal}</p>
                   <p className="text-lg font-bold text-white">{metal.grams} {metal.metal === "GOLD" ? "g" : "g"}</p>
                   <p className="text-xs text-zinc-500">{metal.allocationPercent}%</p>
                 </div>
               ))}
             </div>
+
+            {/* <div className="flex justify-center gap-6 mt-6">
+             <p className="text-sm font-medium text-zinc-300"> Gold {performanceData.metals?.[0]?.grams}</p>
+            </div> */}
           </motion.div>
 
           {/* Metal Performance Analytics Cards */}

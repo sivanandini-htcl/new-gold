@@ -324,6 +324,7 @@ function Dashboard() {
   const goldPrice = prices.find((item) => item.metal === 'GOLD');
   const silverPrice = prices.find((item) => item.metal === 'SILVER');
   const userName = useAuthStore((state) => state.user?.name);
+   const userEmail = useAuthStore((s) => s.user?.email);
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
   const profileData = useAuthStore((state) => state.profileData);
@@ -331,7 +332,7 @@ function Dashboard() {
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
-    const username  = useAuthStore((s) => s.user?.name);
+    // const username  = useAuthStore((s) => s.user?.);
 
   const insights = [
     {
@@ -476,16 +477,16 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* ── HERO BANNER: GOLD ────── */}
+      {/* ── HERO BANNER: GOLD ── */}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14 ">
         <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12  shadow-2xl">
           <div className="md:w-1/2 2xl:w-1/2">
-          <p className="text-primary text-2xl">Welcome, {userName}</p>
+          <p className="text-primary text-2xl mb-2">Welcome, {userName||userEmail}</p>
             <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-primary font-bold mb-3 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 ">
               ✦ Pure · Certified · Hallmarked  
             </span>
             
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-black text-primary leading-tight mb-3 2xl:mb-2">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-bold text-primary leading-tight mb-3 2xl:mb-2">
               Pure wealth,
               <br />
               <span className="text-primary lg:text-5xl sm:text-4xl text-2xl 2xl:text-6xl">secured in every bar</span>
@@ -496,7 +497,7 @@ function Dashboard() {
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
               <button
-                onClick={() => navigate('/gold')}
+                onClick={() => navigate('/metals')}
                 className="px-2 py-1 md:py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-primaryGoldGradient text-background font-bold text-sm 2xl:text-base hover:from-amber-700 transition shadow-lg"
               >
                 Invest Now

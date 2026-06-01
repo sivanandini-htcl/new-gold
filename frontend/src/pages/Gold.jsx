@@ -130,7 +130,7 @@ function Gold() {
       <div className="mb-15 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
         <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
-          Buy Gold
+         BUY GOLD
         </h1>
         <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
           24K · 99.9% Pure · Live Rates
@@ -259,28 +259,28 @@ function Gold() {
       {/* Replace Modal */}
 
       {showReplaceModal && pendingItem && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h2 className="text-lg font-semibold mb-3">Clear Cart?</h2>
-            <p className="text-sm text-gray-600 mb-4">Your cart currently has:</p>
-            <div className="bg-amber-50 rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
+        <div className="fixed inset-0 bg-background/90 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111117] border-white/20 rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h2 className="text-lg text-white/70 font-semibold mb-3">Clear Cart?</h2>
+            <p className="text-sm text-gray-500 mb-4">Your cart currently has:</p>
+            <div className="bg-background rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="text-sm text-gray-700 py-1.5 border-b border-yellow-200 last:border-b-0"
+                  className="text-sm text-white/70 py-1.5 border-b border-yellow-200 last:border-b-0"
                 >
                   • {item.name} {item.weight && `(${item.weight}g)`}
                 </div>
               ))}
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-white/70 mb-6">
               All items will be removed and replaced with{' '}
               <strong>Digital Gold 24K — {pendingItem.quantityInGrams}g</strong>.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={handleReplaceCancel}
-                className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50"
+                className="flex-1 py-3 border border-white/20 rounded-xl text-sm font-medium hover:bg-gray-50"
               >
                 Cancel
               </button>

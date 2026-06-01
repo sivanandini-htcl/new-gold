@@ -36,7 +36,7 @@ import Analytics from './pages/Analytics';
 import MPINSetupPage from './pages/ProfileComponents/MPINSetupPage';
 import MpinPage from './pages/Mpin';
 import TestingPage from './pages/TestingPage';
-import Sell from './pages/Sell';
+
 import GoldSell from './components/sell/GoldSell';
 import SilverSell from './components/sell/SilverSell';
 
@@ -165,14 +165,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-                <Route
-              path="/sell"
-              element={
-                <ProtectedRoute>
-                  <Sell />
-                </ProtectedRoute>
-              }
-            />
                   <Route
               path="/goldsell"
               element={
@@ -182,7 +174,7 @@ function App() {
               }
             />    
               <Route
-              path="/sell"
+              path="/silversell"
               element={
                 <ProtectedRoute>
                   <SilverSell />

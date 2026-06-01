@@ -70,12 +70,11 @@ useEffect(() => {
     console.log("Has Product Items:", hasProductItems);
     console.log("Selected Checkout Mode:", mode);
 
-    const prepareRes = await api.post(
-      "/cart/checkout/prepare",
+    const prepareRes = await api.post( "/cart/checkout/prepare",
       { mode }
     );
 
-    console.log("========== API SUCCESS ==========");
+    console.log("=== API SUCCESS ====");
     console.log("Full Response:", prepareRes.data);
 
     if (!prepareRes.data?.success) {
@@ -90,7 +89,7 @@ useEffect(() => {
       },
     });
   } catch (error) {
-    console.log("========== CHECKOUT ERROR ==========");
+    console.log("----- CHECKOUT ERROR -----");
     console.log(error);
 
     const errors = error.response?.data?.data?.errors;
