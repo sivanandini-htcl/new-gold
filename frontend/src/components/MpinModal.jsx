@@ -64,15 +64,23 @@ const MpinModal = ({
 
   return (
 
-    <div className="fixed inset-0 z-50 bg-black/70 flex items-end justify-center">
-
-      <div className="w-full max-w-md bg-[#0f0f17] rounded-t-3xl border border-white/10 p-5">
+    <div className="fixed inset-0 z-50 bg-[#0f0f17] flex items-end justify-center">
+<div
+  className="
+    w-full
+    h-full
+    md:max-w-3xl
+    lg:max-w-9xl
+    bg-[#0f0f17] !bg-opacity-100
+    p-5 py-10  md:p-12 xl:py-20  2xl:py-50 mt-9
+  "
+>
 
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
 
           <div>
-            <h2 className="text-white text-lg font-bold">
+            <h2 className="text-white text-lg font-bold font-serif">
               {title}
             </h2>
 
@@ -88,6 +96,10 @@ const MpinModal = ({
             <X size={18} />
           </button>
 
+        </div>
+
+        <div className="text-lg font-serif text-center w-full mb-4">
+         <p >Enter Your pin</p>
         </div>
 
         {/* PIN Dots */}

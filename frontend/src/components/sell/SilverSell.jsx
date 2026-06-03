@@ -258,7 +258,7 @@ catch(error){
             </div>
           </div>
         )} */}
-             { successModal && (
+             {sucessModal&& (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
     <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
       <h2 className="text-lg font-bold text-white">Sell Successful</h2>

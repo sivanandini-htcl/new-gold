@@ -6,7 +6,6 @@ import { setupMPIN, validateMPIN,checkMPINStatus } from '../api/mpinapi';
 const useMpinStore = create((set, get) => ({
  
   // STATE
-
   loading: false,
   mpinCreated: false,
   mpinStatusLoading: false,
@@ -187,7 +186,7 @@ const useMpinStore = create((set, get) => ({
         mpinData.confirmMpin
       );
       console.log('MPIN API RESPONSE:', response);
-console.log('MPIN CREATED SUCCESSFULLY');
+      console.log('MPIN CREATED SUCCESSFULLY');
 
       if (response.success || response.statusCode === 200) {
         set({
@@ -221,6 +220,7 @@ console.log('MPIN CREATED SUCCESSFULLY');
       });
     }
   },
+  
 fetchMPINStatus: async () => {
   try {
 

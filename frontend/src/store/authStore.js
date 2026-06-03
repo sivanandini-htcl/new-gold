@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 const useAuthStore = create(
   persist(
@@ -10,9 +10,11 @@ const useAuthStore = create(
       refreshToken: null,
       isLoading: true,
       isAuthenticated: false,
-
+      emailVerified: false,
+      phoneVerified: false,
       setAuth: (data) =>
         set({
+          userId: data.user?.uid || data.user?.id,
           user: data.user,
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
@@ -20,11 +22,9 @@ const useAuthStore = create(
           isLoading: false,
         }),
 
-      setProfileData: (profileData) =>
-        set({ profileData }),
+      setProfileData: (profileData) => set({ profileData }),
 
-      updateToken: (token) =>
-        set({ accessToken: token }),
+      updateToken: (token) => set({ accessToken: token }),
 
       logout: () =>
         set({
@@ -36,11 +36,10 @@ const useAuthStore = create(
           isLoading: false,
         }),
 
-      setLoading: (value) =>
-        set({ isLoading: value }),
+      setLoading: (value) => set({ isLoading: value }),
     }),
     {
-      name: "auth-storage",
+      name: 'auth-storage',
     }
   )
 );

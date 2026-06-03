@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setupMPIN, validateMPIN } from '../../api/mpinapi';
-import useMpinStore from '../../store/useMpinStore';
+import { setupMPIN, validateMPIN } from '../../../api/mpinapi';
+import useMpinStore from '../../../store/useMpinStore';
 
 function MPINSetupPage() {
   const navigate = useNavigate();
 
- const {
+  const {
     loading,
     error,
     success,
@@ -65,18 +65,11 @@ function MPINSetupPage() {
               </label>
               <div className="flex gap-3 justify-center">
                 {[...Array(6)].map((_, index) => (
-                  <input
-                    key={index}
-                    type="password"
-                    maxLength={1}
-                    value={mpinData.mpin[index] || ''}
-                  onChange={(e) =>
-                 handleDigitChange( 'mpin', index, e.target.value, e.target.nextSibling )
-}
-       onKeyDown={(e) => handleBackspace( e, 'mpin', index, e.target.previousSibling )
-}
-          className=" w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
-        text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 " />
+              <input key={index}  type="password" maxLength={1} value={mpinData.mpin[index] || ''}
+     onChange={(e) => handleDigitChange('mpin', index, e.target.value, e.target.nextSibling) }
+        onKeyDown={(e) => handleBackspace(e, 'mpin', index, e.target.previousSibling)} className=" w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
+        text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
+                  />
                 ))}
               </div>
               {mpinValidation && (
@@ -95,41 +88,15 @@ function MPINSetupPage() {
               <label className="block text-sm font-medium text-white/70 mb-2">Confirm MPIN</label>
               <div className="flex gap-2 justify-center p-2">
                 {[...Array(6)].map((_, index) => (
-                  <input
-                    key={index}
-                    type="password"
-                    maxLength={1}
-                    value={mpinData.confirmMpin[index] || ''}
-                   onChange={(e) =>
-  handleDigitChange(
-    'confirmMpin',
-    index,
-    e.target.value,
-    e.target.nextSibling
-  )
-}
+                  <input key={index} type="password" maxLength={1} value={mpinData.confirmMpin[index] || ''}
+                    onChange={(e) =>
+                      handleDigitChange('confirmMpin', index, e.target.value, e.target.nextSibling)
+                    }
                     onKeyDown={(e) =>
-  handleBackspace(
-    e,
-    'confirmMpin',
-    index,
-    e.target.previousSibling
-  )
-}
-                    className="
-        w-9 h-10
-        rounded-xl
-        border border-white/20
-        bg-secondary
-        text-background
-        text-center
-        text-xl
-        font-semibold
-        outline-none
-        focus:border-accent
-        focus:ring-2
-        focus:ring-accent/40
-      "
+                      handleBackspace(e, 'confirmMpin', index, e.target.previousSibling)
+                    }
+                    className="w-9 h-10 rounded-xl border border-white/20 bg-secondarytext-background text-center 
+                    text-xl  font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
                   />
                 ))}
               </div>
@@ -158,7 +125,7 @@ function MPINSetupPage() {
             {/* Buttons */}
             <div className="gap-3 pt-4 flex items-center">
               <button
-               onClick={() => handleSetupMPIN(navigate)}
+                onClick={() => handleSetupMPIN(navigate)}
                 disabled={loading}
                 className="flex-1 bg-accent py-3 rounded-lg font-semibold border border-white/20 text-black hover:bg-accent/90 transition disabled:opacity-50"
               >
@@ -166,7 +133,7 @@ function MPINSetupPage() {
               </button>
             </div>
             <button
-            onClick={() => navigate('/profile')}
+              onClick={() => navigate('/profile')}
               disabled={loading}
               className="flex-1 items-center text-center justify-s rounded-lg font-semibold text-white/70 hover:bg-white/10 transition"
             >

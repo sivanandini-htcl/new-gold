@@ -33,13 +33,14 @@ import Metals from './pages/Metals';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import Transactions from './pages/ProfileComponents/Transaction';
 import Analytics from './pages/Analytics';
-import MPINSetupPage from './pages/ProfileComponents/MPINSetupPage';
-import MpinPage from './pages/Mpin';
+import MPINSetupPage from './pages/ProfileComponents/mpinComponents/MPINSetupPage';
+import MpinPage from './pages/ProfileComponents/mpinComponents/Mpin';
 import TestingPage from './pages/TestingPage';
 
 import GoldSell from './components/sell/GoldSell';
 import SilverSell from './components/sell/SilverSell';
-
+import ChangeMPIN from './pages/ProfileComponents/mpinComponents/ChangeMPIN';
+import ResetMPIN from './pages/ProfileComponents/mpinComponents/ResetMpin';
 
 function App() {
   return (
@@ -78,8 +79,25 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/changempin"
+              element={
+                <ProtectedRoute>
+                  <ChangeMPIN />
+                </ProtectedRoute>
+              }
+            />
 
-             <Route
+            <Route
+              path="/resetmpin"
+              element={
+                <ProtectedRoute>
+                  <ResetMPIN />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/testing"
               element={
                 <ProtectedRoute>
@@ -87,8 +105,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-          
 
             <Route
               path="/profile"
@@ -165,15 +181,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
-                  <Route
+            <Route
               path="/goldsell"
               element={
                 <ProtectedRoute>
                   <GoldSell />
                 </ProtectedRoute>
               }
-            />    
-              <Route
+            />
+            <Route
               path="/silversell"
               element={
                 <ProtectedRoute>
@@ -214,7 +230,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-           
 
             <Route
               path="/cart"
@@ -268,16 +283,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-             <Route
+            <Route
               path="/mpin"
               element={
                 <ProtectedRoute>
-                 <MpinPage/>
+                  <MpinPage />
                 </ProtectedRoute>
               }
             />
-
-
 
             <Route
               path="/orders/:id"
@@ -296,7 +309,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
           </Route>
         </Routes>
       </BrowserRouter>

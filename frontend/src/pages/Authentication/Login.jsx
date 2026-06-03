@@ -10,10 +10,9 @@ import logo from '../../assets/logo_1.svg';
 import { auth, signInwithgoogle, getIdToken } from '../../firebase/firebaseClient';
 import { saveFCMTokenToBackend } from '../../firebase/message';
 
-
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axiosInstance';
-import { getDeviceFingerprint,saveDeviceFingerprint } from '../../utils/deviceFingerprint';
+import { getDeviceFingerprint, saveDeviceFingerprint } from '../../utils/deviceFingerprint';
 
 function Login() {
   const navigate = useNavigate();
@@ -36,7 +35,6 @@ function Login() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-
 
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -90,9 +88,9 @@ function Login() {
 
     setLoading(true);
     try {
-     const device = getDeviceFingerprint();
-     setDeviceInfo(device);
-     saveDeviceFingerprint(device);
+      const device = getDeviceFingerprint();
+      setDeviceInfo(device);
+      saveDeviceFingerprint(device);
 
       // Clean input - remove all spaces
       let emailOrMobile = identifier.trim().replace(/\s/g, '');
@@ -357,9 +355,9 @@ function Login() {
         toast.success('Successfully logged in');
         setCurrentUser(res.data.user || user);
         useAuthStore.getState().setAuth(res.data.data);
-          console.log("Notification Permission:", Notification.permission);
-     
-          await saveFCMTokenToBackend();
+        console.log('Notification Permission:', Notification.permission);
+
+        await saveFCMTokenToBackend();
         navigate('/dashboard');
       } else {
         toast.error('Login failed');

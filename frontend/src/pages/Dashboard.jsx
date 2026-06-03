@@ -72,89 +72,89 @@ const staggerContainer = {
 };
 
 // ─── GIFT CATEGORY DATA ──
-const corporateGiftCategories = [
-  {
-    id: 'cg1',
-    title: 'Executive Gold Coins',
-    subtitle: 'Premium 24K · Hallmarked',
-    tag: 'Best Seller',
-    tagColor: 'bg-amber-600',
-    icon: '🏆',
-    price: '₹4,999',
-    moq: 'Min. 10 units',
-    gradient: 'from-amber-900 via-amber-800 to-yellow-900',
-  },
-  {
-    id: 'cg2',
-    title: 'Silver Ingot Sets',
-    subtitle: '999 Fine Silver · Gift Boxed',
-    tag: 'Corporate',
-    tagColor: 'bg-slate-600',
-    icon: '🥈',
-    price: '₹2,499',
-    moq: 'Min. 25 units',
-    gradient: 'from-slate-800 via-slate-700 to-gray-800',
-  },
-  {
-    id: 'cg3',
-    title: 'Branded Bar Collection',
-    subtitle: 'Customizable Engraving',
-    tag: 'Custom',
-    tagColor: 'bg-emerald-700',
-    icon: '✨',
-    price: '₹8,999',
-    moq: 'Min. 5 units',
-    gradient: 'from-emerald-900 via-teal-900 to-slate-900',
-  },
-  {
-    id: 'cg4',
-    title: 'Festival Gifting Kits',
-    subtitle: 'Gold + Silver Combo',
-    tag: 'Seasonal',
-    tagColor: 'bg-rose-700',
-    icon: '🎁',
-    price: '₹6,499',
-    moq: 'Min. 15 units',
-    gradient: 'from-rose-900 via-pink-900 to-slate-900',
-  },
-];
+// const corporateGiftCategories = [
+//   {
+//     id: 'cg1',
+//     title: 'Executive Gold Coins',
+//     subtitle: 'Premium 24K · Hallmarked',
+//     tag: 'Best Seller',
+//     tagColor: 'bg-amber-600',
+//     icon: '🏆',
+//     price: '₹4,999',
+//     moq: 'Min. 10 units',
+//     gradient: 'from-amber-900 via-amber-800 to-yellow-900',
+//   },
+//   {
+//     id: 'cg2',
+//     title: 'Silver Ingot Sets',
+//     subtitle: '999 Fine Silver · Gift Boxed',
+//     tag: 'Corporate',
+//     tagColor: 'bg-slate-600',
+//     icon: '🥈',
+//     price: '₹2,499',
+//     moq: 'Min. 25 units',
+//     gradient: 'from-slate-800 via-slate-700 to-gray-800',
+//   },
+//   {
+//     id: 'cg3',
+//     title: 'Branded Bar Collection',
+//     subtitle: 'Customizable Engraving',
+//     tag: 'Custom',
+//     tagColor: 'bg-emerald-700',
+//     icon: '✨',
+//     price: '₹8,999',
+//     moq: 'Min. 5 units',
+//     gradient: 'from-emerald-900 via-teal-900 to-slate-900',
+//   },
+//   {
+//     id: 'cg4',
+//     title: 'Festival Gifting Kits',
+//     subtitle: 'Gold + Silver Combo',
+//     tag: 'Seasonal',
+//     tagColor: 'bg-rose-700',
+//     icon: '🎁',
+//     price: '₹6,499',
+//     moq: 'Min. 15 units',
+//     gradient: 'from-rose-900 via-pink-900 to-slate-900',
+//   },
+// ];
 
-const personalGiftCategories = [
-  {
-    id: 'pg1',
-    title: 'Birthday Gold Coin',
-    subtitle: 'Personalised · 24K Pure',
-    emoji: '🎂',
-    price: 'From ₹1,499',
-    badge: 'Popular',
-  },
-  {
-    id: 'pg2',
-    title: 'Wedding Silver Set',
-    subtitle: 'Elegant Gift Box',
-    emoji: '💍',
-    price: 'From ₹3,999',
-    badge: 'Trending',
-  },
-  {
-    id: 'pg3',
-    title: 'New Baby Blessing',
-    subtitle: '22K Gold Charm',
-    emoji: '👶',
-    price: 'From ₹2,199',
-    badge: 'New',
-  },
-  {
-    id: 'pg4',
-    title: 'Anniversary Pack',
-    subtitle: 'Gold & Silver Duo',
-    emoji: '❤️',
-    price: 'From ₹5,499',
-    badge: 'Gifting',
-  },
-];
+// const personalGiftCategories = [
+//   {
+//     id: 'pg1',
+//     title: 'Birthday Gold Coin',
+//     subtitle: 'Personalised · 24K Pure',
+//     emoji: '🎂',
+//     price: 'From ₹1,499',
+//     badge: 'Popular',
+//   },
+//   {
+//     id: 'pg2',
+//     title: 'Wedding Silver Set',
+//     subtitle: 'Elegant Gift Box',
+//     emoji: '💍',
+//     price: 'From ₹3,999',
+//     badge: 'Trending',
+//   },
+//   {
+//     id: 'pg3',
+//     title: 'New Baby Blessing',
+//     subtitle: '22K Gold Charm',
+//     emoji: '👶',
+//     price: 'From ₹2,199',
+//     badge: 'New',
+//   },
+//   {
+//     id: 'pg4',
+//     title: 'Anniversary Pack',
+//     subtitle: 'Gold & Silver Duo',
+//     emoji: '❤️',
+//     price: 'From ₹5,499',
+//     badge: 'Gifting',
+//   },
+// ];
 
-// ─── PRODUCT CARD (Ecommerce Style) ──────────────────────────────
+// ─── PRODUCT CARD (Ecommerce Style) ───
 export function ProductCard({ product, navigate }) {
   const isGold = product.type === 'gold';
   const [wished, setWished] = useState(false);
@@ -327,7 +327,7 @@ function Dashboard() {
    const userEmail = useAuthStore((s) => s.user?.email);
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
-  const profileData = useAuthStore((state) => state.profileData);
+  // const profileData = useAuthStore((state) => state.profileData);
 
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);

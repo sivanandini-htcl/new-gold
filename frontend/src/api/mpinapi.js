@@ -3,6 +3,7 @@ import api from './axiosInstance';
  * CHECK MPIN STATUS
  * GET /security/mpin/status
  */
+
 export const checkMPINStatus = async () => {
   try {
     const response = await api.get('/security/mpin/status');
@@ -52,10 +53,9 @@ export const setupMPIN = async (mpin, confirmMpin) => {
   }
 };
 
-/**
 
- * GENERATE IDEMPOTENCY KEY
- */
+
+/* GENERATE IDEMPOTENCY KEY*/
 function generateIdempotencyKey() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;

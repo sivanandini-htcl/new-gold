@@ -133,14 +133,14 @@ function KycPage() {
                         onChange={handleInputChange}
                         placeholder="Enter OTP"
                         maxLength={6}
-                        className="w-full  text-secondary border border-gray-300 rounded-lg px-4 py-3"
+                        className="w-full  text-secondary border border-white/20 rounded-lg px-4 py-3"
                       />
                     </div>
 
                     <button
                       onClick={handleVerifyPanOtp}
                       disabled={loading}
-                      className="w-full bg-white/90 text-white py-3 rounded-lg font-semibold"
+                      className="w-full bg-white/70 text-background py-3 rounded-lg font-semibold"
                     >
                       {loading ? 'Verifying...' : 'Verify PAN'}
                     </button>
