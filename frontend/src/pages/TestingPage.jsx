@@ -20,9 +20,6 @@ const TestingPage = () => {
 </div>
     </div>
     </div>
-
-   
- 
     </div>
 
    </div>

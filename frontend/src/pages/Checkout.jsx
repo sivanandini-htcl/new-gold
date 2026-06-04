@@ -4,23 +4,11 @@ import { useState } from 'react';
 import { useEffect } from "react";
 
 import {
-  ArrowLeft,
-  CreditCard,
-  MapPin,
-  CheckCircle,
-  ChevronRight,
-  Truck,
-  Shield,
-  Package,
-  Edit3,
-  Plus,
-  Wallet,
-  Landmark,
-  Smartphone,
-  ShoppingCart,
-  ArrowRight,
-  Home,
-  Briefcase,
+  ArrowLeft, CreditCard,MapPin,
+  CheckCircle,ChevronRight,
+  Truck, Shield,Package,Edit3,
+  Plus,Wallet,Landmark,Smartphone,
+  ShoppingCart, ArrowRight, Home,Briefcase,
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import useCartStore from '../store/cartStore';
@@ -158,6 +146,7 @@ function Checkout() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [ordered, setOrdered] = useState(false);
+  const[walletApplied,setWalletApllied]=useState(false);
 
   const checkoutData = location.state?.checkoutData;
   const pricing = checkoutData?.pricing;
@@ -170,6 +159,7 @@ function Checkout() {
   const handlingFee = pricing?.handlingFee;
   const shippingBase = pricing?.shippingBase;
   const finalAmount = pricing?.totalAmount;
+  const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
 
   // Fetch addresses on mount (delivery mode only)
   useEffect(() => {
@@ -200,7 +190,25 @@ function Checkout() {
     }
   };
 
-  const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
+  const handleApplyWallet=async ()=>{
+    setWalletApllied(true);
+  //   try{
+  //     const walletres=await api.post('/')
+  //     console.log("wallet applied" ,walletres.data)
+  //     setWalletApllied(true);
+  //   }catch(error){
+  //     console.log("error"); 
+  // console.log("RESPONSE:", error.response);
+  // console.log("DATA:", error.response?.data);
+  // console.log("MESSAGE:", error.response?.data?.message);
+    
+  // }
+
+  }
+  const handleRemoveWallet=async()=>{
+    setWalletApllied(false);
+  }
+ 
 
   const handleContinueToPayment = async () => {
     try {
@@ -212,7 +220,7 @@ function Checkout() {
       const payload = {
         cartId,
         mode: isWallet ? 'WALLET' : 'DELIVERY',
-        paymentProvider: 'RAZORPAY',
+        paymentProvider: 'HYBRID',
         checkoutSessionId: sessionId,
          ...((!isWallet) && {  addressId: selectedAddress?.id,
       deliveryAddressId: selectedAddress?.id,
@@ -224,6 +232,7 @@ function Checkout() {
       const { data } = await api.post('/orders/checkout', payload, {
         headers: { 'idempotency-key': idempotencyKey },
       });
+      console.log( "data",data);
 console.log("called checkout")
       if (data.success) {
         const { razorpayOrderId, orderNumber, id } = data.data;
@@ -640,7 +649,30 @@ console.log("called verify");
                     </div>
                   ))}
               </div>
+            <div className="flex justify-end py-2">
+                        
+                     
+                      {walletApplied?(
+                        <div className=' flex-col justify-end item-end'>
+                          <div className='border border-white/20 p-2 rounded-2xl'>
+                         <p className='text-xs 2xl:text-xl text-green-700 border border-dotted p-2'>Wallet applied</p>
+                          </div>
+                          <div className=' flex-col justify-end item-end'>
+                            <button onClick={handleRemoveWallet} className='text-red-500 flex-col justify-end  text-sm'>
+                            Remove
+                          </button>
+                          </div>
+                          
+                        </div> 
 
+                      ):(<>
+                      <div className='border border-white/20 p-2 rounded-2xl'>
+                      <button onClick={handleApplyWallet} className="text-xs 2xl:text-xl text-primary/70 border border-dotted p-2">Apply Wallet</button>   
+                      </div>     
+                      </>
+                        
+                      )}
+                       </div>
               <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
                 <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-primary/70">Total Amount</span>
                 <span className="text-xl font-bold  text-white/80">₹{finalAmount}</span>

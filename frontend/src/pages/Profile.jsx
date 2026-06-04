@@ -21,6 +21,8 @@ import fetchHoldingsData from '../api/holdingsApi';
 import { fetchUserProfile } from '../api/profileapi';
 import { toast } from 'react-toastify';
 import QuickAction from './ProfileComponents/QuickAction';
+import MpinModal from '../components/MpinModal';
+
 
 // ─── API helpers ───────
 const sendVerificationOtp = async ({
@@ -111,6 +113,8 @@ export default function Profile() {
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showMpin,setShowMpin]=useState(false);
+   const [mpinLoading, setMpinLoading] = useState(false);
 
   // Verification modal state
   const [showVerifyModal, setShowVerifyModal] = useState(false);
@@ -120,8 +124,10 @@ export default function Profile() {
   const [otpSent, setOtpSent] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [verifyLoading, setVerifyLoading] = useState(false);
+  const [action, setAction] = useState(null);
+  const [redirectPath, setRedirectPath] = useState("");
 
-  // ── Store selectors ────────────────────────────────────────────────────────
+  // ── Store selectors ────────────
   const username = useAuthStore((s) => s.user?.name);
   const userEmail = useAuthStore((s) => s.user?.email);
   const userId = useAuthStore((s) => s.user?.uid);
@@ -147,8 +153,13 @@ export default function Profile() {
   const displayPhone = profileData?.phoneNumber || 'Not added';
   const displayEmail = profileData?.email || userEmail || '—';
   const displayUserId = profileData?.uid || userId || '—';
-const phoneNumber = profileData?.phoneNumber;
+ const phoneNumber = profileData?.phoneNumber;
 
+
+ const openVerification = (path) => {
+  setRedirectPath(path);
+  setShowMpin(true);
+};
   // ── Verification handlers ────
   
   const handleKycClick = () => {
@@ -249,6 +260,7 @@ const phoneNumber = profileData?.phoneNumber;
     setOtpSent(false);
   };
   
+
 const handleReset=async ()=>{
   const payload={
   phoneNumber,
@@ -287,7 +299,7 @@ if(res.data.success){
     fetchMPINStatus();
   }, []);
 
-  // ── Loading skeleton ──────────
+  // ── Loading skeleton ────
   if (loading) {
     return (
       <div className="animate-pulse min-h-screen bg-background p-4">
@@ -372,14 +384,12 @@ if(res.data.success){
               <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
                 <button
                   onClick={() => navigate('/mpin-setup')}
-                  className="text-xs text-primary/80 hover:text-primary transition-colors"
-                >
+                  className="text-xs text-primary/80 hover:text-primary transition-colors">
                   Set Up MPIN
                 </button>
                 <button
                   onClick={() => navigate('/changempin')}
-                  className="text-xs text-primary/80 hover:text-primary transition-colors"
-                >
+                  className="text-xs text-primary/80 hover:text-primary transition-colors">
                   Change MPIN
                 </button>
                 <button
@@ -399,12 +409,8 @@ if(res.data.success){
               { icon: FileText, label: 'KYC', onClick: handleKycClick },
               { icon: ShieldCheck, label: 'Address', onClick: () => navigate('/delivery') },
               { icon: MapPin, label: 'Account', onClick: () => navigate('/account') },
-              { icon: CreditCard, label: 'Wallet', onClick: () => navigate('/wallet') },
-              {
-                icon: ArrowRightLeft,
-                label: 'Transfers',
-                onClick: () => navigate('/transactions'),
-              },
+              { icon: CreditCard, label: 'Wallet', onClick: () => openVerification('/wallet') },
+              { icon: ArrowRightLeft,label: 'Transfers',onClick: () => navigate('/transactions'),},
             ].map(({ icon: Icon, label, onClick }) => (
               <div key={label} className="flex items-center gap-1.5 p-2 sm:p-3 cursor-pointer">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center transition-all">
@@ -482,7 +488,7 @@ if(res.data.success){
                   <Zap size={13} /> Buy
                 </button>
                 <button
-                  onClick={() => navigate('/goldsell')}
+                  onClick={() => openVerification('/goldsell')}
                   className="flex-1 border border-amber-200 text-amber-700 bg-amber-50 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-amber-100 transition"
                 >
                   <ArrowUpRight size={13} /> Sell
@@ -552,7 +558,7 @@ if(res.data.success){
                   <Zap size={13} /> Buy
                 </button>
                 <button
-                  onClick={() => navigate('/silversell')}
+                  onClick={() => openVerification('/silversell')}
                   className="flex-1 border border-stone-200 text-background bg-white/90 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-stone-100 transition"
                 >
                   <ArrowUpRight size={13} /> Sell
@@ -638,6 +644,39 @@ if(res.data.success){
           </div>
         </div>
       )}
+<MpinModal
+        open={showMpin}
+        loading={mpinLoading}
+        onClose={() => setShowMpin(false)}
+      
+        onSubmit={async (mpin) => {
+          try {
+            setMpinLoading(true);
+           
+            const payload = {
+              
+              mpin,
+            };
+            console.log(payload);
+            const response = await api.post('security/mpin/verify-mpin',payload);
+            console.log('RESPONSE:', response);
+            setShowMpin(false);
+              if (redirectPath) {
+        navigate(redirectPath);
+      }
+          } catch (err) {
+            console.log('err');
+            console.log('RESPONSE:', err.response);
+            console.log('DATA:', err.response?.data);
+            console.log('MESSAGE:', err.response?.data?.message);
+
+            throw err;
+          } finally {
+            setMpinLoading(false);
+          }
+        }}
+      />
+
     </>
   );
 }

@@ -11,60 +11,52 @@ const useCartStore = create((set, get) => ({
       set({ loading: true });
       const res = await api.get('/cart');
       const cart = res.data?.data?.cart;
-      // console.log("add to cart res",cart)
+      console.log('add to cart res', cart);
       const items = cart?.items || [];
 
-     const normalized = items.map((item) => {
-  // DIGITAL METAL
-  if (item.type === 'METAL') {
-    return {
-      id: item.id,
+      const normalized = items.map((item) => {
+        // DIGITAL METAL
+        if (item.type === 'METAL') {
+          return {
+            id: item.id,
 
-      // IMPORTANT
-      type: item.type,
-      metalType: item.metalType,
+            // IMPORTANT
+            type: item.type,
+            metalType: item.metalType,
 
-      name: item.title,
-      price: item.unitPrice,
-      quantity: item.quantity,
-      totalPrice: item.totalPrice,
+            name: item.title,
+            price: item.unitPrice,
+            quantity: item.quantity,
+            totalPrice: item.totalPrice,
 
-      weight: item.quantityInGrams,
-      purity: '24K',
-      image: '',
+            weight: item.quantityInGrams,
+            purity: '24K',
+            image: '',
 
-      isDigital: true,
-      addedAt:
-        item.addedAt ||
-        new Date().toISOString(),
-    };
-  }
+            isDigital: true,
+            addedAt: item.addedAt || new Date().toISOString(),
+          };
+        }
 
-  // PHYSICAL PRODUCT
-  return {
-    id: item.id,
+        // PHYSICAL PRODUCT
+        return {
+          id: item.id,
 
-    // IMPORTANT
-    type: item.type,
+          // IMPORTANT
+          type: item.type,
+          name: item.title,
+          price: item.unitPrice,
+          quantity: item.quantity,
+          totalPrice: item.totalPrice,
 
-    name:
-      item.name ||
-      `Product #${item.productId}`,
+          weight: item.weightInGrams || 0,
+          purity: item.purity || '',
+          image: item.image || '',
 
-    price: item.unitPrice,
-    quantity: item.quantity,
-    totalPrice: item.totalPrice,
-
-    weight: item.weightInGrams || 0,
-    purity: item.purity || '',
-    image: item.image || '',
-
-    isDigital: false,
-    addedAt:
-      item.addedAt ||
-      new Date().toISOString(),
-  };
-});
+          isDigital: false,
+          addedAt: item.addedAt || new Date().toISOString(),
+        };
+      });
 
       set({ cartItems: normalized });
     } catch (err) {
@@ -92,7 +84,7 @@ const useCartStore = create((set, get) => ({
   replaceCartItem: async (oldItemId, newItem) => {
     try {
       await api.delete(`/cart/items/${oldItemId}`, {
-        data: { reason: 'User removed from cart' }, // ✅ same fix
+        data: { reason: 'User removed from cart' }, //  same fix
       });
       await api.post('/cart/add', newItem);
       await get().fetchCart();

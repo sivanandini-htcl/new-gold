@@ -65,9 +65,10 @@ function Gold() {
 
     // ✅ same type or empty → allow
     try {
-      await api.post('/cart/add', newItem);
+      const res=await api.post('/cart/add', newItem);
       await fetchCart();
       toast.success('Added to cart');
+      console.log("add",res);
       navigate('/cart');
     } catch (err) {
       toast.error('Something went wrong');

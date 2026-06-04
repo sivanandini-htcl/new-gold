@@ -13,6 +13,10 @@ import { getDeviceFingerprint, loadDeviceFingerprint } from '../../utils/deviceF
 const Wallet = () => {
   const [balanceVisible, setBalanceVisible] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
+
+  const[addBalance,showAddBalance]=useState(false);
+  const[addWalletAmount,setAddWalletAmount]=useState('')
+
   const [showBankSection, setShowBankSection] = useState(false);
   const [showMpin, setShowMpin] = useState(false);
   const [nloading, setnLoading] = useState(false);
@@ -25,6 +29,7 @@ const Wallet = () => {
   const [walletBalance, setWalletBalance] = useState(0);
   const[successModal,setSuccessModal] = useState(false);
   const navigate = useNavigate();
+
   const {
     bankAccounts,
     loading,
@@ -70,12 +75,13 @@ const Wallet = () => {
     setAmountConfirmed(true); // hide Continue button
     setShowBankSection(true);
   };
-
+ 
   // When Withdraw is toggled off, reset everything
   const handleWithdrawToggle = () => {
     setShowWithdraw((prev) => {
       if (prev) {
         setAmount('');
+        showAddBalance(false);
         setAmountConfirmed(false);
         setShowBankSection(false);
       }
@@ -84,18 +90,27 @@ const Wallet = () => {
   };
 
   return (
-    <div
-     
-      className="min-h-screen bg-[#0f0f17] flex flex-col items-center py-10 px-4"
-    >
-      <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-
-      <div className="w-full max-w-sm flex flex-col gap-5">
+          <div className="min-h-screen bg-background flex flex-col items-center py-10 px-4">
+             <div className="w-full text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary max-w-sm flex flex-col gap-5">
+             <p>My Wallet</p>
+             <div className='w-full flex justify-end items-end'>
+            <button className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Buy More
+          </button></div>
         {/* ── Credit Card ── */}
         <div className="relative w-full h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
+          
           <div className="absolute inset-0 flex flex-col gap-1.5 p-3 opacity-[0.04]">
             {[...Array(14)].map((_, i) => (
               <div key={i} className="w-full h-2 bg-white rounded-full" />
@@ -150,7 +165,7 @@ const Wallet = () => {
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={handleWithdrawToggle}
-            className="flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm text-white bg-[#0a0a12] border border-white/10 hover:bg-[#1a1a2e] active:scale-95 transition-all"
+            className="flex items-center  text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-white bg-[#0a0a12] border border-white/10 hover:bg-[#1a1a2e] active:scale-95 transition-all"
           >
             <svg
               width="15"
@@ -164,23 +179,48 @@ const Wallet = () => {
             </svg>
             Withdraw
           </button>
-          <button className="flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm text-white/80 bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="16" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-            Buy More
-          </button>
-        </div>
+          
+         
+         <button onClick={()=>showAddBalance(true)} className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
+           <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H5a2 2 0 0 0-2 2V7z" />
+      <path d="M21 10v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      <path d="M12 11v4" />
+      <path d="M10 13h4" />
+           </svg>
+          Add Wallet
+        </button>
 
+
+        </div>
+{addBalance &&(
+     <div className="flex flex-col gap-3 bg-white/5 border border-white/10 rounded-2xl p-4">
+            <p className="text-[10px] uppercase tracking-[0.12em] text-white/40 font-semibold">
+              Add Amount
+            </p>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-4">
+              <span className="text-white/50 text-lg font-semibold">₹</span>
+              <input
+                type="number"
+                placeholder="0.00"
+                value={addWalletAmount}
+                onChange={(e) => setAddWalletAmount(e.target.value)}
+                disabled={amountConfirmed}
+                className="bg-transparent text-white text-xl font-medium py-3 w-full outline-none placeholder:text-white/20 disabled:opacity-60 disabled:cursor-not-allowed"
+              />
+            </div>
+            </div>
+  
+)}
         {/* ── Amount Input ── */}
         {showWithdraw && (
           <div className="flex flex-col gap-3 bg-white/5 border border-white/10 rounded-2xl p-4">
