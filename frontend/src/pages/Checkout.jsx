@@ -147,6 +147,9 @@ function Checkout() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [ordered, setOrdered] = useState(false);
   const[walletApplied,setWalletApllied]=useState(false);
+const [paymentSummary, setPaymentSummary] = useState(null);
+const [loadingSummary, setLoadingSummary] = useState(false);
+const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const checkoutData = location.state?.checkoutData;
   const pricing = checkoutData?.pricing;
@@ -191,30 +194,38 @@ function Checkout() {
   };
 
   const handleApplyWallet=async ()=>{
-    setWalletApllied(true);
-  //   try{
-  //     const walletres=await api.post('/')
-  //     console.log("wallet applied" ,walletres.data)
-  //     setWalletApllied(true);
-  //   }catch(error){
-  //     console.log("error"); 
-  // console.log("RESPONSE:", error.response);
-  // console.log("DATA:", error.response?.data);
-  // console.log("MESSAGE:", error.response?.data?.message);
+    setLoadingSummary(true);
+    try{
+      const walletres=await api.post('/orders/checkout/summary',
+        {
+          checkoutSessionId:sessionId,
+          totalAmount:finalAmount,
+          mode:isWallet ? 'WALLET' : 'DELIVERY',
+        }
+      )
+      console.log("wallet applied" ,walletres.data)
+      setPaymentSummary(walletres.data.data)
+      setSelectedPaymentMethod(walletres.data.data.defaultMethod);
+      setWalletApllied(true);
+    }catch(error){
+      console.log("error"); 
+     console.log("RESPONSE:", error.response);
+     console.log("DATA:", error.response?.data);
+     console.log("MESSAGE:", error.response?.data?.message);
     
-  // }
+  }
 
   }
-  const handleRemoveWallet=async()=>{
-    setWalletApllied(false);
-  }
- 
+  // const handleRemoveWallet=async()=>{
+  //   setWalletApllied(false);
+  // }
+
 
   const handleContinueToPayment = async () => {
     try {
         console.log('selectedAddressId:', selectedAddressId);
-    console.log('selectedAddress object:', selectedAddress);
-    console.log('id being sent:', selectedAddress?.id);
+        console.log('selectedAddress object:', selectedAddress);
+        console.log('id being sent:', selectedAddress?.id);
 
       const idempotencyKey = generateHexId();
       const payload = {
@@ -651,17 +662,17 @@ console.log("called verify");
               </div>
             <div className="flex justify-end py-2">
                         
-                     
+    
                       {walletApplied?(
                         <div className=' flex-col justify-end item-end'>
                           <div className='border border-white/20 p-2 rounded-2xl'>
                          <p className='text-xs 2xl:text-xl text-green-700 border border-dotted p-2'>Wallet applied</p>
                           </div>
-                          <div className=' flex-col justify-end item-end'>
+                          {/* <div className=' flex-col justify-end item-end'>
                             <button onClick={handleRemoveWallet} className='text-red-500 flex-col justify-end  text-sm'>
                             Remove
                           </button>
-                          </div>
+                          </div> */}
                           
                         </div> 
 
@@ -673,10 +684,34 @@ console.log("called verify");
                         
                       )}
                        </div>
-              <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
+                        {walletApplied && paymentSummary && (
+                      <div>
+  
+    <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
+                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-red-700"> Wallet Used: </span>
+                <span className="text-xl font-bold  text-white/80">₹{paymentSummary.walletBalanceINR}</span>
+
+      
+              </div>
+
+              <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
+                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-red-700">Remaining Amount To Pay</span>
+                <span className="text-xl font-bold  text-white/80">₹{paymentSummary.paymentMethods?.[0]?.gatewayAmountINR}</span>
+              </div>
+
+             <div className="flex justify-center items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
+               <button>continue payment</button>
+              </div>
+              
+  </div>
+)}
+
+  <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
                 <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-primary/70">Total Amount</span>
                 <span className="text-xl font-bold  text-white/80">₹{finalAmount}</span>
               </div>
+
+            
 
               <div className="rounded-2xl p-4 space-y-2 bg-[#111112] border border-yellow-700/10">
                 {[

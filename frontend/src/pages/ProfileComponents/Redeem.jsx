@@ -283,7 +283,7 @@ function Redeem() {
 
   if (loading) {
     return(
-    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-20 p-4">
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-5 md:m-20 p-4">
     <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
@@ -393,7 +393,7 @@ function Redeem() {
 
                 setFilterOpen(true)
               }
-              className="flex items-center gap-2 border bg-primaryGoldGradient  text-background  px-4 py-2 rounded-lg"
+              className="flex items-center gap-2 border  text-xs md:text-sm  text-white/60  px-4 py-2 rounded-lg"
             >
               <SlidersHorizontal className="w-4 h-4" />
               Filters

@@ -58,8 +58,6 @@ import Section from '../components/dashboardComponents/SilverScroller';
 import Gift from '../assets/Gift.png';
 import banner from '../assets/banner.png';
 
-
-
 // ─── Animation Variants ─
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -282,20 +280,22 @@ export function ProductCard({ product, navigate }) {
 // ─── Section Header ───────────────────────────────────────────────
 function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
   return (
-    <div className="flex justify-between items-end mb-5 2xl:mb-7">
+    <div className="flex-col justify-between items-end mb-5 2xl:mb-7">
       <div>
         <h2
-          className={`font-serif text-xl sm:text-2xl 2xl:text-3xl font-bold leading-tight
+          className={`font-serif text-[20px] sm:text-2xl 2xl:text-3xl font-bold whitespace-nowrap
           ${gold ? 'text-primary ' : 'text-secondary'}`}
         >
           {title}
         </h2>
         {subtitle && <p className="text-xs text-secondary mt-1 2xl:text-sm">{subtitle}</p>}
       </div>
+
+      <div className='flex items-end justify-end mt-2 w-full'>
       {onViewAll && (
         <button
           onClick={onViewAll}
-          className={`flex items-center text-[10px] gap-1  font-bold font-serif px-4 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
+          className={`whitespace-nowrap flex items-center text-[10px] gap-1  font-bold font-serif px-4 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
             ${
               gold
                 ? 'text-primary border border-white/20 hover:bg-amber-50'
@@ -305,6 +305,8 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
           View All <ChevronRight size={12} />
         </button>
       )}
+      </div>
+      
     </div>
   );
 }
@@ -323,16 +325,16 @@ function Dashboard() {
   const prices = usePriceStore((state) => state.prices);
   const goldPrice = prices.find((item) => item.metal === 'GOLD');
   const silverPrice = prices.find((item) => item.metal === 'SILVER');
-  const userName = useAuthStore((state) => state.user?.name);
-   const userEmail = useAuthStore((s) => s.user?.email);
+  // const userEmail = useAuthStore((s) => s.user?.email);
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
-  // const profileData = useAuthStore((state) => state.profileData);
-
+  const profileData = useAuthStore((state) => state.profileData);
+  const userName = profileData?.name || profileData?.fullName || profileData?.first_name || 'User';
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
-    // const username  = useAuthStore((s) => s.user?.);
+  // const username  = useAuthStore((s) => s.user?.);
+
 
   const insights = [
     {
@@ -404,11 +406,10 @@ function Dashboard() {
   return (
     <div className="min-h-screen max-w-[1440px] m-auto font-serif bg-background mb-10 ">
       {/* ── BANNER ─ */}
-      
+
       <div className="  ">
         <SlidingBanner />
       </div>
-     
 
       {/* ── LIVE PRICE STRIP  */}
       <div className=" mb-6 2xl:mb-10">
@@ -416,17 +417,16 @@ function Dashboard() {
           {/* GOLD */}
           <motion.div
             whileHover={{ y: -2 }}
-            className="flex-1 bg-[#111117]   px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg"
-          >
+            className="flex-1 bg-[#111117] px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg">
             <div className="flex items-center gap-3 2xl:gap-4">
               <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl  bg-gradient-to-br from-primary/70 to-primary/90  flex items-center justify-center shadow">
-                <Coins size={20}  className="2xl:w-7 2xl:h-7 text-background" />
+                <Coins size={20} className="2xl:w-7 2xl:h-7 text-background" />
               </div>
               <div>
                 <p className="text-[10px] md:text-lg 2xl:text-2xl text-primary  tracking-widest font-bold">
                   GOLD · 24K / g
                 </p>
-                <p className="font-medium  text-white/70 text-sm md:text-lg 2xl:text-2xl leading-tight">
+                <p className="font-body text-white/70 text-sm md:text-lg 2xl:text-2xl leading-tight">
                   ₹{Math.round(gram24kGoldPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
@@ -438,7 +438,7 @@ function Dashboard() {
             </div>
             <button
               onClick={() => navigate('/gold')}
-              className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/50 text-primary hover:from-[#754c33] transition shadow"
+              className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/20 text-primary hover:from-[#754c33] transition shadow"
             >
               Buy Gold
             </button>
@@ -451,13 +451,13 @@ function Dashboard() {
           >
             <div className="flex items-center gap-3 2xl:gap-4">
               <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl bg-gradient-to-br from-slate-200 to-gray-500 flex items-center justify-center shadow">
-                <Gem size={20}  className="2xl:w-7 2xl:h-7 text-background" />
+                <Gem size={20} className="2xl:w-7 2xl:h-7 text-background" />
               </div>
               <div>
                 <p className="text-[10px] md:text-lg 2xl:text-2xl text-gray-400 tracking-widest font-bold">
                   SILVER · 24K / g
                 </p>
-                <p className="font-medium md:text-lg  text-white/70 text-sm 2xl:text-2xl leading-tight">
+                <p className="font-body md:text-lg  text-white/70 text-sm 2xl:text-2xl leading-tight">
                   ₹{Math.round(gram24ksilverPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
@@ -469,7 +469,7 @@ function Dashboard() {
             </div>
             <button
               onClick={() => navigate('/silver')}
-              className="text-[11px] md:text-sm 2xl:text-xl font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/40 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
+              className="text-[11px] md:text-sm 2xl:text-xl font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/20 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
             >
               Buy Silver
             </button>
@@ -481,15 +481,22 @@ function Dashboard() {
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 mb-10 2xl:mb-14 ">
         <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12  shadow-2xl">
           <div className="md:w-1/2 2xl:w-1/2">
-          <p className="text-primary text-2xl mb-2">Welcome, {userName||userEmail}</p>
-            <span className="inline-block text-[10px] 2xl:text-xs uppercase tracking-widest text-primary font-bold mb-3 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 ">
-              ✦ Pure · Certified · Hallmarked  
+            <p className="text-primary text-md md:text-2xl mb-2 flex items-center gap-1">
+  <span>Welcome,</span>
+  <span className="truncate max-w-[200px] md:max-w-[300px] inline-block">
+  {userName}
+  </span>
+</p>
+            <span className="inline-block text-[9px] 2xl:text-xs uppercase tracking-widest text-primary  mb-3 bg-amber-400/10 px-2 py-1 rounded-full border border-amber-400/20 ">
+              ✦ Pure · Certified · Hallmarked
             </span>
-            
+
             <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-bold text-primary leading-tight mb-3 2xl:mb-2">
               Pure wealth,
               <br />
-              <span className="text-primary lg:text-5xl sm:text-4xl text-2xl 2xl:text-6xl">secured in every bar</span>
+              <span className="text-primary lg:text-5xl sm:text-4xl text-2xl 2xl:text-6xl">
+                secured in every bar
+              </span>
             </h1>
             <p className="font-serif text-sm md:text-lg 2xl:text-base text-secondary leading-relaxed max-w-md">
               Invest in certified 24K digital gold backed by physical reserves. Transparent pricing,
@@ -554,15 +561,14 @@ function Dashboard() {
             <h1 className="text-2xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-serif font-black text-[#DDD9CE] leading-tight mb-3 2xl:mb-5">
               Silver — the
               <br />
-              <span className="text-[#DDD9CE] text-2xl lg:text-5xl" >smart investment</span>
+              <span className="text-[#DDD9CE] text-2xl lg:text-5xl">smart investment</span>
             </h1>
             <p className="font-serif text-xs 2xl:text-base text-slate-300/70 leading-relaxed max-w-md">
               Start from just ₹10. Invest in 999 fine silver with real-time pricing, zero storage
               hassle, and instant redemption.
             </p>
             <div className="flex gap-3 mt-5 2xl:mt-7">
-              
-               <button
+              <button
                 onClick={() => navigate('/redeem')}
                 className=" px-2 py-2.5 2xl:px-7 2xl:py-3 rounded-xl border border-slate-400/30 bg-gradient-to-r from-slate-500 to-gray-400 text-secondary  font-bold text-xs md:text-md 2xl:text-base hover:bg-slate-400/10 transition"
               >
@@ -658,10 +664,10 @@ function Dashboard() {
       {/* ── INSIGHTS GRID ──*/}
       <div className="px-3 sm:px-5 lg:px-8 2xl:px-16 py-10 2xl:py-16 bg-[#111117]">
         <div className="text-center mb-8 2xl:mb-12">
-          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-primary/60 font-bold">
+          <span className="text-[10px] 2xl:text-xs uppercase tracking-widest text-primary/60 font-serif">
             Why invest in precious metals
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl font-black text-primary/80 mt-1">
+          <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl uppercase text-primary/80 mt-1">
             Built for wealth. Designed for trust.
           </h2>
         </div>
@@ -676,7 +682,7 @@ function Dashboard() {
 
             <div className=" grid items-center">
               <div className="md:flex md:flex-col md:space-y-4">
-                <p className=" text-sm md:text-xl font-serif font-bold italic text-primary  md:font-semibold md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">
+                <p className=" text-sm md:text-xl font-serif italic text-primary   md:leading-tight md:mb-3 lg:text-4xl 2xl:text-6xl">
                   Celebrate festivals with gifts that carry lasting value and timeless beauty
                 </p>
               </div>
@@ -688,7 +694,7 @@ function Dashboard() {
                 </p>
                 <span className="flex gap-2 mt-3 ">
                   <p className="text-sm text-primary/70 md:text-xl">Customise Now</p>
-                  <ArrowRightCircle size={20} className='text-primary/70 mt-1' />
+                  <ArrowRightCircle size={20} className="text-primary/70 mt-1" />
                 </span>
               </div>
             </div>
@@ -697,7 +703,7 @@ function Dashboard() {
           <div className="grid grid-cols-2 items-center gap-10 ">
             <div className=" grid items-center">
               <div className="md:flex md:flex-col md:space-y-4">
-                <p className=" text-sm mt-8 md:text-xl font-serif font-bold italic text-primary  md:font-semibold md:leading-tight lg:text-4xl 2xl:text-6xl">
+                <p className=" text-sm mt-8 md:text-xl font-serif  italic text-primary   md:leading-tight lg:text-4xl 2xl:text-6xl">
                   Reward Excellence. Build Lasting Bonds
                 </p>
               </div>
@@ -710,7 +716,7 @@ function Dashboard() {
                 </p>
                 <span className="flex gap-1 mt-3 ">
                   <p className="text-sm md:text-xl text-primary/70">Gift Your Employees</p>
-                  <ArrowRightCircle size={20} className='text-primary/70 mt-1'/>
+                  <ArrowRightCircle size={20} className="text-primary/70 mt-1" />
                 </span>
               </div>
             </div>

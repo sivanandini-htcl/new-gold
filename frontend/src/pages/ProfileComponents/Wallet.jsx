@@ -77,22 +77,47 @@ const Wallet = () => {
   };
  
   // When Withdraw is toggled off, reset everything
-  const handleWithdrawToggle = () => {
-    setShowWithdraw((prev) => {
-      if (prev) {
-        setAmount('');
-        showAddBalance(false);
-        setAmountConfirmed(false);
-        setShowBankSection(false);
-      }
-      return !prev;
-    });
-  };
+const handleWithdrawToggle = () => {
+  setShowWithdraw((prev) => {
+    const next = !prev;
+
+    if (next) {
+      // Opening Withdraw → close Add Wallet
+      showAddBalance(false);
+    } else {
+      // Closing Withdraw → reset data
+      setAmount('');
+      setAmountConfirmed(false);
+      setShowBankSection(false);
+    }
+
+    return next;
+  });
+};
+
+const handleAddWalletToggle = () => {
+  showAddBalance((prev) => {
+    const next = !prev;
+
+    if (next) {
+      // Opening Add Wallet → close Withdraw
+      setShowWithdraw(false);
+      setAmount('');
+      setAmountConfirmed(false);
+      setShowBankSection(false);
+    } else {
+      // Closing Add Wallet → reset amount
+      setAddWalletAmount('');
+    }
+
+    return next;
+  });
+};
 
   return (
           <div className="min-h-screen bg-background flex flex-col items-center py-10 px-4">
-             <div className="w-full text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary max-w-sm flex flex-col gap-5">
-             <p>My Wallet</p>
+             <div className="w-full text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl  text-primary max-w-sm flex flex-col gap-5">
+             <p className='font-serif'>My Wallet</p>
              <div className='w-full flex justify-end items-end'>
             <button className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
             <svg
@@ -181,7 +206,7 @@ const Wallet = () => {
           </button>
           
          
-         <button onClick={()=>showAddBalance(true)} className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
+         <button onClick={handleAddWalletToggle} className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
            <svg
       width="16"
       height="16"
@@ -205,7 +230,7 @@ const Wallet = () => {
 {addBalance &&(
      <div className="flex flex-col gap-3 bg-white/5 border border-white/10 rounded-2xl p-4">
             <p className="text-[10px] uppercase tracking-[0.12em] text-white/40 font-semibold">
-              Add Amount
+              Add Amount To your wallet
             </p>
             <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-4">
               <span className="text-white/50 text-lg font-semibold">₹</span>
@@ -218,6 +243,12 @@ const Wallet = () => {
                 className="bg-transparent text-white text-xl font-medium py-3 w-full outline-none placeholder:text-white/20 disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
+              <button
+                onClick={handleNext}
+                className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm hover:brightness-110 active:scale-98 transition-all"
+              >
+               Add+
+              </button>
             </div>
   
 )}
@@ -235,7 +266,7 @@ const Wallet = () => {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 disabled={amountConfirmed}
-                className="bg-transparent text-white text-xl font-medium py-3 w-full outline-none placeholder:text-white/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="bg-transparent text-white font-normal text-xl  py-3 w-full outline-none placeholder:text-white/20 disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 

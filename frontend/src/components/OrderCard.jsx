@@ -80,7 +80,7 @@ export default function OrderCard({ order }) {
 
         <div className="text-right ">
           <span
-            className={`inline-flex  items-center gap-1 px-3 text-background py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
+            className={`inline-flex  items-center gap-1 px-1 text-background py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
           >
             <StatusIcon size={14} />
             {order.status}

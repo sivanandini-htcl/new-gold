@@ -315,10 +315,10 @@ function Delivery() {
 
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-colors"
+            className="flex items-center  bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-xs md:text-sm font-semibold px-1 py-2.5 rounded-xl shadow-sm transition-colors"
           >
             <Plus size={16} />
-            Add Address
+             Address
           </button>
         </div>
 

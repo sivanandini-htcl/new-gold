@@ -233,7 +233,7 @@ useEffect(() => {
         <div className="max-w-[700px] mx-auto px-5 py-5">
 
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/profile')}
             className="flex items-center gap-1 text-xs uppercase tracking-[0.08em] text-zinc-500 hover:text-yellow-500 transition-colors mb-4"
           >
             <ArrowLeft size={13} />
@@ -241,11 +241,8 @@ useEffect(() => {
           </button>
 
           <div className="flex items-end justify-between gap-3 flex-wrap">
-            <h1 className="text-[26px] text-textSecondary md:text-md font-serif tracking-[-0.02em]">
-              Transaction{" "}
-              <span className="text-textPrimary text-[26px] font-extrabold italic">
-                History
-              </span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl text-primary md:text-md font-serif tracking-[-0.02em]">
+              Transaction History
             </h1>
 
             <span className="text-xs tracking-[0.08em] text-zinc-500">
@@ -271,15 +268,13 @@ useEffect(() => {
                 stroke="#d4a017"
                 strokeWidth="1.4"
                 strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+                strokeLinejoin="round">
                 <rect
                   x="2"
                   y="5"
                   width="20"
                   height="14"
-                  rx="3"
-                />
+                  rx="3"/>
                 <path d="M2 10h20" />
                 <path d="M6 15h4" />
                 <path d="M14 15h4" />
@@ -320,10 +315,14 @@ useEffect(() => {
             <div className="flex md:flex md:gap-10 items-center justify-center gap-3 mb-7">
 
               <div className="flex-col justify-center items-center">
-                <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">
-                  <TrendingUp size={15} />
+                <div>
+                   <TrendingUp size={15} />
+                  <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">                 
                   Total In
                 </p>
+                 
+                </div>
+                
 
                 <p className="text-sm md:text-lg font-bold text-successLight">
                   ₹{fmt(totalCredit)}
@@ -333,10 +332,13 @@ useEffect(() => {
               <div className="w-px h-15 bg-white/10 mx-1" />
 
               <div className="flex-col justify-center items-center">
-                <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">
-                  <TrendingDown size={15} />
+                <div>
+<TrendingDown size={15} />
+                <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">                
                   Total Out
                 </p>
+                </div>
+                
 
                <p className="text-sm md:text-lg font-bold text-errorLight"> 
                   ₹{fmt(totalDebit)}
@@ -346,10 +348,15 @@ useEffect(() => {
               <div className="w-px h-15 bg-white/10 mx-1" />
 
               <div className="flex-col justify-center items-center">
-                <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">
-                  <Layers size={15} />
+
+                <div className=" flex-col justify-center items-center">
+                      <Layers size={15} />
+                <p className="text-[12px] md:text-sm uppercase text-zinc-500 mb-2 flex items-center md:tracking-[0.12em]">                 
                   Grams In
                 </p>
+                </div>
+            
+                
 
                 <p className="text-sm md:text-lg font-bold text-primary">
                   {fmt(totalGrams)}g

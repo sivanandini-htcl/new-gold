@@ -314,7 +314,7 @@ export default function BlogSection() {
               Learn · Grow · Invest
             </p>
 
-            <h2 className="font-serif text-xl lg:text-4xl font-bold text-primary">
+            <h2 className="font-serif text-xl lg:text-4xl md:text-lg text-primary">
               Gold Investment Insights
             </h2>
           </div>

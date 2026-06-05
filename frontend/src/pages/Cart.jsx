@@ -61,7 +61,7 @@ function Cart() {
 
       const prepareRes = await api.post('/cart/checkout/prepare', { mode });
 
-      console.log('=== API SUCCESS ====');
+      console.log('API SUCCESS');
       console.log('Full Response  for checkout:', prepareRes.data);
 
       if (!prepareRes.data?.success) {
@@ -76,7 +76,7 @@ function Cart() {
         },
       });
     } catch (error) {
-      console.log('----- CHECKOUT ERROR -----');
+      console.log(' CHECKOUT ERROR ');
       console.log(error);
 
       const errors = error.response?.data?.data?.errors;

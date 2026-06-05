@@ -451,7 +451,7 @@ if(res.data.success){
                   <p className="text-xs text-secondary uppercase tracking-widest mb-0.5">
                     Holdings
                   </p>
-                  <p className="text-xl font-bold text-secondary">
+                  <p className="text-lg text-secondary">
                     {metalWallet?.metals?.[0]?.quantityGrams || '0'}/g
                   </p>
                 </div>
@@ -472,7 +472,7 @@ if(res.data.success){
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs uppercase tracking-wider mb-1">{s.label}</p>
                     <p
-                      className={`text-sm font-bold ${s.bold ? 'text-secondary' : 'text-secondary'}`}
+                      className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}
                     >
                       {s.val}
                     </p>
@@ -519,7 +519,7 @@ if(res.data.success){
                   <p className="text-xs text-secondary uppercase tracking-widest mb-0.5">
                     Holdings
                   </p>
-                  <p className="text-xl font-bold text-secondary">
+                  <p className="text-lg  text-secondary">
                     {metalWallet?.metals?.[1]?.quantityGrams || '0'}/g
                   </p>
                 </div>
@@ -542,7 +542,7 @@ if(res.data.success){
                       {s.label}
                     </p>
                     <p
-                      className={`text-sm font-bold ${s.bold ? 'text-secondary' : 'text-secondary'}`}
+                      className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}
                     >
                       {s.val}
                     </p>
