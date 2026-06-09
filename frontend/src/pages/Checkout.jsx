@@ -146,10 +146,15 @@ function Checkout() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [ordered, setOrdered] = useState(false);
-  const[walletApplied,setWalletApllied]=useState(false);
-const [paymentSummary, setPaymentSummary] = useState(null);
-const [loadingSummary, setLoadingSummary] = useState(false);
-const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  // const[walletApplied,setWalletApllied]=useState(false);
+  const[showOption,setShowOption]=useState(false)
+  const [selectedOption, setSelectedOption] = useState("");
+
+
+
+  const [paymentSummary, setPaymentSummary] = useState(null);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const checkoutData = location.state?.checkoutData;
   const pricing = checkoutData?.pricing;
@@ -163,6 +168,7 @@ const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const shippingBase = pricing?.shippingBase;
   const finalAmount = pricing?.totalAmount;
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
+  const walletBalance = paymentSummary?.walletBalanceINR || 0;
 
   // Fetch addresses on mount (delivery mode only)
   useEffect(() => {
@@ -203,10 +209,11 @@ const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
           mode:isWallet ? 'WALLET' : 'DELIVERY',
         }
       )
-      console.log("wallet applied" ,walletres.data)
+      console.log("continue response" ,walletres.data)
       setPaymentSummary(walletres.data.data)
       setSelectedPaymentMethod(walletres.data.data.defaultMethod);
-      setWalletApllied(true);
+      // setWalletApllied(true);
+      setShowOption(true)
     }catch(error){
       console.log("error"); 
      console.log("RESPONSE:", error.response);
@@ -222,46 +229,71 @@ const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
 
   const handleContinueToPayment = async () => {
-    try {
-        console.log('selectedAddressId:', selectedAddressId);
-        console.log('selectedAddress object:', selectedAddress);
-        console.log('id being sent:', selectedAddress?.id);
+  try {
+    if (!selectedMethod) {
+      toast.error("Please select a payment method");
+      return;
+    }
 
-      const idempotencyKey = generateHexId();
-      const payload = {
-        cartId,
-        mode: isWallet ? 'WALLET' : 'DELIVERY',
-        paymentProvider: 'HYBRID',
-        checkoutSessionId: sessionId,
-         ...((!isWallet) && {  addressId: selectedAddress?.id,
-      deliveryAddressId: selectedAddress?.id,
-   }),
-      };
-      console.log('FULL PAYLOAD:', payload); 
-      console.log("calling checkout");
+    const idempotencyKey = generateHexId();
 
-      const { data } = await api.post('/orders/checkout', payload, {
-        headers: { 'idempotency-key': idempotencyKey },
-      });
-      console.log( "data",data);
-console.log("called checkout")
-      if (data.success) {
-        const { razorpayOrderId, orderNumber, id } = data.data;
-        if (!razorpayOrderId) {
-          toast.error('Razorpay order id missing from backend');
-          return;
-        }
-        openRazorpayPopup({ order_id: razorpayOrderId, currency: 'INR', orderNumber, backendOrderId: id });
+    const payload = {
+      cartId,
+      checkoutSessionId: sessionId,
+      mode: isWallet ? "WALLET" : "DELIVERY",
+
+      // HYBRID | WALLET | RAZORPAY
+      paymentProvider: selectedMethod.method,
+
+      // values from selected payment method
+      walletUsedINR: selectedMethod.walletUsedINR,
+      gatewayAmountINR: selectedMethod.gatewayAmountINR,
+
+      ...(!isWallet && {
+        addressId: selectedAddress?.id,
+        deliveryAddressId: selectedAddress?.id,
+      }),
+    };
+    console.log("payload", payload);
+
+    const { data } = await api.post(
+      "/orders/checkout",
+      payload,
+      {
+        headers: {
+          "idempotency-key": idempotencyKey,
+        },
       }
-    } catch (err) {
-      console.error(err);
-      console.log("FULL ERROR:", err);
+    );
+
+    console.log("checkout response", data);
+
+    if (!data.success) {
+      toast.error(data.message);
+      return;
+    }
+
+    // WALLET ONLY
+    if (selectedMethod.method === "WALLET") {
+      toast.success("Order placed successfully");
+      navigate("/orders");
+      return;
+    }
+
+    // HYBRID OR RAZORPAY
+    openRazorpayPopup({
+      order_id: data.data.razorpayOrderId,
+      currency: "INR",
+      backendOrderId: data.data.id,
+    });
+
+  } catch (err) {
+   console.log("err"); 
   console.log("RESPONSE:", err.response);
   console.log("DATA:", err.response?.data);
   console.log("MESSAGE:", err.response?.data?.message);
-      toast.error(err.response?.data?.message || 'Checkout failed');
-    }
-  };
+  }
+};
 
   const openRazorpayPopup = ({ order_id, currency, orderNumber, backendOrderId }) => {
     if (!window.Razorpay) { toast.error('Razorpay SDK not loaded'); return; }
@@ -298,7 +330,7 @@ console.log("called checkout")
         razorpayPaymentId: response.razorpay_payment_id,
         razorpaySignature: response.razorpay_signature,
       });
-console.log("called verify");
+      console.log("called verify");
       if (data.success) {
         setOrdered(true);
         toast.success('Payment verified');
@@ -317,8 +349,8 @@ console.log("called verify");
   // ── Empty cart ──
   if (cartItems.length === 0) {
     return (
-      <div className="h-auto flex flex-col items-center justify-center px-4 py-16 bg-gradient-to-br from-amber-50 via-amber-50 to-amber-50">
-        <div className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-white">
+      <div className="h-auto flex flex-col items-center justify-center px-4 py-16 bg-background">
+        <div className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-background">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5">
             <ShoppingCart size={80} className="p-2 rounded-4xl text-yellow-700 animate-bounce" />
           </div>
@@ -360,8 +392,26 @@ console.log("called verify");
     );
   }
 
+  const selectedMethod = paymentSummary?.paymentMethods?.find(
+  (item) => item.method === selectedOption
+);
+
+
+let visiblePaymentMethods = [];
+
+if (walletBalance <= 0) {
+  // No wallet money
+  visiblePaymentMethods = ["RAZORPAY","WALLET"];
+} else if (walletBalance < totalAmount) {
+  // Partial wallet balance
+  visiblePaymentMethods = ["HYBRID", "RAZORPAY"];
+} else {
+  // Wallet balance covers full amount
+  visiblePaymentMethods = ["WALLET", "RAZORPAY"];
+}
+
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 bg-background">
+    <div className="min-h-screen py-8 px-4 sm:px-3 bg-background">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -388,13 +438,13 @@ console.log("called verify");
 
             {/* STEP 0: Login — always done */}
             <div className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-xl p-4 flex justify-between items-center">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-full flex items-center justify-center bg-green-100">
                   <CheckCircle className="w-4 h-4 text-green-600/70" />
                 </div>
                 <div>
                   <p className="text-xs 2xl:text-xl uppercase tracking-widest  text-primary/70">Step 1</p>
-                  <p className="text-sm 2xl:text-lg text-white/70 font-semibold font-serif">Login / Account</p>
+                  <p className="text-sm 2xl:text-lg text-white/70 font-semibold font-serif">Login</p>
                 </div>
               </div>
               <div className="text-right">
@@ -519,7 +569,7 @@ console.log("called verify");
 
             {/* STEP 2: Order Summary */}
             {activeStep === 2 ? (
-              <div className="rounded-3xl p-6 shadow-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 ">
+              <div className="rounded-3xl p-3 shadow-md bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  ">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center">
                     <span className="text-xs 2xl:text-2xl font-bold text-amber-950 ">{isWallet ? '2' : '3'}</span>
@@ -553,12 +603,51 @@ console.log("called verify");
                   ))}
                 </div>
 
-                <button
-                  onClick={handleContinueToPayment}
-                  className="w-full 2xl:text-2xl py-3.5 text-black bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
-                >
-                  Continue to Payment <ChevronRight className="w-4 h-4" />
-                </button>
+              
+                  <div className="flex justify-center w-full py-2 ">
+               <div className='border border-white/20 p-2 rounded-2xl w-full'>
+                      <button onClick={handleApplyWallet} className="text-xs 2xl:text-xl text-primary/70 border w-full p-2">select payment option</button>   
+                      </div>                      
+                          </div>
+                          {showOption && (
+  <>
+    <div className="flex flex-col gap-3 mb-3">
+     {paymentSummary?.paymentMethods?.filter((item) => visiblePaymentMethods.includes(item.method)) .map((item) => (
+    
+         <label
+  key={item.method}
+  className={`flex items-center gap-2 border border-white/20 p-3 rounded-xl
+    ${
+      item.method === "WALLET" && walletBalance <= 0
+        ? "opacity-50 cursor-not-allowed"
+        : "cursor-pointer"
+    }`}
+>
+          <input
+  type="radio"
+  name="paymentType"
+  value={item.method}
+  checked={selectedOption === item.method}
+  disabled={item.method === "WALLET" && walletBalance <= 0}
+  onChange={(e) => setSelectedOption(e.target.value)}
+/>
+
+            <div>
+              <p className="text-white/80 font-medium">
+                {item.label}
+              </p>
+              <p className="text-xs text-white/50">
+                {item.description}
+              </p>
+            </div>
+          </label>
+        ))}
+    </div>
+
+    {/* BILL SUMMARY */}
+   
+  </>
+)}
               </div>
             ) : (
               activeStep > 2 && (
@@ -632,11 +721,11 @@ console.log("called verify");
           <div className="lg:col-span-1">
             <div className="rounded-3xl p-6 shadow-md sticky top-24 bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20">
               <div className=" h-0.5 w-8 rounded-full mx-auto mb-5" />
-              <h2 className="text-2xl 2xl:text-2xl font-semibold mb-5 text-center font-serif text-primary">Price Details</h2>
+              <h2 className="text-2xl 2xl:text-2xl font-semibold mb-1 text-center font-serif text-primary">Price Details</h2>
 
-              <div className="flex items-center justify-center gap-2 mb-4 py-2 rounded-xl bg-primaryGoldGradient border border-yellow-700/20">
-                {isWallet ? <Wallet className="w-3.5 h-3.5 text-yellow-900" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
-                <span className="text-xs 2xl:text-lg uppercase tracking-widest text-background font-serif">
+              <div className="flex items-center justify-center gap-2 mb-4 py-2 rounded-xl ">
+                {isWallet ? <Wallet className="w-3.5 h-3.5 text-primary/70" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
+                <span className="text-xs 2xl:text-lg uppercase tracking-widest text-primary/70 font-serif">
                   {isWallet ? 'Keep in Wallet' : 'Delivery'}
                 </span>
               </div>
@@ -659,59 +748,64 @@ console.log("called verify");
                       <div className="w-full h-0.5 bg-yellow-700/10" />
                     </div>
                   ))}
-              </div>
-            <div className="flex justify-end py-2">
-                        
-    
-                      {walletApplied?(
-                        <div className=' flex-col justify-end item-end'>
-                          <div className='border border-white/20 p-2 rounded-2xl'>
-                         <p className='text-xs 2xl:text-xl text-green-700 border border-dotted p-2'>Wallet applied</p>
-                          </div>
-                          {/* <div className=' flex-col justify-end item-end'>
-                            <button onClick={handleRemoveWallet} className='text-red-500 flex-col justify-end  text-sm'>
-                            Remove
-                          </button>
-                          </div> */}
-                          
-                        </div> 
+                  {selectedMethod && (
+                    <>
+                    <div className="flex justify-between py-2">
+                        <span className="text-xs 2xl:text-xl text-primary/70">Total Amount</span>
+                        <span className="text-xs 2xl:text-xl font-medium text-white/70"> ₹{paymentSummary?.billingSummary?.totalAmountINR?.toFixed(2)}</span>
+                      </div>
+                      <div className="w-full h-0.5 bg-yellow-700/10" />
 
-                      ):(<>
-                      <div className='border border-white/20 p-2 rounded-2xl'>
-                      <button onClick={handleApplyWallet} className="text-xs 2xl:text-xl text-primary/70 border border-dotted p-2">Apply Wallet</button>   
-                      </div>     
-                      </>
-                        
-                      )}
-                       </div>
-                        {walletApplied && paymentSummary && (
-                      <div>
-  
-    <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
-                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-red-700"> Wallet Used: </span>
-                <span className="text-xl font-bold  text-white/80">₹{paymentSummary.walletBalanceINR}</span>
-
-      
-              </div>
-
-              <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
-                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-red-700">Remaining Amount To Pay</span>
-                <span className="text-xl font-bold  text-white/80">₹{paymentSummary.paymentMethods?.[0]?.gatewayAmountINR}</span>
-              </div>
-
-             <div className="flex justify-center items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">               
-               <button>continue payment</button>
+                       <div className="flex justify-between py-2">
+                        <span className="text-xs 2xl:text-xl text-primary/70">Wallet Used</span>
+                        <span className="text-xs 2xl:text-xl font-medium text-white/70"> 
+                        ₹{selectedMethod.walletUsedINR?.toFixed(2)}</span>
+                      </div>
+                      <div className="w-full h-0.5 bg-yellow-700/10" />
+                       <div className="flex justify-between py-2">
+                        <span className="text-xl font-bold 2xl:text-xl text-primary/70">Amount To Pay</span>
+                        <span className="text-xl
+                         2xl:text-xl font-medium text-white/70">₹{selectedMethod.remainingPayableINR?.toFixed(2)}</span>
+                      </div>
+                      <div className="w-full h-0.5 bg-yellow-700/10" />
+                    </>
+                  )}
+                   <div className='bg-primary p-2 rounded-2xl text-center font-serif text-background'>
+        <button onClick={handleContinueToPayment}>
+          Continue
+        </button>
+        </div>
               </div>
               
-  </div>
-)}
+              
+              
+               {/* {selectedMethod && (
+      <div className="border border-white/20 rounded-xl p-4 mb-3">
 
-  <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
+
+       
+
+       
+        <div className="border-t border-white/10 my-2"></div>
+
+        <div className="flex justify-between py-2 font-semibold">
+          <span className="text-white">
+            Amount To Pay
+          </span>
+          <span className="text-primary">
+            ₹{selectedMethod.remainingPayableINR?.toFixed(2)}
+          </span>
+        </div>
+       
+      </div>
+      
+    )} */}
+                {/* <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
                 <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-primary/70">Total Amount</span>
                 <span className="text-xl font-bold  text-white/80">₹{finalAmount}</span>
-              </div>
+              </div> */}
+          
 
-            
 
               <div className="rounded-2xl p-4 space-y-2 bg-[#111112] border border-yellow-700/10">
                 {[

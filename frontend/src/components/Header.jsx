@@ -10,6 +10,7 @@ import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
 import Analytics from "../pages/Analytics";
 import TestingPage from "../pages/TestingPage";
+import useCartStore from "../store/cartStore";
 // import Sell from "../pages/Sell";
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
@@ -32,6 +33,8 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const { cartItems } = useCartStore();
+
 
   const handleLogout = async () => {
     try {
@@ -85,7 +88,7 @@ function Header() {
             >
               <ShoppingCart className="w-4 h-4 2xl:w-5 2xl:h-5 text-secondary" />
               <span className="absolute -top-1 -right-1 w-4 h-4 2xl:w-5 2xl:h-5 text-[9px] 2xl:text-[10px] font-black bg-[#DDD9CE] text-[#3C2415] rounded-full flex items-center justify-center">
-                0
+                {cartItems.length}
               </span>
             </Link>
 

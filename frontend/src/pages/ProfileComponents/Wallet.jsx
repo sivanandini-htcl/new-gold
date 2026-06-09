@@ -160,7 +160,7 @@ const handleAddWalletToggle = () => {
               </p>
               <div className="flex items-center gap-2.5">
                 <span className="text-3xl  text-white ">
-                  {balanceVisible ? `₹ ${walletBalance?.balance}` : '₹ ••••••'}
+                  {balanceVisible ? `₹ ${walletBalance?.availableBalance}` : '₹ ••••••'}
                 </span>
                 <button
                   onClick={() => setBalanceVisible(!balanceVisible)}

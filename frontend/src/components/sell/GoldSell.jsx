@@ -190,7 +190,7 @@ catch(error){
                     : 'bg-primary text-background hover:bg-amber-500/90 transition'
                 }`}
               >
-                Review Sell
+                Sell
               </button>
             </div>
           </div>
