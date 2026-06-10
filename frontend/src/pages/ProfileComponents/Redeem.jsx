@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from 'react-router-dom';
+
 import {
   SlidersHorizontal,
   ShoppingCart,
   X,
   Search,
+  ArrowLeft
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -378,13 +381,25 @@ function Redeem() {
       {/* Main */}
       <div className="min-h-screen bg-background py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-4xl  font-serif ">
-              <span className="text-primary">REDEEM JEWELLERY</span> 
-            </h1>
+         
+         <Link
+        to="/dashboard"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
+      </Link>
 
-            
-          </div>
+      {/* Title */}
+      <div className="mb-15 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary p-2">
+         Redeem Jewellery
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div>
 
           <div className="flex justify-end mb-6">
             <button
@@ -477,7 +492,7 @@ function Redeem() {
       {showReplaceModal &&
         pendingItem && (
           <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <div className="bg-[#111117] rounded-2xl p-6 w-full max-w-sm shadow-xl">
               <h2 className="text-lg font-semibold mb-2">
                 Clear Cart?
               </h2>
@@ -486,7 +501,7 @@ function Redeem() {
                 Your cart currently has:
               </p>
 
-              <div className="bg-amber-50 rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
+              <div className="bg-white/70 rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
@@ -528,7 +543,7 @@ function Redeem() {
                   className={`flex-1 py-3 rounded-xl transition ${
                     isProcessing
                       ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-yellow-500 text-white"
+                      : "bg-yellow-500 text-background"
                   }`}
                 >
                   {isProcessing

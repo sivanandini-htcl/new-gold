@@ -3,8 +3,10 @@ import { CreditCard, Eye, EyeOff } from 'lucide-react';
 import dgiLogo from '../../assets/dgilogo.png';
 import fetchHoldingsData from '../../api/holdingsApi';
 import api from '../../api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const GoldSell = () => {
+  const navigate=useNavigate();
   const [amount, setAmount] = useState('');
   const [showSection, setShowSection] = useState(false);
   const [wallet, setWallet] = useState(null);
@@ -261,6 +263,7 @@ catch(error){
       <button
         onClick={() => {
           setSuccessModal(false);
+          navigate('/profile')
      
         }}
         className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"

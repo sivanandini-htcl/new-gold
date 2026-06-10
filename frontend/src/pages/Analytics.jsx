@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 import {
   TrendingUp, TrendingDown, 
-  BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp
+  BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp,ArrowLeft
 } from 'lucide-react';
 
 import {
@@ -17,16 +18,8 @@ import Performance from '../components/analytics/Performance';
 import MonthlyInv from '../components/analytics/MonthlyInv';
 import Investment from '../components/analytics/Investment';
 
-//DUMMY DATA 
-const portfolioSummary = {
-  totalInvested: 31200,
-  currentValue: 84472.32,
-  unrealizedGain: 53272.32,
-  unrealizedGainPercent: 170.74,
-  holdingsCount: 3,
-  daysActive: 26,
-  totalOrders: 3
-};
+
+
 
 const monthlyTrendsData = [
   { month: "2025-12", monthLabel: "Dec", investedINR: 5000, ordersCount: 1, portfolioValueAtEnd: 12000, gainINR: 7000 },
@@ -77,7 +70,7 @@ const Analytics = () => {
   const fetchPortifolio=async()=>{
     try{
       const res=await api.get("/analytics/customer/portfolio/overview")
-      console.log("response: " ,res);
+      console.log(" portifolio response: " ,res);
       setPortfolio(res.data?.data);
     }catch(err){
       console.log("FULL ERROR:", err);
@@ -121,19 +114,41 @@ const Analytics = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+          className="mb-8 flex flex-col md:justify-between gap-4"
         >
           <div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif bg-primary bg-clip-text text-transparent">
-              Analytics Dashboard
-            </h1>
-            <p className="text-zinc-400 mt-1 text-xs md:text-base">Track your precious metals portfolio in real-time</p>
-          </div>
-          <div className="flex items-center gap-3 backdrop-blur-md bg-secondary/5 px-4 py-2.5 rounded-full border border-secondary/10">
+            <div className='flex justify-between'>
+                  <Link
+        to="/dashboard"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
+      </Link>
+          <div className='flex gap-2 border border-secondary/10 h-3 p-3 items-center rounded-xl'>
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
             <span className="text-xs text-zinc-300">Live Data</span>
             {/* <Sparkles size={16} className="text-amber-400" /> */}
           </div>
+
+            </div>
+           
+ <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+   Analytics Dashboard
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+       Track your precious metals portfolio in real-time
+        </p>
+      </div>
+          </div>
+       
+
+          {/* <div className="flex items-center gap-3 backdrop-blur-md bg-secondary/5 px-4 py-1 p-0  border border-secondary/10"> */}
+      
+     
+        
         </motion.div>
 
         {/* HERO / PORTFOLIO SUMMARY */}
@@ -152,7 +167,7 @@ const Analytics = () => {
                   <p className="text-zinc-400 text-sm tracking-wide">TOTAL PORTFOLIO VALUE</p>
                   <div className="flex items-baseline gap-3 flex-wrap">
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-normal text-secondary ">
-                      {/* ₹{portfolio?.currentValue}*/} 123456
+                      ₹{portfolio?.currentValue}
                     </h2>
                     <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-1 mt-2 sm:mt-0">
                       <TrendingUp size={16} /> +{portfolio?.unrealizedGainPercent}% 

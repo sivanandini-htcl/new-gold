@@ -10,9 +10,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import useOrderStore from "../store/useOrderStore";
 import OrderCard from "../components/OrderCard";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;
-
 
 function EmptyState({ onExplore }) {
   return (
@@ -163,7 +163,7 @@ export default function OrdersPage() {
     <>
      <div className="px-60 rounded-2xl m-2 gap-3 flex">
       <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
-     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
+      <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
      </div>
     <div className="animate-pulse grid  grid-cols-1 md:grid-cols-1 gap-3 px-60 rounded-2xl  m-2">
     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
@@ -180,38 +180,34 @@ export default function OrdersPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background  pb-20 font-sans">
       {/* Background Glow */}
-      <div className="pointer-events-none absolute inset-0">
+      {/* <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[20%] top-[10%] h-[500px] w-[500px] rounded-full bg-[#c9a97a14] blur-3xl" />
 
         <div className="absolute bottom-[10%] right-[10%] h-[500px] w-[500px] rounded-full bg-[#a0784010] blur-3xl" />
-      </div>
+      </div> */}
 
       {/* Header */}
       <div className="sticky top-0 z-10  px-4 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
-        <div className="mx-auto max-w-[720px]">
-          <button
-            className="mb-3 inline-flex items-center gap-[6px] text-[13px] tracking-[0.04em] text-[#8a7060] transition-colors duration-200 hover:text-[#c9a97a]"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft size={14} />
-            Back
-          </button>
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <h1 className="text-[30px] font-semibold leading-none text-[#f5e6d2] sm:text-[38px]">
-              My{" "}
-              <span className="font-normal italic text-primary">
-                Orders
-              </span>
-            </h1>
-
-            {/* {orders.length > 0 && (
-              <p className="pb-1 text-[12px] uppercase tracking-[0.1em] text-[#6a5040]">
-                {orders.length} order
-                {orders.length !== 1 ? "s" : ""}
-              </p>
-            )} */}
-          </div>
+        <div className="mx-auto max-w-7xl">
+        <Link
+        to="/dashboard"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
+      </Link>
+      
+      {/* Title */}
+      <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+         My Orders
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div>
+         
         </div>
       </div>
 

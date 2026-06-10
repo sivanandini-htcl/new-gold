@@ -169,6 +169,7 @@ function Checkout() {
   const finalAmount = pricing?.totalAmount;
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
   const walletBalance = paymentSummary?.walletBalanceINR || 0;
+  const totalBillAmount =paymentSummary?.billingSummary?.totalAmountINR || finalAmount;
 
   // Fetch addresses on mount (delivery mode only)
   useEffect(() => {
@@ -402,7 +403,7 @@ let visiblePaymentMethods = [];
 if (walletBalance <= 0) {
   // No wallet money
   visiblePaymentMethods = ["RAZORPAY","WALLET"];
-} else if (walletBalance < totalAmount) {
+} else if (walletBalance < totalBillAmount) {
   // Partial wallet balance
   visiblePaymentMethods = ["HYBRID", "RAZORPAY"];
 } else {
@@ -614,15 +615,14 @@ if (walletBalance <= 0) {
     <div className="flex flex-col gap-3 mb-3">
      {paymentSummary?.paymentMethods?.filter((item) => visiblePaymentMethods.includes(item.method)) .map((item) => (
     
-         <label
+        <label
   key={item.method}
   className={`flex items-center gap-2 border border-white/20 p-3 rounded-xl
     ${
       item.method === "WALLET" && walletBalance <= 0
         ? "opacity-50 cursor-not-allowed"
         : "cursor-pointer"
-    }`}
->
+    }`}>
           <input
   type="radio"
   name="paymentType"
@@ -742,8 +742,8 @@ if (walletBalance <= 0) {
                   .map((r, i) => (
                     <div key={i}>
                       <div className="flex justify-between py-2">
-                        <span className="text-xs 2xl:text-xl text-primary/70">{r.label}</span>
-                        <span className="text-xs 2xl:text-xl font-medium text-white/70">{r.val}</span>
+                        <span className="text-sm 2xl:text-xl text-primary/70">{r.label}</span>
+                        <span className="text-sm 2xl:text-xl font-medium text-white/70">{r.val}</span>
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
                     </div>
@@ -751,14 +751,14 @@ if (walletBalance <= 0) {
                   {selectedMethod && (
                     <>
                     <div className="flex justify-between py-2">
-                        <span className="text-xs 2xl:text-xl text-primary/70">Total Amount</span>
-                        <span className="text-xs 2xl:text-xl font-medium text-white/70"> ₹{paymentSummary?.billingSummary?.totalAmountINR?.toFixed(2)}</span>
+                        <span className="text-sm 2xl:text-xl text-primary/70">Total Amount</span>
+                        <span className="text-sm 2xl:text-xl font-medium text-white/70"> ₹{paymentSummary?.billingSummary?.totalAmountINR?.toFixed(2)}</span>
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
 
                        <div className="flex justify-between py-2">
-                        <span className="text-xs 2xl:text-xl text-primary/70">Wallet Used</span>
-                        <span className="text-xs 2xl:text-xl font-medium text-white/70"> 
+                        <span className="text-sm 2xl:text-xl text-primary/70">Wallet Used</span>
+                        <span className="text-sm 2xl:text-xl font-medium text-white/70"> 
                         ₹{selectedMethod.walletUsedINR?.toFixed(2)}</span>
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
@@ -768,45 +768,14 @@ if (walletBalance <= 0) {
                          2xl:text-xl font-medium text-white/70">₹{selectedMethod.remainingPayableINR?.toFixed(2)}</span>
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
-                    </>
-                  )}
-                   <div className='bg-primary p-2 rounded-2xl text-center font-serif text-background'>
+                           <div className='bg-primary p-2 rounded-2xl text-center font-serif text-background'>
         <button onClick={handleContinueToPayment}>
           Continue
         </button>
         </div>
+        </> )}             
               </div>
               
-              
-              
-               {/* {selectedMethod && (
-      <div className="border border-white/20 rounded-xl p-4 mb-3">
-
-
-       
-
-       
-        <div className="border-t border-white/10 my-2"></div>
-
-        <div className="flex justify-between py-2 font-semibold">
-          <span className="text-white">
-            Amount To Pay
-          </span>
-          <span className="text-primary">
-            ₹{selectedMethod.remainingPayableINR?.toFixed(2)}
-          </span>
-        </div>
-       
-      </div>
-      
-    )} */}
-                {/* <div className="flex justify-between items-center py-3 px-3 rounded-xl mb-5 bg-[#111112]">
-                <span className="text-xs 2xl:text-xl uppercase tracking-widest font-semibold text-primary/70">Total Amount</span>
-                <span className="text-xl font-bold  text-white/80">₹{finalAmount}</span>
-              </div> */}
-          
-
-
               <div className="rounded-2xl p-4 space-y-2 bg-[#111112] border border-yellow-700/10">
                 {[
                   { icon: Shield, text: 'BIS Hallmarked jewellery' },

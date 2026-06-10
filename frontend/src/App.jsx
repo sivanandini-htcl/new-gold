@@ -24,7 +24,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 
 import About from './pages/About';
-import Wishlist from './pages/Wishlist';
+// import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import ProductDetails from './pages/ProductDetails';
 
@@ -247,14 +247,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/wishlist"
               element={
                 <ProtectedRoute>
                   <Wishlist />
                 </ProtectedRoute>
               }
-            />
+            /> */}
 
             <Route
               path="/checkout"

@@ -1,4 +1,4 @@
-import { Eye, EyeOff, CreditCard, X } from 'lucide-react';
+import { Eye, EyeOff, CreditCard, X,Plus,CirclePlus} from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dgiLogo from '../../assets/dgiLogo.png';
@@ -29,6 +29,8 @@ const Wallet = () => {
   const [walletBalance, setWalletBalance] = useState(0);
   const[successModal,setSuccessModal] = useState(false);
   const navigate = useNavigate();
+  const balance =walletBalance?.availableBalance||0
+
 
   const {
     bankAccounts,
@@ -76,6 +78,75 @@ const Wallet = () => {
     setShowBankSection(true);
   };
  
+  const handleAdd=async()=>{
+    const payload={
+       amount:Number(addWalletAmount),
+       paymentMethod:"UPI",
+      idempotencyKey:uuidv4(),
+    }
+    try{
+      console.log("calling topup api")
+      const res=await api.post("/wallet/topup",payload)
+      console.log(res.data.data);
+      const transactionId=res.data.data.transactionId
+      console.log(transactionId)
+
+      console.log("called topup api")
+    if (res.data.success) {
+
+      openRazorpayPopup({
+        order_id: res.data.data.razorpayOrderId,
+        currency: "INR",
+        topupId: res.data.data.transactionId,
+      });
+      }
+
+    }catch(error){
+    console.log("error"); 
+    console.log("RESPONSE:", error.response);
+    console.log("DATA:", error.response?.data);
+    console.log("MESSAGE:", error.response?.data?.message);
+    }
+  }
+
+
+
+const openRazorpayPopup = ({ order_id, currency ,topupId}) => {
+  const rzp = new window.Razorpay({
+    key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+    order_id,
+    currency,
+    name: "DigiGold",
+    description: "Wallet Topup",
+
+    handler: async (response) => {
+     
+      try{
+  console.log("Payment Success");
+      console.log(response);
+      const payload={
+        razorpay_order_id:response.razorpay_order_id,
+      razorpay_payment_id:response.razorpay_payment_id,
+      razorpay_signature:response.razorpay_signature
+      }
+      const res =await api.post('wallet/topup/${transactionId}/complete',payload)
+      console.log("complete res",res.data)
+      }catch(error){
+     console.log("error"); 
+     console.log("RESPONSE:", error.response);
+     console.log("DATA:", error.response?.data);
+     console.log("MESSAGE:", error.response?.data?.message);
+      }
+    
+   //api 
+    },
+  });
+
+  rzp.open();
+};
+
+
+
   // When Withdraw is toggled off, reset everything
 const handleWithdrawToggle = () => {
   setShowWithdraw((prev) => {
@@ -90,7 +161,6 @@ const handleWithdrawToggle = () => {
       setAmountConfirmed(false);
       setShowBankSection(false);
     }
-
     return next;
   });
 };
@@ -120,17 +190,7 @@ const handleAddWalletToggle = () => {
              <p className='font-serif'>My Wallet</p>
              <div className='w-full flex justify-end items-end'>
             <button className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="16" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
+           <CirclePlus/>
             Buy More
           </button></div>
         {/* ── Credit Card ── */}
@@ -188,22 +248,29 @@ const handleAddWalletToggle = () => {
 
         {/* ── Action Buttons ── */}
         <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={handleWithdrawToggle}
-            className="flex items-center  text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-white bg-[#0a0a12] border border-white/10 hover:bg-[#1a1a2e] active:scale-95 transition-all"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <path d="M12 19V5M5 12l7-7 7 7" />
-            </svg>
-            Withdraw
-          </button>
+         <button
+  disabled={balance <= 0}
+  onClick={handleWithdrawToggle}
+  className={`flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold
+    text-white bg-[#0a0a12] border border-white/10 hover:bg-[#1a1a2e]
+    active:scale-95 transition-all
+    ${balance <= 0
+      ? "cursor-not-allowed opacity-50"
+      : " text-white"
+    }`}
+>
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+  >
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+  Withdraw
+</button>
           
          
          <button onClick={handleAddWalletToggle} className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
@@ -244,7 +311,7 @@ const handleAddWalletToggle = () => {
               />
             </div>
               <button
-                onClick={handleNext}
+                onClick={handleAdd}
                 className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm hover:brightness-110 active:scale-98 transition-all"
               >
                Add+

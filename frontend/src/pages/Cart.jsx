@@ -184,7 +184,7 @@ function Cart() {
 
               <div>
                 <p className="text-sm 2xl:text-2xl font-semibold font-serif text-primary">
-                  {hasMetalItems ? 'Digital Metal Wallet' : 'Physical Delivery'}
+                  {hasMetalItems ? 'Digital Metal Wallet' : ' Delivery'}
                 </p>
 
                 <p className="text-xs 2xl:text-lg text-white/70 mt-0.5">
@@ -239,11 +239,13 @@ function Cart() {
                               {item.name}
                             </h3>
 
-                            {isDigital && (
+                            {isDigital ? (
                               <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
                                 Digital
                               </span>
-                            )}
+                            ):( <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
+                                Delivery
+                              </span>)}
                           </div>
 
                           <p className="text-base sm:text-lg 2xl:text-2xl font-bold  text-primary shrink-0">

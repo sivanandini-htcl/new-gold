@@ -127,7 +127,7 @@ body {
   }
 }
 
-/* ------------------ ANIMATIONS ------------------ */
+/* ---- ANIMATIONS ----- */
 .animate-heartbeat {
   animation: heartbeat 2s ease-in-out infinite;
 }
