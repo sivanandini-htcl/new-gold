@@ -44,7 +44,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#1A1A23]/90 backdrop-blur-md border border-secondary/20 rounded-xl p-3 shadow-xl">
-        <p className="text-secondary text-sm font-semibold">{label}</p>
+        <p className="text-secondary text-sm ">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} className="text-sm" style={{ color: entry.color || entry.fill }}>
             {entry.name}: ₹{entry.value}
@@ -135,10 +135,10 @@ const Analytics = () => {
            
  <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2 whitespace-nowrap">
    Analytics Dashboard
         </h1>
-        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-2 ">
        Track your precious metals portfolio in real-time
         </p>
       </div>
@@ -177,19 +177,19 @@ const Analytics = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Invested</p>
-                    <p className="text-secondary text-lg md:text-xl font-semibold">₹{portfolio?.totalInvested}</p>
+                    <p className="text-secondary text-lg md:text-xl ">₹{portfolio?.totalInvested}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Unrealized Gain</p>
-                    <p className="text-green-400 text-lg md:text-xl font-semibold">+₹{portfolio?.unrealizedGain}</p>
+                    <p className="text-green-400 text-lg md:text-xl ">+₹{portfolio?.unrealizedGain}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Holdings</p>
-                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolio?.holdingsCount}</p>
+                    <p className="text-secondary text-lg md:text-xl ">{portfolio?.holdingsCount}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Total Orders</p>
-                    <p className="text-secondary text-lg md:text-xl font-semibold">{portfolio?.totalOrders}</p>
+                    <p className="text-secondary text-lg md:text-xl ">{portfolio?.totalOrders}</p>
                   </div>
                 </div>
               </div>

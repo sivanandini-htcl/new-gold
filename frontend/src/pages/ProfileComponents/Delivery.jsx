@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   Edit3,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 
 import useAddressStore from "../../store/addressStore";
+
 
 const labelIcons = {
   home: <Home size={14} />,
@@ -285,44 +287,62 @@ function Delivery() {
       toast.error(result.message);
     }
   };
+  if(loading){
+    return(
+    <div className="flex flex-col items-start p-5">
+    <div className="h-2 bg-secondary/8 rounded-lg w-35 mb-5"></div>
+
+    <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-5"></div>
+    <div className="h-30 bg-secondary/8 rounded-lg w-65 mb-10"></div> </div>)
+  }
 
   return (
-    <div
-      className="min-h-screen bg-background"
-      style={{ fontFamily: "'DM Sans', sans-serif" }}
-    >
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');`}</style>
-
+    <div className="min-h-screen bg-background" >  
+     <div className="  px-4 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
+        <div className="mx-auto max-w-7xl">
+        <Link
+        to="/profile"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Profile
+      </Link>
+      
+      {/* Title */}
+      <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+         Addreses
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div>
+         
+        </div>
+      </div>
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <button
-          onClick={() => navigate("/profile")}
-          className="flex items-center gap-2 text-xs text-primary/70 hover:text-gray-800 transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Profile
-        </button>
-
-        <div className="flex items-center justify-between mb-6">
+        <div className=" flex flex-col   mb-2">
           <div>
-            <h2 className="text-2xl font-bold font-serif text-primary">
-              Delivery Addresses
-            </h2>
-            <p className="text-xs text-white/70 mt-1">
+           
+            <p className="text-xs text-white/70  mb-2">
               {addresses?.length || 0} saved address
               {addresses?.length !== 1 ? "es" : ""}
             </p>
           </div>
-
-          <button
+          <div className="flex items-end justify-end">
+             <button
             onClick={() => setShowForm(true)}
-            className="flex items-center  bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-xs md:text-sm font-semibold px-1 py-2.5 rounded-xl shadow-sm transition-colors"
+            className="flex  whitespace-nowrap mb-3 justify-end  bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-xs md:text-sm font-semibold px-1 py-2.5 rounded-xl shadow-sm transition-colors"
           >
             <Plus size={16} />
-             Address
+            Add Address
           </button>
+          </div>
+    
         </div>
 
-        {loading && addresses.length === 0 ? (
+        {loading  ? (
           <div className="text-center py-16 text-gray-400 text-sm">
             Loading addresses...
           </div>

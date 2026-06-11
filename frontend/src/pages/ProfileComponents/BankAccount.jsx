@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Plus, X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import useBankAccountStore from '../../store/bankAccountStore';
 
 const BankAccount = () => {
@@ -85,29 +86,42 @@ const BankAccount = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-6xl w-full p-3 bg-background">
-      <div className="p-3">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate('/profile')}
-          className="flex items-center gap-2 text-xs text-primary/70 hover:text-gray-800 transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Profile
-        </button>
+    <div className="min-h-screen max-w-7xl w-full p-3 bg-background">
+      <div className="">
+        {/* Header */}   
+           <div className=" px-2 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
+       
+        <Link
+        to="/profile"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Profile
+      </Link>
+      
+      {/* Title */}
+      <div className="mb-2 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+         Bank Details
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div> 
+        </div>       
+       
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold font-serif text-primary">Bank Accounts</h2>
-
-          <button
+  <div className="max-w-2xl mx-auto px-4 py-8">
+         <div className='flex items-end justify-end'>
+      <button
             onClick={() => setShowForm(true)}
-            className="text-xs flex items-center gap-1 bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 font-semibold px-1 md:px-4 py-1 rounded-xl shadow-sm transition-colors"
+            className="flex  whitespace-nowrap mb-3 justify-end  bg-[#111112] hover:bg-gray-700 border border-white/20 text-white/70 text-xs md:text-sm font-semibold px-1 py-2.5 rounded-xl shadow-sm transition-colors"
           >
             <Plus size={16} />
             Add Account
           </button>
-        </div>
+          </div>
 
         {/* Loading */}
         {loading && (
@@ -252,7 +266,7 @@ const BankAccount = () => {
           </div>
         )}
       </div>
-    </div>
+    </div></div>
   );
 };
 

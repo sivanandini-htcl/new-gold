@@ -128,7 +128,7 @@ function Gold() {
       </Link>
 
       {/* Title */}
-      <div className="mb-15 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+      <div className="mb-10 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
         <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
          BUY GOLD

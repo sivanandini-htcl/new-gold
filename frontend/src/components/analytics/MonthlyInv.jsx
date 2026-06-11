@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#1A1A23]/90 backdrop-blur-md border border-white/20 rounded-xl p-3 shadow-xl">
-        <p className="text-white text-sm font-semibold">{label}</p>
+        <p className="text-white text-sm ">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} className="text-sm" style={{ color: entry.color || entry.fill }}>
             {entry.name}: ₹{entry.value.toLocaleString('en-IN')}
@@ -43,7 +43,7 @@ const MonthlyInv = () => {
           className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 mb-10"
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h3 className="text-md font-semibold text-white flex items-center gap-2">
+            <h3 className="text-md  text-white flex items-center gap-2">
               <BarChart3 size={22} className="text-amber-400" /> Monthly Investment Trends
             </h3>
             <div className="flex gap-2 bg-white/5 p-1 rounded-xl">

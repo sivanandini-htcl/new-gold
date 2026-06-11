@@ -50,7 +50,7 @@ function ResetMPIN() {
   };
 
   const renderBoxes = (field) => (
-    <div className="flex gap-3 justify-center">
+    <div className="flex gap-2 p-2 justify-center">
       {[...Array(6)].map((_, index) => (
         <input
           key={index}
@@ -74,20 +74,8 @@ function ResetMPIN() {
               e.target.previousSibling
             )
           }
-          className="
-            w-10 h-12
-            rounded-xl
-            border border-white/20
-            bg-secondary
-            text-background
-            text-center
-            text-xl
-            font-semibold
-            outline-none
-            focus:border-accent
-            focus:ring-2
-            focus:ring-accent/40
-          "
+          className=" w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
+        text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
         />
       ))}
     </div>

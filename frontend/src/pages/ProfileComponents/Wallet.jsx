@@ -1,4 +1,4 @@
-import { Eye, EyeOff, CreditCard, X,Plus,CirclePlus} from 'lucide-react';
+import { Eye, EyeOff, CreditCard, X,Plus,CirclePlus,ArrowLeft} from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dgiLogo from '../../assets/dgiLogo.png';
@@ -9,6 +9,7 @@ import MpinModal from '../../components/MpinModal';
 import api from '../../api/axiosInstance';
 import { v4 as uuidv4 } from 'uuid';
 import { getDeviceFingerprint, loadDeviceFingerprint } from '../../utils/deviceFingerprint';
+import { Link } from 'react-router-dom';
 
 const Wallet = () => {
   const [balanceVisible, setBalanceVisible] = useState(false);
@@ -88,8 +89,10 @@ const Wallet = () => {
       console.log("calling topup api")
       const res=await api.post("/wallet/topup",payload)
       console.log(res.data.data);
-      const transactionId=res.data.data.transactionId
-      console.log(transactionId)
+      // const transactionId=res.data.data.transactionId
+      // console.log(transactionId)
+      console.log("Transaction ID:", res.data.data.transactionId);
+      console.log("Backend Order ID:", res.data.data.razorpayOrderId);
 
       console.log("called topup api")
     if (res.data.success) {
@@ -122,15 +125,20 @@ const openRazorpayPopup = ({ order_id, currency ,topupId}) => {
     handler: async (response) => {
      
       try{
-  console.log("Payment Success");
+      console.log("Payment Success");
       console.log(response);
+
       const payload={
-        razorpay_order_id:response.razorpay_order_id,
-      razorpay_payment_id:response.razorpay_payment_id,
-      razorpay_signature:response.razorpay_signature
+       razorpay_orderId:response.razorpay_order_id,
+      razorpay_paymentId:response.razorpay_payment_id,
+      razorpaySignature:response.razorpay_signature
       }
-      const res =await api.post('wallet/topup/${transactionId}/complete',payload)
+      console.log("calling complete")
+      const res =await api.post(`wallet/topup/${topupId}/complete`,payload)
+      console.log("called complete")
       console.log("complete res",res.data)
+
+
       }catch(error){
      console.log("error"); 
      console.log("RESPONSE:", error.response);
@@ -185,16 +193,41 @@ const handleAddWalletToggle = () => {
 };
 
   return (
-          <div className="min-h-screen bg-background flex flex-col items-center py-10 px-4">
-             <div className="w-full text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl  text-primary max-w-sm flex flex-col gap-5">
-             <p className='font-serif'>My Wallet</p>
-             <div className='w-full flex justify-end items-end'>
+          <div className="min-h-screen bg-background  py-4 px-4">
+
+            <div className=" px-4 py-4 backdrop-blur-[20px] sm:px-6 sm:py-5">
+        <div className="mx-auto max-w-7xl">
+        <Link
+        to="/dashboard"
+        className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
+      </Link>
+      
+      {/* Title */}
+      <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
+         My Wallet
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div>
+         
+        </div>
+      </div>
+      
+             <div className=" flex flex-col gap-3 2xl:pr-90 items-center justify-center">           
+             <div className='w-full flex justify-end items-end max-w-2xl md:mr-70 2xl:mr-1'>
             <button className="flex items-center text-xs justify-center gap-1 py-2 px-1 rounded-xl font-semibold  text-secondary bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all">
            <CirclePlus/>
             Buy More
-          </button></div>
+          </button>
+          </div>
         {/* ── Credit Card ── */}
-        <div className="relative w-full h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
+        <div className="relative w-full md:w-100 2xl:w-170 2xl:h-70 h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
           
           <div className="absolute inset-0 flex flex-col gap-1.5 p-3 opacity-[0.04]">
             {[...Array(14)].map((_, i) => (

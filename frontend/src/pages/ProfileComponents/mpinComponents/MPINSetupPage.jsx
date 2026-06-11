@@ -47,8 +47,8 @@ function MPINSetupPage() {
 
           {/* Info Section */}
           <div className="mb-8 bg-blue-500/10 border border-blue-500/20 rounded-xl p-6">
-            <h3 className="text-blue-400 font-semibold mb-3">What is MPIN?</h3>
-            <ul className="text-white/70 text-sm space-y-2">
+            <h3 className="text-blue-400 font-serif mb-3 text-sm">What is MPIN?</h3>
+            <ul className="text-white/70  text-sm space-y-2">
               <li>✓ A 6 digit PIN to authorize withdrawals</li>
               <li>✓ Required for selling digital gold</li>
               <li>✓ Adds an extra layer of security</li>
@@ -63,10 +63,10 @@ function MPINSetupPage() {
               <label className="block text-sm font-medium text-white/70 mb-2">
                 Enter MPIN (6 digits)
               </label>
-              <div className="flex gap-3 justify-center">
+              <div className="flex gap-2 p-2 justify-center">
                 {[...Array(6)].map((_, index) => (
-              <input key={index}  type="password" maxLength={1} value={mpinData.mpin[index] || ''}
-     onChange={(e) => handleDigitChange('mpin', index, e.target.value, e.target.nextSibling) }
+              <input key={index} type="password" maxLength={1} value={mpinData.mpin[index] || ''}
+        onChange={(e) => handleDigitChange('mpin', index, e.target.value, e.target.nextSibling) }
         onKeyDown={(e) => handleBackspace(e, 'mpin', index, e.target.previousSibling)} className=" w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
         text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
                   />
@@ -95,7 +95,7 @@ function MPINSetupPage() {
                     onKeyDown={(e) =>
                       handleBackspace(e, 'confirmMpin', index, e.target.previousSibling)
                     }
-                    className="w-9 h-10 rounded-xl border border-white/20 bg-secondarytext-background text-center 
+                    className="w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center 
                     text-xl  font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
                   />
                 ))}
@@ -112,8 +112,8 @@ function MPINSetupPage() {
             </div>
 
             {/* Security Rules */}
-            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 text-xs text-white/70">
-              <p className="font-semibold text-yellow-300 mb-2">Security Rules:</p>
+            <div className="bg-[#111117] border border-[#111117] rounded-lg p-4 text-xs text-white/70">
+              <p className="font-semibold text-primary mb-2">Security Rules:</p>
               <ul className="space-y-1">
                 <li>✓ 4-6 digits (only numbers)</li>
                 <li>✗ No repeating patterns (1111, 2222)</li>

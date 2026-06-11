@@ -1,20 +1,19 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { CreditCard, Eye, EyeOff } from 'lucide-react';
-import dgiLogo from '../../assets/dgilogo.png';
-import fetchHoldingsData from '../../api/holdingsApi';
-import api from '../../api/axiosInstance';
-import { useNavigate } from 'react-router-dom';
 
-const GoldSell = () => {
-  const navigate=useNavigate();
+import dgiLogo from '../../../assets/dgilogo.png';
+import fetchHoldingsData from '../../../api/holdingsApi';
+import api from '../../../api/axiosInstance';
+
+const SilverSell = () => {
   const [amount, setAmount] = useState('');
   const [showSection, setShowSection] = useState(false);
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [error, setError] = useState(null);
-  const[successModal,setSuccessModal]=useState(false);
+  const[sucessModal,setSuccessModal]=useState(false);
 
-  const totalValue = metalWallet?.metals?.[0]?.currentValueINR; 
+  const totalValue = metalWallet?.metals?.[1]?.currentValueINR; 
 
   const handleReview = async() => {
     const amountValue = Number(amount);
@@ -37,7 +36,7 @@ const GoldSell = () => {
     setShowSection(true);
 
 const payload = {
-  metal: 'GOLD',
+  metal: 'SILVER',
   amountINR: amountValue, 
 };
 try{
@@ -71,6 +70,12 @@ catch(error){
     <div className="min-h-screen bg-[#0f0f17] flex flex-col items-center py-10 px-4">
       <div className="w-full max-w-6xl flex flex-col gap-5">
         {/* first row */}
+        <div className="w-full flex items-center justify-center text-4xl text-primary font-serif ">
+        <h1>
+          YOUR GOLD WALLET
+        </h1>
+        </div>
+        
         <div className=" grid md:grid-cols-2 gap-4">
           {/* credit card */}
           <div className="relative w-full h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
@@ -86,9 +91,9 @@ catch(error){
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center">
                   <img src={dgiLogo} alt="" className="h-10 w-20" />
                 </div>
-                <div className="flex items-center gap-1.5 text-[#c9a84c] text-xs  tracking-widest">
+                <div className="flex items-center gap-1.5 text-gray-300 text-xs  tracking-widest">
                   <CreditCard />
-                  GOLD CREDIT
+                  SILVER CREDIT
                 </div>
               </div>
 
@@ -106,10 +111,10 @@ catch(error){
                   <div className="flex justify-between">
                     <span className="text-xl font-bold text-white tracking-tight">
                    
-                      ₹{metalWallet?.metals?.[0]?.currentValueINR || "Loading..."}
+                      ₹{metalWallet?.metals?.[1]?.currentValueINR || "Loading..."}
                     </span>
                     <span className="text-xl font-bold text-white tracking-tight">
-                      {metalWallet?.metals?.[0]?.quantityGrams}/g
+                      {metalWallet?.metals?.[1]?.quantityGrams}/g
                     </span>
                   </div>
 
@@ -138,14 +143,14 @@ catch(error){
           </div>
 
           {/* input and button container */}
-          <div className="border border-white/7 p-3 relative w-full h-full rounded-2xl overflow-hidden bg-[#0a0a12]">
+          <div className="border border-white/7 p-3 relative w-full h-full rounded-2xl overflow-hidden  bg-[#0a0a12]">
             {/* input field */}
             <div>
               <div className="mb-6">
                 <label className="text-sm text-white/50 mb-2 block">Enter Amount to Sell</label>
 
                 <div className="bg-white/[0.04] border border-white/10 rounded-2xl px-4 py-4 flex items-center">
-                  <span className="text-3xl mr-2 text-white/40">₹</span>
+                  <span className="text-sm md:text-lg mr-2 text-white/40">₹</span>
 
                   <input
                     type="number"
@@ -155,7 +160,7 @@ catch(error){
                       setAmount(e.target.value);
                       setError(null);
                     }}
-                    className="bg-transparent outline-none w-full text-xl "
+                    className="bg-transparent outline-none w-full text-sm md:text-lg "
                   />
                 </div>
 
@@ -163,12 +168,12 @@ catch(error){
               </div>
             </div>
             {/* QUICK BUTTONS */}
-            <div className="flex justify-center gap-3 mb-6 overflow-auto">
+            <div className="flex gap-3 mb-6 overflow-auto justify-center">
               {[500, 1000, 5000].map((amt) => (
                 <button
                   key={amt}
                   onClick={() => setAmount(amt)}
-                  className="px-5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm"
+                  className="px-3 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs md:text-sm"
                 >
                   ₹{amt}
                 </button>
@@ -180,7 +185,7 @@ catch(error){
               >
                 Sell All
               </button> */}
-             
+           
             </div>
             <div className="flex justify-end">
              <button
@@ -192,9 +197,10 @@ catch(error){
                     : 'bg-primary text-background hover:bg-amber-500/90 transition'
                 }`}
               >
-                Sell
+               Sell
               </button>
             </div>
+             
           </div>
         </div>
         {/* {showSection && (
@@ -253,7 +259,7 @@ catch(error){
             </div>
           </div>
         )} */}
-             { successModal && (
+             {sucessModal&& (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
     <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
       <h2 className="text-lg font-bold text-white">Sell Successful</h2>
@@ -263,7 +269,6 @@ catch(error){
       <button
         onClick={() => {
           setSuccessModal(false);
-          navigate('/profile')
      
         }}
         className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
@@ -277,4 +282,4 @@ catch(error){
     </div>
   );
 };
-export default GoldSell;
+export default SilverSell;

@@ -41,15 +41,28 @@ function KycPage() {
   
   if (initialLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-black text-lg font-medium">Loading KYC...</p>
+      <div className="min-h-screen max-w-7xl  p-4 flex flex-col items-center gap-2 ">
+       <div className='flex gap-2  mb-10'>
+        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
+        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
+        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
+         </div>
+         <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-10"></div>
+         <div className="h-10 bg-secondary/8 rounded-lg w-65 mb-3"></div>
+         <div className="h-2 bg-secondary/8 rounded-lg w-65 "></div>
+         <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-15 "></div>
+         <div className="h-20 bg-secondary/8 rounded-lg w-65 "></div>
+
+
+
+
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <div className="max-w-7xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
+      <div className=" md:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-accent p-6 text-center">
           <h1 className="text-3xl font-serif text-white/70">KYC Verification</h1>
@@ -57,7 +70,7 @@ function KycPage() {
         </div>
 
         {/* Stepper */}
-        <div className="flex items-center justify-center px-6 py-5 border-b">
+        <div className="flex items-center justify-center px-6 py-5 border-b pl-13">
           {[1, 2, 3].map((step) => (
             <div key={step} className="flex-1 flex items-center">
               <div
@@ -325,11 +338,11 @@ function KycPage() {
 
           {currentStep === 5 && (
             <div className="text-center py-12 ">
-              <div className="w-24 h-24 bg-green-400/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+              {/* <div className="w-24 h-24 bg-green-400/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                 <span className="text-5xl">✓</span>
-              </div>
+              </div> */}
 
-              <h2 className="text-3xl font-serif text-green-600 mb-2">KYC Approved!</h2>
+              <h2 className="text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2">KYC Approved!</h2>
               <p className="text-white/60 mb-8">Your account is verified and ready to use.</p>
 
               <button

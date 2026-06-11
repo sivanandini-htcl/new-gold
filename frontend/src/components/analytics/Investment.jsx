@@ -59,14 +59,14 @@ const [invest,setInvest]=useState([]);
             <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Activity size={20} className="text-amber-400" />
-                <h4 className="font-semibold text-white">Investment Metrics</h4>
+                <h4 className=" text-white">Investment Metrics</h4>
               </div>
               <div className="space-y-4 text-sm">
                 <div className="flex justify-between"><span className="text-zinc-400">Avg. Order Value</span><span className="text-white font-medium">₹{invest?.averageOrderValue}</span></div>
                 <div className="flex justify-between"><span className="text-zinc-400">Frequency</span><span className="text-white font-medium capitalize">{invest?.investmentFrequency}</span></div>
                 <div className="flex justify-between"><span className="text-zinc-400">Metal Diversity</span><span className="text-white font-medium">{invest?.metalDiversity} metals</span></div>
                 <div className="flex justify-between"><span className="text-zinc-400">Concentration Risk</span><span className={`px-3 py-1 rounded-full text-xs font-medium ${invest?.concentrationRisk === 'low' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>{invest?.concentrationRisk}</span></div>
-                <div className="flex justify-between"><span className="text-zinc-400">Most Active Month</span><span className="text-white font-medium">Apr 2026</span></div>
+                <div className="flex justify-between"><span className="text-zinc-400">Most Active Month</span><span className="text-white font-medium">{invest?.mostActiveMonth}</span></div>
               </div>
             </div>
           </motion.div>
@@ -80,7 +80,7 @@ const [invest,setInvest]=useState([]);
           >
             <div className="flex items-center gap-2 mb-5">
               <Award size={20} className="text-amber-400" />
-              <h4 className="font-semibold text-white">Metal Rankings</h4>
+              <h4 className=" text-white">Metal Rankings</h4>
             </div>
             <div className="space-y-4">
               {metalRankings.map((item) => (
@@ -90,12 +90,12 @@ const [invest,setInvest]=useState([]);
                       {item.rank === 1 ? <Crown size={18} /> : <Medal size={18} />}
                     </div>
                     <div>
-                      <p className="font-bold text-white">{item.metal}</p>
+                      <p className=" text-white">{item.metal}</p>
                       <p className="text-xs text-zinc-400">+₹{item.gainINR.toLocaleString()}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-green-400 font-bold">+{item.gainPercent}%</p>
+                    <p className="text-green-400 ">+{item.gainPercent}%</p>
                     <div className="w-20 h-1 bg-white/10 rounded-full mt-1">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: `${Math.min(item.gainPercent / 3, 100)}%` }} />
                     </div>
@@ -115,7 +115,7 @@ const [invest,setInvest]=useState([]);
             <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl" />
             <div className="flex items-center gap-2 mb-5">
               <Sparkles size={20} className="text-amber-400" />
-              <h4 className="font-semibold text-white">AI Insights</h4>
+              <h4 className=" text-white">AI Insights</h4>
             </div>
             <div className="space-y-3 relative z-10">
               {aiInsights.slice(0, 3).map((insight, idx) => (

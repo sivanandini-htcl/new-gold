@@ -36,9 +36,8 @@ import Analytics from './pages/Analytics';
 import MPINSetupPage from './pages/ProfileComponents/mpinComponents/MPINSetupPage';
 import MpinPage from './pages/ProfileComponents/mpinComponents/Mpin';
 import TestingPage from './pages/TestingPage';
-
-import GoldSell from './components/sell/GoldSell';
-import SilverSell from './components/sell/SilverSell';
+import GoldSell from './pages/ProfileComponents/sell/GoldSell';
+import SilverSell from './pages/ProfileComponents/sell/SilverSell';
 import ChangeMPIN from './pages/ProfileComponents/mpinComponents/ChangeMPIN';
 import ResetMPIN from './pages/ProfileComponents/mpinComponents/ResetMpin';
 

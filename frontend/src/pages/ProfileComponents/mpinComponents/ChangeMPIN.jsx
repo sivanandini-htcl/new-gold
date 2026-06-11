@@ -101,16 +101,15 @@ function ChangeMPIN() {
   };
 
   const renderMpinBoxes = (field) => (
-    <div className="flex gap-3 justify-center">
+    <div className="flex gap-2 p-2 justify-center">
       {[...Array(6)].map((_, index) => (
         <input    key={index}type="password" maxLength={1}  value={mpinData[field][index] || ""}
         onChange={(e) =>   handleDigitChange(field,index, e.target.value, e.target.nextSibling
             )
           }
       onKeyDown={(e) =>  handleBackspace( e, field,index, e.target.previousSibling)}
-          className=" w-10 h-12 rounded-xl border border-white/20
-            bg-secondary text-background text-center text-xl font-semibold outline-none
-            focus:border-accent focus:ring-2 focus:ring-accent/40"
+          className="  w-9 h-10 rounded-xl border border-white/20 bg-secondary text-background text-center
+        text-xl font-semibold outline-none focus:border-accent focus:ring-2 focus:ring-accent/40 "
         />
       ))}
     </div>

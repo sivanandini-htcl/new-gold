@@ -703,7 +703,7 @@ function Dashboard() {
           <div className="grid grid-cols-2 items-center gap-10 ">
             <div className=" grid items-center">
               <div className="md:flex md:flex-col md:space-y-4">
-                <p className=" text-sm mt-8 md:text-xl font-serif  italic text-primary   md:leading-tight lg:text-4xl 2xl:text-6xl">
+                <p className=" text-sm mt-8 md:text-xl font-serif  italic text-primary  md:leading-tight lg:text-4xl 2xl:text-6xl">
                   Reward Excellence. Build Lasting Bonds
                 </p>
               </div>

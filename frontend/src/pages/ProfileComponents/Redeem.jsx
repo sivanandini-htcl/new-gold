@@ -286,7 +286,17 @@ function Redeem() {
 
   if (loading) {
     return(
-    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-5 md:m-20 p-4">
+      <div>
+        <div className="flex flex-col gap-3 p-5 m-5">
+            <div className="h-2 bg-secondary/8 rounded-lg w-30"></div>
+     <div className="h-2 bg-secondary/8 rounded-lg w-65 md:w-80"></div>
+     <div className="h-2 bg-secondary/8 rounded-lg w-65 md:w-120"></div>
+
+  
+        </div>
+    
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-3 m-5 md:m-20 p-4">
+   
     <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
@@ -296,6 +306,7 @@ function Redeem() {
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+  </div>
   </div>
     );
   }
@@ -379,7 +390,7 @@ function Redeem() {
       </motion.div>
 
       {/* Main */}
-      <div className="min-h-screen bg-background py-8 px-4">
+      <div className="min-h-screen max-w-[1440px] m-auto  py-8 px-4 sm:px-6 lg:px-10  bg-background">
         <div className="max-w-7xl mx-auto">
          
          <Link

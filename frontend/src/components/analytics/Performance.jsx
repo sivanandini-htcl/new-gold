@@ -12,10 +12,6 @@ import {
   LineChart, Line
 } from 'recharts';
 
-const allocationData = [
-  { metal: "SILVER", valueINR: 40989, allocationPercent: 48.52, grams: 150, color: "#C0C0C0", gradient: "url(#silverGradient)" },
-  { metal: "GOLD", valueINR: 36888.8, allocationPercent: 43.66, grams: 2.5, color: "#F8D9AD", gradient: "url(#goldGradient)" }
-];
 
 const metalPerformanceData = [
   {
@@ -43,11 +39,12 @@ const metalPerformanceData = [
     sparklineData: [18000, 22000, 28000, 32000, 35000, 36888.8]
   }
 ];
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#1A1A23]/90 backdrop-blur-md border border-white/20 rounded-xl p-3 shadow-xl">
-        <p className="text-white text-sm font-semibold">{label}</p>
+        <p className="text-white text-sm ">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} className="text-sm" style={{ color: entry.color || entry.fill }}>
             {entry.name}: ₹{entry.value.toLocaleString('en-IN')}
@@ -61,6 +58,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Performance = () => {
     const[performanceData, setPerformanceData] = useState([]);
     const[loading,setLoading]=useState(true)
+    const allocationData=performanceData.filter((metal)=>metal.metal!="PLATINUM").map((metal)=>({
+      metal:metal.metal,
+       valueINR:metal.valueINR,
+       allocationPercent:metal.allocationPercent,
+       color: metal.metal === "GOLD" ? "#F8D9AD" : "#C0C0C0",
+       gradient:
+metal.metal === "GOLD"
+        ? "url(#goldGradient)"
+        : "url(#silverGradient)",
+    }));
 
 
 useEffect(()=>{
@@ -92,7 +99,7 @@ useEffect(()=>{
             className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-sm md:text-xl font-semibold text-white flex items-center gap-2">
+              <h3 className="text-sm md:text-xl  text-white flex items-center gap-2">
                 <PieChartIcon size={22} className="text-amber-400" /> Portfolio Allocation
               </h3>
               <span className="text-xs text-zinc-400">by value</span>
@@ -136,7 +143,7 @@ useEffect(()=>{
               {performanceData.filter((metal) => metal.metal !== "PLATINUM").map(metal => (
                 <div key={metal.metal} className="text-center">
                   <p className="text-sm font-medium text-zinc-300"> {metal.metal}</p>
-                  <p className="text-lg font-bold text-white">{metal.grams} {metal.metal === "GOLD" ? "g" : "g"}</p>
+                  <p className="text-lg  text-white">{metal.grams} {metal.metal === "GOLD" ? "g" : "g"}</p>
                   <p className="text-xs text-zinc-500">{metal.allocationPercent}%</p>
                 </div>
               ))}
@@ -167,7 +174,7 @@ useEffect(()=>{
                       <Gem size={24} className={metal.metal === 'GOLD' ? 'text-amber-400' : 'text-gray-300'} />
                     </div>
                     <div>
-                      <h4 className="text-md font-bold text-white">{metal.metal}</h4>
+                      <h4 className="text-md  text-white">{metal.metal}</h4>
                       <span className="text-sm text-zinc-400">{metal.allocationPercent}% portfolio</span>
                     </div>
                   </div>
@@ -177,10 +184,10 @@ useEffect(()=>{
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm">
-                  <div><p className="text-zinc-400 text-xs">Current Value</p><p className="text-white font-semibold">₹{metal.currentValueINR.toLocaleString()}</p></div>
-                  <div><p className="text-zinc-400 text-xs">Invested</p><p className="text-white font-semibold">₹{metal.totalInvestedINR.toLocaleString()}</p></div>
-                  <div><p className="text-zinc-400 text-xs">Live Price</p><p className="text-white font-semibold">₹{metal.currentLivePrice.toLocaleString()}/g</p></div>
-                  <div><p className="text-zinc-400 text-xs">Gain</p><p className="text-green-400 font-semibold">+₹{metal.unrealizedGainINR.toLocaleString()}</p></div>
+                  <div><p className="text-zinc-400 text-xs">Current Value</p><p className="text-white ">₹{metal.currentValueINR.toLocaleString()}</p></div>
+                  <div><p className="text-zinc-400 text-xs">Invested</p><p className="text-white ">₹{metal.totalInvestedINR.toLocaleString()}</p></div>
+                  <div><p className="text-zinc-400 text-xs">Live Price</p><p className="text-white ">₹{metal.currentLivePrice.toLocaleString()}/g</p></div>
+                  <div><p className="text-zinc-400 text-xs">Gain</p><p className="text-green-400 ">+₹{metal.unrealizedGainINR.toLocaleString()}</p></div>
                 </div>
                 <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mt-6">
                   <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" style={{ width: `${Math.min(metal.unrealizedGainPercent, 100)}%` }} />
