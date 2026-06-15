@@ -4,7 +4,9 @@ import { motion, useInView } from 'framer-motion';
 import {
   TrendingUp, TrendingDown, PieChart as PieChartIcon,
   BarChart3, Award, Sparkles, Activity, Crown, Medal, Gem, ChevronUp
+  
 } from 'lucide-react';
+import api from '../../api/axiosInstance';
 import {
   PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, AreaChart, Area,
@@ -35,6 +37,23 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const MonthlyInv = () => {
     const [chartType, setChartType] = useState('area');
+
+    useEffect(() => {
+  const performances = async () => {
+    try {
+      const res = await api.get('/analytics/customer/investment');
+      console.log("monthly data", res.data);
+    } catch (err) {
+      console.log(err.response);
+      console.log(err.response.data);
+      console.log(err.response.message);
+
+    }
+  };
+
+  performances();
+}, []);
+
   return (
      <motion.div
           initial={{ opacity: 0, y: 30 }}

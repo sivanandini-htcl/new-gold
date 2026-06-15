@@ -11,7 +11,7 @@ import {
   TrendingDown,
   Layers,
 } from "lucide-react";
-
+ import { Link } from "react-router-dom";
 const PAGE_SIZE = 10;
 
 const METAL_CONFIG = {
@@ -36,7 +36,7 @@ function groupByMonth(txns) {
   const groups = {};
 
   txns.forEach((t) => {
-    const d = new Date(t.date);
+    const d = new createdAt(t.createdAt);
 
     const key = d.toLocaleString("en-IN", {
       month: "long",
@@ -59,7 +59,7 @@ function fmt(n) {
 }
 
 function fmtDate(iso) {
-  const d = new Date(iso);
+  const d = new createdAt(iso);
 
   return d.toLocaleString("en-IN", {
     day: "2-digit",
@@ -73,50 +73,10 @@ function fmtDate(iso) {
 export default function TransactionHistoryPage() {
   const navigate = useNavigate();
 
-  const [newtransactions, setnewTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
-const [transactions] = useState([
-  {
-    id: "1",
-    type: "credit",
-    metalType: "gold",
-    amount: 5000,
-    grams: 0.82,
-    date: "2026-05-11T10:00:00Z",
-    note: "Gold Purchase",
-  },
 
-  {
-    id: "2",
-    type: "debit",
-    metalType: "silver",
-    amount: 1200,
-    grams: 12.5,
-    date: "2026-05-09T08:30:00Z",
-    note: "Silver Sell",
-  },
-
-  {
-    id: "3",
-    type: "credit",
-    metalType: "gold",
-    amount: 8000,
-    grams: 1.25,
-    date: "2026-04-28T12:45:00Z",
-    note: "SIP Investment",
-  },
-
-  {
-    id: "4",
-    type: "credit",
-    metalType: "silver",
-    amount: 2500,
-    grams: 24.3,
-    date: "2026-04-20T09:20:00Z",
-    note: "Silver Buy",
-  },
-]);
 
 const loading = false;
 const error = null;
@@ -126,38 +86,33 @@ const error = null;
   const [currentPage, setCurrentPage] = useState(1);
 
 useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        // setLoading(true);
+  const fetchDetails = async () => {
+    try {
+      const res = await api.post("/holdings/transaction/ledger");
 
-        const res = await api.post("/holdings/ledger");
-        setnewTransactions(res.data?.data);
-        console.log("ledger",res.data)
-        console.log("ledger",res.data.data)
+      console.log("FULL RESPONSE:", res);
+      console.log("DATA:", res.data);
+      console.log("DATA.DATA:", res.data?.data);
+      console.log("IS ARRAY:", Array.isArray(res.data?.data));
 
-      } catch (err) {
-        console.log("FULL ERROR:", err);
-        console.log("RESPONSE:", err.response);
-        console.log("DATA:", err.response?.data);
-        console.log("MESSAGE:", err.response?.data?.message);
-      } 
-    //   finally {
-    //     setLoading(false);
-    //   }
-    };
+      setTransactions(res.data?.data?.transactions|| []);
+    } catch (err) {
+      console.log("FULL ERROR:", err);
+    }
+  };
 
-    fetchDetails();
-  }, []);
+  fetchDetails();
+}, []);
 
 
-  const filtered = transactions.filter((t) => {
-    const typeOk = filter === "all" || t.type === filter;
+  const filtered = Array.isArray(transactions)
+  ? transactions.filter((t) => {
+      const typeOk = filter === "all" || t.type === filter;
+      const metalOk = metal === "all" || t.metalType === metal;
 
-    const metalOk =
-      metal === "all" || t.metalType === metal;
-
-    return typeOk && metalOk;
-  });
+      return typeOk && metalOk;
+    })
+  : [];
 
   const totalPages = Math.ceil(
     filtered.length / PAGE_SIZE
@@ -172,11 +127,11 @@ useEffect(() => {
 
   const totalCredit = filtered
     .filter((t) => t.type === "credit")
-    .reduce((s, t) => s + t.amount, 0);
+    .reduce((s, t) => s + t.amountINR, 0);
 
   const totalDebit = filtered
     .filter((t) => t.type === "debit")
-    .reduce((s, t) => s + t.amount, 0);
+    .reduce((s, t) => s + t.amountINR, 0);
 
   const totalGrams = filtered
     .filter((t) => t.type === "credit")
@@ -230,21 +185,29 @@ useEffect(() => {
 
       {/* HEADER */}
       <div className="sticky top-0 z-20 border-b border-white/10 bg-[#0b0b0f]/90 backdrop-blur-xl">
-        <div className="max-w-[700px] mx-auto px-5 py-5">
+      <div className=" mx-auto px-5 py-5">
+      <div className="max-w-7xl mx-auto">
+         
+  <Link to="/dashboard" 
+  className="inline-flex items-center 2xl:text-xl gap-2 mb-6 text-xs  uppercase tracking-widest text-primary/60 hover:text-yellow-600 transition font-['Fraunces']">
+  <ArrowLeft className="w-4 h-4" />
+  Back to Dashboard
+  </Link>
 
-          <button
-            onClick={() => navigate('/profile')}
-            className="flex items-center gap-1 text-xs uppercase tracking-[0.08em] text-zinc-500 hover:text-yellow-500 transition-colors mb-4"
-          >
-            <ArrowLeft size={13} />
-            Back
-          </button>
+      {/* Title */}
+      <div className="mb-15 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
+        <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary p-2">
+         Transaction History
+        </h1>
+        <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
+          24K · 99.9% Pure · Live Rates
+        </p>
+      </div>
+</div>
+        
 
-          <div className="flex items-end justify-between gap-3 flex-wrap">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl text-primary md:text-md font-serif tracking-[-0.02em]">
-              Transaction History
-            </h1>
-
+          <div className="flex items-end justify-end gap-3 flex-wrap">
             <span className="text-xs tracking-[0.08em] text-zinc-500">
               {filtered.length} record
               {filtered.length !== 1 ? "s" : ""}
@@ -502,11 +465,11 @@ useEffect(() => {
                             </div>
 
                             <p className="text-[11px] text-zinc-500 mt-1">
-                              {fmtDate(t.date)}
+                              {fmtDate(t.createdAt)}
                             </p>
                           </div>
 
-                          {/* AMOUNT */}
+                          {/* amountINR */}
                           <div className="text-right">
                             <p
                               className={`text-[15px] font-bold
@@ -519,7 +482,7 @@ useEffect(() => {
                               {isCredit
                                 ? "+"
                                 : "−"}
-                              ₹{fmt(t.amount)}
+                              ₹{fmt(t.amountINR)}
                             </p>
 
                             <p className="text-[11px] text-zinc-500 mt-1">

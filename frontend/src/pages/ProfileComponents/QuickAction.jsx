@@ -9,10 +9,11 @@ import {
   ArrowUpRight, Wallet,Package,
   ChevronRight,Sparkles, X,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const QuickAction = () => {
 
-
+const navigate =useNavigate();
 
     const QUICK_ACTIONS = [
   {
@@ -22,7 +23,7 @@ const QuickAction = () => {
     iconBg: 'bg-amber-100',
     iconBorder: 'border-amber-300',
     iconColor: 'text-amber-700',
-    route: null,
+    route: '/analytics',
   },
   {
     icon: Package,

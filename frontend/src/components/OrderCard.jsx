@@ -78,24 +78,23 @@ export default function OrderCard({ order }) {
           </div>
         </div>
 
-        <div className="text-right ">
+        <div className="text-right flex flex-col items-end justify-end">
           <span
-            className={`inline-flex  items-center gap-1 px-1 text-background py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
+         className={`inline-flex justify-end items-end gap-1 px-1 text-background  py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
           >
             <StatusIcon size={14} />
             {order.status}
           </span>
 
-          <p className="font-bold text-sm mt-2 md:text-sm text-white/70">
+          <p className="font-bold flex items-end justify-end  text-sm mt-2 md:text-sm text-white/70">
             ₹{Number(order.pricing?.totalAmount || 0).toLocaleString("en-IN")}
           </p>
 
           <button
             onClick={() => navigate(`/orders/${order.id}`)}
-            className="mt-3 flex items-center gap-1 text-primary/60 font-normal text-xs"
-          >
+            className="mt-3 flex text-right items-end justify-end gap-1 text-primary/60 font-normal text-xs">
             View Details
-            <ChevronRight size={16} />
+            <ChevronRight size={16}/>
           </button>
         </div>
       </div>

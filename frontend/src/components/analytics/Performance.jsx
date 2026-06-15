@@ -75,6 +75,7 @@ useEffect(()=>{
     try{
       const res=await api.get('/analytics/customer/portfolio/allocation' )
       console.log("portfolio allocation:" ,res.data);
+      
       setPerformanceData(res.data?.data?.metals || []);
 
     } 

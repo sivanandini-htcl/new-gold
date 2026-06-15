@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useKycStore from '../../store/useKYCStore.JS';
+import useMpinStore from '../../store/useMpinStore';
 import {
   submitKYC,
   verifyPanOtp,
@@ -32,6 +33,7 @@ function KycPage() {
     handleFinalSubmit,
     loadKycProgress,
   } = useKycStore();
+  const mpinCreated = useMpinStore((state) => state.mpinCreated);
 
   useEffect(() => {
     loadKycProgress();
@@ -345,12 +347,15 @@ function KycPage() {
               <h2 className="text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2">KYC Approved!</h2>
               <p className="text-white/60 mb-8">Your account is verified and ready to use.</p>
 
-              <button
-                onClick={() => navigate('/mpin-setup')}
-                className="w-full border border-white/20 bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white/70 mb-4"
-              >
+{mpinCreated ?(
+  <p className='text-md  py-1 text-green-400'>Mpin Created ✓</p>
+):(   <button
+       onClick={() => navigate('/mpin-setup')}
+       className="w-full border border-white/20 bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white/70 mb-4"
+        >
                 Set up MPIN
-              </button>
+              </button>)}
+           
 
               <button
                 onClick={() => navigate('/profile')}

@@ -214,7 +214,7 @@ function Silver() {
               Grams → Rupees
             </p>
 
-            <div className="bg-gray-300/60 h-12 flex justify-center items-center rounded-xl  mb-7">
+            <div className=" h-12 flex justify-center items-center rounded-xl  mb-7">
               <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 w-full rounded-xl h-10 text-center p-3 font-serif ">
                 Grams → ₹
               </p>

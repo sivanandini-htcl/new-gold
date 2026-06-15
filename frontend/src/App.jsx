@@ -40,8 +40,15 @@ import GoldSell from './pages/ProfileComponents/sell/GoldSell';
 import SilverSell from './pages/ProfileComponents/sell/SilverSell';
 import ChangeMPIN from './pages/ProfileComponents/mpinComponents/ChangeMPIN';
 import ResetMPIN from './pages/ProfileComponents/mpinComponents/ResetMpin';
+import useCartStore from './store/cartStore';
+import { useEffect } from 'react';
+import ResetEmail from './pages/Authentication/ResetEmail';
 
 function App() {
+  const fetchCart = useCartStore((state) => state.fetchCart);
+  useEffect(()=>{
+    fetchCart()
+  },[])
   return (
     <div className="min-h-screen flex flex-col  ">
       <PriceProvider />
@@ -50,6 +57,8 @@ function App() {
         <Toaster />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/reset-password" element={<ResetEmail />} />
+
           <Route path="/signup" element={<Signup />} />
           <Route element={<LayoutWithHeader />}>
             <Route

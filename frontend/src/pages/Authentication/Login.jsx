@@ -35,6 +35,11 @@ function Login() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  
+
+  const [popUp,ShowPopUp]=useState(false);
+  const[forgotemail,setForgotEmail]=useState("");
+  const[sentEmail,setSentEmail]=useState(false);
 
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -117,13 +122,13 @@ function Login() {
         // Has 91 without +
         emailOrMobile = `+${emailOrMobile}`;
         payload.phoneNumber = emailOrMobile;
-        console.log('✓ 91 mobile detected, sending:', emailOrMobile);
+        console.log(' 91 mobile detected, sending:', emailOrMobile);
       } else if (emailOrMobile.includes('@')) {
         // It's an email
         payload.email = emailOrMobile;
-        console.log('✓ Email detected, sending:', emailOrMobile);
+        console.log(' Email detected, sending:', emailOrMobile);
       } else {
-        console.log('✗ Invalid format - input:', emailOrMobile);
+        console.log(' Invalid format - input:', emailOrMobile);
         toast.error('Please enter a valid email or 10-digit mobile number');
         setLoading(false);
         return;
@@ -380,6 +385,24 @@ function Login() {
     }
   };
 
+  const handleForgotPassword=async()=>{
+  const payload={
+    email:forgotemail,
+    tenantId:import.meta.env.VITE_TENANT_ID
+  }
+    try{
+      console.log("calling api");
+    const forgotRes=await api.post('/auth/forgot-password',payload)
+    console.log("called api");
+    console.log("password res",forgotRes);
+    setSentEmail(true);
+    } catch(error){
+        console.log("error");  
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
+  console.log("MESSAGE:", error.response?.data?.message);
+    }
+  }
   return (
     <div className="min-h-screen flex flex-col justify-center">
       <div className="md:hidden py-10 px-6 bg-gradient-to-br from-background via-[#2f2f33] to-[#111112] text-center">
@@ -588,6 +611,15 @@ function Login() {
                     </span>
                   </div>
                 </div>
+                  <div className='w-ful text-[#28a0cf] flex  justify-end'>
+                
+                <button onClick={()=>ShowPopUp(true)} className='text-sm'>
+                  Forgot Password ?
+                </button >
+            
+
+                </div>
+
                 <button
                   onClick={handlePasswordSubmit}
                   disabled={loading || !password}
@@ -624,6 +656,77 @@ function Login() {
           </div>
         </div>
       </div>
+      {popUp && (
+  <div className="fixed inset-0 bg-black/10 flex items-center justify-center z-50">
+    <div className="bg-[#111117] rounded-2xl shadow-xl w-[90%] max-w-md p-6">
+      {
+        !sentEmail ?(
+          <div>
+<h2 className="text-2xl font-serif text-white/70 mb-2">
+        Forgot Password
+      </h2>
+       <p className="text-gray-500 mb-4">
+        Enter your email address to receive a reset link.
+      </p>
+        <input
+        type="email"
+        placeholder="Enter your email"
+        value={forgotemail}
+        onChange={(e) => setForgotEmail(e.target.value)}
+        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <div className="flex justify-end gap-3 mt-6">
+        <button
+          onClick={() => ShowPopUp(false)}
+          className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleForgotPassword}
+          className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+        >
+          Send Link
+        </button>
+      </div>
+          </div>
+        ):(<>
+         <div className="text-center">
+            <div className="text-green-600 text-5xl mb-3">✓</div>
+
+            <h2 className="text-xl font-bold text-whit/70">
+              Email Sent Successfully
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              A password reset link has been sent to <b>{forgotemail}</b>.
+            </p>
+
+            <button
+              onClick={() => {
+                ShowPopUp(false);
+                setSentEmail(false);
+                setForgotEmail("")
+              
+                
+              }}
+              className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg"
+            >
+              OK
+            </button>
+          </div></>)
+      }
+      
+
+  
+
+    
+
+      
+    </div>
+  </div>
+)}
     </div>
   );
 }

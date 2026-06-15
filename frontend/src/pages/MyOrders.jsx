@@ -128,29 +128,27 @@ function PaginationBar({
 export default function OrdersPage() {
   const navigate = useNavigate();
 
-  const { orders, fetchOrders, loading } = useOrderStore();
+  const { orders, fetchOrders, loading,totalOrders } = useOrderStore();
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+ useEffect(() => {
+  fetchOrders(currentPage, PAGE_SIZE);
+}, [currentPage]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [orders.length]);
+ 
 
   const totalSpent = orders.reduce(
     (sum, o) => sum + Number(o.totalAmount || 0),
     0
   );
 
-  const totalPages = Math.ceil(orders.length / PAGE_SIZE);
+const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
 
-  const pageOrders = orders.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
-  );
+  // const pageOrders = orders.slice(
+  //   (currentPage - 1) * PAGE_SIZE,
+  //   currentPage * PAGE_SIZE
+  // );
 
   const handlePrev = () =>
     setCurrentPage((p) => Math.max(1, p - 1));
@@ -218,7 +216,7 @@ export default function OrdersPage() {
           <div className="mb-8 flex  text-primary flex-wrap gap-2 sm:gap-3">
             <StatCard
               label="Total Orders"
-              value={orders.length}
+              value={totalOrders}
             />
 
             {/* <StatCard
@@ -231,13 +229,13 @@ export default function OrdersPage() {
 
             <StatCard
               label="This Page"
-              value={`${
-                (currentPage - 1) * PAGE_SIZE + 1
-              }–${Math.min(
-                currentPage * PAGE_SIZE,
-                orders.length
-              )}`}
-              sub={`of ${orders.length}`}
+             value={`${
+  (currentPage - 1) * PAGE_SIZE + 1
+}–${Math.min(
+  currentPage * PAGE_SIZE,
+  totalOrders
+)}`}
+sub={`of ${totalOrders}`}
             />
           </div>
         )}
@@ -261,7 +259,7 @@ export default function OrdersPage() {
 
             {/* Orders */}
             <div className="space-y-3">
-              {pageOrders.map((order) => (
+              {orders.map((order) => (
                 <div
                   key={order.id}
                   className="transition-all duration-300"

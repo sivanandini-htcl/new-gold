@@ -415,8 +415,6 @@ function Redeem() {
           <div className="flex justify-end mb-6">
             <button
               onClick={() =>
-
-
                 setFilterOpen(true)
               }
               className="flex items-center gap-2 border  text-xs md:text-sm  text-white/60  px-4 py-2 rounded-lg"

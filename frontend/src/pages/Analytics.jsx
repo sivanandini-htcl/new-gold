@@ -169,8 +169,13 @@ const Analytics = () => {
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-normal text-secondary ">
                       ₹{portfolio?.currentValue}
                     </h2>
-                    <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-1 mt-2 sm:mt-0">
-                      <TrendingUp size={16} /> +{portfolio?.unrealizedGainPercent}% 
+                    <span className={`px-2 py-1  rounded-full text-sm font-medium border border-white/20 flex items-center gap-1 mt-2 sm:mt-0 ${
+                      portfolio?.unrealizedGainPercent < 0 
+                      ? " text-red-500"
+                      :"bg-green-500/20 text-green-400"
+                    }`}>
+                      {portfolio?.unrealizedGainPercent >0 ?(<TrendingUp size={16} />):(<TrendingDown size={16} />)}
+                       {portfolio?.unrealizedGainPercent}% 
                     </span>
                   </div>
                 </div>

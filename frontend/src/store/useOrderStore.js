@@ -14,16 +14,17 @@ const useOrderStore = create((set) => ({
 
   // GET /orders
   
-  fetchOrders: async () => {
+  fetchOrders: async (page = 1, limit = 10) => {
     try {
       set({ loading: true, error: null });
 
-      const res = await api.get("/orders");
+      const res = await api.get(`/orders?page=${page}&limit=${limit}`);
 
       console.log("Orders List:", res.data);
 
       set({
         orders: res.data?.data?.orders || res.data?.data || [],
+        totalOrders: res.data.data.total,
         loading: false,
       });
     } catch (err) {

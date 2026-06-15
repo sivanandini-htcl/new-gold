@@ -152,9 +152,9 @@ function Header() {
               </Link>
             ))}
             <div className="border-t border-white/20 mt-2 pt-2 flex gap-2">
-              <Link to="/wishlist" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
+              {/* <Link to="/wishlist" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <Heart size={13} /> Wishlist
-              </Link>
+              </Link> */}
               <Link to="/profile" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <User size={13} /> Profile
               </Link>

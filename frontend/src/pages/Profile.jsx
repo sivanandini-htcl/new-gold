@@ -66,44 +66,44 @@ console.log('Payload for OTP verification:', payload);
 };
 
 // ─── Constants ────
-const QUICK_ACTIONS = [
-  {
-    icon: BarChart2,
-    label: 'Reports',
-    sub: 'Analytics & insights',
-    iconBg: 'bg-amber-100',
-    iconBorder: 'border-amber-300',
-    iconColor: 'text-amber-700',
-    route: null,
-  },
-  {
-    icon: Package,
-    label: 'My Orders',
-    sub: 'Track deliveries',
-    iconBg: 'bg-green-50',
-    iconBorder: 'border-green-300',
-    iconColor: 'text-green-700',
-    route: '/orders',
-  },
-  {
-    icon: Gift,
-    label: 'Redeem',
-    sub: 'Browse jewellery',
-    iconBg: 'bg-amber-100',
-    iconBorder: 'border-amber-300',
-    iconColor: 'text-amber-700',
-    route: '/redeem',
-  },
-  {
-    icon: Clock,
-    label: 'History',
-    sub: 'All transactions',
-    iconBg: 'bg-stone-100',
-    iconBorder: 'border-stone-300',
-    iconColor: 'text-stone-600',
-    route: null,
-  },
-];
+// const QUICK_ACTIONS = [
+//   {
+//     icon: BarChart2,
+//     label: 'Reports',
+//     sub: 'Analytics & insights',
+//     iconBg: 'bg-amber-100',
+//     iconBorder: 'border-amber-300',
+//     iconColor: 'text-amber-700',
+//     route: null,
+//   },
+//   {
+//     icon: Package,
+//     label: 'My Orders',
+//     sub: 'Track deliveries',
+//     iconBg: 'bg-green-50',
+//     iconBorder: 'border-green-300',
+//     iconColor: 'text-green-700',
+//     route: '/orders',
+//   },
+//   {
+//     icon: Gift,
+//     label: 'Redeem',
+//     sub: 'Browse jewellery',
+//     iconBg: 'bg-amber-100',
+//     iconBorder: 'border-amber-300',
+//     iconColor: 'text-amber-700',
+//     route: '/redeem',
+//   },
+//   {
+//     icon: Clock,
+//     label: 'History',
+//     sub: 'All transactions',
+//     iconBg: 'bg-stone-100',
+//     iconBorder: 'border-stone-300',
+//     iconColor: 'text-stone-600',
+//     route: null,
+//   },
+// ];
 
 // ─── Component ─────────
 export default function Profile() {
@@ -114,7 +114,7 @@ export default function Profile() {
   const [metalWallet, setMetalWallet] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showMpin,setShowMpin]=useState(false);
-   const [mpinLoading, setMpinLoading] = useState(false);
+  const [mpinLoading, setMpinLoading] = useState(false);
 
   // Verification modal state
   const [showVerifyModal, setShowVerifyModal] = useState(false);
@@ -382,11 +382,19 @@ if(res.data.success){
 
               {/* MPIN actions */}
               <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
-                <button
+                
+             {mpinCreated?(
+                  <p className='bg-green-500/20 text-green-400 border border-green-500/30 rounded-2xl px-1  text-xs'>
+                  Mpin Verified ✓
+                </p>                  
+
+                ):(
+                  <button
                   onClick={() => navigate('/mpin-setup')}
                   className="text-xs text-primary/80 hover:text-primary transition-colors">
                   Set Up MPIN
                 </button>
+                )}
                 <button
                   onClick={() => navigate('/changempin')}
                   className="text-xs text-primary/80 hover:text-primary transition-colors">
@@ -407,8 +415,8 @@ if(res.data.success){
             {[
               { icon: Edit, label: 'Profile', onClick: () => navigate('/profile') },
               { icon: FileText, label: 'KYC', onClick: handleKycClick },
-              { icon: ShieldCheck, label: 'Address', onClick: () => navigate('/delivery') },
-              { icon: MapPin, label: 'Account', onClick: () => navigate('/account') },
+              { icon: MapPin, label: 'Address', onClick: () => navigate('/delivery') },
+              { icon:  ShieldCheck, label: 'Account', onClick: () => navigate('/account') },
               { icon: CreditCard, label: 'Wallet', onClick: () => openVerification('/wallet') },
               { icon: ArrowRightLeft,label: 'Transfers',onClick: () => navigate('/transactions'),},
             ].map(({ icon: Icon, label, onClick }) => (
