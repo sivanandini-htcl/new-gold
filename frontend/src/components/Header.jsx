@@ -21,8 +21,10 @@ const navLinks = [
   { to: "/analytics", label: "Analytics" },
   // { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
+  // { to: "/wallettransactions", label: " walletTransfers" },
+
   // { to: "/testing", label: " Testing" },
-    // { to: "/sell", label: " Sell" },
+ 
 
   { to: "/about", label: "About" },
 

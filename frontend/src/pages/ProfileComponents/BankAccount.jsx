@@ -78,7 +78,8 @@ const BankAccount = () => {
       setTimeout(() => {
         setSaved(false);
 
-        setShowModal(false);
+        // setShowModal(false);
+        setShowForm(false);
 
         reset();
       }, 1000);

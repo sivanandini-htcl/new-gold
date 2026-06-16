@@ -2,7 +2,7 @@ import { signInWithPopup, RecaptchaVerifier, signInWithPhoneNumber } from 'fireb
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Smartphone, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { Smartphone, ArrowLeft, Eye, EyeOff ,Loader2} from 'lucide-react';
 
 import { fetchUserProfile } from '../../api/profileapi';
 import Time from '../../assets/time';
@@ -40,6 +40,7 @@ function Login() {
   const [popUp,ShowPopUp]=useState(false);
   const[forgotemail,setForgotEmail]=useState("");
   const[sentEmail,setSentEmail]=useState(false);
+  
 
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -396,8 +397,9 @@ function Login() {
     console.log("called api");
     console.log("password res",forgotRes);
     setSentEmail(true);
-    } catch(error){
-        console.log("error");  
+    } 
+    catch(error){
+   console.log("error");  
   console.log("RESPONSE:", error.response);
   console.log("DATA:", error.response?.data);
   console.log("MESSAGE:", error.response?.data?.message);
@@ -687,7 +689,12 @@ function Login() {
           onClick={handleForgotPassword}
           className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
         >
-          Send Link
+          {loading ?
+          ( <>
+      <Loader2 className="animate-spin" size={18} />
+      Sending...
+    </>):("Send Link")}
+          
         </button>
       </div>
           </div>

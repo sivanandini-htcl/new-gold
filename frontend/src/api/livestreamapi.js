@@ -1,9 +1,10 @@
 export const subscribeMetalPrices = (onMessage, onError) => {
     const eventSource = new EventSource("https://api.dgi.gold/api/v1/metals/subscribe-live");
-
+  
     eventSource.onmessage = (event) => {
         try {
             const data = JSON.parse(event.data);
+            console.log(data)
             onMessage(data);
         } catch (err) {
             console.error("JSON Parse Error:", err);
@@ -12,6 +13,8 @@ export const subscribeMetalPrices = (onMessage, onError) => {
     eventSource.addEventListener("price-update", (event) => {
         try {
             const data = JSON.parse(event.data);
+            console.log(data)
+            
             
             onMessage(data);
         } catch (err) {

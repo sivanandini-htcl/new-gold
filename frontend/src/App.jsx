@@ -13,6 +13,7 @@ import Nominee from './pages/ProfileComponents/Nominee';
 import Delivery from './pages/ProfileComponents/Delivery';
 import BankAccount from './pages/ProfileComponents/BankAccount';
 
+
 import Wallet from './pages/ProfileComponents/Wallet';
 import Redeem from './pages/ProfileComponents/Redeem';
 import Cart from './pages/Cart';
@@ -32,6 +33,9 @@ import MyOrders from './pages/MyOrders';
 import Metals from './pages/Metals';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import Transactions from './pages/ProfileComponents/Transaction';
+import WalletTransaction from './pages/ProfileComponents/transactions/WalletTransaction';
+import GatewayTransaction from './pages/ProfileComponents/transactions/GatewayTransaction';
+
 import Analytics from './pages/Analytics';
 import MPINSetupPage from './pages/ProfileComponents/mpinComponents/MPINSetupPage';
 import MpinPage from './pages/ProfileComponents/mpinComponents/Mpin';
@@ -43,6 +47,7 @@ import ResetMPIN from './pages/ProfileComponents/mpinComponents/ResetMpin';
 import useCartStore from './store/cartStore';
 import { useEffect } from 'react';
 import ResetEmail from './pages/Authentication/ResetEmail';
+
 
 function App() {
   const fetchCart = useCartStore((state) => state.fetchCart);
@@ -281,6 +286,21 @@ function App() {
                 </ProtectedRoute>
               }
             />
+             <Route
+              path="/wallettransactions"
+              element={
+                <ProtectedRoute>
+                  <WalletTransaction />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+            path='/gatewaytransaction'
+            element={
+              <ProtectedRoute>
+                <GatewayTransaction/>
+              </ProtectedRoute>
+            }/>
 
             {/* <Route path="/checkout1"element={<ProtectedRoute><Checkout1/> </ProtectedRoute> }/> */}
             <Route
