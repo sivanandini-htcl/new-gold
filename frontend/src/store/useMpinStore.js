@@ -223,26 +223,17 @@ const useMpinStore = create((set, get) => ({
   
 fetchMPINStatus: async () => {
   try {
-
-    set({
-      mpinStatusLoading: true,
-    });
+    set({ mpinStatusLoading: true });
 
     const response = await checkMPINStatus();
 
     console.log("MPIN STATUS RESPONSE:", response);
 
     set({
-      mpinCreated:
-        response?.data?.isSetup ||
-        response?.data?.created ||
-        response?.data?.hasMPIN ||
-        response?.success ||
-        false,
+      mpinCreated: response?.isSetup ?? false,
     });
 
   } catch (err) {
-
     console.log("MPIN STATUS ERROR:", err);
 
     set({
@@ -250,7 +241,6 @@ fetchMPINStatus: async () => {
     });
 
   } finally {
-
     set({
       mpinStatusLoading: false,
     });

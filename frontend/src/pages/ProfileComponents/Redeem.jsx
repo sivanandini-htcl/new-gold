@@ -8,7 +8,8 @@ import {
   ShoppingCart,
   X,
   Search,
-  ArrowLeft
+  ArrowLeft,
+  LoaderCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,20 +21,16 @@ function Redeem() {
   const { cartItems, fetchCart } = useCartStore();
 
   const navigate = useNavigate();
-
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [buttonLoading,setButtonLoading]=useState(false)
+  const [products, setProducts] = useState([]);
   const [metalType, setMetalType] = useState("gold");
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
-
   const [showReplaceModal, setShowReplaceModal] = useState(false);
-
   const [pendingItem, setPendingItem] = useState(null);
-
   const [isProcessing, setIsProcessing] = useState(false);
 
   const getCartType = () => {
@@ -74,7 +71,7 @@ function Redeem() {
 
       const res = await api.get("/products/public");
 
-      console.log(res.data);
+      console.log( "product",res);
 
       const fetchedProducts =
         res.data?.data?.products || [];
@@ -178,7 +175,7 @@ function Redeem() {
 
       return;
     }
-
+setButtonLoading(product.id)
     try {
       const res=await api.post("/cart/add", newItem);
 
@@ -190,8 +187,10 @@ function Redeem() {
       navigate("/cart");
     } catch (err) {
       console.error(err);
-
       toast.error("Failed to add to cart");
+    }
+    finally{
+      setButtonLoading(null);
     }
   };
 
@@ -477,17 +476,23 @@ function Redeem() {
                         )}
                       </p>
 
-                      <button
-                        onClick={() =>
-                          handleAddToCart(
-                            product
-                          )
-                        }
-                        className="w-full mt-4 bg-primaryGoldGradient  text-background py-2 rounded-lg flex items-center justify-center gap-2"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        Add to Cart
-                      </button>
+                     <button
+  onClick={() => handleAddToCart(product)}
+  disabled={buttonLoading === product.id}
+  className="w-full mt-4 bg-primaryGoldGradient text-background py-2 rounded-lg flex items-center justify-center gap-2"
+>
+  {buttonLoading === product.id ? (
+    <>
+      <LoaderCircle className="w-4 h-4 animate-spin" />
+      Adding to cart...
+    </>
+  ) : (
+    <>
+      <ShoppingCart className="w-4 h-4" />
+      Add to Cart
+    </>
+  )}
+</button>
                     </div>
                   </motion.div>
                 )
@@ -551,7 +556,7 @@ function Redeem() {
                   disabled={isProcessing}
                   className={`flex-1 py-3 rounded-xl transition ${
                     isProcessing
-                      ? "bg-gray-300 cursor-not-allowed"
+                      ? "bg-gray-300 text-background cursor-not-allowed"
                       : "bg-yellow-500 text-background"
                   }`}
                 >

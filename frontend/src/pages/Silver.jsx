@@ -1,21 +1,23 @@
 import { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { Link, useNavigate} from 'react-router-dom';
+import { ArrowLeft,LoaderCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import usePriceStore from '../store/priceStore';
 import useCartStore from '../store/cartStore';
 import api from '../api/axiosInstance';
+import useKycStore from '../store/useKYCStore';
 
 function Silver() {
   const [inputValue, setInputValue] = useState('');
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [pendingItem, setPendingItem] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const [buttonLoading,setButtonLoading]=useState(false);
+  const[kycPopup,setKycPopup]=useState(false);
   const navigate = useNavigate();
 
   const { cartItems, replaceCartItem, fetchCart } = useCartStore();
-
+  const{kycStatus } = useKycStore();
   const prices = usePriceStore((state) => state.prices);
   const silverPrice = prices.find((item) => item.metal === 'SILVER');
   const gram24kSilverPrice = silverPrice?.caratPrices?.gram24k || 0;
@@ -45,6 +47,11 @@ function Silver() {
   const hasValidInput = calc.grams > 0 && gram24kSilverPrice > 0;
 
   const handleBuyNow = async () => {
+     if (kycStatus !== "APPROVED") {
+    setKycPopup(true)
+    return;
+  }
+
     if (!hasValidInput) {
       toast.error('Enter valid grams');
       return;
@@ -64,8 +71,9 @@ function Silver() {
       setShowReplaceModal(true);
       return;
     }
-
-    // ✅ same type or empty → allow
+    
+setButtonLoading(true)
+    // same type or empty → allow
     try {
       await api.post('/cart/add', newItem);
       await fetchCart();
@@ -244,13 +252,21 @@ function Silver() {
             <button
               onClick={handleBuyNow}
               disabled={!hasValidInput}
-              className={`w-full py-4 2xl:text-3xl 2xl:mt-5  rounded-xl text-sm uppercase tracking-widest font-serif transition ${
+              className={`w-full py-4 rounded-xl text-sm 2xl:text-3xl 2xl:mt-5 uppercase tracking-widest font-['Fraunces'] transition flex items-center justify-center gap-2 ${
                 hasValidInput
                   ? 'bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 shadow-lg hover:scale-[1.02]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
-              Buy Now
+                {buttonLoading ? (
+    <>
+      <LoaderCircle className="w-5 h-5 animate-spin" />
+      Processing...
+    </>
+  ) : (
+    "Buy Now"
+  )}
+              
             </button>
           </div>
         </div>
@@ -309,6 +325,34 @@ function Silver() {
           </div>
         </div>
       )}
+            {kycPopup && (
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+      <h2 className="text-xl text-white mb-3">
+        KYC Verification Required
+      </h2>
+
+      <p className="text-white/70 mb-6">
+        Please verify your KYC to continue buying gold.
+      </p>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => setKycPopup(false)}
+          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={() => navigate("/kycpage")}
+          className="flex-1 py-3 rounded-xl bg-gray-500 text-background font-semibold">
+          Verify KYC
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

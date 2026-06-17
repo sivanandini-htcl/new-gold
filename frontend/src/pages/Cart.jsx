@@ -9,15 +9,18 @@ import {
   Truck,
   ChevronRight,
   Clock,
+  LoaderCircle
 } from 'lucide-react';
 
 import { toast } from 'react-toastify';
 import useCartStore from '../store/cartStore';
 import api from '../api/axiosInstance';
 import PageLoader from '../components/ProfileLoading';
+import useKycStore from '../store/useKYCStore';
 
 function Cart() {
   const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
+  const {kycStatus} = useKycStore();
 
   const navigate = useNavigate();
 
@@ -25,11 +28,11 @@ function Cart() {
 
   const [pageLoading, setPageLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const[buttonLoading,setButtonLoading]=useState(false)
+  const[kycPopup,setKycPopup]=useState(false);
   // Detect cart type
   const hasMetalItems = cartItems.some((item) => item.type === 'METAL');
-
   const hasGold = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'GOLD');
-
   const hasSilver = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'SILVER');
 
   const hasProductItems = cartItems.some((item) => item.type === 'PRODUCT');
@@ -48,12 +51,17 @@ function Cart() {
   }, []);
 
   const handleProceedToCheckout = async () => {
+      if (kycStatus !== "APPROVED") {
+    setKycPopup(true)
+    return;
+  }
+    setButtonLoading(true);
     try {
       setCheckoutLoading(true);
 
       const mode = hasMetalItems ? 'WALLET' : 'DELIVERY';
 
-      console.log('======= CHECKOUT DEBUG ======');
+      console.log(' CHECKOUT DEBUG ');
       console.log('Cart Items:', cartItems);
       console.log('Has Metal Items:', hasMetalItems);
       console.log('Has Product Items:', hasProductItems);
@@ -359,6 +367,12 @@ function Cart() {
                   onClick={handleProceedToCheckout}
                   className="text-background 2xl:text-xl w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800  hover:opacity-55 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold  transition inline-flex items-center justify-center gap-2"
                 >
+                  {buttonLoading ?(
+                    <>
+      <LoaderCircle className="w-5 h-5 animate-spin" />
+      Processing...
+    </>
+                  ):(<>
                   {hasMetalItems ? (
                     <>
                       <Wallet className="w-4 h-4" />
@@ -370,6 +384,8 @@ function Cart() {
                       Proceed to Checkout
                     </>
                   )}
+                  </>)}
+                  
 
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -397,6 +413,34 @@ function Cart() {
           </div>
         </div>
       </div>
+                 {kycPopup && (
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+      <h2 className="text-xl text-white mb-3">
+        KYC Verification Required
+      </h2>
+
+      <p className="text-white/70 mb-6">
+        Please verify your KYC to continue buying gold.
+      </p>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => setKycPopup(false)}
+          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={() => navigate("/kycpage")}
+          className="flex-1 py-3 rounded-xl bg-gray-500 text-background font-semibold">
+          Verify KYC
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

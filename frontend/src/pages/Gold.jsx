@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft,LoaderCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import usePriceStore from '../store/priceStore';
 
 import useCartStore from '../store/cartStore';
 import api from '../api/axiosInstance';
+import useKycStore from '../store/useKYCStore';
 
 function Gold() {
   const [inputValue, setInputValue] = useState('');
@@ -15,10 +16,12 @@ function Gold() {
   const prices = usePriceStore((state) => state.prices);
   const goldPrice = prices.find((item) => item.metal === 'GOLD');
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k || 0;
+  const[buttonLoading,setButtonLoading]=useState(false);
+  const[kycPopup,setKycPopup]=useState(false);
 
   const navigate = useNavigate();
-  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity, fetchCart } =
-    useCartStore();
+  const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity, fetchCart } =useCartStore();
+  const{kycStatus } = useKycStore();
   // Safe calculation
 
   const getCartType = () => {
@@ -43,6 +46,12 @@ function Gold() {
   const hasValidInput = calc.grams > 0 && gram24kGoldPrice > 0;
 
   const handleBuyNow = async () => {
+    if (kycStatus !== "APPROVED") {
+    setKycPopup(true)
+    return;
+  }
+
+  
     if (!hasValidInput) {
       toast.error('Enter valid grams');
       return;
@@ -62,16 +71,20 @@ function Gold() {
       setShowReplaceModal(true);
       return;
     }
-
-    // ✅ same type or empty → allow
+      setButtonLoading(true)
+    //  same type or empty → allow
     try {
       const res=await api.post('/cart/add', newItem);
       await fetchCart();
       toast.success('Added to cart');
       console.log("add",res);
+
       navigate('/cart');
     } catch (err) {
       toast.error('Something went wrong');
+    }
+    finally{
+      setButtonLoading(false);
     }
   };
   const handleReplaceConfirm = async () => {
@@ -229,17 +242,25 @@ function Gold() {
             </div>
 
             {/* Buy Now Button - Directly adds to cart */}
-            <button
-              onClick={handleBuyNow}
-              disabled={!hasValidInput}
-              className={`w-full py-4 rounded-xl text-sm 2xl:text-3xl 2xl:mt-5  uppercase tracking-widest font-['Fraunces'] transition ${
-                hasValidInput
-                  ? 'bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-lg hover:scale-[1.02]'
-                  : 'bg-yellow-100 text-yellow-400 cursor-not-allowed'
-              }`}
-            >
-              Buy Now
-            </button>
+<button
+  onClick={handleBuyNow}
+  disabled={!hasValidInput || buttonLoading}
+  className={`w-full py-4 rounded-xl text-sm 2xl:text-3xl 2xl:mt-5 uppercase tracking-widest font-['Fraunces'] transition flex items-center justify-center gap-2 ${
+    hasValidInput
+      ? "bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-black shadow-lg hover:scale-[1.02]"
+      : "bg-yellow-100 text-yellow-400 cursor-not-allowed"
+  }`}
+>
+  {buttonLoading ? (
+    <>
+      <LoaderCircle className="w-5 h-5 animate-spin" />
+      Processing...
+    </>
+  ) : (
+    "Buy Now"
+  )}
+</button>
+          
           </div>
 
           {/* Mobile Why Buy Section */}
@@ -290,7 +311,7 @@ function Gold() {
                 disabled={isProcessing}
                 className={`flex-1 py-3 rounded-xl text-sm font-medium transition ${
                   isProcessing
-                    ? 'bg-yellow-400 text-yellow-600 cursor-not-allowed'
+                    ? 'bg-yellow-400 text-background cursor-not-allowed'
                     : 'bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-800 shadow-lg hover:scale-[1.02] text-black'
                 }`}
               >
@@ -300,10 +321,37 @@ function Gold() {
           </div>
         </div>
       )}
+      {kycPopup && (
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+      <h2 className="text-xl text-white mb-3">
+        KYC Verification Required
+      </h2>
+
+      <p className="text-white/70 mb-6">
+        Please verify your KYC to continue buying gold.
+      </p>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => setKycPopup(false)}
+          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={() => navigate("/kycpage")}
+          className="flex-1 py-3 rounded-xl bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 text-black font-semibold"
+        >
+          Verify KYC
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
 
 export default Gold;
-// text-primary/80
-// bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 

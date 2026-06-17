@@ -17,6 +17,7 @@ const useKycStore = create((set, get) => ({
   // STATE
   currentStep: 1,
   kycStatus: null,
+  statusReason:null,
   loading: false,
   initialLoading: true,
   error: '',
@@ -100,9 +101,11 @@ const useKycStore = create((set, get) => ({
       const data = await resumeKYC();
       const statusResponse = await checkKYCStatus();
       const status = statusResponse?.data?.status;
+      const reason=statusResponse?.data?.reason;
 
       set({
         kycStatus: status,
+        statusReason:reason,
 
         verified: {
           pan: Boolean(data.pan?.verified),

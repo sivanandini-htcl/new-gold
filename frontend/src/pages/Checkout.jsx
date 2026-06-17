@@ -8,7 +8,7 @@ import {
   CheckCircle,ChevronRight,
   Truck, Shield,Package,Edit3,
   Plus,Wallet,Landmark,Smartphone,
-  ShoppingCart, ArrowRight, Home,Briefcase,
+  ShoppingCart, ArrowRight, Home,Briefcase,LoaderCircle
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import useCartStore from '../store/cartStore';
@@ -16,6 +16,7 @@ import useAddressStore from '../store/addressStore';
 import { generateHexId } from '../utils/orderId';
 import api from '../api/axiosInstance';
 import { toast } from 'react-toastify';
+import MpinModal from '../components/MpinModal';
 
 const labelIcons = {
   home: <Home size={14} />,
@@ -149,11 +150,12 @@ function Checkout() {
   // const[walletApplied,setWalletApllied]=useState(false);
   const[showOption,setShowOption]=useState(false)
   const [selectedOption, setSelectedOption] = useState("");
-
-
+  const[buttonLoading,setButtonLoading]=useState(false)
+  const [loadingPaymentOptions, setLoadingPaymentOptions] = useState(false);
+  const [loadingSummary, setLoadingSummary] = useState(false);
 
   const [paymentSummary, setPaymentSummary] = useState(null);
-  const [loadingSummary, setLoadingSummary] = useState(false);
+  
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const checkoutData = location.state?.checkoutData;
@@ -202,6 +204,7 @@ function Checkout() {
 
   const handleApplyWallet=async ()=>{
     setLoadingSummary(true);
+    setLoadingPaymentOptions(true)
     try{
       const walletres=await api.post('/orders/checkout/summary',
         {
@@ -219,8 +222,10 @@ function Checkout() {
       console.log("error"); 
      console.log("RESPONSE:", error.response);
      console.log("DATA:", error.response?.data);
-     console.log("MESSAGE:", error.response?.data?.message);
-    
+     console.log("MESSAGE:", error.response?.data?.message);   
+  }
+  finally{
+    setLoadingPaymentOptions(false);
   }
 
   }
@@ -230,6 +235,7 @@ function Checkout() {
 
 
   const handleContinueToPayment = async () => {
+    setButtonLoading(true);
   try {
     if (!selectedMethod) {
       toast.error("Please select a payment method");
@@ -288,11 +294,15 @@ function Checkout() {
       backendOrderId: data.data.id,
     });
 
-  } catch (err) {
-   console.log("err"); 
-  console.log("RESPONSE:", err.response);
-  console.log("DATA:", err.response?.data);
-  console.log("MESSAGE:", err.response?.data?.message);
+  } catch (error) {
+  
+    console.log("payment-failed API error:", error);
+    console.log("RESPONSE:", error.response);
+    console.log("DATA:", error.response?.data);
+
+}
+  finally{
+    setButtonLoading(false);
   }
 };
 
@@ -315,7 +325,34 @@ function Checkout() {
       },
       prefill: { email: userEmail || '' },
       theme: { color: '#b45309' },
-      modal: { ondismiss: () => toast.warn('Payment cancelled') },
+     modal: {
+  ondismiss: async () => {
+    console.log("Payment popup dismissed");
+    toast.warn("Payment cancelled");
+
+    try {
+      const payload = {
+        orderId: backendOrderId,
+        reason: "User cancelled payment",
+      };
+
+      console.log("Sending payload:", payload);
+
+      const res = await api.post(
+        "/orders/buy/payment-failed",
+        payload
+      );
+
+      console.log("Payment-failed response:", res.data);
+      
+
+    } catch (err) {
+      console.log("Payment-failed API error:", err);
+      console.log("Response:", err.response);
+      console.log("Data:", err.response?.data);
+    }
+  }
+}
     });
 
     rzp.open();
@@ -607,11 +644,18 @@ if (walletBalance <= 0) {
               
                   <div className="flex justify-center w-full py-2 ">
                <div className='border border-white/20 p-2 rounded-2xl w-full'>
-                      <button onClick={handleApplyWallet} className="text-xs 2xl:text-xl text-primary/70 border w-full p-2">select payment option</button>   
+                      <button onClick={handleApplyWallet} className="text-sm font-serif 2xl:text-xl text-background bg-primary rounded-2xl border w-full p-2">
+                        
+                        Select payment </button>   
                       </div>                      
-                          </div>
-                          {showOption && (
-  <>
+                </div>
+                          {loadingPaymentOptions ?(
+                            <div className='text-center flex justify-center items-center'>
+      <LoaderCircle className="w-5 h-5 animate-spin text-primary" />
+       </div>):
+    (<> 
+    {showOption && (
+            <>
     <div className="flex flex-col gap-3 mb-3">
      {paymentSummary?.paymentMethods?.filter((item) => visiblePaymentMethods.includes(item.method)) .map((item) => (
     
@@ -647,7 +691,9 @@ if (walletBalance <= 0) {
     {/* BILL SUMMARY */}
    
   </>
-)}
+)}</>
+    )}
+ 
               </div>
             ) : (
               activeStep > 2 && (
@@ -698,7 +744,7 @@ if (walletBalance <= 0) {
                   </div>
                 </div>
 
-                <button
+                {/* <button
                   onClick={handleContinueToPayment}
                   className="w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 py-4 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
                 >
@@ -707,7 +753,7 @@ if (walletBalance <= 0) {
                   ) : (
                     <><CreditCard className="w-4 h-4" /> Pay & Place Order · ₹{finalAmount}</>
                   )}
-                </button>
+                </button> */}
 
                 <div className="flex items-center justify-center gap-2 mt-3">
                   <Shield className="w-3 h-3 text-yellow-700/50" />
@@ -732,8 +778,8 @@ if (walletBalance <= 0) {
 
               <div className="space-y-2 mb-4">
                 {[
-                  { label: `Price (${totalItems} item${totalItems > 1 ? 's' : ''})`, val: `₹${subtotal}`, show: true },
-                  { label: 'GST (3%)', val: `₹${gst}`, show: true },
+                  { label: `Price `, val: `₹${subtotal}`, show: true },
+                  { label: 'GST (jkhjkhd%)', val: `₹${gst}`, show: true },
                   { label: 'Delivery Charge', val: `₹${delivery}`, show: !isWallet },
                   { label: 'Handling', val: `₹${handlingFee}`, show: !isWallet },
                   { label: 'Shipping Charge', val: `₹${shippingBase}`, show: !isWallet },
@@ -769,13 +815,16 @@ if (walletBalance <= 0) {
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
                            <div className='bg-primary p-2 rounded-2xl text-center font-serif text-background'>
-        <button onClick={handleContinueToPayment}>
-          Continue
-        </button>
+                     <button onClick={handleContinueToPayment}>
+                      {buttonLoading?(
+                        <div className='flex gap-1'>
+                   <LoaderCircle className="w-5 h-5 animate-spin" />
+                    Processing...
+                   </div> ):("  Continue")}
+                     </button>
         </div>
         </> )}             
-              </div>
-              
+              </div>              
               <div className="rounded-2xl p-4 space-y-2 bg-[#111112] border border-yellow-700/10">
                 {[
                   { icon: Shield, text: 'BIS Hallmarked jewellery' },

@@ -115,6 +115,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [showMpin,setShowMpin]=useState(false);
   const [mpinLoading, setMpinLoading] = useState(false);
+  const[kycPopup,setKycPopup]=useState(false);
 
   // Verification modal state
   const [showVerifyModal, setShowVerifyModal] = useState(false);
@@ -139,6 +140,10 @@ export default function Profile() {
   const loadKycProgress = useKycStore((state) => state.loadKycProgress);
 
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
+
+  const mpinStatusLoading = useMpinStore((state) => state.mpinStatusLoading);
+
+  console.log("MPIN Status:", mpinCreated);
   const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 
   // ── Derived data ────
@@ -156,7 +161,12 @@ export default function Profile() {
  const phoneNumber = profileData?.phoneNumber;
 
 
- const openVerification = (path) => {
+const openVerification = (path) => {
+  if (kycStatus !== "approved") {
+    setKycPopup(true);
+    return;
+  }
+
   setRedirectPath(path);
   setShowMpin(true);
 };
@@ -379,9 +389,8 @@ if(res.data.success){
                   </p>
                 </div>
               </div>
-
-              {/* MPIN actions */}
-              <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
+{kycStatus==='approved' &&(
+   <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
                 
              {mpinCreated?(
                   <p className='bg-green-500/20 text-green-400 border border-green-500/30 rounded-2xl px-1  text-xs'>
@@ -407,6 +416,10 @@ if(res.data.success){
                   Reset MPIN
                 </button>
               </div>
+  
+)}
+              {/* MPIN actions */}
+             
             </div>
           </div>
 
@@ -684,7 +697,38 @@ if(res.data.success){
           }
         }}
       />
+{kycPopup && (
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+      <h2 className="text-xl text-white mb-3">
+        KYC Verification Required
+      </h2>
 
+      <p className="text-white/70 mb-6">
+        Please verify your KYC before proceeding.
+      </p>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => setKycPopup(false)}
+          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={() => {
+            setKycPopup(false);
+            navigate("/kycpage");
+          }}
+          className="flex-1 py-3 rounded-xl bg-gray-500 text-black font-semibold"
+        >
+          Verify KYC
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 }

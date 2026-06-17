@@ -17,6 +17,7 @@ function KycPage() {
   const {
     currentStep,
     kycStatus,
+    statusReason,
     loading,
     initialLoading,
     error,
@@ -34,6 +35,7 @@ function KycPage() {
     loadKycProgress,
   } = useKycStore();
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
+
 
   useEffect(() => {
     loadKycProgress();
@@ -66,9 +68,13 @@ function KycPage() {
     <div className="min-h-screen bg-background px-4 py-8">
       <div className=" md:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-accent p-6 text-center">
+        <div className="bg-accent p-6 text-center flex flex-col justify-center items-center">
           <h1 className="text-3xl font-serif text-white/70">KYC Verification</h1>
           <p className="text-sm mt-2 text-white/50">Complete verification step by step</p>
+             {kycStatus==="rejected" &&(<div className='flex text-red-600/60'>
+                <p className=" mb-8 uppercase">kyc {kycStatus} - </p>
+                <p className=" mb-8">{statusReason}</p>
+              </div>)}
         </div>
 
         {/* Stepper */}
@@ -265,6 +271,9 @@ function KycPage() {
                 Previous
               </button>
               <h2 className="text-2xl font-bold text-white/90 mb-6">Upload Documents</h2>
+           
+              
+              
 
               <div className="space-y-6">
                 {/* PAN */}
@@ -322,12 +331,12 @@ function KycPage() {
 
           {currentStep === 4 && (
             <div className="text-center py-12">
-              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-5xl">✓</span>
-              </div>
-
-              <h2 className="text-3xl font-normal text-green-600/40 mb-4 uppercase">{kycStatus}</h2>
-              <p className="text-gray-600 mb-8">Your KYC is under review.</p>
+             
+            <div className='bg-green-800 px-2 rounded-2xl'>
+<h2 className="text-lg md:text-3xl font-normal text-secondary mb-4 uppercase ">{kycStatus}</h2>
+            </div>
+              
+              <p className="text-gray-600 mb-8 text-sm">{statusReason}</p>
 
               <button
                 onClick={() => navigate('/profile')}
@@ -344,8 +353,8 @@ function KycPage() {
                 <span className="text-5xl">✓</span>
               </div> */}
 
-              <h2 className="text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2">KYC Approved!</h2>
-              <p className="text-white/60 mb-8">Your account is verified and ready to use.</p>
+              <h2 className="text-lg md:text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2 uppercase">KYC {kycStatus} </h2>
+              <p className="text-white/60 mb-8">{statusReason}</p>
 
 {mpinCreated ?(
   <p className='text-md  py-1 text-green-400'>Mpin Created ✓</p>
@@ -355,8 +364,7 @@ function KycPage() {
         >
                 Set up MPIN
               </button>)}
-           
-
+              
               <button
                 onClick={() => navigate('/profile')}
                 className="w-full bg-accent py-4 rounded-lg font-bold text-black"
@@ -367,6 +375,7 @@ function KycPage() {
           )}
         </div>
       </div>
+      
     </div>
   );
 }
