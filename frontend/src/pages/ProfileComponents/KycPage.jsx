@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useKycStore from '../../store/useKYCStore.JS';
+import useKycStore from '../../store/useKYCStore';
 import useMpinStore from '../../store/useMpinStore';
 import {
   submitKYC,
@@ -36,30 +36,24 @@ function KycPage() {
   } = useKycStore();
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
 
-
   useEffect(() => {
     loadKycProgress();
     // console.log('hello');
   }, []);
 
-  
   if (initialLoading) {
     return (
       <div className="min-h-screen max-w-7xl  p-4 flex flex-col items-center gap-2 ">
-       <div className='flex gap-2  mb-10'>
-        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
-        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
-        <div className='rounded-full h-10 w-10 bg-secondary/8'></div>
-         </div>
-         <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-10"></div>
-         <div className="h-10 bg-secondary/8 rounded-lg w-65 mb-3"></div>
-         <div className="h-2 bg-secondary/8 rounded-lg w-65 "></div>
-         <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-15 "></div>
-         <div className="h-20 bg-secondary/8 rounded-lg w-65 "></div>
-
-
-
-
+        <div className="flex gap-2  mb-10">
+          <div className="rounded-full h-10 w-10 bg-secondary/8"></div>
+          <div className="rounded-full h-10 w-10 bg-secondary/8"></div>
+          <div className="rounded-full h-10 w-10 bg-secondary/8"></div>
+        </div>
+        <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-10"></div>
+        <div className="h-10 bg-secondary/8 rounded-lg w-65 mb-3"></div>
+        <div className="h-2 bg-secondary/8 rounded-lg w-65 "></div>
+        <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-15 "></div>
+        <div className="h-20 bg-secondary/8 rounded-lg w-65 "></div>
       </div>
     );
   }
@@ -71,10 +65,12 @@ function KycPage() {
         <div className="bg-accent p-6 text-center flex flex-col justify-center items-center">
           <h1 className="text-3xl font-serif text-white/70">KYC Verification</h1>
           <p className="text-sm mt-2 text-white/50">Complete verification step by step</p>
-             {kycStatus==="rejected" &&(<div className='flex text-red-600/60'>
-                <p className=" mb-8 uppercase">kyc {kycStatus} - </p>
-                <p className=" mb-8">{statusReason}</p>
-              </div>)}
+          {kycStatus === 'rejected' && (
+            <div className="flex text-red-600/60">
+              <p className=" mb-8 uppercase">kyc {kycStatus} - </p>
+              <p className=" mb-8">{statusReason}</p>
+            </div>
+          )}
         </div>
 
         {/* Stepper */}
@@ -271,9 +267,6 @@ function KycPage() {
                 Previous
               </button>
               <h2 className="text-2xl font-bold text-white/90 mb-6">Upload Documents</h2>
-           
-              
-              
 
               <div className="space-y-6">
                 {/* PAN */}
@@ -331,11 +324,12 @@ function KycPage() {
 
           {currentStep === 4 && (
             <div className="text-center py-12">
-             
-            <div className='bg-green-800 px-2 rounded-2xl'>
-<h2 className="text-lg md:text-3xl font-normal text-secondary mb-4 uppercase ">{kycStatus}</h2>
-            </div>
-              
+              <div className="bg-green-800 px-2 rounded-2xl">
+                <h2 className="text-lg md:text-3xl font-normal text-secondary mb-4 uppercase ">
+                  {kycStatus}
+                </h2>
+              </div>
+
               <p className="text-gray-600 mb-8 text-sm">{statusReason}</p>
 
               <button
@@ -353,18 +347,22 @@ function KycPage() {
                 <span className="text-5xl">✓</span>
               </div> */}
 
-              <h2 className="text-lg md:text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2 uppercase">KYC {kycStatus} </h2>
+              <h2 className="text-lg md:text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2 uppercase">
+                KYC {kycStatus}{' '}
+              </h2>
               <p className="text-white/60 mb-8">{statusReason}</p>
 
-{mpinCreated ?(
-  <p className='text-md  py-1 text-green-400'>Mpin Created ✓</p>
-):(   <button
-       onClick={() => navigate('/mpin-setup')}
-       className="w-full border border-white/20 bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white/70 mb-4"
-        >
-                Set up MPIN
-              </button>)}
-              
+              {mpinCreated ? (
+                <p className="text-md  py-1 text-green-400">Mpin Created ✓</p>
+              ) : (
+                <button
+                  onClick={() => navigate('/mpin-setup')}
+                  className="w-full border border-white/20 bg-accent/20 p-3 rounded-lg hover:bg-accent/40 uppercase font-semibold text-white/70 mb-4"
+                >
+                  Set up MPIN
+                </button>
+              )}
+
               <button
                 onClick={() => navigate('/profile')}
                 className="w-full bg-accent py-4 rounded-lg font-bold text-black"
@@ -375,7 +373,6 @@ function KycPage() {
           )}
         </div>
       </div>
-      
     </div>
   );
 }
