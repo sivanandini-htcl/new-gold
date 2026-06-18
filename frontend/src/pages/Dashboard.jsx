@@ -48,7 +48,7 @@ import SlidingBanner from '../components/dashboardComponents/SlidingBanner';
 import { jewelleryProducts } from './Data/jewelleryProducts';
 import DgiAssurance from '../components/dashboardComponents/Dgiassurance ';
 import BlogSection from '../components/dashboardComponents/Blogsection';
-import ProductCarousel from '../components/dashboardComponents/ProductCarousel.JSX';
+import ProductCarousel from '../components/dashboardComponents/ProductCarousel';
 import dg from '../assets/dg';
 // import DashboardBar from "../assets/coins.png";
 import BackgroundImg1 from '../assets/background1.jpg';
@@ -291,22 +291,21 @@ function SectionHeader({ title, subtitle, onViewAll, gold = true }) {
         {subtitle && <p className="text-xs text-secondary mt-1 2xl:text-sm">{subtitle}</p>}
       </div>
 
-      <div className='flex items-end justify-end mt-2 w-full'>
-      {onViewAll && (
-        <button
-          onClick={onViewAll}
-          className={`whitespace-nowrap flex items-center text-[10px] gap-1  font-bold font-serif px-4 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
+      <div className="flex items-end justify-end mt-2 w-full">
+        {onViewAll && (
+          <button
+            onClick={onViewAll}
+            className={`whitespace-nowrap flex items-center text-[10px] gap-1  font-bold font-serif px-4 py-1 rounded-lg transition 2xl:text-sm 2xl:px-4 2xl:py-2
             ${
               gold
                 ? 'text-primary border border-white/20 hover:bg-amber-50'
                 : 'text-slate-300 border border-slate-200 hover:bg-slate-50'
             }`}
-        >
-          View All <ChevronRight size={12} />
-        </button>
-      )}
+          >
+            View All <ChevronRight size={12} />
+          </button>
+        )}
       </div>
-      
     </div>
   );
 }
@@ -334,7 +333,6 @@ function Dashboard() {
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
   // const username  = useAuthStore((s) => s.user?.);
-
 
   const insights = [
     {
@@ -417,7 +415,8 @@ function Dashboard() {
           {/* GOLD */}
           <motion.div
             whileHover={{ y: -2 }}
-            className="flex-1 bg-[#111117] px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg">
+            className="flex-1 bg-[#111117] px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg"
+          >
             <div className="flex items-center gap-3 2xl:gap-4">
               <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl  bg-gradient-to-br from-primary/70 to-primary/90  flex items-center justify-center shadow">
                 <Coins size={20} className="2xl:w-7 2xl:h-7 text-background" />
@@ -440,7 +439,7 @@ function Dashboard() {
               onClick={() => navigate('/gold')}
               className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/20 text-primary hover:from-[#754c33] transition shadow"
             >
-               Gold
+              Gold
             </button>
           </motion.div>
 
@@ -482,11 +481,11 @@ function Dashboard() {
         <div className="flex flex-col md:flex-row gap-4 2xl:gap-8 items-center bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-3xl overflow-hidden p-6 sm:p-8 2xl:p-12  shadow-2xl">
           <div className="md:w-1/2 2xl:w-1/2">
             <p className="text-primary text-md md:text-2xl mb-2 flex items-center gap-1">
-  <span>Welcome,</span>
-  <span className="truncate max-w-[200px] md:max-w-[300px] inline-block uppercase">
-  {userName}
-  </span>
-</p>
+              <span>Welcome,</span>
+              <span className="truncate max-w-[200px] md:max-w-[300px] inline-block uppercase">
+                {userName}
+              </span>
+            </p>
             <span className="inline-block text-[9px] 2xl:text-xs uppercase tracking-widest text-primary  mb-3 bg-amber-400/10 px-2 py-1 rounded-full border border-amber-400/20 ">
               ✦ Pure · Certified · Hallmarked
             </span>
