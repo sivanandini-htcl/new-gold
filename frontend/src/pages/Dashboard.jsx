@@ -329,7 +329,7 @@ function Dashboard() {
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k;
   const gram24ksilverPrice = silverPrice?.caratPrices?.gram24k;
   const profileData = useAuthStore((state) => state.profileData);
-  const userName = profileData?.name || profileData?.fullName || profileData?.first_name || 'User';
+  const userName = profileData?.firstName || 'User';
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
@@ -440,7 +440,7 @@ function Dashboard() {
               onClick={() => navigate('/gold')}
               className="text-[11px] md:text-sm 2xl:text-xl font-black px-4 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/20 text-primary hover:from-[#754c33] transition shadow"
             >
-              Buy Gold
+               Gold
             </button>
           </motion.div>
 
@@ -471,7 +471,7 @@ function Dashboard() {
               onClick={() => navigate('/silver')}
               className="text-[11px] md:text-sm 2xl:text-xl font-black px-3 py-2 2xl:px-5 2xl:py-2.5 rounded-xl border border-white/20 text-white hover:from-slate-800 transition shadow whitespace-nowrap"
             >
-              Buy Silver
+              Silver
             </button>
           </motion.div>
         </div>
@@ -483,7 +483,7 @@ function Dashboard() {
           <div className="md:w-1/2 2xl:w-1/2">
             <p className="text-primary text-md md:text-2xl mb-2 flex items-center gap-1">
   <span>Welcome,</span>
-  <span className="truncate max-w-[200px] md:max-w-[300px] inline-block">
+  <span className="truncate max-w-[200px] md:max-w-[300px] inline-block uppercase">
   {userName}
   </span>
 </p>

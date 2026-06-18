@@ -20,7 +20,7 @@ import useKycStore from '../store/useKYCStore';
 
 function Cart() {
   const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
-  const {kycStatus} = useKycStore();
+  const {kycStatus,loadKycProgress} = useKycStore();
 
   const navigate = useNavigate();
 
@@ -48,10 +48,11 @@ function Cart() {
     };
 
     loadCart();
+    loadKycProgress();
   }, []);
 
   const handleProceedToCheckout = async () => {
-      if (kycStatus !== "APPROVED") {
+      if (kycStatus !== "approved") {
     setKycPopup(true)
     return;
   }
@@ -421,7 +422,7 @@ function Cart() {
       </h2>
 
       <p className="text-white/70 mb-6">
-        Please verify your KYC to continue buying gold.
+        Please verify your KYC to continue buying .
       </p>
 
       <div className="flex gap-3">

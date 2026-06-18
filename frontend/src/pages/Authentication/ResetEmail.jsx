@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import api from '../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { Smartphone, ArrowLeft, Eye, EyeOff,LockKeyholeOpen } from 'lucide-react';
+import { Smartphone, ArrowLeft, Eye, EyeOff,LockKeyholeOpen,LoaderCircle } from 'lucide-react';
 
 
 const ResetEmail = () => {
@@ -16,6 +16,7 @@ const ResetEmail = () => {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const[buttonLoading,setButtonLoading]=useState(false);
 
     const rules = {
   uppercase: /[A-Z]/.test(newPassword),
@@ -48,6 +49,7 @@ if (!isValidPassword) {
   setError("Password does not satisfy all requirements");
   return;
 }
+setButtonLoading(true)
     try {
       const payload = {
         token,
@@ -132,8 +134,8 @@ if (!isValidPassword) {
       <button
         onClick={handleSubmit}
         className="bg-primary text-background py-2 rounded mt-2 font-serif"
-      >
-        Reset newPassword
+      >{buttonLoading ?(<div className='animate-spin'><LoaderCircle/></div>):(<p>Reset Password</p>)}
+        
       </button>
 
     </div>

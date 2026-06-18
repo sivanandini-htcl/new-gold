@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo,useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import { ArrowLeft,LoaderCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -17,7 +17,7 @@ function Silver() {
   const navigate = useNavigate();
 
   const { cartItems, replaceCartItem, fetchCart } = useCartStore();
-  const{kycStatus } = useKycStore();
+  const{kycStatus,loadKycProgress } = useKycStore();
   const prices = usePriceStore((state) => state.prices);
   const silverPrice = prices.find((item) => item.metal === 'SILVER');
   const gram24kSilverPrice = silverPrice?.caratPrices?.gram24k || 0;
@@ -33,7 +33,9 @@ function Silver() {
 
     return 'MIXED';
   };
-
+useEffect(() => {
+  loadKycProgress();
+}, []);
   // Safe calculation
   const calc = useMemo(() => {
     const grams = parseFloat(inputValue) || 0;
@@ -47,7 +49,7 @@ function Silver() {
   const hasValidInput = calc.grams > 0 && gram24kSilverPrice > 0;
 
   const handleBuyNow = async () => {
-     if (kycStatus !== "APPROVED") {
+     if (kycStatus !== "approved") {
     setKycPopup(true)
     return;
   }
@@ -333,7 +335,7 @@ setButtonLoading(true)
       </h2>
 
       <p className="text-white/70 mb-6">
-        Please verify your KYC to continue buying gold.
+        Please verify your KYC to continue buying .
       </p>
 
       <div className="flex gap-3">

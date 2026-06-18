@@ -129,7 +129,7 @@ export default function Profile() {
   const [redirectPath, setRedirectPath] = useState("");
 
   // ── Store selectors ────────────
-  const username = useAuthStore((s) => s.user?.name);
+  const username = useAuthStore((s) => s.user?.firstName);
   const userEmail = useAuthStore((s) => s.user?.email);
   const userId = useAuthStore((s) => s.user?.uid);
   const prices = usePriceStore((s) => s.prices) || [];
@@ -346,7 +346,7 @@ if(res.data.success){
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <h2 className="text-xl sm:text-2xl font-bold text-primary truncate">
-                      {username || profileData?.name || 'User Name'}
+                      {username || profileData?.firstName || 'User Name'||profileData.firstname}
                     </h2>
                     <span className="text-xs font-medium bg-amber-100 text-background border border-primary/70 px-2 py-0.5 rounded-full shrink-0">
                       Premium

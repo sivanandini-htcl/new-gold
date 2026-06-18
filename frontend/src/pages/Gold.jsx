@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo ,useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft,LoaderCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -21,7 +21,7 @@ function Gold() {
 
   const navigate = useNavigate();
   const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity, fetchCart } =useCartStore();
-  const{kycStatus } = useKycStore();
+  const{kycStatus,loadKycProgress } = useKycStore();
   // Safe calculation
 
   const getCartType = () => {
@@ -36,9 +36,11 @@ function Gold() {
 
     return 'MIXED';
   };
-
+useEffect(() => {
+  loadKycProgress();
+}, []);
   const calc = useMemo(() => {
-    const grams = parseFloat(inputValue) || 0;
+    const grams = inputValue || 0;
     const baseAmount = grams * gram24kGoldPrice;
     return { grams, baseAmount: baseAmount };
   }, [inputValue, gram24kGoldPrice]);
@@ -46,7 +48,7 @@ function Gold() {
   const hasValidInput = calc.grams > 0 && gram24kGoldPrice > 0;
 
   const handleBuyNow = async () => {
-    if (kycStatus !== "APPROVED") {
+    if (kycStatus !== "approved") {
     setKycPopup(true)
     return;
   }
@@ -162,7 +164,7 @@ function Gold() {
               </h2>
 
               <div className="flex items-center 2xl:text-2xl text-white/70 justify-between p-4 rounded-xl  mb-6 border border-white/20">
-                <p>₹{Math.round(gram24kGoldPrice) || 'Loading...'}</p>
+                <p>₹{gram24kGoldPrice || 'Loading...'}</p>
                 <p>{goldPrice ? `${goldPrice.changePercent}%` : '—'}</p>
               </div>
 
@@ -237,7 +239,9 @@ function Gold() {
                 You will pay
               </p>
               <div className="text-3xl xl:text-4xl 2xl:text-5xl mb-7 font-bold text-primary">
-                {hasValidInput ? `₹${calc.baseAmount.toLocaleString('en-IN')}` : '—'}
+                {hasValidInput ? `₹${calc.baseAmount}` : '—'}
+                {/* {hasValidInput ? `₹${calc.baseAmount.toLocaleString('en-IN')}` : '—'} */}
+
               </div>
             </div>
 
@@ -329,7 +333,7 @@ function Gold() {
       </h2>
 
       <p className="text-white/70 mb-6">
-        Please verify your KYC to continue buying gold.
+        Please verify your KYC to continue buying .
       </p>
 
       <div className="flex gap-3">

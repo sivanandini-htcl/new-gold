@@ -31,7 +31,7 @@ function EmptyState({ onExplore }) {
 
       <button
         onClick={onExplore}
-        className="bg-[linear-gradient(135deg,#c9a97a,#a07840)] text-primary/70 rounded-xl px-8 py-[14px] text-[14px] font-semibold uppercase tracking-[0.06em] hover:opacity-95 transition-all duration-200"
+        className="bg-[linear-gradient(135deg,#c9a97a,#a07840)] text-background rounded-xl px-8 py-[14px] text-[14px] font-semibold uppercase tracking-[0.06em] hover:opacity-95 transition-all duration-200"
       >
         Explore Jewellery
       </button>
@@ -159,11 +159,11 @@ const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
   if (loading) {
     return(
     <>
-     <div className="px-60 rounded-2xl m-2 gap-3 flex">
+     <div className="px-60 md:px-40 rounded-2xl m-2 gap-3 flex">
       <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
       <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
      </div>
-    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-1 gap-3 px-60 rounded-2xl  m-2">
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-1 gap-3 px-60 md:px-40 rounded-2xl  m-2">
     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>
     <div className="h-30 bg-secondary/10 rounded-2xl w-full"></div>

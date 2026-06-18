@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { ShoppingCart, User, LogOut, Menu, X, Heart, Gift } from "lucide-react";
+import { ShoppingCart, User, LogOut, Menu, X, Heart, Gift,LoaderCircle} from "lucide-react";
 import dgiLogo from "../assets/logo_2.svg";
 import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
@@ -35,10 +35,15 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const[popUp,showPopUp]=useState(false);
   const { cartItems } = useCartStore();
+  const[buttonLoading,setButtonLoading]=useState(false);
 
-
+  const buttonlogout=()=>{
+  showPopUp(true)
+  }
   const handleLogout = async () => {
+    setButtonLoading(true);
     try {
       const accessToken = useAuthStore.getState().accessToken;
       const refreshToken = useAuthStore.getState().refreshToken;
@@ -120,7 +125,7 @@ function Header() {
 
             {/* Logout */}
             <button
-              onClick={handleLogout}
+              onClick={buttonlogout}
               className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 rounded-full items-center justify-center border border-white/20  bg-red-400/5 text-red-400/70 hover:bg-red-400/15 hover:text-red-300 hover:border-red-400/40 transition"
             >
               <LogOut className="w-4 h-4 2xl:w-5 2xl:h-5" />
@@ -160,14 +165,41 @@ function Header() {
               <Link to="/profile" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <User size={13} /> Profile
               </Link>
-              <button onClick={handleLogout} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400/70 border border-red-400/20 rounded-xl hover:bg-red-400/10 transition">
+              <button onClick={buttonlogout} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-red-400/70 border border-red-400/20 rounded-xl hover:bg-red-400/10 transition">
                 <LogOut size={13} /> Logout
               </button>
             </div>
           </div>
         </div>
       )}
+{popUp &&(
+  <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="bg-[#111117] border border-yellow-400/20 rounded-2xl p-6 w-[90%] max-w-md">
+      <h2 className="text-lg font-semibold text-[#DDD9CE] mb-4">Confirm Logout</h2>
+      <p className="text-sm text-[#DDD9CE] mb-6">Are you sure you want to logout?</p>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => showPopUp(false)}
+          className="px-4 py-2 bg-gray-700 text-[#DDD9CE] rounded-lg hover:bg-gray-600 transition"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-600/50 text-[#DDD9CE] rounded-lg hover:bg-red-500 transition"
+        >
+{buttonLoading?(<div className="animate-spin ">
+  <LoaderCircle/>
+  
+</div>):(<>
+<p> Logout</p></>)}
+         
+        </button>
+      </div>
+    </div>
+  </div>
 
+)}
     </div>
   );
 }

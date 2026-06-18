@@ -58,17 +58,25 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Performance = () => {
     const[performanceData, setPerformanceData] = useState([]);
     const[loading,setLoading]=useState(true)
-    const allocationData=performanceData.filter((metal)=>metal.metal!="PLATINUM").map((metal)=>({
-      metal:metal.metal,
-       valueINR:metal.valueINR,
-       allocationPercent:metal.allocationPercent,
-       color: metal.metal === "GOLD" ? "#F8D9AD" : "#C0C0C0",
-       gradient:
-metal.metal === "GOLD"
-        ? "url(#goldGradient)"
-        : "url(#silverGradient)",
-    }));
+   const allocationData = performanceData
+  .filter((metal) => metal.metal !== "PLATINUM")
+  .map((metal) => ({
+    metal: metal.metal,
+    valueINR: metal.valueINR,
+    allocationPercent: metal.allocationPercent,
+    color: metal.metal === "GOLD" ? "#F8D9AD" : "#C0C0C0",
+  }));
 
+const pieData =
+  allocationData.length > 0
+    ? allocationData
+    : [
+        {
+          metal: "No Data",
+          valueINR: 1,
+          color: "#3f3f46",
+        },
+      ];
 
 useEffect(()=>{
   const fetchPerformance=async()=>{
@@ -118,7 +126,7 @@ useEffect(()=>{
                   </linearGradient>
                 </defs>
                 <Pie
-                  data={allocationData}
+                  data={pieData}
                   dataKey="valueINR"
                   nameKey="metal"
                   cx="50%"
@@ -128,9 +136,18 @@ useEffect(()=>{
                   paddingAngle={5}
                   stroke="none"
                 >
-                  {allocationData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.metal === "GOLD" ? "url(#goldGradient)" : "url(#silverGradient)"} />
-                  ))}
+                {pieData.map((entry, index) => (
+  <Cell
+    key={`cell-${index}`}
+    fill={
+      allocationData.length === 0
+        ? "#3f3f46"
+        : entry.metal === "GOLD"
+        ? "url(#goldGradient)"
+        : "url(#silverGradient)"
+    }
+  />
+))}
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
                 <Legend
