@@ -746,7 +746,7 @@ if (walletBalance <= 0) {
                 </div>
 
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-yellow-700/20 mb-5">
-                  <img src="https://razorpay.com/favicon.ico" alt="Razorpay" className="w-6 h-6" />
+                  <img src="https://razorpay.com/favicon.icon" alt="Razorpay" className="w-6 h-6" />
                   <div>
                     <p className="text-sm font-semibold font-serif text-yellow-900">Pay via Razorpay</p>
                     <p className="text-xs text-yellow-800/60">UPI · Cards · Net Banking · Wallets</p>

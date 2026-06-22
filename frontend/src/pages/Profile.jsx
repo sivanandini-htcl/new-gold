@@ -435,12 +435,12 @@ export default function Profile() {
           {/* ROW 2 — Menu Items */}
           <div className="w-full flex bg-[#111117] rounded-2xl gap-3 items-center justify-center md:gap-30 lg:gap-40 xl:gap-70 p-4">
             {[
-              // { icon: Edit, label: 'Profile', onClick: () => navigate('/profile') },
+              
               { icon: FileText, label: 'KYC', onClick: handleKycClick },
               { icon: MapPin, label: 'Address', onClick: () => navigate('/delivery') },
               { icon: ShieldCheck, label: 'Account', onClick: () => navigate('/account') },
               { icon: CreditCard, label: 'Wallet', onClick: () => openVerification('/wallet') },
-              // { icon: ArrowRightLeft,label: 'Transfers',onClick: () => navigate('/transactions'),},
+              
             ].map(({ icon: Icon, label, onClick }) => (
              <div
       key={label}
