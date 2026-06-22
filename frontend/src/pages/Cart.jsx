@@ -9,7 +9,7 @@ import {
   Truck,
   ChevronRight,
   Clock,
-  LoaderCircle
+  LoaderCircle,
 } from 'lucide-react';
 
 import { toast } from 'react-toastify';
@@ -20,7 +20,7 @@ import useKycStore from '../store/useKYCStore';
 
 function Cart() {
   const { cartItems, fetchCart, removeFromCart, updateQuantity } = useCartStore();
-  const {kycStatus,loadKycProgress} = useKycStore();
+  const { kycStatus, loadKycProgress } = useKycStore();
 
   const navigate = useNavigate();
 
@@ -28,8 +28,8 @@ function Cart() {
 
   const [pageLoading, setPageLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [buttonLoading,setButtonLoading]=useState(false)
-  const [kycPopup,setKycPopup]=useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [kycPopup, setKycPopup] = useState(false);
   // Detect cart type
   const hasMetalItems = cartItems.some((item) => item.type === 'METAL');
   const hasGold = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'GOLD');
@@ -52,10 +52,10 @@ function Cart() {
   }, []);
 
   const handleProceedToCheckout = async () => {
-      if (kycStatus !== "approved") {
-    setKycPopup(true)
-    return;
-  }
+    if (kycStatus !== 'approved') {
+      setKycPopup(true);
+      return;
+    }
     setButtonLoading(true);
     try {
       setCheckoutLoading(true);
@@ -108,7 +108,6 @@ function Cart() {
         <div className="h-20 bg-secondary/8 rounded-lg w-full"></div>
         <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
         <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        
       </div>
     );
   }
@@ -161,7 +160,7 @@ function Cart() {
             <ShoppingCart className="w-4 h-4 text-primary shrink-0" />
 
             <h1 className="font-serif text-sm sm:text-base md:text-lg 2xl:text-2xl font-semibold text-primary truncate">
-              Cart
+              Car
               <span className="ml-1 sm:ml-2 text-[11px] sm:text-sm 2xl:text-lg font-normal text-primary/70">
                 ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
               </span>
@@ -229,7 +228,7 @@ function Cart() {
                             <span className="text-2xl 2xl:text-4xl text-yellow-600">◈</span>
 
                             <span className="text-xs 2xl:text-2xl text-yellow-700 mt-1 font-serif">
-                             {item.type}
+                              {item.type}
                             </span>
                           </div>
                         )}
@@ -247,9 +246,11 @@ function Cart() {
                               <span className="shrink-0 text-xs 2xl:text-lg text-secondary  bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
                                 Digital
                               </span>
-                            ):( <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
+                            ) : (
+                              <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
                                 Delivery
-                              </span>)}
+                              </span>
+                            )}
                           </div>
 
                           <p className="text-base sm:text-lg 2xl:text-2xl font-bold  text-primary shrink-0">
@@ -363,27 +364,28 @@ function Cart() {
                   onClick={handleProceedToCheckout}
                   className="text-background 2xl:text-xl w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800  hover:opacity-55 py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold  transition inline-flex items-center justify-center gap-2"
                 >
-                  {buttonLoading ?(
+                  {buttonLoading ? (
                     <>
-      <LoaderCircle className="w-5 h-5 animate-spin" />
-      Processing...
-    </>
-                  ):(<>
-                  {hasMetalItems ? (
-                    <>
-                      <Wallet className="w-4 h-4" />
-                      Proceed to Checkout
+                      <LoaderCircle className="w-5 h-5 animate-spin" />
+                      Processing...
                     </>
                   ) : (
                     <>
-                      <Truck className="w-4 h-4" />
-                      Proceed to Checkout
+                      {hasMetalItems ? (
+                        <>
+                          <Wallet className="w-4 h-4" />
+                          Proceed to Checkout
+                        </>
+                      ) : (
+                        <>
+                          <Truck className="w-4 h-4" />
+                          Proceed to Checkout
+                        </>
+                      )}
                     </>
                   )}
-                  </>)}
-                  
 
-                <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
 
                 <div className="flex items-center justify-center gap-4 pt-1">
@@ -409,34 +411,31 @@ function Cart() {
           </div>
         </div>
       </div>
-                 {kycPopup && (
-  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
-      <h2 className="text-xl text-white mb-3">
-        KYC Verification Required
-      </h2>
+      {kycPopup && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+            <h2 className="text-xl text-white mb-3">KYC Verification Required</h2>
 
-      <p className="text-white/70 mb-6">
-        Please verify your KYC to continue buying .
-      </p>
+            <p className="text-white/70 mb-6">Please verify your KYC to continue buying .</p>
 
-      <div className="flex gap-3">
-        <button
-          onClick={() => setKycPopup(false)}
-          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
-        >
-          Cancel
-        </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setKycPopup(false)}
+                className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+              >
+                Cancel
+              </button>
 
-        <button
-          onClick={() => navigate("/kycpage")}
-          className="flex-1 py-3 rounded-xl bg-gray-500 text-background font-semibold">
-          Verify KYC
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <button
+                onClick={() => navigate('/kycpage')}
+                className="flex-1 py-3 rounded-xl bg-gray-500 text-background font-semibold"
+              >
+                Verify KYC
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
