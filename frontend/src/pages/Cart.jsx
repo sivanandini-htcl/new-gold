@@ -28,8 +28,8 @@ function Cart() {
 
   const [pageLoading, setPageLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const[buttonLoading,setButtonLoading]=useState(false)
-  const[kycPopup,setKycPopup]=useState(false);
+  const [buttonLoading,setButtonLoading]=useState(false)
+  const [kycPopup,setKycPopup]=useState(false);
   // Detect cart type
   const hasMetalItems = cartItems.some((item) => item.type === 'METAL');
   const hasGold = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'GOLD');
@@ -104,16 +104,11 @@ function Cart() {
 
   if (pageLoading) {
     return (
-      <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-10 m-20 p-4">
-        <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
+      <div className="animate-pulse flex flex-col gap-3 mt-10 md:m-20 p-4">
+        <div className="h-20 bg-secondary/8 rounded-lg w-full"></div>
         <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
         <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
-        <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
+        
       </div>
     );
   }
@@ -153,7 +148,7 @@ function Cart() {
   return (
     <div className=" 2xl:min-h-screen  max-w-[1440px] m-auto bg-background ">
       {/* Header */}
-      <div className="w-full  bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-10">
+      <div className="w-full  bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22]  sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto  flex items-center justify-between gap-2">
           <button
             onClick={() => navigate('/redeem')}
@@ -234,7 +229,7 @@ function Cart() {
                             <span className="text-2xl 2xl:text-4xl text-yellow-600">◈</span>
 
                             <span className="text-xs 2xl:text-2xl text-yellow-700 mt-1 font-serif">
-                              Digital
+                             {item.type}
                             </span>
                           </div>
                         )}
@@ -244,12 +239,12 @@ function Cart() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <div className="flex items-center gap-2 min-w-0">
-                            <h3 className="text-sm sm:text-base font-sans 2xl:text-2xl font-bold text-primary truncate">
+                            <h3 className="text-sm sm:text-base font-sans 2xl:text-2xl font-bold text-primary truncate whitespace-nowrap">
                               {item.name}
                             </h3>
 
                             {isDigital ? (
-                              <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
+                              <span className="shrink-0 text-xs 2xl:text-lg text-secondary  bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
                                 Digital
                               </span>
                             ):( <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
@@ -388,7 +383,7 @@ function Cart() {
                   </>)}
                   
 
-                  <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4" />
                 </button>
 
                 <div className="flex items-center justify-center gap-4 pt-1">

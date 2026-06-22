@@ -51,15 +51,16 @@ function Redeem() {
     return "MIXED";
   };
 
-  const [filters, setFilters] = useState({
-    shape: "",
-    productType: "",
-    category: "",
-    minPrice: "",
-    maxPrice: "",
-    minWeight: "",
-    maxWeight: "",
-  });
+const [filters, setFilters] = useState({
+  shape: "",
+  productType: "",
+  category: "",
+  metalType: "",
+  minPrice: "",
+  maxPrice: "",
+  minWeight: "",
+  maxWeight: "",
+});
 
   useEffect(() => {
     fetchProducts();
@@ -93,6 +94,20 @@ function Redeem() {
         .filter(Boolean)
     ),
   ];
+  const uniqueCategories = [
+  ...new Set(
+    products
+      .map((p) => p.category)
+      .filter(Boolean)
+  ),
+];
+  const uniqueMetalTypes = [
+  ...new Set(
+    products
+      .map((p) => p.metalType)
+      .filter(Boolean)
+  ),
+];
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -103,46 +118,45 @@ function Redeem() {
     }));
   };
 
-  const clearFilters = () => {
-    setFilters({
-      shape: "",
-      productType: "",
-      category: "",
-      minPrice: "",
-      maxPrice: "",
-      minWeight: "",
-      maxWeight: "",
-    });
+const clearFilters = () => {
+  setFilters({
+    category: "",
+    metalType: "",
+    minPrice: "",
+    maxPrice: "",
+  });
 
-    setSearchQuery("");
-
-    setSortBy("");
-  };
+  setSearchQuery("");
+  setSortBy("");
+};
 
   const activeFilterCount =
     Object.values(filters).filter(Boolean)
       .length + (searchQuery ? 1 : 0);
 
-  const filteredProducts = products
-    .filter(
-      (p) =>
-        (filters.shape === "" ||
-          p.shape === filters.shape) &&
-        (filters.category === "" ||
-          p.category === filters.category) &&
-        (filters.minPrice === "" ||
-          (p.price || 0) >=
-            Number(filters.minPrice)) &&
-        (filters.maxPrice === "" ||
-          (p.price || 0) <=
-            Number(filters.maxPrice)) &&
-        (searchQuery === "" ||
-          p.name
-            ?.toLowerCase()
-            .includes(
-              searchQuery.toLowerCase()
-            ))
-    )
+const filteredProducts = products
+  .filter(
+    (p) =>
+      (filters.shape === "" ||
+        p.shape === filters.shape) &&
+
+      (filters.category === "" ||
+        p.category === filters.category) &&
+
+      (filters.metalType === "" ||
+        p.metalType === filters.metalType) &&
+
+      (filters.minPrice === "" ||
+        (p.metalPrice || 0) >= Number(filters.minPrice)) &&
+
+      (filters.maxPrice === "" ||
+        (p.metalPrice || 0) <= Number(filters.maxPrice)) &&
+
+      (searchQuery === "" ||
+        p.name
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()))
+  )
     .sort((a, b) => {
       if (sortBy === "price_asc") {
         return (a.price || 0) - (b.price || 0);
@@ -286,16 +300,13 @@ setButtonLoading(product.id)
   if (loading) {
     return(
       <div>
-        <div className="flex flex-col gap-3 p-5 m-5">
-            <div className="h-2 bg-secondary/8 rounded-lg w-30"></div>
+      <div className="flex flex-col gap-3 p-5 m-5">
+      <div className="h-2 bg-secondary/8 rounded-lg w-30"></div>
      <div className="h-2 bg-secondary/8 rounded-lg w-65 md:w-80"></div>
      <div className="h-2 bg-secondary/8 rounded-lg w-65 md:w-120"></div>
-
-  
-        </div>
+     </div>
     
-    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-3 m-5 md:m-20 p-4">
-   
+    <div className="animate-pulse grid  grid-cols-1 md:grid-cols-3 gap-3 mt-3 m-5 md:m-20 p-4">  
     <div className="h-50 bg-secondary/8 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
     <div className="h-50 bg-secondary/7 rounded-lg w-full"></div>
@@ -338,7 +349,7 @@ setButtonLoading(product.id)
         animate={
           filterOpen ? "open" : "closed"
         }
-        className="fixed top-0 left-0 h-full w-[300px] bg-white text-background z-50 p-6 overflow-y-auto shadow-2xl"
+    className="fixed top-0 left-0 h-full w-[300px] bg-[#111117] border-r border-white/20 text-secondary z-50 p-6 overflow-y-auto shadow-2xl"
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-serif">
@@ -375,14 +386,50 @@ setButtonLoading(product.id)
               className="w-full pl-8 pr-3 py-2 text-sm border rounded-lg"
             />
           </div>
+          <div className="mb-4">
+<div className="mb-4">
+  <label className="text-xs font-serif text-gray-500 uppercase tracking-wider mb-1 block mt-3">
+    Category
+  </label>
+
+  <select
+    name="category"
+    value={filters.category}
+    onChange={handleFilterChange}
+    className="w-full border rounded-lg p-2 text-sm"
+  >
+    <option value="">All Categories</option>
+    <option value="COIN">Coin</option>
+    <option value="BAR">Bar</option>
+    <option value="BISCUIT">Biscuit</option>
+  </select>
+</div>
+  <div className="mb-4">
+  <label className="text-xs font-serif text-gray-500 uppercase tracking-wider mb-1 block">
+    Metal Type
+  </label>
+
+  <select
+  name="metalType"
+  value={filters.metalType}
+  onChange={handleFilterChange}
+  className="w-full border rounded-lg p-2 text-sm"
+>
+  <option value="">All Metals</option>
+  <option value="GOLD">Gold</option>
+  <option value="SILVER">Silver</option>
+ 
+
+</select>
+</div>
+</div>
         </div>
 
         {/* Clear Filters */}
         {activeFilterCount > 0 && (
           <button
             onClick={clearFilters}
-            className="w-full py-2.5 bg-background text-white rounded-xl"
-          >
+            className="w-full py-2.5 bg-background text-white rounded-xl">
             Clear All Filters
           </button>
         )}
@@ -476,8 +523,7 @@ setButtonLoading(product.id)
                         )}
                       </p>
 
-                     <button
-  onClick={() => handleAddToCart(product)}
+                     <button onClick={() => handleAddToCart(product)}
   disabled={buttonLoading === product.id}
   className="w-full mt-4 bg-primaryGoldGradient text-background py-2 rounded-lg flex items-center justify-center gap-2"
 >
@@ -491,8 +537,8 @@ setButtonLoading(product.id)
       <ShoppingCart className="w-4 h-4" />
       Add to Cart
     </>
-  )}
-</button>
+          )}
+            </button>
                     </div>
                   </motion.div>
                 )

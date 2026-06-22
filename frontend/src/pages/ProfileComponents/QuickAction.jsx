@@ -50,7 +50,7 @@ const navigate =useNavigate();
     iconBg: 'bg-stone-100',
     iconBorder: 'border-stone-300',
     iconColor: 'text-stone-600',
-    route: null,
+    route: '/transactions',
   },
 ];
   return (

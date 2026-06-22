@@ -2,14 +2,31 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 import {
-  User, Phone, Mail,
-  Edit,FileText,ShieldCheck,
-  MapPin,CreditCard, Receipt,
-  Clock, ArrowRightLeft, Gift,
-  ShieldUser,Settings,TrendingUp,
-  TrendingDown, Zap, BarChart2,
-  ArrowUpRight, Wallet,Package,
-  ChevronRight,Sparkles, X,
+  User,
+  Phone,
+  Mail,
+  Edit,
+  FileText,
+  ShieldCheck,
+  MapPin,
+  CreditCard,
+  Receipt,
+  Clock,
+  ArrowRightLeft,
+  Gift,
+  ShieldUser,
+  Settings,
+  TrendingUp,
+  TrendingDown,
+  Zap,
+  BarChart2,
+  ArrowUpRight,
+  Wallet,
+  Package,
+  ChevronRight,
+  Sparkles,
+  X,
+  Pen,
 } from 'lucide-react';
 import usePriceStore from '../store/priceStore';
 import useAuthStore from '../store/authStore';
@@ -22,7 +39,6 @@ import { fetchUserProfile } from '../api/profileapi';
 import { toast } from 'react-toastify';
 import QuickAction from './ProfileComponents/QuickAction';
 import MpinModal from '../components/MpinModal';
-
 
 // ─── API helpers ───────
 const sendVerificationOtp = async ({
@@ -53,14 +69,12 @@ const verifyContactOtp = async ({
 }) => {
   const payload = { otp, userId, purpose };
 
- if (type === 'phone') {
-  payload.phoneNumber = identifier.startsWith('+')
-    ? identifier
-    : `+91${identifier}`;
-} else {
+  if (type === 'phone') {
+    payload.phoneNumber = identifier.startsWith('+') ? identifier : `+91${identifier}`;
+  } else {
     payload.email = identifier;
   }
-console.log('Payload for OTP verification:', payload);
+  console.log('Payload for OTP verification:', payload);
   const response = await api.post('/auth/email-otp/verify', payload);
   return response.data;
 };
@@ -113,9 +127,9 @@ export default function Profile() {
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showMpin,setShowMpin]=useState(false);
+  const [showMpin, setShowMpin] = useState(false);
   const [mpinLoading, setMpinLoading] = useState(false);
-  const[kycPopup,setKycPopup]=useState(false);
+  const [kycPopup, setKycPopup] = useState(false);
 
   // Verification modal state
   const [showVerifyModal, setShowVerifyModal] = useState(false);
@@ -126,7 +140,7 @@ export default function Profile() {
   const [sessionId, setSessionId] = useState(null);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [action, setAction] = useState(null);
-  const [redirectPath, setRedirectPath] = useState("");
+  const [redirectPath, setRedirectPath] = useState('');
 
   // ── Store selectors ────────────
   const username = useAuthStore((s) => s.user?.firstName);
@@ -143,7 +157,7 @@ export default function Profile() {
 
   const mpinStatusLoading = useMpinStore((state) => state.mpinStatusLoading);
 
-  console.log("MPIN Status:", mpinCreated);
+  // console.log('MPIN Status:', mpinCreated);
   const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 
   // ── Derived data ────
@@ -158,20 +172,19 @@ export default function Profile() {
   const displayPhone = profileData?.phoneNumber || 'Not added';
   const displayEmail = profileData?.email || userEmail || '—';
   const displayUserId = profileData?.uid || userId || '—';
- const phoneNumber = profileData?.phoneNumber;
+  const phoneNumber = profileData?.phoneNumber;
 
+  const openVerification = (path) => {
+    if (kycStatus !== 'approved') {
+      setKycPopup(true);
+      return;
+    }
 
-const openVerification = (path) => {
-  if (kycStatus !== "approved") {
-    setKycPopup(true);
-    return;
-  }
-
-  setRedirectPath(path);
-  setShowMpin(true);
-};
+    setRedirectPath(path);
+    setShowMpin(true);
+  };
   // ── Verification handlers ────
-  
+
   const handleKycClick = () => {
     // If both verified → navigate directly
     if (bothVerified) {
@@ -198,7 +211,7 @@ const openVerification = (path) => {
       alert(`Please enter ${verifyType === 'phone' ? 'mobile number' : 'email'}`);
       return;
     }
-  
+
     setVerifyLoading(true);
     try {
       console.log('Calling api');
@@ -208,7 +221,7 @@ const openVerification = (path) => {
         userId,
         purpose: 'account-verification',
       });
-      console.log('called api')
+      console.log('called api');
 
       setSessionId(response?.data?.sessionId || response?.sessionId);
       setOtpSent(true);
@@ -251,10 +264,10 @@ const openVerification = (path) => {
       setShowVerifyModal(false);
       navigate('/kycpage');
     } catch (error) {
-        console.log("error"); 
-  console.log("RESPONSE:", error.response);
-  console.log("DATA:", error.response?.data);
-  console.log("MESSAGE:", error.response?.data?.message);
+      console.log('error');
+      console.log('RESPONSE:', error.response);
+      console.log('DATA:', error.response?.data);
+      console.log('MESSAGE:', error.response?.data?.message);
       console.error('OTP verification error:', error.response?.data || error.message);
       alert('OTP verification failed: ' + (error.response?.data?.message || error.message));
     } finally {
@@ -269,28 +282,26 @@ const openVerification = (path) => {
     setOtp('');
     setOtpSent(false);
   };
-  
 
-const handleReset=async ()=>{
-  const payload={
-  phoneNumber,
-  tenantId: import.meta.env.VITE_TENANT_ID
-}
-  try{
-const res=await api.post('/auth/otp/send',payload);
-if(res.data.success){
-  console.log( "response success",res)
-  toast.success("OTP sent")
-  navigate('/resetmpin')
-}
-  }
-  catch(error){  console.log("error"); 
-  console.log("RESPONSE:", error.response);
-  console.log("DATA:", error.response?.data);
-  console.log("MESSAGE:", error.response?.data?.message);
-
-  }
-}
+  const handleReset = async () => {
+    const payload = {
+      phoneNumber,
+      tenantId: import.meta.env.VITE_TENANT_ID,
+    };
+    try {
+      const res = await api.post('/auth/otp/send', payload);
+      if (res.data.success) {
+        console.log('response success', res);
+        toast.success('OTP sent');
+        navigate('/resetmpin');
+      }
+    } catch (error) {
+      console.log('error');
+      console.log('RESPONSE:', error.response);
+      console.log('DATA:', error.response?.data);
+      console.log('MESSAGE:', error.response?.data?.message);
+    }
+  };
   // ── Effects ────────
   useEffect(() => {
     const fetchHoldings = async () => {
@@ -346,7 +357,7 @@ if(res.data.success){
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <h2 className="text-xl sm:text-2xl font-bold text-primary truncate">
-                      {username || profileData?.firstName || 'User Name'||profileData.firstname}
+                      {username || profileData?.firstName || 'User Name' || profileData.firstname}
                     </h2>
                     <span className="text-xs font-medium bg-amber-100 text-background border border-primary/70 px-2 py-0.5 rounded-full shrink-0">
                       Premium
@@ -389,61 +400,58 @@ if(res.data.success){
                   </p>
                 </div>
               </div>
-{kycStatus==='approved' &&(
-   <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
-                
-             {mpinCreated?(
-                  <p className='bg-green-500/20 text-green-400 border border-green-500/30 rounded-2xl px-1  text-xs'>
-                  Mpin Verified ✓
-                </p>                  
-
-                ):(
+              {kycStatus === 'approved' && (
+                <div className="flex items-center justify-center gap-3 md:items-start md:justify-start">
+                  {mpinCreated ? (
+                    <p className="bg-green-500/20 text-green-400 border border-green-500/30 rounded-2xl px-1  text-xs">
+                      Mpin Verified ✓
+                    </p>
+                  ) : (
+                    <button
+                      onClick={() => navigate('/mpin-setup')}
+                      className="text-xs text-primary/80 hover:text-primary transition-colors"
+                    >
+                      Set Up MPIN
+                    </button>
+                  )}
                   <button
-                  onClick={() => navigate('/mpin-setup')}
-                  className="text-xs text-primary/80 hover:text-primary transition-colors">
-                  Set Up MPIN
-                </button>
-                )}
-                <button
-                  onClick={() => navigate('/changempin')}
-                  className="text-xs text-primary/80 hover:text-primary transition-colors">
-                  Change MPIN
-                </button>
-                <button
-                  onClick={ handleReset}
-                  className="text-xs text-primary/80 hover:text-primary transition-colors"
-                >
-                  Reset MPIN
-                </button>
-              </div>
-  
-)}
+                    onClick={() => navigate('/changempin')}
+                    className="text-xs text-primary/80 hover:text-primary transition-colors"
+                  >
+                    Change MPIN
+                  </button>
+                  <button
+                    onClick={handleReset}
+                    className="text-xs text-primary/80 hover:text-primary transition-colors"
+                  >
+                    Reset MPIN
+                  </button>
+                </div>
+              )}
               {/* MPIN actions */}
-             
             </div>
           </div>
 
           {/* ROW 2 — Menu Items */}
-          <div className="w-full bg-[#111117] p-4 rounded-2xl grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-4">
+          <div className="w-full flex bg-[#111117] rounded-2xl gap-3 items-center justify-center md:gap-30 lg:gap-40 xl:gap-70 p-4">
             {[
-              { icon: Edit, label: 'Profile', onClick: () => navigate('/profile') },
+              // { icon: Edit, label: 'Profile', onClick: () => navigate('/profile') },
               { icon: FileText, label: 'KYC', onClick: handleKycClick },
               { icon: MapPin, label: 'Address', onClick: () => navigate('/delivery') },
-              { icon:  ShieldCheck, label: 'Account', onClick: () => navigate('/account') },
+              { icon: ShieldCheck, label: 'Account', onClick: () => navigate('/account') },
               { icon: CreditCard, label: 'Wallet', onClick: () => openVerification('/wallet') },
-              { icon: ArrowRightLeft,label: 'Transfers',onClick: () => navigate('/transactions'),},
+              // { icon: ArrowRightLeft,label: 'Transfers',onClick: () => navigate('/transactions'),},
             ].map(({ icon: Icon, label, onClick }) => (
-              <div key={label} className="flex items-center gap-1.5 p-2 sm:p-3 cursor-pointer">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center transition-all">
-                  <Icon size={17} className="text-secondary" />
-                </div>
-                <button
-                  className="text-center text-xs md:text-sm text-secondary font-medium leading-tight hover:text-primary transition-colors"
-                  onClick={onClick}
-                >
-                  {label}
-                </button>
-              </div>
+             <div
+      key={label}
+      className="flex items-center justify-center gap-1 cursor-pointer"
+      onClick={onClick}
+    >
+      <Icon size={17} className="text-secondary" />
+      <span className="text-xs md:text-sm text-secondary hover:text-primary transition-colors">
+        {label}
+      </span>
+    </div>
             ))}
           </div>
 
@@ -492,9 +500,7 @@ if(res.data.success){
                 ].map((s, i) => (
                   <div key={i} className="bg-[#111112] border border-white/20 rounded-xl p-2.5">
                     <p className="text-xs uppercase tracking-wider mb-1">{s.label}</p>
-                    <p
-                      className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}
-                    >
+                    <p className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}>
                       {s.val}
                     </p>
                   </div>
@@ -562,9 +568,7 @@ if(res.data.success){
                     <p className="text-xs text-secondary uppercase tracking-wider mb-1">
                       {s.label}
                     </p>
-                    <p
-                      className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}
-                    >
+                    <p className={`text-sm  ${s.bold ? 'text-secondary' : 'text-secondary'}`}>
                       {s.val}
                     </p>
                   </div>
@@ -589,8 +593,7 @@ if(res.data.success){
           </div>
 
           {/* ROW 4 — Quick Actions */}
-          <QuickAction/>
-        
+          <QuickAction />
         </div>
       </div>
 
@@ -665,26 +668,24 @@ if(res.data.success){
           </div>
         </div>
       )}
-<MpinModal
+      <MpinModal
         open={showMpin}
         loading={mpinLoading}
         onClose={() => setShowMpin(false)}
-      
         onSubmit={async (mpin) => {
           try {
             setMpinLoading(true);
-           
+
             const payload = {
-              
               mpin,
             };
             console.log(payload);
-            const response = await api.post('security/mpin/verify-mpin',payload);
+            const response = await api.post('security/mpin/verify-mpin', payload);
             console.log('RESPONSE:', response);
             setShowMpin(false);
-              if (redirectPath) {
-        navigate(redirectPath);
-      }
+            if (redirectPath) {
+              navigate(redirectPath);
+            }
           } catch (err) {
             console.log('err');
             console.log('RESPONSE:', err.response);
@@ -697,38 +698,34 @@ if(res.data.success){
           }
         }}
       />
-{kycPopup && (
-  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-    <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
-      <h2 className="text-xl text-white mb-3">
-        KYC Verification Required
-      </h2>
+      {kycPopup && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-[#111117] border border-white/20 rounded-2xl p-6 w-[90%] max-w-sm">
+            <h2 className="text-xl text-white mb-3">KYC Verification Required</h2>
 
-      <p className="text-white/70 mb-6">
-        Please verify your KYC before proceeding.
-      </p>
+            <p className="text-white/70 mb-6">Please verify your KYC before proceeding.</p>
 
-      <div className="flex gap-3">
-        <button
-          onClick={() => setKycPopup(false)}
-          className="flex-1 py-3 border border-white/20 rounded-xl text-white"
-        >
-          Cancel
-        </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setKycPopup(false)}
+                className="flex-1 py-3 border border-white/20 rounded-xl text-white"
+              >
+                Cancel
+              </button>
 
-        <button
-          onClick={() => {
-            setKycPopup(false);
-            navigate("/kycpage");
-          }}
-          className="flex-1 py-3 rounded-xl bg-gray-500 text-black font-semibold"
-        >
-          Verify KYC
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <button
+                onClick={() => {
+                  setKycPopup(false);
+                  navigate('/kycpage');
+                }}
+                className="flex-1 py-3 rounded-xl bg-gray-500 text-black font-semibold"
+              >
+                Verify KYC
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

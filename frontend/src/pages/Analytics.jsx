@@ -185,8 +185,8 @@ const Analytics = () => {
                     <p className="text-secondary text-lg md:text-xl ">₹{portfolio?.totalInvested}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-zinc-500 text-xs">Unrealized Gain</p>
-                    <p className="text-green-400 text-lg md:text-xl ">+₹{portfolio?.unrealizedGain}</p>
+                    <p className="text-zinc-500 text-xs">Gain/Loss</p>
+                    <p className="text-green-400 text-lg md:text-xl ">₹{portfolio?.unrealizedGain}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-zinc-500 text-xs">Holdings</p>

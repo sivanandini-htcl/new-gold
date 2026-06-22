@@ -230,7 +230,7 @@ fetchMPINStatus: async () => {
     console.log("MPIN STATUS RESPONSE:", response);
 
     set({
-      mpinCreated: response?.isSetup ?? false,
+      mpinCreated: response?.data?.isSetup ?? false,
     });
 
   } catch (err) {

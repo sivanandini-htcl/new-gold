@@ -384,7 +384,7 @@ const handleAddWalletToggle = () => {
 
         {/* ── Bank Accounts ── */}
         {showBankSection && (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2  w-full md:max-w-xl 2xl:max-w-2xl">
             <p className="text-[10px] uppercase tracking-[0.12em] text-white/40 font-semibold px-1">
               Select Bank Account
             </p>
@@ -443,19 +443,19 @@ const handleAddWalletToggle = () => {
                 </div>
                 Add Bank Account
               </button>
+              
             </div>
-          </div>
-        )}
-
-        {/* ── Submit ── */}
-        {showBankSection && (
-          <button
+            <button
             onClick={() => setShowMpin(true)}
             className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm"
           >
             Submit
           </button>
+          </div>
         )}
+
+        {/* ── Submit ── */}
+       
 
         {/* ── Modal ── */}
         {showModal && (

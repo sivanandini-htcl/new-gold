@@ -133,15 +133,12 @@ function Header() {
 
             {/* Hamburger (mobile) */}
             <button
-              className="lg:hidden w-9 h-9 flex items-center justify-center border border-white/20 bg-[#111112] rounded-full"
-              onClick={() => setIsOpen(!isOpen)}
-            >
+              className="lg:hidden md:hidden w-9 h-9 flex items-center justify-center border border-white/20 bg-[#111112] rounded-full"
+              onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
-
           </div>
         </div>
-
       </header>
 
       {/* MOBILE MENU */}

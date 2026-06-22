@@ -4,7 +4,7 @@ export const subscribeMetalPrices = (onMessage, onError) => {
     eventSource.onmessage = (event) => {
         try {
             const data = JSON.parse(event.data);
-            console.log(data)
+            // console.log(data)
             onMessage(data);
         } catch (err) {
             console.error("JSON Parse Error:", err);
@@ -13,7 +13,7 @@ export const subscribeMetalPrices = (onMessage, onError) => {
     eventSource.addEventListener("price-update", (event) => {
         try {
             const data = JSON.parse(event.data);
-            console.log(data)
+            // console.log(data)
             
             
             onMessage(data);

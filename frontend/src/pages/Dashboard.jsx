@@ -173,17 +173,24 @@ export function ProductCard({ product, navigate }) {
 
       {/* Image Area */}
       <div className="relative h-44 sm:h-48 2xl:h-60  shadow-md hover:shadow-xl hover:shadow-black/20 overflow-hidden flex items-center justify-center p-3 group">
-        <img
+        <img onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/productdetails/${product.id}`);
+            }}
           src={product.image}
           alt={product.name}
           className="w-full h-full object-contain transition duration-400 group-hover:scale-105"
         />
 
         {/* Black overlay on hover */}
-        <div className="absolute inset-0 bg-black/0 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+        <div className="absolute  bg-black/30  translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col p-30 tem-center text-center">
+        <p className='whitespace-nowrap'>{product.name}</p>
+        <p className='whitespace-nowrap'>{product.purity}</p>
+        </div>
+
 
         {/* Quick Add overlay */}
-        <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent p-3 flex gap-2">
+        {/* <div className="absolute inset-x-0 bg-black/20  translate-y-full group-hover:translate-y-0 transition-transform duration-300  p-3 flex gap-2">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -193,7 +200,7 @@ export function ProductCard({ product, navigate }) {
           >
             <Eye size={11} /> Quick View
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Divider */}

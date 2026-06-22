@@ -159,12 +159,15 @@ function Checkout() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const checkoutData = location.state?.checkoutData;
+  // console.log("checkout data",checkoutData);
   const pricing = checkoutData?.pricing;
   const cartId = checkoutData?.cartId;
   const sessionId = checkoutData?.checkoutSessionId;
 
-  const subtotal = pricing?.subtotal || cartItems.reduce((sum, i) => sum + Number(i.totalPrice), 0);
+  const subtotal = pricing?.subtotal ;
   const gst = pricing?.gstAmount;
+  const gstPercent = pricing?.gstPercent;
+
   const delivery = pricing?.shippingBase;
   const handlingFee = pricing?.handlingFee;
   const shippingBase = pricing?.shippingBase;
@@ -262,7 +265,7 @@ function Checkout() {
       }),
     };
     console.log("payload", payload);
-
+    console.log("calling checkout api");
     const { data } = await api.post(
       "/orders/checkout",
       payload,
@@ -272,7 +275,10 @@ function Checkout() {
         },
       }
     );
+     console.log("calling checkout api")
 
+    
+    
     console.log("checkout response", data);
 
     if (!data.success) {
@@ -312,16 +318,19 @@ function Checkout() {
     const rzp = new window.Razorpay({
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       currency: currency || 'INR',
-      name: 'DigiGold',
+      name: 'DgiGold',
       description: 'Order Payment',
       order_id,
-      handler: (response) => {
-        handleVerifyPayment({
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_signature: response.razorpay_signature,
-          orderId: backendOrderId,
-        });
+      // handler: (response) => {
+      //   handleVerifyPayment({
+      //     razorpay_payment_id: response.razorpay_payment_id,
+      //     razorpay_order_id: response.razorpay_order_id,
+      //     razorpay_signature: response.razorpay_signature,
+      //     orderId: backendOrderId,
+      //   });
+      // },
+      handler:(response)=>{
+        console.log("razorpay response",response)
       },
       prefill: { email: userEmail || '' },
       theme: { color: '#b45309' },
@@ -359,30 +368,30 @@ function Checkout() {
     rzp.on('payment.failed', (response) => toast.error(response.error.description));
   };
 
-  const handleVerifyPayment = async (response) => {
-    try {
-      console.log("calling verify");
-      const { data } = await api.post('/orders/buy/verify-payment', {
-        orderId: response.orderId,
-        razorpayOrderId: response.razorpay_order_id,
-        razorpayPaymentId: response.razorpay_payment_id,
-        razorpaySignature: response.razorpay_signature,
-      });
-      console.log("called verify");
-      if (data.success) {
-        setOrdered(true);
-        toast.success('Payment verified');
-        navigate("/orders")
-        await api.delete('/cart');
-      } else {
-        toast.error('Verification failed');
-      }
-    } catch (err) {
-      console.error(err);
-      console.log("error0",err.response);
-      toast.error(err.response?.data?.message || 'Verification error');
-    }
-  };
+  // const handleVerifyPayment = async (response) => {
+  //   try {
+  //     console.log("calling verify");
+  //     const { data } = await api.post('/orders/buy/verify-payment', {
+  //       orderId: response.orderId,
+  //       razorpayOrderId: response.razorpay_order_id,
+  //       razorpayPaymentId: response.razorpay_payment_id,
+  //       razorpaySignature: response.razorpay_signature,
+  //     });
+  //     console.log("called verify");
+  //     if (data.success) {
+  //       setOrdered(true);
+  //       toast.success('Payment verified');
+  //       navigate("/orders")
+  //       await api.delete('/cart');
+  //     } else {
+  //       toast.error('Verification failed');
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     console.log("error0",err.response);
+  //     toast.error(err.response?.data?.message || 'Verification error');
+  //   }
+  // };
 
   // ── Empty cart ──
   if (cartItems.length === 0) {
@@ -779,7 +788,7 @@ if (walletBalance <= 0) {
               <div className="space-y-2 mb-4">
                 {[
                   { label: `Price `, val: `₹${subtotal}`, show: true },
-                  { label: 'GST (jkhjkhd%)', val: `₹${gst}`, show: true },
+                  { label: `GST ${gstPercent}%`, val: `₹${gst}`, show: true },
                   { label: 'Delivery Charge', val: `₹${delivery}`, show: !isWallet },
                   { label: 'Handling', val: `₹${handlingFee}`, show: !isWallet },
                   { label: 'Shipping Charge', val: `₹${shippingBase}`, show: !isWallet },

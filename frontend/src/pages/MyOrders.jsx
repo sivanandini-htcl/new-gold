@@ -143,7 +143,9 @@ export default function OrdersPage() {
     0
   );
 
-const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
+  // const sortedOrders=orders.sort((a,b)=>new Date(b.createdAt._seconds)-new Date(a.createdAt._seconds))
+
+  const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
 
   // const pageOrders = orders.slice(
   //   (currentPage - 1) * PAGE_SIZE,
@@ -258,16 +260,21 @@ sub={`of ${totalOrders}`}
             </div>
 
             {/* Orders */}
-            <div className="space-y-3">
-              {orders.map((order) => (
-                <div
-                  key={order.id}
-                  className="transition-all duration-300"
-                >
-                  <OrderCard order={order} />
-                </div>
-              ))}
-            </div>
+         <div className="space-y-3">
+  {[...orders]
+    .sort(
+      (a, b) =>
+        b.createdAt._seconds - a.createdAt._seconds
+    )
+    .map((order) => (
+      <div
+        key={order.id}
+        className="transition-all duration-300"
+      >
+        <OrderCard order={order} />
+      </div>
+    ))}
+</div>
 
             {/* Pagination */}
             {totalPages > 1 && (

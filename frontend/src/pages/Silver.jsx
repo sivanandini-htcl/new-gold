@@ -77,8 +77,9 @@ useEffect(() => {
 setButtonLoading(true)
     // same type or empty → allow
     try {
-      await api.post('/cart/add', newItem);
+      const res=await api.post('/cart/add', newItem);
       await fetchCart();
+      console.log( "silver cart",res)
       toast.success('Added to cart');
       navigate('/cart');
     } catch (err) {
