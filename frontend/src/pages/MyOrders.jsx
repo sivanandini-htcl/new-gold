@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useOrderStore from "../store/useOrderStore";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "./orderCommponents/OrderCard";
 import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;

@@ -18,6 +18,7 @@ const usePortfolioStore = create((set) => ({
       console.log("FETCH HOLDINGS START");
 
       const res = await api.post("/holdings");
+      console.log("holdings",res.data);
 
       console.log("FULL API RESPONSE:", res);
       console.log("RESPONSE DATA:", res.data);

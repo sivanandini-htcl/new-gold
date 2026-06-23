@@ -8,6 +8,7 @@ import {
   CheckCircle,
   Clock,
   Truck,
+  OctagonX,
 } from "lucide-react";
 
 const statusConfig = {
@@ -19,33 +20,40 @@ const statusConfig = {
   },
   processing: {
     label: "Processing",
-    color: "text-amber-700",
-    bg: "bg-amber-100",
+    color: "text-orange-500",
+  
     icon: Clock,
   },
   shipped: {
     label: "Shipped",
     color: "text-blue-700",
-    bg: "bg-blue-100",
+
     icon: Truck,
   },
   pending: {
     label: "Pending",
     color: "text-gray-700",
-    bg: "bg-gray-100",
+
     icon: Clock,
   },
   payment_success: {
     label: "Payment Success",
     color: "text-green-700",
-    bg: "bg-green-100",
+   
     icon: CheckCircle,
   },
   completed: {
-    label: "Payment Success",
+    label: "Order Completed",
     color: "text-green-700",
-    bg: "bg-green-100",
+  
     icon: CheckCircle,
+  },
+
+    payment_failed: {
+    label: "Payment Failed",
+    color: "text-red-500",
+    
+    icon: OctagonX,
   },
 };
 
@@ -55,6 +63,7 @@ export default function OrderCard({ order }) {
   const status = order.status?.toLowerCase() || "pending";
   const cfg = statusConfig[status] || statusConfig.processing;
   const StatusIcon = cfg.icon;
+  const labelStatus=cfg.label;
 
   return (
     <div className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 rounded-xl text-[#3C2415] p-3 md:p-5 mb-4 shadow-sm">
@@ -83,7 +92,7 @@ export default function OrderCard({ order }) {
          className={`inline-flex justify-end items-end gap-1 px-1 text-background  py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
           >
             <StatusIcon size={14} />
-            {order.status}
+           {labelStatus}
           </span>
 
           <p className="font-bold flex items-end justify-end  text-sm mt-2 md:text-sm text-white/70">

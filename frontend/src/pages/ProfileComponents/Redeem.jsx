@@ -9,7 +9,7 @@ import {
   X,
   Search,
   ArrowLeft,
-  LoaderCircle
+  LoaderCircle,ShoppingBag,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -471,9 +471,21 @@ setButtonLoading(product.id)
           </div>
 
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-20">
-              <p>No Products Found</p>
-            </div>
+           <div className="text-center px-6 py-16 sm:py-[72px] rounded-[20px] border border-[#c9a97a26] bg-white/[0.03]">
+      <div className="w-20 h-20 rounded-full bg-[#c9a97a1a] border border-[#c9a97a33] flex items-center justify-center mx-auto mb-6">
+        <ShoppingBag size={32} color="#c9a97a" />
+      </div>
+
+      <h2 className="text-primary text-[24px] sm:text-[28px] font-semibold mb-[10px]">
+        No Products Yet
+      </h2>
+
+      <p className="text-primary/70 text-[14px] leading-[1.6] mb-8 max-w-md mx-auto">
+        Products will appear here
+      </p>
+
+  
+    </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProducts.map(

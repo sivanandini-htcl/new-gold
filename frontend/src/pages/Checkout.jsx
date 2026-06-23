@@ -8,7 +8,7 @@ import {
   CheckCircle,ChevronRight,
   Truck, Shield,Package,Edit3,
   Plus,Wallet,Landmark,Smartphone,
-  ShoppingCart, ArrowRight, Home,Briefcase,LoaderCircle
+  ShoppingCart, ArrowRight, Home,Briefcase,LoaderCircle,CircleCheckBig
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import useCartStore from '../store/cartStore';
@@ -153,10 +153,13 @@ function Checkout() {
   const[buttonLoading,setButtonLoading]=useState(false)
   const [loadingPaymentOptions, setLoadingPaymentOptions] = useState(false);
   const [loadingSummary, setLoadingSummary] = useState(false);
-
   const [paymentSummary, setPaymentSummary] = useState(null);
-  
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+
+  const [showMpin, setShowMpin] = useState(false);
+  const [mpinLoading, setMpinLoading] = useState(false);
+  const[successModal,setSuccessModal]=useState(false);
+  
 
   const checkoutData = location.state?.checkoutData;
   // console.log("checkout data",checkoutData);
@@ -232,14 +235,14 @@ function Checkout() {
   }
 
   }
-  // const handleRemoveWallet=async()=>{
-  //   setWalletApllied(false);
-  // }
+  const handlemodal=()=>{
+     setSuccessModal(false);
+          navigate('/orders');
+  }
 
 
-  const handleContinueToPayment = async () => {
-    setButtonLoading(true);
-  try {
+const handleChcekout=async()=>{ 
+   try {
     if (!selectedMethod) {
       toast.error("Please select a payment method");
       return;
@@ -258,10 +261,12 @@ function Checkout() {
       // values from selected payment method
       walletUsedINR: selectedMethod.walletUsedINR,
       gatewayAmountINR: selectedMethod.gatewayAmountINR,
+      
 
       ...(!isWallet && {
         addressId: selectedAddress?.id,
         deliveryAddressId: selectedAddress?.id,
+        mpin,
       }),
     };
     console.log("payload", payload);
@@ -280,6 +285,7 @@ function Checkout() {
     
     
     console.log("checkout response", data);
+    
 
     if (!data.success) {
       toast.error(data.message);
@@ -309,8 +315,7 @@ function Checkout() {
 }
   finally{
     setButtonLoading(false);
-  }
-};
+  }}
 
   const openRazorpayPopup = ({ order_id, currency, orderNumber, backendOrderId }) => {
     if (!window.Razorpay) { toast.error('Razorpay SDK not loaded'); return; }
@@ -322,6 +327,7 @@ function Checkout() {
       description: 'Order Payment',
       order_id,
       // handler: (response) => {
+        
       //   handleVerifyPayment({
       //     razorpay_payment_id: response.razorpay_payment_id,
       //     razorpay_order_id: response.razorpay_order_id,
@@ -331,6 +337,8 @@ function Checkout() {
       // },
       handler:(response)=>{
         console.log("razorpay response",response)
+  toast.success("Payment successful");
+  setSuccessModal(true);
       },
       prefill: { email: userEmail || '' },
       theme: { color: '#b45309' },
@@ -746,7 +754,7 @@ if (walletBalance <= 0) {
                 </div>
 
                 <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-yellow-700/20 mb-5">
-                  <img src="https://razorpay.com/favicon.icon" alt="Razorpay" className="w-6 h-6" />
+                  <img src="https://razorpay.com/favicon.ico" alt="Razorpay" className="w-6 h-6" />
                   <div>
                     <p className="text-sm font-semibold font-serif text-yellow-900">Pay via Razorpay</p>
                     <p className="text-xs text-yellow-800/60">UPI · Cards · Net Banking · Wallets</p>
@@ -824,13 +832,18 @@ if (walletBalance <= 0) {
                       </div>
                       <div className="w-full h-0.5 bg-yellow-700/10" />
                            <div className='bg-primary p-2 rounded-2xl text-center font-serif text-background'>
-                     <button onClick={handleContinueToPayment}>
+                            {selectedMethod?.method === 'WALLET' || selectedMethod?.method === 'HYBRID'?(
+                   <button onClick={()=>setShowMpin(true)}>
                       {buttonLoading?(
                         <div className='flex gap-1'>
                    <LoaderCircle className="w-5 h-5 animate-spin" />
                     Processing...
                    </div> ):("  Continue")}
                      </button>
+                            ):(
+                              <button onClick={handleChcekout}> Continue</button>
+                            )}
+                     
         </div>
         </> )}             
               </div>              
@@ -868,6 +881,31 @@ if (walletBalance <= 0) {
           loading={addrLoading}
         />
       )}
+     <MpinModal
+        open={showMpin}
+        loading={mpinLoading}
+        onClose={() => setShowMpin(false)}
+        title="Confirm Withdrawal"
+        subtitle={`Withdraw `}
+         onSubmit={(mpin) => handleChcekout(mpin)}
+
+      />
+
+    { successModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
+    <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center flex flex-col gap-2 items-center justify-center">
+      <h2 className="text-lg font-bold text-white">Payment Successful</h2>
+      <CircleCheckBig className='text-green-500'size={28} />
+      
+      <button
+        onClick={handlemodal}
+        className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

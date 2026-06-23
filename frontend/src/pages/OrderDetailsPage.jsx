@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import useOrderStore from "../store/useOrderStore";
+import OrderTracking from "./orderCommponents/OrderTracking";
 
 const STEPS = ["Pending", "Processing", "Shipped", "Delivered"];
 
@@ -180,59 +181,7 @@ const formattedDate = seconds
         </div>
       <div className="mx-auto flex w-full max-w-[680px] flex-col gap-4 px-4 py-6 sm:px-5">
         {/* Tracking */}
-        <div className="rounded-2xl  bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 px-4 py-5 sm:px-6">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.1em] text-primary/70">
-            Tracking
-          </p>
-
-          <div className="relative flex items-start justify-between">
-            {/* Background line */}
-            <div className="absolute left-0 right-0 top-[12px] z-0 h-[2px] bg-[#ede0d4]" />
-
-            {/* Active line */}
-            <div
-              className="absolute left-0 top-[12px] z-[1] h-[2px] bg-[#111112] transition-all duration-700 ease-out"
-              style={{
-                width: `${
-                  (currentStep / (STEPS.length -1)) * 100
-                }%`,
-              }}
-            />
-
-            {STEPS.map((step, i) => {
-              const done = i <= currentStep;
-
-              return (
-                <div
-                  key={step}
-                  className="z-[2] flex flex-1 flex-col items-center gap-2 text-center"
-                >
-                  <div
-                    className={`flex h-6 w-6 items-center justify-center rounded-full border-[3px] ${
-                      done
-                        ? "border-[#111112] bg-[#111112]"
-                        : "border-[#ede0d4] bg-[#dfac7e]"
-                    }`}
-                  >
-                    {done && (
-                      <div className="h-2 w-2 rounded-full bg-white/50" />
-                    )}
-                  </div>
-
-                  <span
-                    className={`whitespace-nowrap text-[10px] sm:text-[11px] ${
-                      done
-                        ? "font-semibold text-primary/60"
-                        : "font-normal text-[#b09b88]"
-                    }`}
-                  >
-                    {step}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <OrderTracking/>
 {!isWalletOrder&&( 
        
         <div className="grid gap-4 md:grid-cols-2">

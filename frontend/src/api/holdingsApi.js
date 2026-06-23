@@ -7,10 +7,13 @@ import api from "./axiosInstance";
       api.get("/holdings/summary"),
 
     ]);
+  console.log("Holdings Response:", holdingsRes);
+    console.log("Summary Response:", summaryRes);
 
     return {
       wallet: holdingsRes.data?.data,
       metalWallet: summaryRes.data?.data,
+      
       
     };
   } catch (error) {
