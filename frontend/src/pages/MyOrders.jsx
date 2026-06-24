@@ -26,7 +26,7 @@ function EmptyState({ onExplore }) {
       </h2>
 
       <p className="text-primary/70 text-[14px] leading-[1.6] mb-8 max-w-md mx-auto">
-        Your jewellery orders will appear here
+        Your orders will appear here
       </p>
 
       <button

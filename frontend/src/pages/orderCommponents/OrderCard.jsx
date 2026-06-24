@@ -42,6 +42,12 @@ const statusConfig = {
    
     icon: CheckCircle,
   },
+  // payment_success: {
+  //   label: "Payment Success",
+  //   color: "text-green-700",
+   
+  //   icon: CheckCircle,
+  // },
   completed: {
     label: "Order Completed",
     color: "text-green-700",
@@ -92,7 +98,7 @@ export default function OrderCard({ order }) {
          className={`inline-flex justify-end items-end gap-1 px-1 text-background  py-1 rounded-full text-xs  ${cfg.bg} ${cfg.color}`}
           >
             <StatusIcon size={14} />
-           {labelStatus}
+           {order.status}
           </span>
 
           <p className="font-bold flex items-end justify-end  text-sm mt-2 md:text-sm text-white/70">

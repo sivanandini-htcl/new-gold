@@ -39,7 +39,7 @@ import GatewayTransaction from './pages/ProfileComponents/transactions/GatewayTr
 import Analytics from './pages/Analytics';
 import MPINSetupPage from './pages/ProfileComponents/mpinComponents/MPINSetupPage';
 import MpinPage from './pages/ProfileComponents/mpinComponents/Mpin';
-import TestingPage from './pages/TestingPage';
+
 import GoldSell from './pages/ProfileComponents/sell/GoldSell';
 import SilverSell from './pages/ProfileComponents/sell/SilverSell';
 import ChangeMPIN from './pages/ProfileComponents/mpinComponents/ChangeMPIN';
@@ -110,14 +110,7 @@ function App() {
               }
             />
 
-            <Route
-              path="/testing"
-              element={
-                <ProtectedRoute>
-                  <TestingPage />
-                </ProtectedRoute>
-              }
-            />
+          
 
             <Route
               path="/profile"

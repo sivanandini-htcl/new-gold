@@ -41,14 +41,14 @@ const TrackingProgress = ({ currentStatus }) => {
   );
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6">
+    <div className="bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl  p-6">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-6">
         Tracking Progress
       </h2>
 
       <div className="relative">
         {/* Vertical line */}
-        <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-gray-200"></div>
+        <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-white"></div>
 
         {steps.map((step, index) => {
           let status;
@@ -78,7 +78,7 @@ const TrackingProgress = ({ currentStatus }) => {
                     ? "bg-green-100 border-green-600"
                     : status === "active"
                     ? "bg-blue-100 border-blue-500"
-                    : "bg-gray-100 border-gray-300"
+                    : "bg-background border-gray-300"
                 }`}
               >
                 {status === "done" ? (
@@ -88,7 +88,7 @@ const TrackingProgress = ({ currentStatus }) => {
                     className={`h-4 w-4 ${
                       status === "active"
                         ? "text-blue-700"
-                        : "text-gray-500"
+                        : "text-primary"
                     }`}
                   />
                 )}
@@ -97,11 +97,11 @@ const TrackingProgress = ({ currentStatus }) => {
               {/* Content */}
               <div className="flex flex-1 items-start justify-between">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900">
+                  <h3 className="text-sm font-medium text-primary">
                     {step.title}
                   </h3>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs  text-white/80">
                     {status === "done"
                       ? "Completed"
                       : status === "active"
@@ -111,7 +111,7 @@ const TrackingProgress = ({ currentStatus }) => {
                 </div>
 
                 {status === "active" && (
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-primary">
                     Current
                   </span>
                 )}

@@ -241,7 +241,7 @@ function Checkout() {
   }
 
 
-const handleChcekout=async()=>{ 
+const handleChcekout=async(mpin)=>{ 
    try {
     if (!selectedMethod) {
       toast.error("Please select a payment method");
@@ -250,27 +250,30 @@ const handleChcekout=async()=>{
 
     const idempotencyKey = generateHexId();
 
-    const payload = {
-      cartId,
-      checkoutSessionId: sessionId,
-      mode: isWallet ? "WALLET" : "DELIVERY",
+   const payload = {
+  cartId,
+  checkoutSessionId: sessionId,
+  mode: isWallet ? "WALLET" : "DELIVERY",
 
-      // HYBRID | WALLET | RAZORPAY
-      paymentProvider: selectedMethod.method,
+  paymentProvider: selectedMethod.method,
+  walletUsedINR: selectedMethod.walletUsedINR,
+  gatewayAmountINR: selectedMethod.gatewayAmountINR,
 
-      // values from selected payment method
-      walletUsedINR: selectedMethod.walletUsedINR,
-      gatewayAmountINR: selectedMethod.gatewayAmountINR,
-      
+  ...(!isWallet && {
+    addressId: selectedAddress?.id,
+    deliveryAddressId: selectedAddress?.id,
+  }),
 
-      ...(!isWallet && {
-        addressId: selectedAddress?.id,
-        deliveryAddressId: selectedAddress?.id,
-        mpin,
-      }),
-    };
+  ...(selectedMethod.method === "WALLET" ||
+     selectedMethod.method === "HYBRID"
+    ? { mpin }
+    : {}),
+};
     console.log("payload", payload);
     console.log("calling checkout api");
+    console.log("Selected Method:", selectedMethod.method);
+console.log("MPIN:", mpin);
+console.log("Payload:", payload);
     const { data } = await api.post(
       "/orders/checkout",
       payload,
@@ -753,13 +756,13 @@ if (walletBalance <= 0) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-yellow-700/20 mb-5">
+                {/* <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-yellow-700/20 mb-5">
                   <img src="https://razorpay.com/favicon.ico" alt="Razorpay" className="w-6 h-6" />
                   <div>
                     <p className="text-sm font-semibold font-serif text-yellow-900">Pay via Razorpay</p>
                     <p className="text-xs text-yellow-800/60">UPI · Cards · Net Banking · Wallets</p>
                   </div>
-                </div>
+                </div> */}
 
                 {/* <button
                   onClick={handleContinueToPayment}
