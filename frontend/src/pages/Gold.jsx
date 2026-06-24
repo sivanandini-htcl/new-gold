@@ -228,7 +228,7 @@ useEffect(() => {
 
             <input
               type="number"
-              placeholder="Enter grams "
+              placeholder="Enter grams"
               min="1"
               step="0.01"
               value={inputValue}

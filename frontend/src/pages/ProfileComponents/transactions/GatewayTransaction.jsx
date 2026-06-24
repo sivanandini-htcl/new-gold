@@ -194,7 +194,7 @@ useEffect(() => {
 
       {/* HEADER */}
       <div className="sticky top-0 z-20  backdrop-blur-xl">
-      <div className=" mx-auto px-5 py-5">
+      <div className="mx-auto px-0 py-2">
       <div className="max-w-7xl mx-auto">
          
   <Link to="/dashboard" 
@@ -206,7 +206,7 @@ useEffect(() => {
       {/* Title */}
       <div className="mb-5 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-0"></div>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary p-2">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-serif text-primary p-2 whitespace-nowrap">
          Transaction History
         </h1>
         <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
@@ -319,7 +319,7 @@ useEffect(() => {
             </div>
 
             {/* FILTERS */}
-            <div className="flex flex-wrap items-center gap-2 mb-6">
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
 
               {["all", "CREDIT", "DEBIT"].map((f) => (
                 <button
@@ -340,7 +340,7 @@ useEffect(() => {
                 </button>
               ))}
 
-              <div className="w-px h-5 bg-white/10 mx-1" />
+              <div className=" hidden md:inline-block w-px h-5 bg-white/10 mx-1" />
 
               {["all", "gold", "silver"].map((m) => {
                 const config = METAL_CONFIG[m];

@@ -169,7 +169,7 @@ const WalletTransaction = () => {
 
       {/* HEADER */}
       <div className="sticky top-0 z-20 backdrop-blur-xl">
-      <div className=" mx-auto px-5 py-5">
+      <div className=" mx-auto px-0 py-2">
       <div className="max-w-7xl mx-auto">
          
   <Link to="/dashboard" 

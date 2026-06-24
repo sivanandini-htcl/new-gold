@@ -241,7 +241,7 @@ function Checkout() {
   }
 
 
-const handleChcekout=async(mpin)=>{ 
+const handleCheckout=async(mpin)=>{ 
    try {
     if (!selectedMethod) {
       toast.error("Please select a payment method");
@@ -844,7 +844,7 @@ if (walletBalance <= 0) {
                    </div> ):("  Continue")}
                      </button>
                             ):(
-                              <button onClick={handleChcekout}> Continue</button>
+                              <button onClick={handleCheckout}> Continue</button>
                             )}
                      
         </div>
@@ -890,7 +890,7 @@ if (walletBalance <= 0) {
         onClose={() => setShowMpin(false)}
         title="Confirm Withdrawal"
         subtitle={`Withdraw `}
-         onSubmit={(mpin) => handleChcekout(mpin)}
+         onSubmit={(mpin) => handleCheckout(mpin)}
 
       />
 

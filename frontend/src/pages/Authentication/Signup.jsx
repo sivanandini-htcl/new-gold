@@ -204,12 +204,14 @@ else if(step===1){
     
     try{
       setLoading(true)
-      const res=await api.post("/auth/register/step2",{
-        registrationSessionId,
+      const payload={
+           registrationSessionId,
         contactType,
-        contactValue:form.contact,
+        contactValue:(form.contact).toLowerCase(),
         tenantId
-      });
+      }
+      console.log("payload:", payload)
+      const res=await api.post("/auth/register/step2",payload);
       console.log("response:", res.data)
       console.log("api called")
       toast.success("OTP Sent ")

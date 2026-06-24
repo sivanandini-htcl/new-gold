@@ -83,6 +83,9 @@ function Login() {
   //   return 'Device';
   // };
   // STEP 1: Verify Email/Mobile
+  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+ 
   const handleStep1Next = async () => {
     if (!identifier) {
       toast.error('Enter email or mobile number');
@@ -121,9 +124,9 @@ function Login() {
         emailOrMobile = `+${emailOrMobile}`;
         payload.phoneNumber = emailOrMobile;
         console.log(' 91 mobile detected, sending:', emailOrMobile);
-      } else if (emailOrMobile.includes('@')) {
+      } else if (emailRegex.test(emailOrMobile)) {
         // It's an email
-        payload.email = emailOrMobile;
+        payload.email = emailOrMobile.toLowerCase();
         console.log(' Email detected, sending:', emailOrMobile);
       } else {
         console.log(' Invalid format - input:', emailOrMobile);
@@ -133,7 +136,7 @@ function Login() {
       }
 
       // DEBUG
-
+      console.log('Payload for step 1:', payload);
       const response = await api.post('/auth/login/step1', payload);
 
       if (response.data && response.data.success === true && response.data.data) {
@@ -151,7 +154,7 @@ function Login() {
         }
       } else {
         console.error('Step 1 verification failed:', response.data);
-        toast.error(response.data?.message || 'Failed to verify email/mobile');
+        toast.error(response.data?.message);
         setLoading(false);
         return;
       }

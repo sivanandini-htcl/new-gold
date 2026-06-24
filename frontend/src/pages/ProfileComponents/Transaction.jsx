@@ -37,7 +37,7 @@ const Transaction = () => {
       </div>
 
       {/* Content */}
-      <div className="px-7 py-6">
+      <div className="px-3 py-6">
         {selectedState === "gateway" ? (
           <GatewayTransaction />
         ) : (

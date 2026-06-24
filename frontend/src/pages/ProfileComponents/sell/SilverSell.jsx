@@ -4,6 +4,7 @@ import { CreditCard, Eye, EyeOff } from 'lucide-react';
 import dgiLogo from '../../../assets/dgiLogo.png';
 import fetchHoldingsData from '../../../api/holdingsApi';
 import api from '../../../api/axiosInstance';
+import { generateHexId } from '../../../utils/orderId';
 
 const SilverSell = () => {
   const [amount, setAmount] = useState('');
@@ -11,11 +12,11 @@ const SilverSell = () => {
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [error, setError] = useState(null);
-  const[sucessModal,setSuccessModal]=useState(false);
+  const [sucessModal, setSuccessModal] = useState(false);
 
-  const totalValue = metalWallet?.metals?.[1]?.currentValueINR; 
+  const totalValue = metalWallet?.metals?.[1]?.currentValueINR;
 
-  const handleReview = async() => {
+  const handleReview = async () => {
     const amountValue = Number(amount);
     if (!amount || Number.isNaN(amountValue)) {
       setError('Enter a valid amount to sell.');
@@ -35,24 +36,26 @@ const SilverSell = () => {
     setError(null);
     setShowSection(true);
 
-const payload = {
-  metal: 'SILVER',
-  amountINR: amountValue, 
-};
-try{
-
-const response = await api.post('/orders/sell', payload);
-console.log('Sell order response:', response.data);
-setSuccessModal(true);
-}
-catch(error){
-  console.log("error"); 
-  console.log("RESPONSE:", error.response);
-  console.log("DATA:", error.response?.data);
-  console.log("MESSAGE:", error.response?.data?.message);
-}
-    
-    
+    const payload = {
+      metal: 'SILVER',
+      amountINR: amountValue,
+    };
+    const idempotencyKey = generateHexId();
+    console.log('Idempotency Key:', idempotencyKey);
+    try {
+      const response = await api.post('/orders/sell', payload, {
+        headers: {
+          'idempotency-key': idempotencyKey,
+        },
+      });
+      console.log('Sell order response:', response.data);
+      setSuccessModal(true);
+    } catch (error) {
+      console.log('error');
+      console.log('RESPONSE:', error.response);
+      console.log('DATA:', error.response?.data);
+      console.log('MESSAGE:', error.response?.data?.message);
+    }
   };
 
   useEffect(() => {
@@ -71,11 +74,9 @@ catch(error){
       <div className="w-full max-w-6xl flex flex-col gap-5">
         {/* first row */}
         <div className="w-full flex items-center justify-center text-4xl text-primary font-serif ">
-        <h1>
-          YOUR GOLD WALLET
-        </h1>
+          <h1>YOUR GOLD WALLET</h1>
         </div>
-        
+
         <div className=" grid md:grid-cols-2 gap-4">
           {/* credit card */}
           <div className="relative w-full h-52 rounded-2xl overflow-hidden bg-[#0a0a12]">
@@ -110,8 +111,7 @@ catch(error){
                 <div className=" items-center gap-2.5">
                   <div className="flex justify-between">
                     <span className="text-xl font-bold text-white tracking-tight">
-                   
-                      ₹{metalWallet?.metals?.[1]?.currentValueINR || "Loading..."}
+                      ₹{metalWallet?.metals?.[1]?.currentValueINR || 'Loading...'}
                     </span>
                     <span className="text-xl font-bold text-white tracking-tight">
                       {metalWallet?.metals?.[1]?.quantityGrams}/g
@@ -185,10 +185,9 @@ catch(error){
               >
                 Sell All
               </button> */}
-           
             </div>
             <div className="flex justify-end">
-             <button
+              <button
                 onClick={handleReview}
                 disabled={!amount || Number(amount) < 100 || Number(amount) > totalValue}
                 className={`px-5 py-2 rounded-xl border border-white/10 text-sm flex justify-end ${
@@ -197,10 +196,9 @@ catch(error){
                     : 'bg-primary text-background hover:bg-amber-500/90 transition'
                 }`}
               >
-               Sell
+                Sell
               </button>
             </div>
-             
           </div>
         </div>
         {/* {showSection && (
@@ -259,25 +257,25 @@ catch(error){
             </div>
           </div>
         )} */}
-             {sucessModal&& (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
-    <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
-      <h2 className="text-lg font-bold text-white">Sell Successful</h2>
-      <p className="mt-3 text-sm text-white/70">
-        Your sell request has been submitted successfully.Amount will be credited to your DGI Gold wallet within 24 hours
-      </p>
-      <button
-        onClick={() => {
-          setSuccessModal(false);
-     
-        }}
-        className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
-      >
-        OK
-      </button>
-    </div>
-  </div>
-)}
+        {sucessModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4">
+            <div className="w-full max-w-sm rounded-3xl bg-[#0f0f17] border border-white/10 p-6 text-center">
+              <h2 className="text-lg font-bold text-white">Sell Successful</h2>
+              <p className="mt-3 text-sm text-white/70">
+                Your sell request has been submitted successfully.Amount will be credited to your
+                DGI Gold wallet within 24 hours
+              </p>
+              <button
+                onClick={() => {
+                  setSuccessModal(false);
+                }}
+                className="mt-6 w-full rounded-xl bg-primary py-3 text-sm font-bold text-background transition hover:brightness-110"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
