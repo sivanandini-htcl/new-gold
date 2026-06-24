@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { CreditCard, Eye, EyeOff } from 'lucide-react';
-import dgiLogo from '../../../assets/dgilogo.png';
+import dgiLogo from '../../../assets/dgiLogo.png';
 import fetchHoldingsData from '../../../api/holdingsApi';
 import api from '../../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
