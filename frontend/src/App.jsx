@@ -55,10 +55,10 @@ const PageLoader = () => (
 );
 
 function App() {
-  const fetchCart = useCartStore((state) => state.fetchCart);
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  // const fetchCart = useCartStore((state) => state.fetchCart);
+  // useEffect(() => {
+  //   fetchCart();
+  // }, []);
   return (
     <div className="min-h-screen flex flex-col  ">
       <PriceProvider />
