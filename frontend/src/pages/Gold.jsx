@@ -39,6 +39,8 @@ function Gold() {
 useEffect(() => {
   loadKycProgress();
 }, []);
+
+
   const calc = useMemo(() => {
     const grams = inputValue || 0;
     const baseAmount = grams * gram24kGoldPrice;

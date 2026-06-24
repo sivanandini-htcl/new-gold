@@ -433,7 +433,7 @@ function Dashboard() {
                   GOLD · 24K / g
                 </p>
                 <p className="font-body text-white/70 text-sm md:text-lg 2xl:text-2xl leading-tight">
-                  ₹{Math.round(gram24kGoldPrice)?.toLocaleString('en-IN') || '—'}
+                  ₹{(gram24kGoldPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
                   className={`text-[11px] 2xl:text-xl font-semibold ${isProfit ? 'text-green-600' : 'text-red-500'}`}
@@ -464,7 +464,7 @@ function Dashboard() {
                   SILVER · 24K / g
                 </p>
                 <p className="font-body md:text-lg  text-white/70 text-sm 2xl:text-2xl leading-tight">
-                  ₹{Math.round(gram24ksilverPrice)?.toLocaleString('en-IN') || '—'}
+                  ₹{(gram24ksilverPrice)?.toLocaleString('en-IN') || '—'}
                 </p>
                 <span
                   className={`text-[11px]  2xl:text-xl font-semibold ${silverisProfit ? 'text-green-600' : 'text-red-500'}`}

@@ -166,7 +166,7 @@ setButtonLoading(true)
               </h2>
 
               <div className="flex items-center 2xl:text-2xl  justify-between p-4 rounded-xl mb-6 border   ">
-                <p>₹{Math.round(gram24kSilverPrice) || 'Loading...'}</p>
+                <p>₹{(gram24kSilverPrice) || 'Loading...'}</p>
                 <p>{silverPrice ? `${silverPrice.changePercent}%` : '—'}</p>
               </div>
 
