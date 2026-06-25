@@ -623,7 +623,10 @@ export default function Profile() {
           </div>
 
           {/* ROW 4 — Quick Actions */}
+          <div className="rounded-2xl p-4 sm:p-2 shadow-sm">
+
           <QuickAction />
+          </div>
         </div>
       </div>
 
@@ -677,24 +680,24 @@ export default function Profile() {
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="000000"
                   maxLength={6}
-                  className="w-full rounded-lg border border-white/20 px-4 py-3 bg-[#111112] text-white mb-4 focus:outline-none focus:border-accent"
+                  className="w-full rounded-lg border border-white/20 px-4 py-3 bg-[#111112] text-white/70 mb-4 focus:outline-none focus:border-accent"
                 />
                 <button
                   onClick={handleVerifyOtp}
                   disabled={verifyLoading || otp.length < 6}
-                  className="w-full bg-accent py-3 rounded-lg text-black font-semibold disabled:opacity-50 transition-opacity"
+                  className="w-full bg-accent  rounded-lg border border-white/20 px-4 py-3 bg-[#111112] text-white/90  font-semibold disabled:opacity-50 transition-opacity"
                 >
                   {verifyLoading ? 'Verifying...' : 'Verify OTP'}
                 </button>
               </>
             )}
 
-            <button
+            {/* <button
               onClick={handleCloseModal}
               className="w-full mt-3 border border-white/20 py-2 rounded-lg text-white/70 hover:text-white/90 transition-colors"
             >
               Cancel
-            </button>
+            </button> */}
           </div>
         </div>
       )}

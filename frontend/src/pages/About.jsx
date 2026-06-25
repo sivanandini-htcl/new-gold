@@ -106,7 +106,7 @@ function About() {
               "Bringing the timeless value of precious metals into the digital age — accessible,
               transparent, and secure for every Indian."
             </p>
-            <div className="divider-gold h-0.5 w-12 rounded-full mx-auto" />
+            <div className=" h-0.5 w-12 rounded-full mx-auto" />
           </div>
         </section>
 
@@ -211,7 +211,7 @@ function About() {
             <h2 className=" text-3xl heading-font  sm:text-5xl font-serif mb-2 text-center text-white/70">
               Our Commitments
             </h2>
-            <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
+            <div className=" h-0.5 w-12 rounded-full mx-auto mb-10" />
 
             <div className="grid sm:grid-cols-2 gap-5 ">
               {values.map((val, i) => {
@@ -241,7 +241,7 @@ function About() {
             <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-yellow-950" >
               The Journey
             </h2>
-            <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-10" />
+            <div className=" h-0.5 w-12 rounded-full mx-auto mb-10" />
 
             <div className="relative pl-8">
            
@@ -284,7 +284,7 @@ function About() {
             <p className="text-xs uppercase tracking-widest mb-2 text-center text-primary/50">
               The People
             </p>
-            <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-primary/">
+            <h2 className="heading-font text-4xl sm:text-5xl font-serif mb-2 text-center text-white/70">
               Meet the Team
             </h2>
             <div className=" h-0.5 w-12 rounded-full mx-auto mb-10" />
@@ -306,18 +306,34 @@ function About() {
           </div>
         </section>
 
-        <section className="px-4 p-20 md:p-20 sm:px-6 lg:px-10 pb-16 bg-background">
-          <div className="max-w-3xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl">
+        <section className="px-4 p-20 md:p-20 sm:px-6 lg:px-10 pb-16 bg-background ">
+          <div className="max-w-7xl mx-auto bg-[#111117] border border-white/20  rounded-2xl ease-in-out duration-200 hover:scale-[1.02] ">
             <div className="rounded-3xl p-3 shadow-lg text-center">
-              <div className="divider-gold h-0.5 w-12 rounded-full mx-auto mb-6" />
+              <div className=" h-0.5 w-12 rounded-full mx-auto mb-6" />
+                <div className="flex flex-col justify-center items-center gap-2">
+               <p className="font-serif text-xs text-primary/70">START TODAY</p>
+               <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
+               </div>
+              
+              <div className=" flex flex-col font-normal font-serif justify-center items-center text-2xl md:text-5xl sm:text-5xl  mb-3 text-white/90 gap-3">
+              <span className=" flex flex-col font-normal font-serif">
+                   Your wealth,
+              </span>
+              <div className="flex gap-2">
+                <sapn >
+                in pure 
+              </sapn>
+              <span className="text-primary">
+                gold
+              </span>
+              </div>
+              
+               
+              </div>
+              
 
-              <h2 className="text-xl md:text-4xl sm:text-5xl font-serif mb-3 text-white/70">
-                Ready to Start Investing?
-              </h2>
-
-              <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto text-primary/70">
-                Join over 2 lakh Indians who trust DgiGold to grow and protect their wealth through
-                gold and silver.
+              <p className="text-sm leading-relaxed mb-8 max-w-md mx-auto text-white/40">
+                Join 2 lakh+ Indians growing their wealth through gold and silver — securely and transparently.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -332,9 +348,9 @@ function About() {
                 <button
                   onClick={() => navigate('/metals')}
                   className="transition hover:opacity-90
-              py-3 px-4 rounded-xl text-sm  tracking-widest font-serif  bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 
+              py-3 px-4 rounded-4xl text-sm  tracking-widest font-serif  bg-primary 
               shadow-lg 
-              mb-5 text-background"
+              mb-5 text-background animate-bounce [animation-duration:2s]"
                 >
                   Explore More
                 </button>
@@ -349,7 +365,7 @@ function About() {
                 </button> */}
               </div>
 
-              <div className="divider-gold h-0.5 w-8 rounded-full mx-auto mt-8" />
+              <div className=" h-0.5 w-8 rounded-full mx-auto mt-8" />
               {/* <img src={Invest} alt="" className="w-full"/> */}
             </div>
           </div>

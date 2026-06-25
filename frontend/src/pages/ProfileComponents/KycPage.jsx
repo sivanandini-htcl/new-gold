@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import useKycStore from '../../store/useKYCStore';
 import useMpinStore from '../../store/useMpinStore';
@@ -14,6 +14,7 @@ import {
 
 function KycPage() {
   const navigate = useNavigate();
+  const[onClick,setOnclick]=useState(false);
   const {
     currentStep,
     kycStatus,
@@ -33,9 +34,10 @@ function KycPage() {
     handleVerifyAadhaarOtp,
     handleFinalSubmit,
     loadKycProgress,
+    click,
   } = useKycStore();
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
-
+  
   useEffect(() => {
     loadKycProgress();
     // console.log('hello');
@@ -131,15 +133,15 @@ function KycPage() {
                 </div>
 
                 {!verified.pan && (
-                  <>
+                  < >
                     <button
                       onClick={handleSendPanOtp}
                       disabled={loading}
-                      className="w-full bg-accent py-3 text-black border rounded-lg font-semibold"
+                      className="w-40  bg-accent py-3 text-black border rounded-lg font-semibold"
                     >
                       {loading ? 'Sending OTP...' : 'Send OTP'}
                     </button>
-
+{click &&(<>
                     <div>
                       <label className="block text-black mb-2 text-sm font-medium">Enter OTP</label>
 
@@ -157,10 +159,11 @@ function KycPage() {
                     <button
                       onClick={handleVerifyPanOtp}
                       disabled={loading}
-                      className="w-full bg-white/70 text-background py-3 rounded-lg font-semibold"
+                      className="w-40 items-end justify-end bg-white/70 text-background py-3 rounded-lg font-semibold"
                     >
                       {loading ? 'Verifying...' : 'Verify PAN'}
                     </button>
+                    </>)}
                   </>
                 )}
 
@@ -220,7 +223,7 @@ function KycPage() {
                     >
                       {loading ? 'Sending OTP...' : 'Send OTP'}
                     </button>
-
+{click &&(<>
                     <div>
                       <label className="block mb-2 text-sm font-medium text-white/70">
                         Enter OTP
@@ -245,7 +248,9 @@ function KycPage() {
                       {loading ? 'Verifying...' : 'Verify Aadhaar'}
                     </button>
                   </>
+                  
                 )}
+                </>)}
 
                 {verified.aadhaar && (
                   <div className="bg-green-100/70 text-green-700 p-4 rounded-lg">
@@ -342,7 +347,7 @@ function KycPage() {
           )}
 
           {currentStep === 5 && (
-            <div className="text-center py-12 ">
+            <div className="text-center py-12">
               {/* <div className="w-24 h-24 bg-green-400/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                 <span className="text-5xl">✓</span>
               </div> */}

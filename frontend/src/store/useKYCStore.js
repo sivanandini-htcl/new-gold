@@ -19,6 +19,7 @@ const useKycStore = create((set, get) => ({
   kycStatus: null,
   statusReason:null,
   loading: false,
+  click:false,
   initialLoading: true,
   error: '',
   success: '',
@@ -163,6 +164,7 @@ const useKycStore = create((set, get) => ({
     try {
       set({
         loading: true,
+        click:true,
         error: '',
       });
 

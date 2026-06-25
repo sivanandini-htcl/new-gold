@@ -221,15 +221,15 @@ setButtonLoading(true)
             <h2 className="text-2xl  2xl:text-4xl font-['Fraunces']  mb-2  text-secondary">
               Price Converter
             </h2>
-            <p className="text-xs  2xl:text-xl uppercase tracking-widest text-gray-300/70 mb-6 ">
+            <p className="text-xs  2xl:text-xl uppercase tracking-widest text-gray-300/70 mb-6 md:mb-15 ">
               Grams → Rupees
             </p>
 
-            <div className=" h-12 flex justify-center items-center rounded-xl  mb-7">
+            {/* <div className=" h-12 flex justify-center items-center rounded-xl  mb-7">
               <p className="bg-gradient-to-r from-gray-700 via-gray-200 to-gray-600 text-gray-900 w-full rounded-xl h-10 text-center p-3 font-serif ">
                 Grams → ₹
               </p>
-            </div>
+            </div> */}
 
             <input
               type="number"
