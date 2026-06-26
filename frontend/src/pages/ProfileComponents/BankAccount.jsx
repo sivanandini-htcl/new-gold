@@ -186,7 +186,7 @@ const BankAccount = () => {
               </button>
 
               {/* Title */}
-              <h2 className="text-xl md:text-2xl font-bold text-white mb-6">Add Bank Account</h2>
+              <h2 className="text-xl md:text-2xl font-serif text-white mb-6">Add Bank Account</h2>
 
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -257,7 +257,7 @@ const BankAccount = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="text-xs px-5 py-2.5 rounded-xl bg-white text-black font-semibold hover:bg-gray-200 disabled:opacity-50"
+                    className="text-xs px-5 py-2.5 rounded-xl bg-primary text-background font-semibold hover:bg-gray-200 disabled:opacity-50"
                   >
                     {loading ? 'Saving...' : 'Save Account'}
                   </button>

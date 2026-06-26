@@ -16,7 +16,7 @@ function Footer() {
     { label: "My Profile", path: "/profile" },
     { label: "KYC ", path: "/kycpage" },
     { label: "Transaction ", path: "/" },
-    { label: "DeliveryAddress", path: "/delivery" },
+    { label: "Address", path: "/delivery" },
   ];
 
   const socials = [

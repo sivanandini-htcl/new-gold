@@ -11,6 +11,7 @@ import {
   resumeKYC,
   checkKYCStatus,
 } from '../../api/kycapi';
+import { ArrowLeft } from 'lucide-react';
 
 function KycPage() {
   const navigate = useNavigate();
@@ -37,6 +38,42 @@ function KycPage() {
     click,
   } = useKycStore();
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
+  const panRegex=/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  const aadharRegex=/^\d{12}$/;
+  const[ValidationError,setValidationError]=useState({
+    panError:'',
+    adhaarError:'',
+  })
+  
+  const validatePan=()=>{
+     console.log("Validate called");
+    let newError={};
+    if(!formData.panNumber.trim()){
+      newError.panError="Pan number is required"
+
+    }
+    else if(!panRegex.test(formData.panNumber.trim().toUpperCase())){
+      newError.panError="Enter a valid Pan number"
+    }
+      setValidationError(newError)
+      console.log(newError);
+      return Object.keys(newError).length===0;
+  }
+
+ const validateAadhaar=()=>{
+     console.log("Validate called");
+    let newError={};
+    if(!formData.aadhaarNumber.trim()){
+      newError.adhaarError="Adhaar number is required"
+
+    } else if(!aadharRegex.test(formData.aadhaarNumber.trim())){
+  newError.adhaarError="Enter a valid adhaar number"}
+      setValidationError(newError)
+      console.log(newError);
+      return Object.keys(newError).length===0;
+  }
+  
+
   
   useEffect(() => {
     loadKycProgress();
@@ -114,11 +151,11 @@ function KycPage() {
 
           {currentStep === 1 && (
             <div>
-              <h2 className="text-2xl font-bold text-white/90 mb-6">PAN Verification</h2>
+              <h2 className="text-2xl font-serif text-white/90 mb-6">PAN Verification</h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block mb-2 text-sm text-white/70 font-medium">PAN Number</label>
+                  <label className="block mb-2 text-sm text-white/70 font-medium uppercase">PAN Number</label>
 
                   <input
                     type="text"
@@ -131,19 +168,26 @@ function KycPage() {
                     className="w-full text-secondary border border-gray-300 rounded-lg px-4 py-3 uppercase"
                   />
                 </div>
+                {ValidationError.panError &&(
+                <p className='text-red-600 text-xs'>{ValidationError.panError}</p>
+                )}
 
                 {!verified.pan && (
                   < >
                     <button
-                      onClick={handleSendPanOtp}
+                      onClick={()=>{
+                        if(validatePan()){
+                            console.log("Inside handleSendPanOtp");
+                          handleSendPanOtp();
+                        }}}
                       disabled={loading}
-                      className="w-40  bg-accent py-3 text-black border rounded-lg font-semibold"
+                      className="block mb-2 text-sm text-white/70 font-medium uppercase border border-white/70 p-3 rounded-xl bg-[#111117] "
                     >
                       {loading ? 'Sending OTP...' : 'Send OTP'}
                     </button>
 {click &&(<>
                     <div>
-                      <label className="block text-black mb-2 text-sm font-medium">Enter OTP</label>
+                      <label className="block mb-2 text-sm text-white/70 font-medium uppercase">Enter OTP</label>
 
                       <input
                         type="text"
@@ -159,7 +203,7 @@ function KycPage() {
                     <button
                       onClick={handleVerifyPanOtp}
                       disabled={loading}
-                      className="w-40 items-end justify-end bg-white/70 text-background py-3 rounded-lg font-semibold"
+                      className="block mb-2 text-sm text-white/70 font-medium uppercase border border-white/70 p-3 rounded-xl bg-[#111117] hover:scale-[1.0]"
                     >
                       {loading ? 'Verifying...' : 'Verify PAN'}
                     </button>
@@ -339,7 +383,7 @@ function KycPage() {
 
               <button
                 onClick={() => navigate('/profile')}
-                className="w-full bg-accent py-4 rounded-lg font-bold text-black"
+                className="w-full bg-accent py-4 rounded-lg font-bold text-white/70 pt-2"
               >
                 Back to Profile
               </button>
@@ -352,7 +396,7 @@ function KycPage() {
                 <span className="text-5xl">✓</span>
               </div> */}
 
-              <h2 className="text-lg md:text-3xl font-serif text-green-600 p-2 bg-green-400/20 rounded-2xl mb-2 uppercase">
+              <h2 className="text-lg md:text-3xl font-serif text-green-600 p-2 rounded-2xl mb-2 uppercase">
                 KYC {kycStatus}{' '}
               </h2>
               <p className="text-white/60 mb-8">{statusReason}</p>
@@ -367,15 +411,21 @@ function KycPage() {
                   Set up MPIN
                 </button>
               )}
-
-              <button
+              
+             
+            </div>
+            
+          )}
+          <div className="flex gap-2 justify-center hover:bg-background items-center border border-white/20  w-fit mx-auto p-1 pt-2 rounded-lg">
+                <ArrowLeft />
+                 <button
                 onClick={() => navigate('/profile')}
-                className="w-full bg-accent py-4 rounded-lg font-bold text-black"
+                className="  py-4 rounded-lg font-serif text-white/70 "
               >
+                
                 Back to Profile
               </button>
-            </div>
-          )}
+              </div>
         </div>
       </div>
     </div>

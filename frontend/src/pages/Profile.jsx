@@ -370,7 +370,7 @@ export default function Profile() {
     );
   }
 
-  // ─── Render ────────────
+  
   return (
     <>
       <div className="min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
@@ -389,9 +389,9 @@ export default function Profile() {
                     <h2 className="text-xl sm:text-2xl font-bold text-primary truncate">
                       {username || profileData?.firstName || 'User Name' || profileData.firstname}
                     </h2>
-                    <span className="text-xs font-medium bg-amber-100 text-background border border-primary/70 px-2 py-0.5 rounded-full shrink-0">
+                    {/* <span className="text-xs font-medium bg-amber-100 text-background border border-primary/70 px-2 py-0.5 rounded-full shrink-0">
                       Premium
-                    </span>
+                    </span> */}
                     {kycStatus === 'approved' && (
                       <span className="text-[10px] px-2 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
                         KYC Verified

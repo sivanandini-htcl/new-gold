@@ -80,7 +80,7 @@ const MpinModal = ({
         <div className="flex items-center justify-between mb-6">
 
           <div>
-            <h2 className="text-white text-lg font-bold font-serif">
+            <h2 className="text-white/80 text-lg font-bold font-serif">
               {title}
             </h2>
 
@@ -98,12 +98,12 @@ const MpinModal = ({
 
         </div>
 
-        <div className="text-lg font-serif text-center w-full mb-4">
+        <div className="text-lg font-serif text-center w-full mb-4 mt-8">
          <p >Enter Your pin</p>
         </div>
 
         {/* PIN Dots */}
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex justify-center gap-4 mb-6">
 
           {[...Array(6)].map((_, i) => {
 
@@ -138,7 +138,7 @@ const MpinModal = ({
         )}
 
         {/* Number Pad */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 mt-20">
 
           {keys.map((key, idx) => {
 

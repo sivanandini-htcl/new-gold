@@ -398,10 +398,10 @@ setButtonLoading(product.id)
     onChange={handleFilterChange}
     className="w-full border rounded-lg p-2 text-sm"
   >
-    <option value="">All Categories</option>
-    <option value="COIN">Coin</option>
-    <option value="BAR">Bar</option>
-    <option value="BISCUIT">Biscuit</option>
+    <option value="" className="text-background">All Categories</option>
+    <option value="COIN" className="text-background">Coin</option>
+    <option value="BAR" className="text-background">Bar</option>
+    <option value="BISCUIT" className="text-background">Biscuit</option>
   </select>
 </div>
   <div className="mb-4">
@@ -415,9 +415,9 @@ setButtonLoading(product.id)
   onChange={handleFilterChange}
   className="w-full border rounded-lg p-2 text-sm"
 >
-  <option value="">All Metals</option>
-  <option value="GOLD">Gold</option>
-  <option value="SILVER">Silver</option>
+  <option value="" className="text-background">All Metals</option>
+  <option value="GOLD" className="text-background">Gold</option>
+  <option value="SILVER" className="text-background">Silver</option>
  
 
 </select>
@@ -429,7 +429,7 @@ setButtonLoading(product.id)
         {activeFilterCount > 0 && (
           <button
             onClick={clearFilters}
-            className="w-full py-2.5 bg-background text-white rounded-xl">
+            className="w-full py-2.5 bg-white/60 text-background rounded-xl">
             Clear All Filters
           </button>
         )}

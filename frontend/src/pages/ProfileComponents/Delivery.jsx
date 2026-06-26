@@ -39,6 +39,8 @@ const emptyForm = {
 
 function AddressFormModal({ onClose, onSave, loading, initial = null }) {
   const [formData, setFormData] = useState(initial || emptyForm);
+  const[errors,setErrors]=useState({});
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,10 +48,36 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+     setErrors((prev)=>({
+    ...prev,
+    [name]:"",
+  }))
   };
+  const phoneRegex=/^[6-9]\d{9}$/
+  const pinRegex=/^\d{6}$/
+
+  const validate=()=>{
+  const newError={}
+
+  Object.keys(formData).forEach((key)=>{
+  if(key==="addressLine2"||key=="isDefault")return;
+  if(!String(formData[key]).trim())
+  {newError[key]="This field is required"}
+ });
+ 
+if(formData.phoneNumber && !phoneRegex.test(formData.phoneNumber.trim())){
+  newError.phoneNumber="Enter a valid phone number"
+}
+if(formData.pincode&& !pinRegex.test(formData.pincode.trim())){
+  newError.pincode="Enter a Valid pin code"
+}
+setErrors(newError)
+return Object.keys(newError).length===0;
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!validate())return
     await onSave(formData);
   };
 
@@ -65,15 +93,15 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+    <div className="fixed inset-0 z-50 flex items-center border border-white/20 justify-center bg-black/40 backdrop-blur-sm px-4">
       <div
-        className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden"
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
+        className="bg-[#111117] w-full max-w-xl rounded-2xl shadow-2xl font-serif overflow-hidden"
+       
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-amber-100 bg-amber-50">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/20">
           <div className="flex items-center gap-2">
             <MapPin size={18} className="text-amber-500" />
-            <span className="font-semibold text-gray-800 text-sm">
+            <span className="font-semibold text-secondary text-sm">
               {initial ? "Edit Address" : "Add New Address"}
             </span>
           </div>
@@ -85,7 +113,7 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+        <form onSubmit={handleSubmit} className="px-6 py-5 ">
           <div className="grid grid-cols-2 gap-3">
             {fields.map(({ name, label, colSpan }) => (
               <div
@@ -99,9 +127,12 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
                   name={name}
                   value={formData[name]}
                   onChange={handleChange}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition"
+                  className="w-full border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition"
                   placeholder={label}
                 />
+                {errors[name]&&(
+                  <p className="text-red-600/80 text-xs pt-2">{errors[name]}</p>
+                )}
               </div>
             ))}
           </div>
@@ -126,7 +157,7 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
                     onChange={() =>
                       setFormData((prev) => ({ ...prev, isDefault: value }))
                     }
-                    className="accent-amber-500 w-4 h-4"
+                    className="accent-primary w-4 h-4"
                   />
                   <span className="text-sm text-gray-700">{display}</span>
                 </label>
@@ -138,7 +169,7 @@ function AddressFormModal({ onClose, onSave, loading, initial = null }) {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+              className="flex-1 bg-primary  hover:bg-amber-500 text-background font-serif py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
             >
               <Save size={15} />
               {loading ? "Saving..." : "Save Address"}
@@ -293,7 +324,9 @@ function Delivery() {
     <div className="h-2 bg-secondary/8 rounded-lg w-35 mb-5"></div>
 
     <div className="h-2 bg-secondary/8 rounded-lg w-65 mb-5"></div>
+    <div className="h-30 bg-secondary/8 rounded-lg w-65 mb-10"></div>
     <div className="h-30 bg-secondary/8 rounded-lg w-65 mb-10"></div> </div>)
+    
   }
 
   return (
@@ -312,7 +345,7 @@ function Delivery() {
       <div className="mb-1 border-b border-yellow-700/20 pb-6 font-['Fraunces']">
         <div className="h-0.5 w-12  bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-3"></div>
         <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-['Fraunces'] text-primary p-2">
-         Addreses
+         Address
         </h1>
         <p className="mt-2 text-xs 2xl:text-xl  uppercase tracking-widest text-primary/50 font-['Fraunces'] pl-3">
           24K · 99.9% Pure · Live Rates
