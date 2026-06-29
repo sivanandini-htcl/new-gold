@@ -72,6 +72,25 @@ function KycPage() {
       console.log(newError);
       return Object.keys(newError).length===0;
   }
+
+
+   const validateDocuments=()=>{
+    let formErrors={};
+    if(!formData.panFile){
+      formErrors.panFile="Pan photo is required"
+    }
+    if(!formData.aadhaarFileFront){
+      formErrors.aadhaarFileFront="Adhaar front Page is required"
+    }
+    if(!formData.aadhaarFileBack){
+      formErrors.aadhaarFileBack="Adhaar back page is required"
+    }
+    setValidationError((prev)=>({
+      ...prev,
+      ...formErrors
+    }))
+    return Object.keys(formErrors).length===0
+  }
   
 
   
@@ -99,13 +118,13 @@ function KycPage() {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <div className=" md:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
+      <div className=" md:max-w-xl xl:max-w-xl 2xl:max-w-6xl mx-auto bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20  rounded-2xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-accent p-6 text-center flex flex-col justify-center items-center">
           <h1 className="text-3xl font-serif text-white/70">KYC Verification</h1>
           <p className="text-sm mt-2 text-white/50">Complete verification step by step</p>
           {kycStatus === 'rejected' && (
-            <div className="flex text-red-600/60">
+            <div className="flex text-red-600/80/60">
               <p className=" mb-8 uppercase">kyc {kycStatus} - </p>
               <p className=" mb-8">{statusReason}</p>
             </div>
@@ -169,7 +188,7 @@ function KycPage() {
                   />
                 </div>
                 {ValidationError.panError &&(
-                <p className='text-red-600 text-xs'>{ValidationError.panError}</p>
+                <p className='text-red-600/80 text-xs'>{ValidationError.panError}</p>
                 )}
 
                 {!verified.pan && (
@@ -196,7 +215,8 @@ function KycPage() {
                         onChange={handleInputChange}
                         placeholder="Enter OTP"
                         maxLength={6}
-                        className="w-full  text-secondary border border-white/20 rounded-lg px-4 py-3"
+                        className="w-full  text-secondary 
+                        border border-white/20 rounded-lg px-4 py-3"
                       />
                     </div>
 
@@ -219,8 +239,8 @@ function KycPage() {
                     >
                       Next
                     </button>
-                    <div className="bg-green-100 text-green-700 p-4 rounded-lg">
-                      ✓ PAN verified successfully
+                    <div className="text-center text-green-700 p-4 rounded-lg">
+                      ✓ PAN submitted successfully
                     </div>
                   </div>
                 )}
@@ -239,12 +259,12 @@ function KycPage() {
                 Previous
               </button>
 
-              <h2 className="text-2xl font-bold text-white/90 mb-6">Aadhaar Verification</h2>
+              <h2 className="text-2xl font-serif text-white/90 mb-6">Adhaar Verification</h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-white/70">
-                    Aadhaar Number
+                  <label className="block mb-2 text-sm font-medium text-white/70 uppercase">
+                    Adhaar Number
                   </label>
 
                   <input
@@ -257,11 +277,16 @@ function KycPage() {
                     className="w-full text-secondary border border-gray-300 rounded-lg px-4 py-3"
                   />
                 </div>
-
+                {ValidationError.adhaarError &&(
+                <p className='text-red-600/80 text-xs'>{ValidationError.adhaarError}</p>
+                )}
                 {!verified.aadhaar && (
                   <>
                     <button
-                      onClick={handleSendAadhaarOtp}
+                      onClick={()=>{
+                        if(validateAadhaar()){
+                        handleSendAadhaarOtp()}
+                      }}
                       disabled={loading}
                       className="w-full bg-accent py-3 rounded-lg font-semibold text-white/70 bg-[#111112] border"
                     >
@@ -287,7 +312,7 @@ function KycPage() {
                     <button
                       onClick={handleVerifyAadhaarOtp}
                       disabled={loading}
-                      className="w-full bg-[#111112] text-white py-3 rounded-lg font-semibold"
+                      className="w-full bg-[#111112] text-white/70 py-3 rounded-lg font-semibold"
                     >
                       {loading ? 'Verifying...' : 'Verify Aadhaar'}
                     </button>
@@ -297,8 +322,8 @@ function KycPage() {
                 </>)}
 
                 {verified.aadhaar && (
-                  <div className="bg-green-100/70 text-green-700 p-4 rounded-lg">
-                    ✓ Aadhaar verified successfully
+                  <div className=" text-green-700 text-center p-4 rounded-lg">
+                    ✓ Aadhaar submitted successfully
                   </div>
                 )}
               </div>
@@ -317,7 +342,7 @@ function KycPage() {
               </button>
               <h2 className="text-2xl font-bold text-white/90 mb-6">Upload Documents</h2>
 
-              <div className="space-y-6">
+              <div className="space-y-6 ">
                 {/* PAN */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-white/70">PAN Front</label>
@@ -328,7 +353,12 @@ function KycPage() {
                     onChange={(e) => handleFileChange(e, 'panFile')}
                     className="w-full border border-gray-300 text-secondary bg-[#111112] rounded-lg px-4 py-3"
                   />
+                     {ValidationError.panFile &&(
+                <p className='text-red-600/80 text-xs pt-2'>{ValidationError.panFile}</p>
+                )}
                 </div>
+               
+
 
                 {/* Aadhaar Front */}
                 <div>
@@ -342,6 +372,10 @@ function KycPage() {
                     onChange={(e) => handleFileChange(e, 'aadhaarFileFront')}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-secondary bg-[#111112]"
                   />
+                    {ValidationError.aadhaarFileFront &&(
+                <p className='text-red-600/80 text-xs pt-2'>{ValidationError.aadhaarFileFront}</p>
+                )}
+
                 </div>
 
                 {/* Aadhaar Back */}
@@ -356,15 +390,25 @@ function KycPage() {
                     onChange={(e) => handleFileChange(e, 'aadhaarFileBack')}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-secondary bg-[#111112]"
                   />
+                   {ValidationError.aadhaarFileBack &&(
+                <p className='text-red-600/80 text-xs pt-2'>{ValidationError.aadhaarFileBack}</p>
+                )}
                 </div>
+                 
 
-                <button
-                  onClick={handleFinalSubmit}
+                <div className="flex justify-center items-center">
+                  <button
+                  onClick={()=>{
+                    if(validateDocuments()){
+                      handleFinalSubmit()}}}
                   disabled={loading}
-                  className="w-full bg-accent py-4 rounded-lg font-bold text-black"
+                  className="max-w-2xl bg-accent py-2 px-2 rounded-lg font-serif  bg-black text-white/70"
                 >
                   {loading ? 'Submitting...' : 'Submit KYC'}
                 </button>
+                  </div>
+
+                
               </div>
             </div>
           )}
@@ -416,11 +460,11 @@ function KycPage() {
             </div>
             
           )}
-          <div className="flex gap-2 justify-center hover:bg-background items-center border border-white/20  w-fit mx-auto p-1 pt-2 rounded-lg">
+          <div className="flex gap-2 justify-center hover:text--background items-center   w-fit mx-auto p-1 pt-2 rounded-lg">
                 <ArrowLeft />
                  <button
                 onClick={() => navigate('/profile')}
-                className="  py-4 rounded-lg font-serif text-white/70 "
+                className="   rounded-lg font-serif text-white/70 "
               >
                 
                 Back to Profile

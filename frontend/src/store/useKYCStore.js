@@ -239,6 +239,7 @@ const useKycStore = create((set, get) => ({
     try {
       set({
         loading: true,
+        click:true,
         error: '',
       });
 

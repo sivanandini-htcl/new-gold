@@ -10,6 +10,7 @@ const useCartStore = create((set, get) => ({
     try {
       set({ loading: true });
       const res = await api.get('/cart');
+      console.log("Cart after update:", res.data);
       const cart = res.data?.data?.cart;
       console.log('add to cart res', cart);
       const items = cart?.items || [];
@@ -59,6 +60,7 @@ const useCartStore = create((set, get) => ({
       });
 
       set({ cartItems: normalized });
+      console.log("Store after set:", get().cartItems);
     } catch (err) {
       console.error('Cart fetch error:', err.response?.data || err.message);
     } finally {
@@ -94,14 +96,21 @@ const useCartStore = create((set, get) => ({
     }
   },
 
-  updateQuantity: async (id, quantity) => {
-    try {
-      await api.patch(`/cart/items/${id}`, { quantity });
-      await get().fetchCart();
-    } catch (err) {
-      console.log(err);
-    }
-  },
+ updateQuantity: async (id, quantity) => {
+  try {
+    console.log("Updating:", id, quantity);
+
+    const res = await api.patch(`/cart/items/${id}`, {
+      quantity,
+    });
+
+    console.log("Response:", res.data);
+
+    await get().fetchCart();
+  } catch (err) {
+    console.log("Error:", err.response?.data || err);
+  }
+},
 
   clearCart: () => set({ cartItems: [] }),
 }));

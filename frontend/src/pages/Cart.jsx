@@ -8,14 +8,12 @@ import {
   Wallet,
   Truck,
   ChevronRight,
-  Clock,
   LoaderCircle,
 } from 'lucide-react';
 
 import { toast } from 'react-toastify';
 import useCartStore from '../store/cartStore';
 import api from '../api/axiosInstance';
-import PageLoader from '../components/ProfileLoading';
 import useKycStore from '../store/useKYCStore';
 
 function Cart() {
@@ -23,17 +21,15 @@ function Cart() {
   const { kycStatus, loadKycProgress } = useKycStore();
 
   const navigate = useNavigate();
-
-  const [showStaleModal, setShowStaleModal] = useState(false);
-
   const [pageLoading, setPageLoading] = useState(true);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  // const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [kycPopup, setKycPopup] = useState(false);
+  const [removingItemId, setRemovingItemId] = useState(null);
   // Detect cart type
   const hasMetalItems = cartItems.some((item) => item.type === 'METAL');
-  const hasGold = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'GOLD');
-  const hasSilver = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'SILVER');
+  // const hasGold = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'GOLD');
+  // const hasSilver = cartItems.some((item) => item.type === 'METAL' && item.metalType === 'SILVER');
 
   const hasProductItems = cartItems.some((item) => item.type === 'PRODUCT');
 
@@ -58,7 +54,7 @@ function Cart() {
     }
     setButtonLoading(true);
     try {
-      setCheckoutLoading(true);
+      // setCheckoutLoading(true);
 
       const mode = hasMetalItems ? 'WALLET' : 'DELIVERY';
 
@@ -98,10 +94,23 @@ function Cart() {
         toast.error(error.response?.data?.message || 'Checkout failed');
       }
     } finally {
-      setCheckoutLoading(false);
+      // setCheckoutLoading(false);
+      setButtonLoading(false);
     }
   };
+const handleRemoveItem = async (id) => {
+  try {
+    setRemovingItemId(id);
 
+    await removeFromCart(id);
+
+    toast.success("Item removed");
+  } catch (error) {
+    toast.error("Failed to remove item");
+  } finally {
+    setRemovingItemId(null);
+  }
+};
   if (pageLoading) {
     return (
       <div className="animate-pulse flex flex-col gap-3 mt-10 md:m-20 p-4">
@@ -143,7 +152,7 @@ function Cart() {
       </div>
     );
   }
-
+console.log("Cart Render:", cartItems);
   return (
     <div className=" 2xl:min-h-screen  max-w-[1440px] m-auto bg-background ">
       {/* Header */}
@@ -160,7 +169,7 @@ function Cart() {
             <ShoppingCart className="w-4 h-4 text-primary shrink-0" />
 
             <h1 className="font-serif text-sm sm:text-base md:text-lg 2xl:text-2xl font-semibold text-primary truncate">
-              Car
+              Cart
               <span className="ml-1 sm:ml-2 text-[11px] sm:text-sm 2xl:text-lg font-normal text-primary/70">
                 ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
               </span>
@@ -269,6 +278,7 @@ function Cart() {
                             <div className="flex items-center bg-[#111112] border border-white/20 rounded-lg overflow-hidden">
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                disabled={item.quantity <= 1}
                                 className="w-8 h-8 flex items-center justify-center text-lg 2xl:text-xl font-bold text-white/70 hover:bg-amber-100 transition"
                               >
                                 −
@@ -280,47 +290,60 @@ function Cart() {
 
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                
                                 className="w-8 h-8 flex items-center justify-center text-lg  2xl:text-xl font-bold text-white/70 hover:bg-amber-100 transition"
                               >
                                 +
                               </button>
                             </div>
 
-                            <button
-                              onClick={async () => {
-                                try {
-                                  await removeFromCart(item.id);
-
-                                  toast.success('Item removed');
-                                } catch {
-                                  toast.error('Failed to remove item');
-                                }
-                              }}
-                              className="flex items-center gap-1 text-xs 2xl:text-xl text-red-400 hover:text-red-500 transition uppercase tracking-widest"
-                            >
-                              <Trash2 className="w-3 h-3" />
-                              Remove
-                            </button>
+                        <button
+  onClick={() => handleRemoveItem(item.id)}
+  // disabled={removingItemId === item.id}
+  className={`flex items-center gap-1 text-xs uppercase tracking-widest transition ${
+    removingItemId === item.id
+      ? "opacity-50 cursor-not-allowed"
+      : "text-red-400 hover:text-red-500"
+  }`}
+>
+  {removingItemId === item.id ? (
+    <>
+      <LoaderCircle className="w-3 h-3 animate-spin" />
+      Removing...
+    </>
+  ) : (
+    <>
+      <Trash2 className="w-3 h-3" />
+      Remove
+    </>
+  )}
+</button>
                           </div>
                         )}
 
                         {/* METAL */}
                         {isDigital && (
-                          <button
-                            onClick={async () => {
-                              try {
-                                await removeFromCart(item.id);
-
-                                toast.success('Item removed');
-                              } catch {
-                                toast.error('Failed to remove item');
-                              }
-                            }}
-                            className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                            Remove
-                          </button>
+                         <button
+  onClick={() => handleRemoveItem(item.id)}
+  disabled={removingItemId === item.id}
+  className={`flex items-center gap-1 text-xs uppercase tracking-widest transition ${
+    removingItemId === item.id
+      ? "opacity-50 cursor-not-allowed"
+      : "text-red-400 hover:text-red-500"
+  }`}
+>
+  {removingItemId === item.id ? (
+    <>
+      <LoaderCircle className="w-3 h-3 animate-spin" />
+      Removing...
+    </>
+  ) : (
+    <>
+      <Trash2 className="w-3 h-3" />
+      Remove
+    </>
+  )}
+</button>
                         )}
                       </div>
                     </div>
@@ -347,7 +370,7 @@ function Cart() {
                     <span className="text-xs 2xl:text-xl text-primary/70 flex-1 leading-relaxed">
                       {item.name}
 
-                      <span className="text-primary/50 ml-1 2xl:text-xl">×{item.quantity}</span>
+                      {/* <span className="text-primary/50 ml-1 2xl:text-xl">×{item.quantity}</span> */}
                     </span>
 
                     <span className="text-xs font-medium text-primary 2xl:text-2xl shrink-0">
