@@ -2,31 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 import {
-  User,
-  Phone,
-  Mail,
-  Edit,
-  FileText,
-  ShieldCheck,
-  MapPin,
-  CreditCard,
-  Receipt,
-  Clock,
-  ArrowRightLeft,
-  Gift,
-  ShieldUser,
-  Settings,
-  TrendingUp,
-  TrendingDown,
-  Zap,
-  BarChart2,
-  ArrowUpRight,
-  Wallet,
-  Package,
-  ChevronRight,
-  Sparkles,
-  X,
-  Pen,
+  User,Phone, Mail,
+  Edit, FileText,
+  ShieldCheck,MapPin, CreditCard,
+  Receipt,Clock, ArrowRightLeft,Gift,
+  ShieldUser, Settings,
+  TrendingUp, TrendingDown,
+  Zap, BarChart2, ArrowUpRight, Wallet,
+  Package,ChevronRight, Sparkles, X, Pen,
 } from 'lucide-react';
 import usePriceStore from '../store/priceStore';
 import useAuthStore from '../store/authStore';
@@ -68,7 +51,6 @@ const verifyContactOtp = async ({
   purpose = 'account-verification',
 }) => {
   const payload = { otp, userId, purpose };
-
   if (type === 'phone') {
     payload.phoneNumber = identifier.startsWith('+') ? identifier : `+91${identifier}`;
   } else {
@@ -119,11 +101,11 @@ const verifyContactOtp = async ({
 //   },
 // ];
 
-// ─── Component ─────────
+//  Component 
 export default function Profile() {
   const navigate = useNavigate();
 
-  // ── Local state ──────
+  // Local state 
   const [wallet, setWallet] = useState(null);
   const [metalWallet, setMetalWallet] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -141,8 +123,7 @@ export default function Profile() {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [action, setAction] = useState(null);
   const [redirectPath, setRedirectPath] = useState('');
-
-  // ── Store selectors ────────────
+  //Store selectors 
   const username = useAuthStore((s) => s.user?.firstName);
   const userEmail = useAuthStore((s) => s.user?.email);
   const userId = useAuthStore((s) => s.user?.uid);
@@ -154,13 +135,10 @@ export default function Profile() {
   const loadKycProgress = useKycStore((state) => state.loadKycProgress);
 
   const mpinCreated = useMpinStore((state) => state.mpinCreated);
-
   const mpinStatusLoading = useMpinStore((state) => state.mpinStatusLoading);
-
-  // console.log('MPIN Status:', mpinCreated);
   const fetchMPINStatus = useMpinStore((state) => state.fetchMPINStatus);
 
-  // ── Derived data ────
+  //Derived data 
   const isEmailVerified = profileData?.emailVerified || false;
   const isPhoneVerified = profileData?.phoneVerified || false;
   const bothVerified = isEmailVerified && isPhoneVerified;
@@ -179,11 +157,10 @@ export default function Profile() {
       setKycPopup(true);
       return;
     }
-
     setRedirectPath(path);
     setShowMpin(true);
   };
-  // ── Verification handlers ────
+  // Verification handlers 
 
   const handleKycClick = () => {
     // If both verified → navigate directly
@@ -243,7 +220,6 @@ export default function Profile() {
       alert('Enter 6-digit OTP');
       return;
     }
-
     setVerifyLoading(true);
     try {
       await verifyContactOtp({
@@ -302,7 +278,7 @@ export default function Profile() {
       console.log('MESSAGE:', error.response?.data?.message);
     }
   };
-  // ── Effects ────────
+  //Effects 
   useEffect(() => {
     const fetchHoldings = async () => {
       setLoading(true);
@@ -325,7 +301,7 @@ export default function Profile() {
     fetchMPINStatus();
   }, []);
 
-  // ── Loading skeleton ────
+  // Loading skeleton 
   if (loading) {
     return (
        <div className="animate-pulse p-5">
@@ -630,7 +606,7 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* ─── Verification Modal ──────── */}
+      {/*Verification Modal  */}
       {showVerifyModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="w-full max-w-md bg-[#0f0f17] border border-white/10 rounded-2xl p-6">
@@ -666,7 +642,8 @@ export default function Profile() {
                 <button
                   onClick={handleSendVerification}
                   disabled={verifyLoading || !identifier.trim()}
-                  className="w-full bg-accent py-3 rounded-lg text-white/70 border border-white/20 font-semibold disabled:opacity-50 transition-opacity"
+                  className="w-full bg-accent py-3 rounded-lg text-white/70 
+                  border border-white/20 font-semibold disabled:opacity-50 transition-opacity"
                 >
                   {verifyLoading ? 'Sending...' : 'Send OTP'}
                 </button>

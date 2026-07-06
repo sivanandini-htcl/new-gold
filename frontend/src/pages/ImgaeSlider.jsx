@@ -242,6 +242,7 @@ export default function CoverflowCarousel() {
         padding: "20px 0", // minimal vertical padding, no horizontal padding
         overflow: "hidden",
         position: "relative",
+        
       }}
     >
       {/* Ambient glow - centered */}
@@ -263,12 +264,12 @@ export default function CoverflowCarousel() {
         initial={{ opacity: 0, y: -28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        style={{ textAlign: "center", marginBottom: 42, zIndex: 2 }}
+        style={{ textAlign: "center", marginBottom: 2, zIndex: 2 }}
       >
         <p style={{
           fontSize: `${clamp(9, windowWidth * 0.012, 12)}px`,
           letterSpacing: "0.38em", color: "#c9a97a",
-          textTransform: "uppercase", fontFamily: "Georgia, serif", marginBottom: 10,
+          textTransform: "uppercase", fontFamily: "Georgia, serif", marginBottom: 1,
         }}>
           The Collection
         </p>
@@ -328,7 +329,7 @@ export default function CoverflowCarousel() {
       </motion.div>
 
       {/* Active label */}
-      <div style={{ height: 32, marginTop: 16, overflow: "hidden", zIndex: 2 }}>
+      <div style={{ height: 32, marginTop: 1, overflow: "hidden", zIndex: 2 }}>
         <AnimatePresence mode="wait">
           <motion.p
             key={current}
@@ -354,7 +355,7 @@ export default function CoverflowCarousel() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        style={{ display: "flex", alignItems: "center", gap: "max(16px, 4vw)", marginTop: 20, zIndex: 2 }}
+        style={{ display: "flex", alignItems: "center", gap: "max(16px, 4vw)", marginTop: 2, zIndex: 2 }}
       >
         <motion.button
           onClick={() => go(-1)}

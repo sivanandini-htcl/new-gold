@@ -289,7 +289,7 @@ useEffect(() => {
       {showReplaceModal && pendingItem && (
         <div className="fixed inset-0 bg-background/90 z-50 flex items-center justify-center p-4">
           <div className="bg-[#111117] border-white/20 rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h2 className="text-lg text-white/70 font-semibold mb-3">Clear Cart?</h2>
+            <h2 className="text-lg text-white/70 font-serif mb-3">Clear Cart?</h2>
             <p className="text-sm text-gray-500 mb-4">Your cart currently has:</p>
             <div className="bg-background rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
               {cartItems.map((item) => (
@@ -308,17 +308,17 @@ useEffect(() => {
             <div className="flex gap-3">
               <button
                 onClick={handleReplaceCancel}
-                className="flex-1 py-3 border border-white/20 rounded-xl text-sm font-medium hover:bg-gray-50"
+                className="flex-1 py-3 border border-white/20 rounded-xl text-sm font-medium hover:scale-105 transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={handleReplaceConfirm}
                 disabled={isProcessing}
-                className={`flex-1 py-3 rounded-xl text-sm font-medium transition ${
+                className={`flex-1 py-3 rounded-xl text-sm font-medium transition hover:scale-110  ${
                   isProcessing
                     ? 'bg-yellow-400 text-background cursor-not-allowed'
-                    : 'bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-800 shadow-lg hover:scale-[1.02] text-black'
+                    : 'bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background shadow-lg hover:scale-[1.02] '
                 }`}
               >
                 {isProcessing ? 'Processing...' : 'Clear & Replace'}
@@ -348,7 +348,7 @@ useEffect(() => {
 
         <button
           onClick={() => navigate("/kycpage")}
-          className="flex-1 py-3 rounded-xl bg-gradient-to-r from-yellow-700 via-yellow-400 to-yellow-700 text-black font-semibold"
+          className="flex-1 py-3 rounded-xl bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background font-semibold"
         >
           Verify KYC
         </button>

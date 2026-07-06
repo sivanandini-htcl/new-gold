@@ -288,28 +288,28 @@ setButtonLoading(true)
 
       {/* Replace Modal */}
       {showReplaceModal && pendingItem && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h2 className="text-lg font-semibold mb-3">Clear Cart?</h2>
-            <p className="text-sm text-gray-600 mb-4">Your cart currently has:</p>
-            <div className="bg-gray-50 rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111117] rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h2 className="text-lg text-white/70 font-semibold mb-3">Clear Cart?</h2>
+            <p className="text-sm text-gray-500 mb-4">Your cart currently has:</p>
+            <div className="bg-background rounded-lg p-3 mb-6 max-h-40 overflow-y-auto">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="text-sm text-gray-700 py-1.5 border-b border-gray-200 last:border-b-0"
+                  className="text-sm text-white/70 py-1.5 border-b border-gray-200 last:border-b-0"
                 >
                   • {item.name} {item.weight && `(${item.weight}g)`}
                 </div>
               ))}
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-white/70 mb-6">
               All items will be removed and replaced with{' '}
               <strong>Digital Silver .999 — {pendingItem.quantityInGrams}g</strong>.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={handleReplaceCancel}
-                className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium hover:bg-gray-50"
+                className="flex-1 py-3 border text-white/70 border-white/20  rounded-xl text-sm font-medium hover:scale-105"
               >
                 Cancel
               </button>
@@ -319,7 +319,7 @@ setButtonLoading(true)
                 className={`flex-1 py-3 rounded-xl text-sm font-medium transition ${
                   isProcessing
                     ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 shadow-lg hover:scale-[1.02] text-white'
+                    : 'bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 shadow-lg hover:scale-[1.02] text-white/70'
                 }`}
               >
                 {isProcessing ? 'Processing...' : 'Clear & Replace'}

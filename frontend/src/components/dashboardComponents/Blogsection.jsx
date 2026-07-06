@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ChevronRight, Clock, BookOpen, TrendingUp, Shield, Coins, ArrowRight, X } from "lucide-react";
-
+import guide from "../../assets/Guide2.png"
 const blogs = [
   {
     id: 1,
@@ -12,6 +12,7 @@ const blogs = [
     readTime: "5 min read",
     date: "Apr 18, 2026",
     featured: true,
+    image:guide,
     content: [
       {
         heading: "What is Digital Gold?",
@@ -226,25 +227,24 @@ function FeaturedCard({ blog, onRead }) {
       className="bg- border border-white/20 hover:border-brownLight rounded-[18px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_12px_36px_rgba(60,36,21,0.12)]"
     >
       {/* Header */}
-      <div className="h-[110px] bg-gradient-to-br from-gray/70 to-gray-200 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute w-[200px] h-[200px] rounded-full border-white/20 -top-[70px] -right-[70px]" />
-        <div className="absolute w-[130px] h-[130px] rounded-full border border-white/20 -top-[30px] -right-[30px]" />
+      <div className="h-[180px] overflow-hidden">
+  <img
+    src={blog.image}
+    alt={blog.title}
+    className="w-full max-w-full h-full  "
+  />
 
-        <div className="w-[52px] h-[52px] rounded-[14px] bg-brown flex items-center justify-center shadow-[0_8px_20px_rgba(60,36,21,0.3)] z-10">
-          <Icon size={24} className="text-cream" />
-        </div>
+  <span className="absolute top-3 left-3 bg-black/60 text-white text-[8px] font-bold px-2 py-1 rounded-full uppercase tracking-widest">
+    Featured
+  </span>
+</div>
 
-        <span className="absolute top-2 left-2 bg-[rgba(60,36,21,0.82)] text-cream text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest">
-          Featured
-        </span>
-      </div>
-
-      <div className="p-[18px] flex flex-col flex-1">
+      <div className="p-2 flex flex-col flex-1">
         <span className="bg-brownFaint2 text-primary/50 text-[8px] font-extrabold px-2 py-[3px] rounded-full uppercase tracking-widest mb-2 inline-block">
           {blog.tag}
         </span>
 
-        <h3 className="font-serif text-[14px] font-bold text-primary leading-snug mb-2">
+        <h3 className="font-serif text-[14px]  text-primary leading-snug mb-2">
           {blog.title}
         </h3>
 
@@ -308,34 +308,31 @@ export default function BlogSection() {
     <>
       <div className="mt-12  px-7">
         {/* Header */}
-        <div className="flex justify-between items-end flex-wrap gap-3 mb-5">
+        <div className="flex justify-center items-end flex-wrap gap-3 mb-5">
           <div>
-            <p className="text-[10px] lg:text-xs uppercase tracking-[0.22em] text-primary/50 font-serif mb-1">
+            <p className="text-[10px] text-center lg:text-xs uppercase tracking-[0.22em] text-primary/50 font-serif mb-1">
               Learn · Grow · Invest
             </p>
 
-            <h2 className="font-serif text-xl lg:text-4xl md:text-lg text-primary">
+            <h2 className="uppercase  font-serif text-2xl sm:text-3xl 2xl:text-4xl text-primary">
               Gold Investment Insights
             </h2>
           </div>
 
-          <div className="flex items-center gap-1">
+         
+        </div>
+         <div className="flex items-end justify-end gap-1">
             <BookOpen size={14} className="text-brownMid" />
             <span className="text-[12px] text-brownMid font-semibold font-serif">
               {blogs.length} Articles
             </span>
           </div>
-        </div>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-7">
-          <div className="flex-1 h-[1px] bg-brownLight opacity-50" />
-          <div className="w-2 h-2 bg-brownMid rotate-45" />
-          <div className="flex-1 h-[1px] bg-brownLight opacity-50" />
-        </div>
+     
+      
 
         {/* Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
           
           {/* Featured */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
+import {getProducts}from "../../api/redeemApi";
+import{addToCart} from "../../api/cartApi";
 
 import {
   SlidersHorizontal,
@@ -69,18 +71,11 @@ const [filters, setFilters] = useState({
   const fetchProducts = async () => {
     try {
       setLoading(true);
-
-      const res = await api.get("/products/public");
-
-      console.log( "product",res);
-
-      const fetchedProducts =
-        res.data?.data?.products || [];
-
-      setProducts(fetchedProducts);
+     const data = await getProducts();
+    console.log("Products:", data);
+    setProducts(data?.data?.products || []);
     } catch (error) {
       console.error("Fetch products error:", error);
-
       toast.error("Failed to load products");
     } finally {
       setLoading(false);
@@ -191,13 +186,11 @@ const filteredProducts = products
     }
 setButtonLoading(product.id)
     try {
-      const res=await api.post("/cart/add", newItem);
-
+  
+      const data=await addToCart(newItem);
       await fetchCart();
-
       toast.success("Added to cart");
-      console.log("added:" , res.data)
-
+      console.log("added:" ,data)
       navigate("/cart");
     } catch (err) {
       console.error(err);
@@ -210,7 +203,6 @@ setButtonLoading(product.id)
 
   const handleReplaceConfirm = async () => {
     if (!pendingItem || isProcessing) return;
-
     setIsProcessing(true);
     try {
       // Remove ALL cart items
@@ -349,7 +341,7 @@ setButtonLoading(product.id)
         animate={
           filterOpen ? "open" : "closed"
         }
-    className="fixed top-0 left-0 h-full w-[300px] bg-[#111117] border-r border-white/20 text-secondary z-50 p-6 overflow-y-auto shadow-2xl"
+    className="fixed top-0 left-0 h-full w-[300px] bg-[#111117] border-r border-white/10 text-secondary z-50 p-6 overflow-y-auto shadow-2xl"
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-serif">
@@ -563,9 +555,9 @@ setButtonLoading(product.id)
       {/* Replace Modal */}
       {showReplaceModal &&
         pendingItem && (
-          <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
             <div className="bg-[#111117] rounded-2xl p-6 w-full max-w-sm shadow-xl">
-              <h2 className="text-lg font-semibold mb-2">
+              <h2 className="text-lg font-serif text-white/70 mb-2">
                 Clear Cart?
               </h2>
 
@@ -602,7 +594,7 @@ setButtonLoading(product.id)
 
                     setPendingItem(null);
                   }}
-                  className="flex-1 py-3 border rounded-xl"
+                  className="flex-1 py-3 border border-white/10 rounded-xl hover:scale-105 transition-all"
                 >
                   Cancel
                 </button>
@@ -612,11 +604,11 @@ setButtonLoading(product.id)
                     handleReplaceConfirm
                   }
                   disabled={isProcessing}
-                  className={`flex-1 py-3 rounded-xl transition ${
-                    isProcessing
-                      ? "bg-gray-300 text-background cursor-not-allowed"
-                      : "bg-yellow-500 text-background"
-                  }`}
+                 className={`flex-1 py-3 rounded-xl transition-transform duration-300 ${
+  isProcessing
+    ? "bg-gray-300 text-background cursor-not-allowed"
+    : "bg-primary text-background hover:scale-105"
+}`}
                 >
                   {isProcessing
                     ? "Processing..."

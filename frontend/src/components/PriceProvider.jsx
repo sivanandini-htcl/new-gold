@@ -23,6 +23,10 @@ const PriceProvider = ({ children }) => {
   //   );
   //   return () => eventSource.close();
   // }, []);
+
+
+
+  // uncomment this for live price
 useEffect(() => {
   const fetchprices = async () => {
     try {

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 import Header from './components/Header';
-import PriceProvider from './components/PriceProvider';
+// import PriceProvider from './components/PriceProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import { ToastContainer } from 'react-toastify';
@@ -19,7 +19,7 @@ const Login = lazy(() => import('./pages/Authentication/Login'));
 const ResetEmail = lazy(() => import('./pages/Authentication/ResetEmail'));
 const EditProfile = lazy(() => import('./pages/ProfileComponents/EditProfile'));
 const KycPage = lazy(() => import('./pages/ProfileComponents/KycPage'));
-const Nominee = lazy(() => import('./pages/ProfileComponents/Nominee'));
+
 const Delivery = lazy(() => import('./pages/ProfileComponents/Delivery'));
 const BankAccount = lazy(() => import('./pages/ProfileComponents/BankAccount'));
 const Wallet = lazy(() => import('./pages/ProfileComponents/Wallet'));
@@ -41,7 +41,7 @@ const GatewayTransaction = lazy(
 const Analytics = lazy(() => import('./pages/Analytics'));
 const MPINSetupPage = lazy(() => import('./pages/ProfileComponents/mpinComponents/MPINSetupPage'));
 const MpinPage = lazy(() => import('./pages/ProfileComponents/mpinComponents/Mpin'));
-const TestingPage = lazy(() => import('./pages/TestingPage'));
+
 const GoldSell = lazy(() => import('./pages/ProfileComponents/sell/GoldSell'));
 const SilverSell = lazy(() => import('./pages/ProfileComponents/sell/SilverSell'));
 const ChangeMPIN = lazy(() => import('./pages/ProfileComponents/mpinComponents/ChangeMPIN'));
@@ -59,9 +59,14 @@ function App() {
   // useEffect(() => {
   //   fetchCart();
   // }, []);
+  const fetchCart = useCartStore((state) => state.fetchCart);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
   return (
     <div className="min-h-screen flex flex-col  ">
-      <PriceProvider />
+      {/* <PriceProvider /> */}
       <BrowserRouter>
         <ToastContainer position="top-right" autoClose={2000} theme="dark" />
         <Toaster />
@@ -146,16 +151,7 @@ function App() {
               }
             />
 
-            <Route
-              path="/testing"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <ProtectedRoute>
-                    <TestingPage />
-                  </ProtectedRoute>
-                </Suspense>
-              }
-            />
+          
 
             <Route
               path="/profile"
@@ -201,16 +197,6 @@ function App() {
               }
             />
 
-            <Route
-              path="/nominee"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <ProtectedRoute>
-                    <Nominee />
-                  </ProtectedRoute>
-                </Suspense>
-              }
-            />
 
             <Route
               path="/delivery"

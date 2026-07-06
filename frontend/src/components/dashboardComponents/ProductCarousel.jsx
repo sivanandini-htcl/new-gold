@@ -11,8 +11,8 @@ function ProductCarousel({ products, renderCard }) {
       effect="coverflow"
       grabCursor={true}
       centeredSlides={true}
-      slidesPerView={3}   // 👈 IMPORTANT for left + right visibility
-      loop={false}        // ❌ no infinite loop (clean UX)
+      slidesPerView={3}   //  IMPORTANT for left + right visibility
+      loop={false}        //  no infinite loop (clean UX)
       allowTouchMove={true} // ✔ manual swipe
       coverflowEffect={{
         rotate: 0,

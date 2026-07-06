@@ -6,32 +6,33 @@ import { useNavigate } from "react-router-dom";
 
 const slides = [
   {
-    title: "Silver Collection",
+    title: "Gold Collection",
     tag: "Handcrafted · 999 Fine",
-    desc: "Discover our curated range of 999 fine silver pieces — from investment-grade bars to artisan jewellery, each crafted to perfection and backed by hallmark certification.",
-    img: "images/products/silverC1.png",
+    desc: "Discover our curated range of 24k fine gold pieces — from investment-grade bars to artisan jewellery, each crafted to perfection and backed by hallmark certification.",
+    img: "images/products/goldcoin3.png",
   },
   {
-    title: "Premium Silver Bars",
+    title: "Premium Gold Bars",
     tag: "Investment · Certified",
-    desc: "High-quality silver bars minted to international standards. Perfect for long-term investment or as a premium corporate gift — each bar ships in a sealed tamper-proof case.",
-    img: "images/products/silverC2.png",
+    desc: "High-quality gold bars minted to international standards. Perfect for long-term investment or as a premium corporate gift — each bar ships in a sealed tamper-proof case.",
+    img: "images/products/goldcoin2.png",
   },
   {
-    title: "Luxury Silver Coins",
+    title: "Luxury Gold Bar",
     tag: "Collectible · Limited Edition",
-    desc: "Exclusive collectible silver coins bearing traditional motifs and elegant matte finishes. A timeless piece that holds both aesthetic and intrinsic value.",
-    img: "images/products/silverC3.png",
+    desc: "Exclusive collectible gold coins bearing traditional motifs and elegant matte finishes. A timeless piece that holds both aesthetic and intrinsic value.",
+    img: "images/products/goldbar1.png",
   },
   {
-    title: "Silver Gift Edition",
-    tag: "Gifting · Premium Packaging",
-    desc: "Perfect silver gifting sets for festivals, weddings, and corporate occasions. Custom engraving and branded packaging available for bulk orders.",
-    img: "images/products/silverC5.png",
-  },
+    
+  title: "Premium Gold Coins",
+  tag: "Investment · 999.9 Pure",
+  desc: "Discover our exclusive range of 999.9 pure gold coins, crafted with exceptional precision and certified for purity. Ideal for investment, gifting, and celebrating life's special occasions with lasting value.",
+  img: "images/products/goldcoin3.png",
+}  
 ];
 
-export default function Section() {
+export default function GoldSection() {
   const [index, setIndex] = useState(0);
 
   const next = () => setIndex((prev) => (prev + 1) % slides.length);
@@ -41,7 +42,7 @@ export default function Section() {
   const slide = slides[index];
 
   return (
-    <div className="rounded-3xl overflow-hidden bg-background border border-slate-700/30  md:aspect-16/10 lg:aspect-[16/7]">
+    <div className="rounded-3xl overflow-hidden  border border-slate-700/30  md:aspect-16/10 lg:aspect-[16/7]">
       <div className="flex flex-col md:flex-row items-center gap-0">
 
         {/* LEFT: TEXT */}
@@ -66,17 +67,17 @@ export default function Section() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.35 }}
             >
-              <span className="text-[10px] 2xl:text-xs uppercase tracking-widest font-bold text-slate-400 bg-slate-400/10 border border-slate-400/20 px-2.5 py-0.5 rounded-full">
+              <span className="text-[10px] 2xl:text-xs uppercase tracking-widest font-bold text-primary bg-slate-400/10 border border-slate-400/20 px-2.5 py-0.5 rounded-full">
                 {slide.tag}
               </span>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif uppercase text-white mt-3 mb-3 2xl:mt-4 2xl:mb-4 leading-tight">
+              <h1 className="text-2xl text-primary sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif uppercase text- mt-3 mb-3 2xl:mt-4 2xl:mb-4 leading-tight">
                 {slide.title}
               </h1>
-              <p className="text-sm italic 2xl:text-base text-slate-300/70 leading-relaxed max-w-sm 2xl:max-w-md font-serif">
+              <p className="text-sm italic 2xl:text-base text-primary/60 leading-relaxed max-w-sm 2xl:max-w-md font-serif">
                 {slide.desc}
               </p>
-              <button onClick={()=>navigate("/redeem")} className="mt-6 2xl:mt-8 self-start text-xs 2xl:text-sm font-bold px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-gradient-to-r from-slate-500 to-gray-400 text-white hover:from-slate-600 transition">
-                Explore Silver →
+              <button onClick={()=>navigate("/redeem")} className="mt-6 2xl:mt-8 self-start text-xs 2xl:text-sm font-bold px-5 py-2.5 2xl:px-7 2xl:py-3 rounded-xl bg-primary text-background transition">
+                Explore Now →
               </button>
             </motion.div>
           </AnimatePresence>
@@ -109,7 +110,7 @@ export default function Section() {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.45 }}
-      className="w-full h-full object-contain xl:object-cover"
+      className="w-full h-fit object-contain xl:object-contain p-20"
     />
   </AnimatePresence>
 

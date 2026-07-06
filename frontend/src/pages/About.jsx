@@ -320,9 +320,9 @@ function About() {
                    Your wealth,
               </span>
               <div className="flex gap-2">
-                <sapn >
+                <span >
                 in pure 
-              </sapn>
+              </span>
               <span className="text-primary">
                 gold
               </span>
