@@ -156,16 +156,16 @@ export default function CoverflowCarousel() {
 
   // Responsive card width based on screen size (no extra margins)
   const cardWidth = useMemo(() => {
-    if (windowWidth < 640) return 120;
-    if (windowWidth < 768) return 170;
-    if (windowWidth < 1024) return 210;
-    if (windowWidth < 1280) return 250;
-    if (windowWidth < 1536) return 280;
+    if (windowWidth < 640) return 140;
+    if (windowWidth < 768) return 200;
+    if (windowWidth < 1024) return 200;
+    if (windowWidth < 1280) return 200;
+    if (windowWidth < 1536) return 300;
     return 320;
   }, [windowWidth]);
 
-  const cardHeight = cardWidth * 1.3;
-  const scaleFactor = cardWidth / 250;
+  const cardHeight = cardWidth * 1.4;
+  const scaleFactor = cardWidth / 300;
 
   const positionMap = useMemo(() => {
     const map = {};
@@ -216,7 +216,7 @@ export default function CoverflowCarousel() {
 
   return (
 
-    <section className="bg-black min-h-screen">
+    <section className="bg-black min-h-fit">
     
     
    
@@ -226,13 +226,13 @@ export default function CoverflowCarousel() {
   transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
   className="flex flex-col items-center p-5 md:10 md:mb-20 "
 >
-  <p  className="mb-1 uppercase tracking-[0.1em] text-primary/60 text-xs font-serif  ">
+  <p  className="mb-1 md:mt-4 xl:mt-8  uppercase tracking-[0.1em] text-primary/60 text-xs font-serif  ">
     The Collection
   </p>
 
   <h2
-    className="mb-10 font-black uppercase  font-serif text-primary
-               text-[2rem] sm:text-[2.8rem] md:text-xl lg:text-3xl xl:text-4xl" >
+    className="mb-10 md:mb-1 xl:mb-17 font-black uppercase  font-serif text-primary
+               text-[2rem] sm:text-[2.8rem] md:text-2xl lg:text-3xl xl:text-5xl tracking-[0.1em]" >
      OUR WORKS 
      {/* <span className="text-[#c9a97a]">WORKS</span> */}
   </h2>
@@ -282,7 +282,7 @@ export default function CoverflowCarousel() {
       {/* 3D Stage - full width, no padding, centered perspective */}
    
      {/* Active label */}
-    <div className="relative z-[2] mt-15 mb-5 text-center md:mt-37 h-8 overflow-hidden">
+    <div className="relative z-[2] mt-15 mb-5 text-center md:mt-30 h-8 overflow-hidden">
   <AnimatePresence mode="wait">
     <motion.p
       key={current}
@@ -305,7 +305,7 @@ export default function CoverflowCarousel() {
   initial={{ opacity: 0, y: 16 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ delay: 0.5 }}
-  className="relative z-[2] flex items-center justify-center  gap-4 sm:gap-6 md:gap-8 lg:gap-10 "
+  className="relative z-[2] flex items-center justify-center  gap-4 sm:gap-6 md:gap-8 lg:gap-10 pb-12 "
 >
   <motion.button
     onClick={() => go(-1)}

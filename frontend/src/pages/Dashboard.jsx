@@ -546,11 +546,11 @@ function Dashboard() {
     className="absolute inset-0 w-full max-w-full h-full object-cover"/>
 
   <div className="absolute inset-0 " />
-  <div className=" hidden md:block absolute right-[8%] md:right-[0%] md:top-3/4 lg:top-3/4 xl:top-1/3 top-1/3 -translate-y-1/2 lg:-translate-x-1 xl:-translate-1/11  font-bold text-background">  
-    <h1 className="text-xs md:text-lg whitespace-normal tracking-tighter lg:text-4xl italic font-serif uppercase text-background">
+  <div className=" hidden md:block absolute right-[8%] md:right-[1%] md:top-3/4 lg:top-1/2 xl:top-1/3 top-1/3 -translate-y-1/2 lg:-translate-x-1 xl:-translate-1/11  font-bold text-background">  
+    <h1 className="text-xs md:text-[22px] lg:text-[28px] whitespace-normal tracking-tighter lg:text-4xl italic font-serif uppercase text-background">
           Built for wealth
     </h1>
-    <h1 className="text-xs md:text-lg tracking-tighter lg:text-4xl italic font-serif uppercase text-background">
+    <h1 className="text-xs md:text-[22px] lg:text-[28px] tracking-tighter lg:text-4xl italic font-serif uppercase text-background">
           Designed for trust
     </h1>
     {/* <h1 className="text-xs md:text-xl lg:text-2xl italic font-serif uppercase">
