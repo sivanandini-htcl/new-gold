@@ -5,11 +5,11 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CARDS = [
-  { id: 0, name: "The Roseline Ring",    tag: "Rings",    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=90" },
-  { id: 1, name: "The Zoe Earrings",     tag: "Earrings", img: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&q=90" },
-  { id: 2, name: "The Hibiscus Ring II", tag: "Rings",    img: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=500&q=90" },
-  { id: 3, name: "The Chubby Hoops",     tag: "Hoops",    img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&q=90" },
-  { id: 4, name: "The Gold Chain",       tag: "Chains",   img: "https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=500&q=90" },
+  { id: 0, name: "The Roseline Ring",    tag: "Rings",    img: "/images/products/silverC1.png" },
+  { id: 1, name: "The Zoe Earrings",     tag: "Earrings", img: "/images/products/silverC5.png" },
+  { id: 2, name: "The Hibiscus Ring II", tag: "Rings",    img: "/images/products/goldcoin2.png" },
+  { id: 3, name: "The Chubby Hoops",     tag: "Hoops",    img: "/images/products/silverC2.png" },
+  { id: 4, name: "The Gold Chain",       tag: "Chains",   img: "/images/products/goldcoin3.png" },
 ];
 
 // Base position configs at reference width 200px
@@ -59,105 +59,89 @@ function CarouselCard({ card, offset, onClickDir, cardWidth, cardHeight, positio
   const marginTop = -cardHeight / 2;
 
   return (
-    <motion.div
-      animate={{
-        x: positionCfg.x,
-        z: positionCfg.z,
-        rotateY: positionCfg.rotateY,
-        scale: positionCfg.scale,
-        opacity: positionCfg.opacity,
-        zIndex: positionCfg.zIndex,
-      }}
-      transition={SPRING}
-      onClick={() => offset !== 0 && onClickDir(offset < 0 ? -1 : 1)}
-      style={{
-        position: "absolute",
-        width: cardWidth,
-        height: cardHeight,
-        borderRadius: 20,
-        overflow: "hidden",
-        top: "50%",
-        left: "50%",
-        marginLeft,
-        marginTop,
-        cursor: offset === 0 ? "default" : "pointer",
-        transformStyle: "preserve-3d",
-        willChange: "transform, opacity",
-      }}
-      whileHover={
-        offset !== 0
-          ? { scale: positionCfg.scale * 1.05, transition: { duration: 0.18 } }
-          : {}
-      }
-    >
-      <motion.img
-        src={card.img}
-        alt={card.name}
-        animate={{ filter: `brightness(${positionCfg.brightness})` }}
-        transition={SPRING}
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-        draggable={false}
-      />
+   <motion.div
+  animate={{
+    x: positionCfg.x,
+   
+    rotateY: positionCfg.rotateY,
+    scale: positionCfg.scale,
+    opacity: positionCfg.opacity,
 
-      <div
-        style={{
-          position: "absolute", inset: 0, borderRadius: 20,
-          background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.08) 45%, transparent 100%)",
-        }}
-      />
+  }}
+  transition={SPRING}
+  onClick={() => offset !== 0 && onClickDir(offset < 0 ? -1 : 1)}
+  whileHover={
+    offset !== 0
+      ? {
+          scale: positionCfg.scale * 1.05,
+          transition: { duration: 0.18 },
+        }
+      : {}
+  }
+  className={`absolute left-1/2 top-1/2 overflow-hidden rounded-[20px] [transform-style:preserve-3d] [will-change:transform,opacity] ${
+    offset === 0 ? "cursor-default" : "cursor-pointer"
+  }`}
+  style={{
+    width: cardWidth,
+    height: cardHeight,
+    marginLeft,
+    marginTop,
+  }}
+>
+   <motion.img
+  src={card.img}
+  alt={card.name}
+  // animate={{ filter: `brightness(${positionCfg.brightness})` }}
+  // transition={SPRING}
+  className="block h-full w-full object-contain bg-black p-6"
+  draggable={false}
+/>
 
-      <motion.div
-        animate={{ opacity: offset === 0 ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-        style={{
-          position: "absolute", inset: 0, borderRadius: 20,
-          border: "1.5px solid rgba(201,169,122,0.55)",
-          pointerEvents: "none",
-        }}
-      />
+<div className="absolute inset-0 rounded-[20px] border border-[rgba(173,160,140,0.55)]" />
 
-      <motion.span
-        animate={{ opacity: offset === 0 ? 1 : 0, y: offset === 0 ? 0 : -4 }}
-        transition={{ duration: 0.35 }}
-        style={{
-          position: "absolute", top: 14, left: 14,
-          background: "rgba(255,255,255,0.93)",
-          color: "#1a1008", fontSize: `${Math.max(8, cardWidth * 0.045)}px`,
-          fontWeight: 800,
-          letterSpacing: "0.14em", textTransform: "uppercase",
-          padding: "3px 10px", borderRadius: 100,
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {card.tag}
-      </motion.span>
+<motion.div
+  animate={{ opacity: offset === 0 ? 1 : 0 }}
+  transition={{ duration: 0.4 }}
+  className="pointer-events-none absolute inset-0 rounded-[20px] border-[1.5px] border-[rgba(201,169,122,0.55)]"
+/>
 
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "12px 14px 16px" }}>
-        <motion.p
-          animate={{ opacity: offset === 0 ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            fontSize: `${Math.max(8, cardWidth * 0.045)}px`,
-            color: "#9a7d54", letterSpacing: "0.22em",
-            textTransform: "uppercase", fontFamily: "Georgia, serif", marginBottom: 2,
-          }}
-        >
-          {String(card.id + 1).padStart(2, "0")} / {String(CARDS.length).padStart(2, "0")}
-        </motion.p>
-        <motion.p
-          animate={{ opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.6 : 0 }}
-          transition={{ duration: 0.35 }}
-          style={{
-            fontSize: `${Math.max(9, cardWidth * 0.05)}px`,
-            fontWeight: 800, color: "#e8c87a",
-            letterSpacing: "0.18em", textTransform: "uppercase",
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-          }}
-        >
-          {card.name}
-        </motion.p>
-      </div>
+     <motion.span
+  animate={{
+    opacity: offset === 0 ? 1 : 0,
+    y: offset === 0 ? 0 : -4,
+  }}
+  transition={{ duration: 0.35 }}
+  className="absolute left-[14px] top-[14px] whitespace-nowrap 
+  rounded-full bg-[rgba(255,255,255,0.93)]
+  px-[4px] py-[2px] font-serif font-extrabold  text-xs uppercase tracking-[0.1em] text-[#1a1008]"
+
+>
+  {card.tag}
+</motion.span>
+
+      <div className="absolute bottom-0 left-0 right-0 px-[14px] pt-3 pb-1">
+ 
+
+  <motion.p
+    animate={{
+      opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.6 : 0,
+    }}
+    transition={{ duration: 0.35 }}
+    className="text-[7px] sm:text-xs md:text-sm font-serif font-extrabold uppercase tracking-[0.18em] text-[#e8c87a]"
+  >
+    {card.name}
+  </motion.p>
+   <motion.p
+    animate={{ opacity: offset === 0 ? 1 : 0 }}
+    transition={{ duration: 0.3 }}
+    className="mb-0.5 text-[8px] sm:text-[10px] md:text-xs font-serif uppercase tracking-[0.22em] text-[#9a7d54]"
+  >
+    {String(card.id + 1).padStart(2, "0")} /{" "}
+    {String(CARDS.length).padStart(2, "0")}
+  </motion.p>
+</div>
+
+
     </motion.div>
   );
 }
@@ -172,7 +156,7 @@ export default function CoverflowCarousel() {
 
   // Responsive card width based on screen size (no extra margins)
   const cardWidth = useMemo(() => {
-    if (windowWidth < 640) return 140;
+    if (windowWidth < 640) return 120;
     if (windowWidth < 768) return 170;
     if (windowWidth < 1024) return 210;
     if (windowWidth < 1280) return 250;
@@ -180,8 +164,8 @@ export default function CoverflowCarousel() {
     return 320;
   }, [windowWidth]);
 
-  const cardHeight = cardWidth * 1.5;
-  const scaleFactor = cardWidth / 200;
+  const cardHeight = cardWidth * 1.3;
+  const scaleFactor = cardWidth / 250;
 
   const positionMap = useMemo(() => {
     const map = {};
@@ -228,186 +212,138 @@ export default function CoverflowCarousel() {
     touchEndX.current = 0;
   };
 
-  const stageMinHeight = cardHeight * 1.45;
+  const stageMinHeight = cardHeight * 1.4;
 
   return (
-    <section
-      style={{
-        background: "#0d0a06",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px 0", // minimal vertical padding, no horizontal padding
-        overflow: "hidden",
-        position: "relative",
-        
-      }}
-    >
-      {/* Ambient glow - centered */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: Math.min(700, windowWidth * 0.8),
-          height: Math.min(420, windowWidth * 0.5),
-          background: "radial-gradient(ellipse, rgba(201,169,122,0.07) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
 
-      {/* Header - centered, no side margins */}
+    <section className="bg-black min-h-screen">
+    
+    
+   
       <motion.div
-        initial={{ opacity: 0, y: -28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        style={{ textAlign: "center", marginBottom: 2, zIndex: 2 }}
-      >
-        <p style={{
-          fontSize: `${clamp(9, windowWidth * 0.012, 12)}px`,
-          letterSpacing: "0.38em", color: "#c9a97a",
-          textTransform: "uppercase", fontFamily: "Georgia, serif", marginBottom: 1,
-        }}>
-          The Collection
-        </p>
-        <h2 style={{
-          fontSize: `clamp(2rem, ${windowWidth * 0.08}px, 5rem)`,
-          fontWeight: 900, color: "#fff",
-          textTransform: "uppercase", letterSpacing: "-0.02em",
-          fontFamily: "'Cormorant Garamond', Georgia, serif", lineHeight: 0.9, margin: 0,
-        }}>
-          OUR <span style={{ color: "#c9a97a" }}>WORKS</span>
-        </h2>
-      </motion.div>
+  initial={{ opacity: 0, y: -28 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+  className="flex flex-col items-center p-5 md:10 md:mb-20 "
+>
+  <p  className="mb-1 uppercase tracking-[0.1em] text-primary/60 text-xs font-serif  ">
+    The Collection
+  </p>
+
+  <h2
+    className="mb-10 font-black uppercase  font-serif text-primary
+               text-[2rem] sm:text-[2.8rem] md:text-xl lg:text-3xl xl:text-4xl" >
+     OUR WORKS 
+     {/* <span className="text-[#c9a97a]">WORKS</span> */}
+  </h2>
+</motion.div>
+
+    <motion.div
+  ref={stageRef}
+  initial={{ opacity: 0, scale: 0.88 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+  onTouchStart={handleTouchStart}
+  onTouchMove={handleTouchMove}
+  onTouchEnd={handleTouchEnd}
+  className=" 
+    relative flex w-full min-h-[200px]
+    justify-center items-center
+    overflow-visible
+    [perspective:700px]
+    [perspective-origin:50%_48%]
+    [transform-style:preserve-3d]
+  "
+>
+  {CARDS.map((card, i) => {
+    let offset = i - current;
+    if (offset > N / 2) offset -= N;
+    if (offset < -N / 2) offset += N;
+    if (Math.abs(offset) > 2) return null;
+
+    const offsetKey = String(offset);
+    const positionCfg = positionMap[offsetKey];
+
+    return (
+      <CarouselCard
+        key={card.id}
+        card={card}
+        offset={offset}
+        onClickDir={(dir) => go(dir)}
+        cardWidth={cardWidth}
+        cardHeight={cardHeight}
+        positionCfg={positionCfg}
+      />
+    );
+  })}
+</motion.div>
+
 
       {/* 3D Stage - full width, no padding, centered perspective */}
-      <motion.div
-        ref={stageRef}
-        initial={{ opacity: 0, scale: 0.88 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        style={{
-          perspective: 1200,
-          perspectiveOrigin: "50% 48%",
-          width: "100%",
-          minHeight: stageMinHeight,
-          position: "relative",
-          transformStyle: "preserve-3d",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "visible",
-        }}
-      >
-        {CARDS.map((card, i) => {
-          let offset = i - current;
-          if (offset > N / 2) offset -= N;
-          if (offset < -N / 2) offset += N;
-          if (Math.abs(offset) > 2) return null;
-
-          const offsetKey = String(offset);
-          const positionCfg = positionMap[offsetKey];
-          
-          return (
-            <CarouselCard
-              key={card.id}
-              card={card}
-              offset={offset}
-              onClickDir={(dir) => go(dir)}
-              cardWidth={cardWidth}
-              cardHeight={cardHeight}
-              positionCfg={positionCfg}
-            />
-          );
-        })}
-      </motion.div>
-
-      {/* Active label */}
-      <div style={{ height: 32, marginTop: 1, overflow: "hidden", zIndex: 2 }}>
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={current}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.28 }}
-            style={{
-              fontSize: `${clamp(9, windowWidth * 0.012, 12)}px`,
-              letterSpacing: "0.28em", textTransform: "uppercase",
-              color: "#c9a97a", fontFamily: "Georgia, serif", fontWeight: 700,
-              textAlign: "center",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {CARDS[current].name}
-          </motion.p>
-        </AnimatePresence>
-      </div>
+   
+     {/* Active label */}
+    <div className="relative z-[2] mt-15 mb-5 text-center md:mt-37 h-8 overflow-hidden">
+  <AnimatePresence mode="wait">
+    <motion.p
+      key={current}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.28 }}
+      className="text-center font-serif font-bold uppercase tracking-[0.28em] text-[#c9a97a] whitespace-nowrap"
+     
+    >
+      {CARDS[current].name}
+    </motion.p>
+  </AnimatePresence>
+</div>
+    
 
       {/* Controls - centered, no extra margins */}
+
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        style={{ display: "flex", alignItems: "center", gap: "max(16px, 4vw)", marginTop: 2, zIndex: 2 }}
-      >
-        <motion.button
-          onClick={() => go(-1)}
-          whileHover={{ scale: 1.1, borderColor: "#c9a97a" }}
-          whileTap={{ scale: 0.92 }}
-          style={{
-            width: 44, height: 44, borderRadius: "50%",
-            border: "1px solid rgba(201,169,122,0.35)",
-            background: "transparent", color: "#c9a97a",
-            fontSize: 18, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-          aria-label="Previous item"
-        >
-          ←
-        </motion.button>
+  initial={{ opacity: 0, y: 16 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.5 }}
+  className="relative z-[2] flex items-center justify-center  gap-4 sm:gap-6 md:gap-8 lg:gap-10 "
+>
+  <motion.button
+    onClick={() => go(-1)}
+    whileHover={{ scale: 1.1, borderColor: "#c9a97a" }}
+    whileTap={{ scale: 0.92 }}
+    className="flex h-11 w-11 xl:mb-10 cursor-pointer items-center justify-center rounded-full border border-[rgba(201,169,122,0.35)] bg-transparent text-[18px] text-[#c9a97a]"
+    aria-label="Previous item"
+  >
+    ←
+  </motion.button>
 
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          {CARDS.map((_, i) => (
-            <motion.button
-              key={i}
-              onClick={() => setCurrent(i)}
-              animate={{
-                width: i === current ? 26 : 7,
-                background: i === current ? "#c9a97a" : "rgba(201,169,122,0.28)",
-              }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              style={{
-                height: 7, borderRadius: 100,
-                border: "none", cursor: "pointer", padding: 0,
-              }}
-              aria-label={`Go to item ${i + 1}`}
-            />
-          ))}
-        </div>
+  <div className="flex items-center xl:mb-10 gap-2">
+    {CARDS.map((_, i) => (
+      <motion.button
+        key={i}
+        onClick={() => setCurrent(i)}
+        animate={{
+          width: i === current ? 26 : 7,
+          background: i === current ? "#c9a97a" : "rgba(201,169,122,0.28)",
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        className="h-[7px] rounded-full border-0 p-0 cursor-pointer"
+        aria-label={`Go to item ${i + 1}`}
+      />
+    ))}
+  </div>
 
-        <motion.button
-          onClick={() => go(1)}
-          whileHover={{ scale: 1.1, borderColor: "#c9a97a" }}
-          whileTap={{ scale: 0.92 }}
-          style={{
-            width: 44, height: 44, borderRadius: "50%",
-            border: "1px solid rgba(201,169,122,0.35)",
-            background: "transparent", color: "#c9a97a",
-            fontSize: 18, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-          aria-label="Next item"
-        >
-          →
-        </motion.button>
-      </motion.div>
+  <motion.button
+    onClick={() => go(1)}
+    whileHover={{ scale: 1.1, borderColor: "#c9a97a" }}
+    whileTap={{ scale: 0.92 }}
+    className="flex h-11 w-11 cursor-pointer xl:mb-10 items-center justify-center rounded-full border border-[rgba(201,169,122,0.35)] bg-transparent text-[18px] text-[#c9a97a]"
+    aria-label="Next item"
+  >
+    →
+  </motion.button>
+</motion.div>
+   
     </section>
   );
 }

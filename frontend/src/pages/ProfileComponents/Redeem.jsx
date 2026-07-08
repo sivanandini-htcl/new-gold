@@ -341,7 +341,7 @@ setButtonLoading(product.id)
         animate={
           filterOpen ? "open" : "closed"
         }
-    className="fixed top-0 left-0 h-full w-[300px] bg-[#111117] border-r border-white/10 text-secondary z-50 p-6 overflow-y-auto shadow-2xl"
+    className="md:hidden fixed top-0 left-0 h-full w-[300px] bg-[#111117] border-r border-white/10 text-secondary z-50 p-6 overflow-y-auto shadow-2xl"
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-serif">
@@ -450,17 +450,99 @@ setButtonLoading(product.id)
         </p>
       </div>
 
-          <div className="flex justify-end mb-6">
+          <div className="md:hidden flex justify-end mb-6">
             <button
               onClick={() =>
                 setFilterOpen(true)
               }
-              className="flex items-center gap-2 border  text-xs md:text-sm  text-white/60  px-4 py-2 rounded-lg"
+              className="  flex items-center gap-2 border  text-xs md:text-sm  text-white/60  px-4 py-2 rounded-lg"
             >
               <SlidersHorizontal className="w-4 h-4" />
               Filters
             </button>
           </div>
+          {/* filter for md lg xl 2xl */}
+<div className=" hidden md:flex justify-between w-full mb-6 ">
+
+<div className=" flex  gap-2">
+  {/* search input */}
+  <div>
+  <label className="text-xs font-serif text-gray-500 uppercase tracking-wider mb-1 block">
+            Search
+          </label>
+          <div className=" flex border border-white/20 rounded-lg items-center justify-center pl-3">
+            <Search className=" w-3.5 h-3.5 text-amber-700"/>
+            <input
+              placeholder="Search product..."
+              value={searchQuery}
+              onChange={(e) =>
+                setSearchQuery(
+                  e.target.value
+                )
+              }
+              className="w-full pl-2 pr-3 py-2 text-sm outline-none "
+            />
+          </div>
+  </div>
+  
+  <div>
+    <div>
+      <label className="text-xs font-serif text-gray-500 uppercase tracking-wider  block mb-1">
+    Category
+  </label>
+   <select
+    name="category"
+    value={filters.category}
+    onChange={handleFilterChange}
+    className="w-full border border-white/20 rounded-lg p-2 text-sm ">
+    <option value="" className="text-background">All Categories</option>
+    <option value="COIN" className="text-background">Coin</option>
+    <option value="BAR" className="text-background">Bar</option>
+    <option value="BISCUIT" className="text-background">Biscuit</option>
+  </select>
+    </div>    
+  </div>
+
+<div>
+  <label className="text-xs font-serif text-gray-500 uppercase tracking-wider mb-1 block">
+    Metal Type
+  </label>
+    <select
+  name="metalType"
+  value={filters.metalType}
+  onChange={handleFilterChange}
+  className="w-full border border-white/20 rounded-lg p-2 text-sm"
+>
+  <option value="" className="text-background">All Metals</option>
+  <option value="GOLD" className="text-background">Gold</option>
+  <option value="SILVER" className="text-background">Silver</option>
+ 
+
+</select>
+</div>
+
+<div>
+ </div>
+
+</div>
+<div className="mt-4">
+{activeFilterCount > 0 ? (
+          <button
+            onClick={clearFilters}
+            className=" px-2 py-2 text-sm bg-white/90 text-background rounded-xl ">
+            Clear All Filters
+          </button>
+        ):(
+          <button
+            onClick={clearFilters}
+            disabled
+            className=" px-2 py-2 text-sm bg-white/50 text-background rounded-xl ">
+            Clear All Filters
+          </button>
+        )}
+</div>
+ 
+</div>
 
           {filteredProducts.length === 0 ? (
            <div className="text-center px-6 py-16 sm:py-[72px] rounded-[20px] border border-[#c9a97a26] bg-white/[0.03]">

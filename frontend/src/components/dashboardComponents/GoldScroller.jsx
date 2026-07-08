@@ -54,7 +54,7 @@ export default function GoldSection() {
               <button
                 key={i}
                 onClick={() => setIndex(i)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? "w-6 bg-slate-300" : "w-1.5 bg-slate-600"}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? "w-6 bg-primary" : "w-1.5 bg-primary/50"}`}
               />
             ))}
           </div>
@@ -86,15 +86,16 @@ export default function GoldSection() {
           <div className="flex gap-3 mt-8 2xl:mt-10">
             <button
               onClick={prev}
-              className="w-10 h-10 2xl:w-12 2xl:h-12 rounded-full border border-slate-600 flex items-center justify-center text-slate-300 hover:border-slate-400 hover:bg-slate-700/40 transition"
+              className="w-10 h-10 2xl:w-12 2xl:h-12 rounded-full 
+              border border-primary/70 flex items-center justify-center text-primary/50 hover:border-primary/40 hover:bg-primary/30 transition"
             >
-              <ChevronLeft size={16} className="2xl:w-5 2xl:h-5" />
+              <ChevronLeft size={16} className="2xl:w-5 2xl:h-5 " />
             </button>
             <button
               onClick={next}
-              className="w-10 h-10 2xl:w-12 2xl:h-12 rounded-full border border-slate-600 flex items-center justify-center text-slate-300 hover:border-slate-400 hover:bg-slate-700/40 transition"
+              className="w-10 h-10 2xl:w-12 2xl:h-12 rounded-full border border-primary/70 text-primary/50 flex items-center justify-center  hover:border-primary/40 hover:bg-primary/30 transition"
             >
-              <ChevronRight size={16} className="2xl:w-5 2xl:h-5" />
+              <ChevronRight size={16} className="2xl:w-5 2xl:h-5 " />
             </button>
           </div>
         </div>
@@ -110,7 +111,7 @@ export default function GoldSection() {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.45 }}
-      className="w-full h-fit object-contain xl:object-contain p-20"
+      className="w-full h-full object-contain xl:object-contain xl:p-19"
     />
   </AnimatePresence>
 

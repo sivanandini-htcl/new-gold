@@ -57,7 +57,7 @@ export default function SlidingBanner() {
   const nextRef = useRef(null);
 
   return (
-    <div className=" overflow-hidden  2xl:mb-7 relative group lg-">
+    <div className=" overflow-hidden  2xl:mb-7 relative group">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{ delay: 3500, disableOnInteraction: false }}
@@ -73,13 +73,11 @@ export default function SlidingBanner() {
         {banners.map((banner, index) => (
   <SwiperSlide
     key={index}
-    className="relative h-44 sm:h-56 md:h-72 lg:h-[80px] xl:h-[137px] 2xl:h-[28rem]"
-  >
+    className="relative h-44 sm:h-56 md:h-72 lg:h-[80px] xl:h-[137px] 2xl:h-[28rem]">
     <img
       src={banner.image}
       alt={banner.title}
-      className="h-full w-full object-fill"
-    />
+      className="h-full w-full object-fill"/>
 
     <div className={`absolute ${banner.position}`}>
       <button className={banner.buttonClass}>

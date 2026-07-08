@@ -314,8 +314,8 @@ export default function BlogSection() {
               Learn · Grow · Invest
             </p>
 
-            <h2 className="uppercase  font-serif text-2xl sm:text-3xl 2xl:text-4xl text-primary">
-              Gold Investment Insights
+            <h2 className="font-serif text-2xl sm:text-3xl 2xl:text-4xl uppercase text-primary/80 mt-1 whitespace-nowrap">
+              Investment Insights
             </h2>
           </div>
 

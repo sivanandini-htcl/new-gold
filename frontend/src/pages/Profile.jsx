@@ -123,6 +123,7 @@ export default function Profile() {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [action, setAction] = useState(null);
   const [redirectPath, setRedirectPath] = useState('');
+  const[emailReset,setEmailReset]=useState('');
   //Store selectors 
   const username = useAuthStore((s) => s.user?.firstName);
   const userEmail = useAuthStore((s) => s.user?.email);
@@ -323,7 +324,6 @@ export default function Profile() {
     </div>
     </div>
     </div>
-
    </div>
 <div className='h-full w-full bg-secondary/8 rounded-2xl mb-4'>
  <div className='rounded-lg p-4 grid grid-cols-3 md:grid-cols-6  gap-4'>
@@ -382,13 +382,22 @@ export default function Profile() {
 
                   <div className="flex flex-wrap gap-x-4 gap-y-1">
                     {[
-                      { icon: Phone, val: displayPhone },
-                      { icon: Mail, val: displayEmail },
-                      { icon: ShieldUser, val: displayUserId },
-                    ].map(({ icon: Icon, val }, idx) => (
+                      { icon: Phone, val: displayPhone,type:"phone" },
+                      { icon: Mail, val: displayEmail,type:"email" },
+                      { icon: ShieldUser, val: displayUserId,type:"userId" },
+                    ].map(({ icon: Icon, val,type }, idx) => (
                       <span key={idx} className="flex items-center gap-1.5 text-xs text-primary/80">
                         <Icon size={11} className="text-primary shrink-0" />
                         <span className="truncate font-normal max-w-[180px]">{val}</span>
+                        {type==="email" && (
+                             <button
+          
+          className="text-primary hover:text-amber-700 font-medium text-xs"
+        >
+          <Pen size={12}/>
+        </button>
+
+                        )}
                       </span>
                     ))}
                   </div>
