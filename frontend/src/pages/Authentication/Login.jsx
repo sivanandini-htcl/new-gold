@@ -138,6 +138,7 @@ function Login() {
       // DEBUG
       console.log('Payload for step 1:', payload);
       const response = await api.post('/auth/login/step1', payload);
+      console.log("login res",response)
 
       if (response.data && response.data.success === true && response.data.data) {
         const { sessionId: newSessionId, otpRequired: isOtpRequired } = response.data.data;
@@ -175,6 +176,10 @@ function Login() {
     }
     setLoading(false);
   };
+
+
+
+
   // STEP 2a: Send OTP
   const handleSendOtp = async () => {
     if (!sessionId) {
@@ -299,6 +304,7 @@ function Login() {
           accessToken: newAccessToken,
           refreshToken: newRefreshToken,
         });
+     
 
         //  NEW: Fetch and store profile data
         try {

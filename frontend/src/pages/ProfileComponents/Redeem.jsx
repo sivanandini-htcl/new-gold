@@ -529,14 +529,14 @@ setButtonLoading(product.id)
 {activeFilterCount > 0 ? (
           <button
             onClick={clearFilters}
-            className=" px-2 py-2 text-sm bg-white/90 text-background rounded-xl ">
+            className=" px-2 py-2 text-sm font-serif bg-white/80 text-background rounded-xl ">
             Clear All Filters
           </button>
         ):(
           <button
             onClick={clearFilters}
-            disabled
-            className=" px-2 py-2 text-sm bg-white/50 text-background rounded-xl ">
+            cursor-not-allowed
+            className=" px-2 py-2 text-sm font-serif bg-white/50 text-gray-600 rounded-xl ">
             Clear All Filters
           </button>
         )}

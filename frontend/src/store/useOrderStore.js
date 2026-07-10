@@ -8,6 +8,11 @@ const useOrderStore = create((set) => ({
   singleOrder: null,
   orderStatus: null,
   
+  totalOrders: 0,
+  currentPage: 1,
+  limit: 10,
+  hasMore: false,
+
   loading: false,
   error: null,
 
@@ -23,10 +28,13 @@ const useOrderStore = create((set) => ({
       console.log("Orders List:", res.data);
 
       set({
-        orders: res.data?.data?.orders || res.data?.data || [],
-        totalOrders: res.data.data.total,
-        loading: false,
-      });
+  orders: res.data.data.orders || [],
+  totalOrders: res.data.data.total,
+  currentPage: res.data.data.page,
+  limit: res.data.data.limit,
+  hasMore: res.data.data.hasMore,
+  loading: false,
+});
     } catch (err) {
       console.error("Fetch Orders Error:", err);
 

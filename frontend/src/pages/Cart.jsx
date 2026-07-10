@@ -73,7 +73,7 @@ function Cart() {
         toast.error('Checkout preparation failed');
         return;
       }
-
+      localStorage.removeItem("checkoutExpiry");
       navigate('/checkout', {
         state: {
           deliveryMode: mode.toLowerCase(),

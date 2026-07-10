@@ -128,7 +128,7 @@ function PaginationBar({
 export default function OrdersPage() {
   const navigate = useNavigate();
 
-  const { orders, fetchOrders, loading,totalOrders } = useOrderStore();
+  const {  orders, fetchOrders,loading, totalOrders, limit, hasMore, } = useOrderStore();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -145,18 +145,25 @@ export default function OrdersPage() {
 
   // const sortedOrders=orders.sort((a,b)=>new Date(b.createdAt._seconds)-new Date(a.createdAt._seconds))
 
-  const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
+  const totalPages = Math.ceil(totalOrders / limit);
 
   // const pageOrders = orders.slice(
   //   (currentPage - 1) * PAGE_SIZE,
   //   currentPage * PAGE_SIZE
   // );
 
-  const handlePrev = () =>
-    setCurrentPage((p) => Math.max(1, p - 1));
+const handlePrev = () => {
+  if (currentPage > 1) {
+    setCurrentPage((p) => p - 1);
+  }
+};
 
-  const handleNext = () =>
-    setCurrentPage((p) => Math.min(totalPages, p + 1));
+  const handleNext=()=>{
+    if(hasMore){
+      setCurrentPage((p)=>p+1);
+    }
+
+  }
 
   if (loading) {
     return(
@@ -300,9 +307,9 @@ sub={`of ${totalOrders}`}
               {(currentPage - 1) * PAGE_SIZE + 1}–
               {Math.min(
                 currentPage * PAGE_SIZE,
-                orders.length
+               totalOrders
               )}{" "}
-              of {orders.length} orders
+              of {totalOrders} orders
             </p>
           </>
         )}

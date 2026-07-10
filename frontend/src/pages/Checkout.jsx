@@ -17,6 +17,7 @@ import { generateHexId } from '../utils/orderId';
 import api from '../api/axiosInstance';
 import { toast } from 'react-toastify';
 import MpinModal from '../components/MpinModal';
+import AddressFormModal from '../components/checkoutComponents/AddressFormModal';
 
 const labelIcons = {
   home: <Home size={14} />,
@@ -24,113 +25,6 @@ const labelIcons = {
   other: <MapPin size={14} />,
 };
 
-const emptyForm = {
-  label: '',
-  fullName: '',
-  phoneNumber: '',
-  addressLine1: '',
-  addressLine2: '',
-  city: '',
-  state: '',
-  pincode: '',
-  isDefault: false,
-};
-
-function AddressFormModal({ onClose, onSave, loading }) {
-  const [formData, setFormData] = useState(emptyForm);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await onSave(formData);
-  };
-
-  const fields = [
-    { name: 'fullName', label: 'Full Name', colSpan: 2 },
-    { name: 'phoneNumber', label: 'Phone Number', colSpan: 1 },
-    { name: 'label', label: 'Label (e.g. Home, Work)', colSpan: 1 },
-    { name: 'addressLine1', label: 'Address Line 1', colSpan: 2 },
-    { name: 'addressLine2', label: 'Address Line 2 (optional)', colSpan: 2 },
-    { name: 'city', label: 'City', colSpan: 1 },
-    { name: 'state', label: 'State', colSpan: 1 },
-    { name: 'pincode', label: 'Pincode', colSpan: 1 },
-  ];
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-      <div className="bg-[#111112] border border-white/20  w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-primary/40 text-primary/50">
-          <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-primary" />
-            <span className="font-semibold text-primary/70 text-sm 2xl:text-2xl">Add New Address</span>
-          </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors">
-            ✕
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            {fields.map(({ name, label, colSpan }) => (
-              <div key={name} className={colSpan === 2 ? 'col-span-2' : 'col-span-1'}>
-                <label className="block text-xs font-medium text-gray-500 mb-1">{label}</label>
-                <input
-                  name={name}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  className="w-full border border-white/70 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent transition"
-                  placeholder={label}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <p className="text-xs font-medium text-gray-500 mb-2">Set as default address?</p>
-            <div className="flex gap-5">
-              {[{ value: true, display: 'Yes' }, { value: false, display: 'No' }].map(({ value, display }) => (
-                <label key={display} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="isDefault"
-                    checked={formData.isDefault === value}
-                    onChange={() => setFormData((prev) => ({ ...prev, isDefault: value }))}
-                    className="accent-amber-500 w-4 h-4"
-                  />
-                  <span className="text-sm text-gray-700">{display}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-background font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
-            >
-              {loading ? 'Saving...' : 'Save Address'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
 
 function Checkout() {
   const navigate = useNavigate();
@@ -138,7 +32,6 @@ function Checkout() {
 
   const { cartItems, totalAmount, totalItems } = useCartStore();
   const { addresses, loading: addrLoading, fetchAddresses, addAddress } = useAddressStore();
-
   const deliveryMode = location.state?.deliveryMode || 'wallet';
   const isWallet = deliveryMode === 'wallet';
   const userEmail = useAuthStore((s) => s.user?.email);
@@ -159,6 +52,7 @@ function Checkout() {
   const [showMpin, setShowMpin] = useState(false);
   const [mpinLoading, setMpinLoading] = useState(false);
   const[successModal,setSuccessModal]=useState(false);
+  const [showTimeoutModal, setShowTimeoutModal] = useState(false);
   
 
   const checkoutData = location.state?.checkoutData;
@@ -178,6 +72,43 @@ function Checkout() {
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
   const walletBalance = paymentSummary?.walletBalanceINR || 0;
   const totalBillAmount =paymentSummary?.billingSummary?.totalAmountINR || finalAmount;
+
+
+const [timeLeft, setTimeLeft] = useState(0);
+
+const TIMER_DURATION = 5 * 60 * 1000; // 5 minutes in ms
+
+useEffect(() => {
+  let expiry = Number(localStorage.getItem("checkoutExpiry"));
+
+  // Create a new expiry if it doesn't exist or has already expired
+  if (!expiry || expiry <= Date.now()) {
+    expiry = Date.now() + TIMER_DURATION;
+    localStorage.setItem("checkoutExpiry", expiry);
+  }
+
+  const timer = setInterval(() => {
+    const remaining = Math.max(
+      Math.floor((expiry - Date.now()) / 1000),
+      0
+    );
+
+    setTimeLeft(remaining);
+
+    if (remaining <= 0) {
+      clearInterval(timer);
+      localStorage.removeItem("checkoutExpiry");
+      setShowTimeoutModal(true);
+    }
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, []);
+
+const minutes = Math.floor(timeLeft / 60);
+const seconds = timeLeft % 60;
+
+
 
   // Fetch addresses on mount (delivery mode only)
   useEffect(() => {
@@ -405,50 +336,7 @@ console.log("Payload:", payload);
   // };
 
   // ── Empty cart ──
-  if (cartItems.length === 0) {
-    return (
-      <div className="h-auto flex flex-col items-center justify-center px-4 py-16 bg-background">
-        <div className="rounded-3xl p-12 shadow-lg text-center max-w-sm w-full bg-background">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5">
-            <ShoppingCart size={80} className="p-2 rounded-4xl text-yellow-700 animate-bounce" />
-          </div>
-          <h1 className="text-4xl font-serif mb-2">Your Cart</h1>
-          <p className="text-xs uppercase tracking-widest mb-6 font-serif">No items yet</p>
-          <button
-            onClick={() => navigate('/redeem')}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-sm uppercase tracking-widest font-serif transition hover:opacity-90 inline-flex items-center justify-center gap-2"
-          >
-            Browse Jewellery <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Order Confirmed ──
-  if (ordered) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-background">
-        <div className="rounded-3xl p-12 text-center shadow-lg max-w-sm w-full bg-white border border-yellow-700/30">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 bg-green-100">
-            <CheckCircle className="w-8 h-8 text-green-600" />
-          </div>
-          <h2 className="text-4xl font-serif font-bold mb-2 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-700 bg-clip-text text-transparent">
-            {isWallet ? 'Added to Wallet!' : 'Order Confirmed!'}
-          </h2>
-          <p className="text-xs uppercase tracking-widest mb-3 text-green-700">
-            {isWallet ? 'Success' : 'Thank you for your purchase'}
-          </p>
-          <button
-            onClick={() => navigate('/')}
-            className="w-full py-3.5 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 text-yellow-950"
-          >
-            {isWallet ? 'Go to Portfolio' : 'Back to Home'}
-          </button>
-        </div>
-      </div>
-    );
-  }
+ 
 
   const selectedMethod = paymentSummary?.paymentMethods?.find(
   (item) => item.method === selectedOption
@@ -467,11 +355,47 @@ if (walletBalance <= 0) {
   // Wallet balance covers full amount
   visiblePaymentMethods = ["WALLET", "RAZORPAY"];
 }
-
+const handleGoToCart = () => {
+  setShowTimeoutModal(false);
+  localStorage.removeItem("checkoutExpiry");
+  navigate("/cart");
+};
   return (
     <div className="min-h-screen py-8 px-4 sm:px-3 bg-background">
       <div className="max-w-6xl mx-auto">
+
+        {/* Time out Modal */}
+              {showTimeoutModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+    <div className="w-[90%] max-w-md rounded-2xl bg-[#111117] p-8 text-center shadow-2xl">
+
+      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-300">
+        <span className="text-3xl">!</span>
+      </div>
+
+      <h2 className="text-2xl font-bold text-white/60">
+        Session Expired
+      </h2>
+
+      <p className="mt-3 text-gray-600">
+        Your checkout session has expired after 5 minutes.
+      </p>
+
+      <p className="mt-1 text-gray-600">
+        Please return to your cart and start checkout again.
+      </p>
+
+      <button
+        onClick={() => handleGoToCart()}
+        className="mt-6 w-full rounded-xl bg-primary py-3 font-semibold text-black"
+      >
+        Go to Cart
+      </button>
+    </div>
+  </div>
+)}
         {/* Header */}
+  
         <div className="mb-6">
           <button
             onClick={() => navigate('/cart')}
@@ -713,7 +637,6 @@ if (walletBalance <= 0) {
   </>
 )}</>
     )}
- 
               </div>
             ) : (
               activeStep > 2 && (
@@ -756,25 +679,6 @@ if (walletBalance <= 0) {
                   </div>
                 </div>
 
-                {/* <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-yellow-700/20 mb-5">
-                  <img src="https://razorpay.com/favicon.ico" alt="Razorpay" className="w-6 h-6" />
-                  <div>
-                    <p className="text-sm font-semibold font-serif text-yellow-900">Pay via Razorpay</p>
-                    <p className="text-xs text-yellow-800/60">UPI · Cards · Net Banking · Wallets</p>
-                  </div>
-                </div> */}
-
-                {/* <button
-                  onClick={handleContinueToPayment}
-                  className="w-full bg-gradient-to-r from-yellow-700 via-yellow-200 to-yellow-800 py-4 rounded-xl text-sm uppercase tracking-widest font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2"
-                >
-                  {isWallet ? (
-                    <><Wallet className="w-4 h-4" /> Pay & Add to Wallet · ₹{finalAmount}</>
-                  ) : (
-                    <><CreditCard className="w-4 h-4" /> Pay & Place Order · ₹{finalAmount}</>
-                  )}
-                </button> */}
-
                 <div className="flex items-center justify-center gap-2 mt-3">
                   <Shield className="w-3 h-3 text-yellow-700/50" />
                   <p className="text-xs text-yellow-800/60">256-bit SSL encrypted · Safe & secure</p>
@@ -789,6 +693,18 @@ if (walletBalance <= 0) {
               <div className=" h-0.5 w-8 rounded-full mx-auto mb-5" />
               <h2 className="text-2xl 2xl:text-2xl font-semibold mb-1 text-center font-serif text-primary">Price Details</h2>
 
+{/* timer */}
+
+ <div className="mb-5 rounded-xl  p-3">
+  <div className="flex items-center justify-end ">
+    
+
+    <span className="font-mono text-lg 2xl:text-2xl font-bold text-red-400 rounded-full border p-1">
+      {String(minutes).padStart(2, "0")}:
+      {String(seconds).padStart(2, "0")}
+    </span>
+  </div>
+  </div>
               <div className="flex items-center justify-center gap-2 mb-4 py-2 rounded-xl ">
                 {isWallet ? <Wallet className="w-3.5 h-3.5 text-primary/70" /> : <Truck className="w-3.5 h-3.5 text-yellow-700" />}
                 <span className="text-xs 2xl:text-lg uppercase tracking-widest text-primary/70 font-serif">

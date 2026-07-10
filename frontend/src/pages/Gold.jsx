@@ -18,7 +18,6 @@ function Gold() {
   const gram24kGoldPrice = goldPrice?.caratPrices?.gram24k || 0;
   const[buttonLoading,setButtonLoading]=useState(false);
   const[kycPopup,setKycPopup]=useState(false);
-
   const navigate = useNavigate();
   const { cartItems, addToCart, replaceCartItem, removeFromCart, updateQuantity, fetchCart } =useCartStore();
   const{kycStatus,loadKycProgress } = useKycStore();
@@ -38,6 +37,7 @@ function Gold() {
   };
 useEffect(() => {
   loadKycProgress();
+  fetchCart();
 }, []);
 
 

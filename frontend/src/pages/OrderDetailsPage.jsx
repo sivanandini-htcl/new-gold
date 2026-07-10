@@ -107,7 +107,9 @@ const formattedDate = seconds
   if (loading || !singleOrder) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4 text-center font-sans text-[14px] tracking-[0.04em] text-primary">
-        Loading order details…
+        <div >
+
+        </div>
       </div>
     );
   }
@@ -181,7 +183,10 @@ const formattedDate = seconds
         </div>
       <div className="mx-auto flex w-full max-w-[680px] flex-col gap-4 px-4 py-6 sm:px-5">
         {/* Tracking */}
-        <OrderTracking/>
+        {singleOrder?.type==="BUY" &&(
+<OrderTracking/>
+        )}
+        
 {!isWalletOrder&&( 
        
         <div className="grid gap-4 md:grid-cols-2">
@@ -287,12 +292,32 @@ const formattedDate = seconds
                 </div>
 
                 <div>
-                  <p className="m-0 text-[14px] font-semibold text-primary">
-                    {item.type}
+                  
+                  {singleOrder?.type==="BUY" ? (<>
+                    <p className="m-0 text-[14px] font-semibold uppercase text-primary">
+                    {item.name}
                   </p>
+                  <p className="mt-[2px] font-mono text-[12px] text-white/60">
+                    Qty : {item.quantity} 
+                  </p></>
+                  ):(
+                  <>
+                  <p className="m-0 text-[14px] font-semibold uppercase text-primary">
+                    {item.metalType}
+                    
+                  </p>
+                <p className="mt-[2px] font-mono text-[12px] text-white/60">
+                    Qty : {item.quantityInGrams}/g 
+                  </p>
+                  </>)}
+
+                  
+                  
+                  
+                  
 
                   <p className="mt-[2px] font-mono text-[12px] text-white/60">
-                    Qty : {item.quantityInGrams} 
+                    {item.type} 
                   </p>
                   <p className="mt-[2px] font-mono text-[12px] text-white/60">
              
