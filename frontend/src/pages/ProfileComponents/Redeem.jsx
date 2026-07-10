@@ -535,7 +535,7 @@ setButtonLoading(product.id)
         ):(
           <button
             onClick={clearFilters}
-            cursor-not-allowed
+         
             className=" px-2 py-2 text-sm font-serif bg-white/50 text-gray-600 rounded-xl ">
             Clear All Filters
           </button>
