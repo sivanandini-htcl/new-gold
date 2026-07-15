@@ -75,6 +75,21 @@ const Wallet = () => {
 
   const handleNext = () => {
     if (!amount || Number(amount) <= 0) return;
+
+     if (!amount) {
+      setError('Enter a valid amount to sell.');
+      return;
+    }
+
+    if (amount < 100) {
+      setError('Minimum sell amount is ₹100.');
+      return;
+    }
+
+    if (amount > balance) {
+      setError(`Sell amount cannot exceed your current value of ₹${balance.toLocaleString()}.`);
+      return;
+    }
     setAmountConfirmed(true); // hide Continue button
     setShowBankSection(true);
   };
@@ -374,7 +389,11 @@ const handleAddWalletToggle = () => {
             {!amountConfirmed && (
               <button
                 onClick={handleNext}
-                className="w-full py-3 rounded-xl bg-primary text-background font-bold text-sm hover:brightness-110 active:scale-98 transition-all"
+                className={`px-5 py-2 rounded-xl border border-white/10 text-sm flex justify-end ${
+                  !amount || Number(amount) < 100 || Number(amount) > balance
+                    ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                    : 'bg-primary text-background hover:bg-primary/70 transition'
+                }`}
               >
                 Continue →
               </button>

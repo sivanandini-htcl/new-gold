@@ -127,9 +127,9 @@ function ChangeMPIN() {
           </p>
         </div>
 
-        <div className="p-6 sm:p-8">
+        <div className="p-6 sm:p-8 flex flex-col justify-center">
           {error && (
-            <div className="mb-5 bg-red-100 border border-red-300 text-red-700 p-4 rounded-lg text-sm">
+            <div className="mb-5 flex  justify-center  border-red-300 text-red-700 p-4 rounded-lg text-sm whitespace-nowrap text-center">
               {error}
             </div>
           )}
@@ -172,12 +172,25 @@ function ChangeMPIN() {
                     }`}
                   >
                     {mpinData.newMpin === mpinData.confirmNewMpin
-                      ? "✓ MPIN matches"
-                      : "✗ MPIN does not match"}
+                      ? " MPIN matches"
+                      : "* MPIN does not match"}
                   </div>
                 )}
             </div>
 
+            <button
+            onClick={handleChangeMPIN} disabled={loading} className="w-full bg-accent
+                py-3 rounded-lg font-semibold border border-white/20 text-black
+                hover:bg-accent/90 transition disabled:opacity-50"
+            >
+              {loading ? "Updating..." : "Change MPIN"}
+            </button>
+
+            <button
+              onClick={() => navigate("/profile")}
+              className="w-full text-white/70 hover:text-white transition">
+              Cancel
+            </button>
             <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 text-xs text-white/70">
               <p className="font-semibold text-yellow-300 mb-2">
                 Security Rules:
@@ -191,21 +204,6 @@ function ChangeMPIN() {
                 <li>✓ Keep it confidential</li>
               </ul>
             </div>
-
-            <button
-            onClick={handleChangeMPIN} disabled={loading} className="w-full bg-accent
-                py-3 rounded-lg font-semibold border border-white/20 text-black
-                hover:bg-accent/90 transition disabled:opacity-50"
-            >
-              {loading ? "Updating..." : "Change MPIN"}
-            </button>
-
-            <button
-              onClick={() => navigate("/profile")}
-              className="w-full text-white/70 hover:text-white transition"
-            >
-              Cancel
-            </button>
           </div>
         </div>
       </div>

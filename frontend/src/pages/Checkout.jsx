@@ -8,7 +8,7 @@ import {
   CheckCircle,ChevronRight,
   Truck, Shield,Package,Edit3,
   Plus,Wallet,Landmark,Smartphone,
-  ShoppingCart, ArrowRight, Home,Briefcase,LoaderCircle,CircleCheckBig
+  ShoppingCart, ArrowRight, Home,Briefcase,LoaderCircle,CircleCheckBig,Loader2
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import useCartStore from '../store/cartStore';
@@ -53,6 +53,7 @@ function Checkout() {
   const [mpinLoading, setMpinLoading] = useState(false);
   const[successModal,setSuccessModal]=useState(false);
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
+  const[loadingPayment,setLoadingPayment]=useState(false);
   
 
   const checkoutData = location.state?.checkoutData;
@@ -81,7 +82,7 @@ const TIMER_DURATION = 5 * 60 * 1000; // 5 minutes in ms
 useEffect(() => {
   let expiry = Number(localStorage.getItem("checkoutExpiry"));
 
-  // Create a new expiry if it doesn't exist or has already expired
+ 
   if (!expiry || expiry <= Date.now()) {
     expiry = Date.now() + TIMER_DURATION;
     localStorage.setItem("checkoutExpiry", expiry);
@@ -135,7 +136,7 @@ const seconds = timeLeft % 60;
       const newest = updated[updated.length - 1];
       if (newest) setSelectedAddressId(newest.id);
     } else {
-      toast.error(result.message);
+      toast.error("error");
     }
   };
 
@@ -173,6 +174,8 @@ const seconds = timeLeft % 60;
 
 
 const handleCheckout=async(mpin)=>{ 
+  setLoadingPayment(true);
+  
    try {
     if (!selectedMethod) {
       toast.error("Please select a payment method");
@@ -185,7 +188,6 @@ const handleCheckout=async(mpin)=>{
   cartId,
   checkoutSessionId: sessionId,
   mode: isWallet ? "WALLET" : "DELIVERY",
-
   paymentProvider: selectedMethod.method,
   walletUsedINR: selectedMethod.walletUsedINR,
   gatewayAmountINR: selectedMethod.gatewayAmountINR,
@@ -203,8 +205,8 @@ const handleCheckout=async(mpin)=>{
     console.log("payload", payload);
     console.log("calling checkout api");
     console.log("Selected Method:", selectedMethod.method);
-console.log("MPIN:", mpin);
-console.log("Payload:", payload);
+    console.log("MPIN:", mpin);
+    console.log("Payload:", payload);
     const { data } = await api.post(
       "/orders/checkout",
       payload,
@@ -249,6 +251,7 @@ console.log("Payload:", payload);
 }
   finally{
     setButtonLoading(false);
+    setLoadingPayment(false);
   }}
 
   const openRazorpayPopup = ({ order_id, currency, orderNumber, backendOrderId }) => {
@@ -271,13 +274,13 @@ console.log("Payload:", payload);
       // },
       handler:(response)=>{
         console.log("razorpay response",response)
-  toast.success("Payment successful");
-  setSuccessModal(true);
+    toast.success("Payment successful");
+    setSuccessModal(true);
       },
       prefill: { email: userEmail || '' },
       theme: { color: '#b45309' },
      modal: {
-  ondismiss: async () => {
+    ondismiss: async () => {
     console.log("Payment popup dismissed");
     toast.warn("Payment cancelled");
 
@@ -760,7 +763,17 @@ const handleGoToCart = () => {
                    </div> ):("  Continue")}
                      </button>
                             ):(
-                              <button onClick={handleCheckout}> Continue</button>
+                              <div className='flex items-center justify-center'>
+                              {loadingPayment?(
+                                <Loader2 className="w-5 h-5 animate-spin "/>
+                              ):(
+                                 <button onClick={handleCheckout}> Continue</button>
+                              )
+
+                              }
+                              
+                              </div>
+                          
                             )}
                      
         </div>

@@ -1,10 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { CreditCard, Eye, EyeOff } from 'lucide-react';
+import { CreditCard, Eye, EyeOff,Loader2 } from 'lucide-react';
 import dgiLogo from '../../../assets/dgiLogo.png';
 import fetchHoldingsData from '../../../api/holdingsApi';
 import api from '../../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { generateHexId } from '../../../utils/orderId';
+import useAuthStore from '../../../store/authStore';
 const GoldSell = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
@@ -13,9 +14,17 @@ const GoldSell = () => {
   const [metalWallet, setMetalWallet] = useState(null);
   const [error, setError] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
+  const[confirmModal,setConfirmModal]=useState(false);
+  const[buttonLoading,setButtonLoading]=useState(false);
+  const username = useAuthStore((s) => s.user?.firstName);
+
+
 
   const totalValue = metalWallet?.metals?.[0]?.currentValueINR;
 
+  const handleConfirm=()=>{
+    setConfirmModal(true);
+  }
   const handleReview = async () => {
     const amountValue = Number(amount);
     if (!amount || Number.isNaN(amountValue)) {
@@ -35,13 +44,15 @@ const GoldSell = () => {
 
     setError(null);
     setShowSection(true);
-
+    setButtonLoading(true);
     const payload = {
       metal: 'GOLD',
       amountINR: amountValue,
     };
     const idempotencyKey = generateHexId();
     console.log('Idempotency Key:', idempotencyKey);
+
+    
     try {
       const response = await api.post('/orders/sell', payload, {
         headers: {
@@ -55,6 +66,10 @@ const GoldSell = () => {
       console.log('RESPONSE:', error.response);
       console.log('DATA:', error.response?.data);
       console.log('MESSAGE:', error.response?.data?.message);
+    }
+    finally{
+      setButtonLoading(false);
+      setConfirmModal(false)
     }
   };
 
@@ -107,10 +122,10 @@ const GoldSell = () => {
                 <div className=" items-center gap-2.5">
                   <div className="flex justify-between">
                     <span className="text-xl font-bold text-white tracking-tight">
-                      ₹{metalWallet?.metals?.[0]?.currentValueINR || 'Loading...'}
+                      ₹{metalWallet?.metals?.[0]?.currentValueINR ?? 'Loading...'}
                     </span>
                     <span className="text-xl font-bold text-white tracking-tight">
-                      {metalWallet?.metals?.[0]?.quantityGrams}/g
+                      {metalWallet?.metals?.[0]?.quantityGrams ?? 'Loading...'}/g
                     </span>
                   </div>
 
@@ -132,7 +147,7 @@ const GoldSell = () => {
                   <p className="text-[10px] uppercase tracking-[0.1em] text-white/30 mb-1">
                     Card Holder
                   </p>
-                  <p className="text-sm  text-white/80">SIVA</p>
+                  <p className="text-sm  text-white/80">{username ?? 'name'}</p>
                 </div>
               </div>
             </div>
@@ -184,7 +199,7 @@ const GoldSell = () => {
             </div>
             <div className="flex justify-end">
               <button
-                onClick={handleReview}
+                onClick={handleConfirm}
                 disabled={!amount || Number(amount) < 100 || Number(amount) > totalValue}
                 className={`px-5 py-2 rounded-xl border border-white/10 text-sm flex justify-end ${
                   !amount || Number(amount) < 100 || Number(amount) > totalValue
@@ -197,6 +212,41 @@ const GoldSell = () => {
             </div>
           </div>
         </div>
+        {confirmModal && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-[#111117] rounded-2xl shadow-xl w-[90%] max-w-md p-6">
+            <h1 className='text-xl'>Confirm Sell ?</h1>
+            <div className='flex items-end justify-end gap-3'>
+            <button
+                    onClick={()=>setConfirmModal(false)}
+                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
+            <button
+                onClick={handleReview}
+                disabled={!amount || Number(amount) < 100 || Number(amount) > totalValue}
+                className={`px-4 py-2 rounded-lg border border-white/10 text-sm flex justify-end ${
+                  !amount || Number(amount) < 100 || Number(amount) > totalValue
+                    ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                    : 'bg-primary text-background hover:bg-amber-500/90 transition'
+                }`}
+              >
+                {buttonLoading ? (
+                  <div className='whitespace-nowrap w-fit flex'>
+                    <Loader2 className="animate-spin" size={18} />
+                    <p>Confirming..</p>
+                  </div>
+                ):(
+                  'Confirm'
+                )}
+                
+              </button>
+            </div>
+             
+          </div>
+          </div>
+        )}
         {/* {showSection && (
           <div className="bg-[#111117] border border-white/10 rounded-3xl p-5 mb-6 ">
             <h1 className="text-xl font-bold ">Sell Summary</h1>

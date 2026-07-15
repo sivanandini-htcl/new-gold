@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { ShoppingCart, User, LogOut, Menu, X, Heart, Gift,LoaderCircle} from "lucide-react";
+import { ShoppingCart, User, LogOut, Menu, X,Gift,LoaderCircle} from "lucide-react";
 import dgiLogo from "../assets/logo_2.svg";
 import api from "../api/axiosInstance";
 import useAuthStore from "../store/authStore";
@@ -22,10 +22,7 @@ const navLinks = [
   // { to: "/checkout", label: "Checkout" },
   { to: "/orders", label: " Orders" },
   // { to: "/wallettransactions", label: " walletTransfers" },
-
   // { to: "/testing", label: " Testing" },
- 
-
   { to: "/about", label: "About" },
 
 
@@ -60,16 +57,13 @@ function Header() {
 
   return (
     <div className="sticky top-0 z-50 px-3 sm:px-5 lg:px-8 2xl:px-16 bg-background py-3 2xl:py-4">
-
       <header className="rounded-2xl 2xl:rounded-3xl bg-[#111117] border border-yellow-400/20 shadow-lg shadow-black/20 mt-1">
-
         <div className="flex items-center justify-between px-4 py-1 md:py-2 lg:py-3 sm:px-5 2xl:px-8 2xl:py-4 lg:grid lg:grid-cols-3">
 
           {/* LEFT — LOGO */}
           <Link to="/dashboard" className="flex items-center">
             <img src={dgiLogo} alt="DGI Logo" className="h-10  sm:h-9 2xl:h-12 w-auto" />
           </Link>
-
           {/* CENTER — NAV (desktop) */}
           <nav className="hidden md:flex justify-center gap-6 2xl:gap-8 font-serif text-sm 2xl:text-2xl text-[#ddd9ce]">
             {navLinks.map(link => (
@@ -78,8 +72,7 @@ function Header() {
                 to={link.to}
                 className="relative text-[#DDD9CE] hover:text-amber-300 transition-colors duration-200 py-0.5
                   after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px after:bg-amber-400
-                  hover:after:w-full after:transition-all after:duration-300"
-              >
+                  hover:after:w-full after:transition-all after:duration-300">
                 {link.label}
               </Link>
             ))}
@@ -106,14 +99,6 @@ function Header() {
             >
               <Gift className="w-4 h-4 2xl:w-5 2xl:h-5 text-secondary" />
             </Link>
-
-            {/* Wishlist */}
-            {/* <Link
-              to="/wishlist"
-              className="hidden sm:flex w-9 h-9 2xl:w-11 2xl:h-11 items-center justify-center border border-[#DDD9CE]  bg-amber-400/10 text-[#DDD9CE] rounded-full hover:bg-amber-400/20 transition"
-            >
-              <Heart className="w-4 h-4 2xl:w-5 2xl:h-5" />
-            </Link> */}
 
             {/* Profile */}
             <Link
@@ -156,9 +141,6 @@ function Header() {
               </Link>
             ))}
             <div className="border-t border-white/20 mt-2 pt-2 flex gap-2">
-              {/* <Link to="/wishlist" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
-                <Heart size={13} /> Wishlist
-              </Link> */}
               <Link to="/profile" onClick={() => setIsOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-secondary border border-white/20  rounded-xl hover:bg-amber-400/10 transition">
                 <User size={13} /> Profile
               </Link>

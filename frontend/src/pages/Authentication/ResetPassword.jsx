@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Smartphone, ArrowLeft, Eye, EyeOff,LockKeyholeOpen,LoaderCircle } from 'lucide-react';
 
 
-const ResetEmail = () => {
+const ResetPassword = () => {
     const navigate=useNavigate();
     const [newPassword,SetnewPassword]=useState("");
     const [searchParam]=useSearchParams();
@@ -166,4 +166,4 @@ setButtonLoading(true)
   )
 }
 
-export default ResetEmail
+export default ResetPassword;

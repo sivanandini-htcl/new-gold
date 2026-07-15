@@ -136,8 +136,6 @@ export default function OrdersPage() {
   fetchOrders(currentPage, PAGE_SIZE);
 }, [currentPage]);
 
- 
-
   const totalSpent = orders.reduce(
     (sum, o) => sum + Number(o.totalAmount || 0),
     0

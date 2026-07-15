@@ -186,7 +186,7 @@ console.log("Cart Render:", cartItems);
           <div className="flex-1 min-w-0 w-full space-y-4 2xl:space-y-6">
             {/* Cart Type Card */}
             <div className=" rounded-2xl bg-gradient-to-r from-[38393E] via-[#38393E] to-[#1A1A22] border border-white/20 px-5 py-4 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#111112] border border-white/70 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-[#111112] border border-white/20 flex items-center justify-center shrink-0">
                 {hasMetalItems ? (
                   <Wallet className="w-4 h-4 text-primary" />
                 ) : (
@@ -247,29 +247,30 @@ console.log("Cart Render:", cartItems);
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <div className="flex items-center gap-2 min-w-0">
-                            <h3 className="text-sm sm:text-base font-sans 2xl:text-2xl font-bold text-primary truncate whitespace-nowrap">
+                            <h3 className="text-sm sm:text-base font-sans 2xl:text-2xl  text-primary/90  whitespace-nowrap ">
                               {item.name}
                             </h3>
 
-                            {isDigital ? (
-                              <span className="shrink-0 text-xs 2xl:text-lg text-secondary  bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
-                                Digital
-                              </span>
-                            ) : (
-                              <span className="shrink-0 text-xs 2xl:text-lg text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
-                                Delivery
-                              </span>
-                            )}
+                           
                           </div>
 
-                          <p className="text-base sm:text-lg 2xl:text-2xl font-bold  text-primary shrink-0">
+                          <p className="text-base sm:text-lg 2xl:text-2xl font-medium  text-primary shrink-0">
                             ₹{item.totalPrice?.toLocaleString('en-IN')}
                           </p>
                         </div>
 
-                        <p className="text-xs 2xl:text-lg text-primary/60 mb-4">
+                        <p className="text-xs 2xl:text-lg text-primary/60 mb-4 flex flex-col">
                           {item.purity && `${item.purity} · `}
                           {item.weight}g
+                           {isDigital ? (
+                              <span className="shrink-0 text-xs 2xl:text-lg w-fit mt-1 text-secondary  bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
+                                Digital
+                              </span>
+                            ) : (
+                              <span className="shrink-0 text-xs 2xl:text-lg w-fit mt-1 text-secondary bg-[#111112] bg-baground text-primary border border-yellow-700/20 px-1.5 py-0.5 rounded-full font-serif">
+                                Delivery
+                              </span>
+                            )}
                         </p>
 
                         {/* PRODUCT */}

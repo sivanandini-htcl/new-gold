@@ -36,8 +36,9 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [popUp, ShowPopUp] = useState(false);
-  const [forgotemail, setForgotEmail] = useState('');
+  const [forgotPassword, setForgotPassword] = useState('');
   const [sentEmail, setSentEmail] = useState(false);
+  const[ButtonLoading,setButtonLoading]=useState(false)
 
   // Auth store
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -394,9 +395,10 @@ function Login() {
 
   const handleForgotPassword = async () => {
     const payload = {
-      email: forgotemail,
+      email: forgotPassword,
       tenantId: import.meta.env.VITE_TENANT_ID,
     };
+    setButtonLoading(true);
     try {
       console.log('calling api');
       const forgotRes = await api.post('/auth/forgot-password', payload);
@@ -408,6 +410,9 @@ function Login() {
       console.log('RESPONSE:', error.response);
       console.log('DATA:', error.response?.data);
       console.log('MESSAGE:', error.response?.data?.message);
+    }
+    finally{
+      setButtonLoading(false);
     }
   };
   return (
@@ -672,8 +677,8 @@ function Login() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  value={forgotemail}
-                  onChange={(e) => setForgotEmail(e.target.value)}
+                  value={forgotPassword}
+                  onChange={(e) => setForgotPassword(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div className="flex justify-end gap-3 mt-6">
@@ -688,11 +693,11 @@ function Login() {
                     onClick={handleForgotPassword}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
                   >
-                    {loading ? (
-                      <>
+                    {ButtonLoading ? (
+                      < div className='whitespace-nowrap'>
                         <Loader2 className="animate-spin" size={18} />
                         Sending...
-                      </>
+                      </div>
                     ) : (
                       'Send Link'
                     )}
@@ -707,14 +712,14 @@ function Login() {
                   <h2 className="text-xl font-bold text-whit/70">Email Sent Successfully</h2>
 
                   <p className="text-gray-400 mt-2">
-                    A password reset link has been sent to <b>{forgotemail}</b>.
+                    A password reset link has been sent to <b>{forgotPassword}</b>.
                   </p>
 
                   <button
                     onClick={() => {
                       ShowPopUp(false);
                       setSentEmail(false);
-                      setForgotEmail('');
+                      setForgotPassword('');
                     }}
                     className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg"
                   >

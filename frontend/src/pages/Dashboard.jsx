@@ -49,7 +49,7 @@ import { jewelleryProducts } from './Data/jewelleryProducts';
 import DgiAssurance from '../components/dashboardComponents/Dgiassurance ';
 import BlogSection from '../components/dashboardComponents/Blogsection';
 import ProductCarousel from '../components/dashboardComponents/ProductCarousel';
-import WorksCarousel from './ImgaeSlider';
+import ImgaeSlider from '../components/dashboardComponents/ImgaeSlider';
 import silver from '../assets/silver.png';
 import Section from '../components/dashboardComponents/SilverScroller';
 import banner from '../assets/banner.png';
@@ -187,7 +187,7 @@ function Dashboard() {
   const featuredGold = jewelleryProducts.filter((p) => p.type === 'gold').slice(0, 4);
   const featuredSilver = jewelleryProducts.filter((p) => p.type === 'silver').slice(0, 4);
   const isLive = status === 'Live Connected';
-  // const username  = useAuthStore((s) => s.user?.);
+ 
 
   const insights = [
     {
@@ -259,7 +259,6 @@ function Dashboard() {
   return (
     <div className="min-h-screen max-w-[1440px] m-auto font-serif bg-background mb-10 ">
       {/* ── BANNER ─ */}
-
       <div className="  ">
         <SlidingBanner />
       </div>
@@ -273,9 +272,7 @@ function Dashboard() {
             className="flex-1 bg-[#111117] px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-lg"
           >
             <div className="flex items-center gap-3 2xl:gap-4">
-              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl  bg-gradient-to-br from-primary/70 to-primary/90  flex items-center justify-center shadow">
-                <Coins size={20} className="2xl:w-7 2xl:h-7 text-background" />
-              </div>
+           
               <div>
                 <p className="text-[10px] md:text-lg 2xl:text-2xl text-primary  tracking-widest font-bold">
                   GOLD · 24K / g
@@ -304,9 +301,7 @@ function Dashboard() {
             className="flex-1 bg-[#111117]  px-4 py-4 2xl:px-6 2xl:py-5 flex items-center justify-between shadow-sm"
           >
             <div className="flex items-center gap-3 2xl:gap-4">
-              <div className="w-10 h-10 2xl:w-14 2xl:h-14 rounded-xl bg-gradient-to-br from-slate-200 to-gray-500 flex items-center justify-center shadow">
-                <Gem size={20} className="2xl:w-7 2xl:h-7 text-background" />
-              </div>
+          
               <div>
                 <p className="text-[10px] md:text-lg 2xl:text-2xl text-gray-400 tracking-widest font-bold ">
                   SILVER · 24K / g
@@ -372,9 +367,6 @@ function Dashboard() {
               </button>
             </div>
           </div>
-          {/* <div className="md:w-1/2 2xl:w-1/2">
-            <img src={DashboardBar} alt="Gold Bar" className="w-full rounded-2xl object-cover" />
-          </div> */}
         </div>
       </div>
 
@@ -539,7 +531,7 @@ function Dashboard() {
         </div>       
       </div>
        <section className="w-full max-w-full  ">          
-<div className="relative w-full aspect-[16/7] h-full mb-0 ">
+<div className="relative w-full aspect-[16/10] md:aspect-[16/7] h-full mb-0 ">
   <img
     src="/images/products/Gift.png"
     alt="Banner"
@@ -570,7 +562,7 @@ function Dashboard() {
         </div>
       {/* ── WORKS CAROUSEL ── */}
       <div className="mb-0">
-        <WorksCarousel />
+        <ImgaeSlider />
       </div>
       {/* BLOG  */}
       <BlogSection />

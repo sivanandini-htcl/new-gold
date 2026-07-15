@@ -81,11 +81,12 @@ export default function OrderCard({ order }) {
           </div>
 
           <div>
-            <p className="font-bold text-primary/70 text-xs md:text-sm">
-              Order #{order.orderNumber || order.id}
+          <p className="font-bold text-primary/70 text-xs md:text-sm uppercase">
+            { order.mode ==="WALLET"?(
+             (order.items?.[0]?.metalType)
+              ): ((order.items?.[0]?.name||order.orderNumber || order.id ))
+            }            
             </p>
-       
-
             <div className="flex items-center gap-2 text-xs text-primary/50 mt-1">
               <Calendar size={14} />
               {order.mode || "Jewellery Order"}

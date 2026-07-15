@@ -22,6 +22,8 @@ import { fetchUserProfile } from '../api/profileapi';
 import { toast } from 'react-toastify';
 import QuickAction from './ProfileComponents/QuickAction';
 import MpinModal from '../components/MpinModal';
+import ResetEmail from './ProfileComponents/ResetEmail';
+import ProfileLoading from './ProfileComponents/ProfileLoading';
 
 // ─── API helpers ───────
 const sendVerificationOtp = async ({
@@ -123,7 +125,12 @@ export default function Profile() {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [action, setAction] = useState(null);
   const [redirectPath, setRedirectPath] = useState('');
-  const[emailReset,setEmailReset]=useState('');
+  const [emailReset,setEmailReset]=useState(false);
+  const [newEmail,setNewEmail]=useState('')
+
+  const[numberReset,setNumberReset]=useState(false);
+  const[newNumber,setNewNumber]=useState('');
+
   //Store selectors 
   const username = useAuthStore((s) => s.user?.firstName);
   const userEmail = useAuthStore((s) => s.user?.email);
@@ -200,7 +207,6 @@ export default function Profile() {
         purpose: 'account-verification',
       });
       console.log('called api');
-
       setSessionId(response?.data?.sessionId || response?.sessionId);
       setOtpSent(true);
     } catch (error) {
@@ -209,7 +215,6 @@ export default function Profile() {
       console.log('DATA:', error.response?.data);
       console.log('MESSAGE:', error.response?.data?.message);
       console.error('Error sending OTP:', error.response?.data || error.message);
-
       alert('Failed to send OTP: ' + (error.response?.data?.message || error.message));
     } finally {
       setVerifyLoading(false);
@@ -305,48 +310,10 @@ export default function Profile() {
   // Loading skeleton 
   if (loading) {
     return (
-       <div className="animate-pulse p-5">
-     <div className="animate-pulse flex gap-4 mt-1  mb-4 ">
-    <div className="h-full px-3 w-full bg-secondary/8 rounded-2xl ">
-
-    <div className='  rounded-lg p-4  gap-4'>
-    <div className='grid grid-cols-1 gap-3 h-40  p- rounded-2xl bg-secondary/7 mt-3 '>
-
-<div className='flex justify-between p-4 gap-3'>
-    <div className='h-2 w-50 p-4 bg-secondary/10 rounded-2xl'/>
-    <div className='h-2 w-50 p-4 bg-secondary/10 rounded-2xl'/>
-</div>
-
-<div className='flex gap-3 justify-between p-4'>
-    <div className='h-2 w-50 p-4 bg-secondary/10 rounded-2xl'/>
-    <div className='h-2 w-50 p-4 bg-secondary/10 rounded-2xl'/>
-</div>
-    </div>
-    </div>
-    </div>
-   </div>
-<div className='h-full w-full bg-secondary/8 rounded-2xl mb-4'>
- <div className='rounded-lg p-4 grid grid-cols-3 md:grid-cols-6  gap-4'>
- {[...Array(6)].map((_,index)=>(
-
-       <div   key={index} className="h-20 w- bg-secondary/8 rounded-2xl"/>
-  ))}
-    </div></div>
-
-<div className='flex gap-3 mb-4'>
-    <div className='h-60 w-full rounded-2xl bg-secondary/7'/>
-    <div className='h-60 w-full rounded-2xl bg-secondary/7'/>
-</div>
-<div className='grid grid-cols-2 md:grid-cols-4 gap-3 mb-2 '>
-   {[...Array(4)].map((_,index)=>(
-    <div key={index} className='w-full h-30 rounded-2xl bg-secondary/7'/>
-   ))}
-</div>
-    </div>
+   <ProfileLoading/>
     );
   }
 
-  
   return (
     <>
       <div className="min-h-screen bg-background p-3 sm:p-4 md:p-6 lg:p-8">
@@ -388,20 +355,19 @@ export default function Profile() {
                     ].map(({ icon: Icon, val,type }, idx) => (
                       <span key={idx} className="flex items-center gap-1.5 text-xs text-primary/80">
                         <Icon size={11} className="text-primary shrink-0" />
-                        <span className="truncate font-normal max-w-[180px]">{val}</span>
+                        <span className="font-normal max-w-[180px]">{val}</span>
                         {type==="email" && (
-                             <button
-          
-          className="text-primary hover:text-amber-700 font-medium text-xs"
-        >
+         <button onClick={()=>setEmailReset(true)} className="text-primary hover:text-amber-700 font-medium text-xs">
           <Pen size={12}/>
         </button>
-
                         )}
                       </span>
                     ))}
                   </div>
                 </div>
+                {emailReset && (
+               <ResetEmail onClose={()=>setEmailReset(false)}/>
+                )}
 
                 <div className="hidden md:flex flex-col items-center gap-2 mb-3">
                   <div className="flex gap-2">
@@ -460,8 +426,8 @@ export default function Profile() {
              <div
       key={label}
       className="flex items-center justify-center gap-1 cursor-pointer"
-      onClick={onClick}
-    >
+      onClick={onClick}>
+
       <Icon size={17} className="text-secondary" />
       <span className="text-xs md:text-sm text-secondary hover:text-primary transition-colors">
         {label}
@@ -475,7 +441,6 @@ export default function Profile() {
             {/* Gold Card */}
             <div className="rounded-2xl bg-gradient-to-r from-[#38393E] via-[#38393E] to-[#1A1A22] border border-white/20 p-4 sm:p-5 shadow-sm">
               <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-4" />
-
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2">
@@ -598,18 +563,16 @@ export default function Profile() {
                   <Zap size={13} /> Buy
                 </button>
                 <button
-                  onClick={() => openVerification('/silversell')}
-                  className="flex-1 border border-stone-200 text-background bg-white/90 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-stone-100 transition"
+              onClick={() => openVerification('/silversell')}
+              className="flex-1 border border-stone-200 text-background bg-white/90 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 hover:bg-stone-100 transition"
                 >
                   <ArrowUpRight size={13} /> Sell
                 </button>
               </div>
             </div>
           </div>
-
           {/* ROW 4 — Quick Actions */}
           <div className="rounded-2xl p-4 sm:p-2 shadow-sm">
-
           <QuickAction />
           </div>
         </div>

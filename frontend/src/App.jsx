@@ -16,7 +16,7 @@ const Silver = lazy(() => import('./pages/Silver'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Signup = lazy(() => import('./pages/Authentication/Signup'));
 const Login = lazy(() => import('./pages/Authentication/Login'));
-const ResetEmail = lazy(() => import('./pages/Authentication/ResetEmail'));
+const ResetPassword = lazy(() => import('./pages/Authentication/ResetPassword'));
 const EditProfile = lazy(() => import('./pages/ProfileComponents/EditProfile'));
 const KycPage = lazy(() => import('./pages/ProfileComponents/KycPage'));
 
@@ -58,12 +58,12 @@ function App() {
   // const fetchCart = useCartStore((state) => state.fetchCart);
   // useEffect(() => {
   //   fetchCart();
-  // }, []);
+  // }, [fetchCart]);
   const fetchCart = useCartStore((state) => state.fetchCart);
 
   useEffect(() => {
     fetchCart();
-  }, [fetchCart]);
+  }, []);
   return (
     <div className="min-h-screen flex flex-col  ">
       {/* <PriceProvider /> */}
@@ -83,7 +83,7 @@ function App() {
             path="/reset-password"
             element={
               <Suspense fallback={<PageLoader />}>
-                <ResetEmail />
+                <ResetPassword />
               </Suspense>
             }
           />

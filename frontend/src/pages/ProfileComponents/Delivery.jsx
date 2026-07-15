@@ -93,12 +93,10 @@ return Object.keys(newError).length===0;
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center border border-white/20 justify-center bg-black/40 backdrop-blur-sm px-4">
+    <div className="fixed inset-0 z-50  flex  justify-center items-center  bg-black/70  pb-9">
       <div
-        className="bg-[#111117] w-full max-w-xl rounded-2xl shadow-2xl font-serif overflow-hidden"
-       
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/20">
+        className="bg-[#111112] m-2 border  border-white/20  w-full h-fit max-w-2xl rounded-2xl ">
+      <div className="flex items-center justify-between px-6  py-3 border-b border-primary/40 text-primary/50">
           <div className="flex items-center gap-2">
             <MapPin size={18} className="text-amber-500" />
             <span className="font-semibold text-secondary text-sm">
@@ -113,35 +111,35 @@ return Object.keys(newError).length===0;
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-5 ">
+        <form onSubmit={handleSubmit} className="p-2 rounded-2xl ">
           <div className="grid grid-cols-2 gap-3">
             {fields.map(({ name, label, colSpan }) => (
               <div
                 key={name}
                 className={colSpan === 2 ? "col-span-2" : "col-span-1"}
               >
-                <label className="block text-xs font-medium text-gray-500 mb-1">
+                <label className="block text-xs font-medium whitespace-nowrap text-gray-500 mb-1">
                   {label}
                 </label>
                 <input
                   name={name}
                   value={formData[name]}
                   onChange={handleChange}
-                  className="w-full border border-white/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition"
+                  className="w-full border border-white/20 rounded-lg px-3 py-1 text-sm  focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition"
                   placeholder={label}
                 />
                 {errors[name]&&(
-                  <p className="text-red-600/80 text-xs pt-2">{errors[name]}</p>
+                  <p className="text-red-600/80 text-xs h-2 pt-1 pb-1 xl:pt-2 xl:pb-2 ">{errors[name]}</p>
                 )}
               </div>
             ))}
-          </div>
+          
 
           <div>
             <p className="text-xs font-medium text-gray-500 mb-2">
               Set as default address?
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-5 mt-3">
               {[
                 { value: true, display: "Yes" },
                 { value: false, display: "No" },
@@ -164,12 +162,13 @@ return Object.keys(newError).length===0;
               ))}
             </div>
           </div>
+          </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-3  ">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-primary  hover:bg-amber-500 text-background font-serif py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+              className="flex-1 bg-primary  hover:bg-amber-500 text-background font-serif py-1 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
             >
               <Save size={15} />
               {loading ? "Saving..." : "Save Address"}
@@ -406,13 +405,15 @@ function Delivery() {
         )}
       </div>
 
-      {showForm && (
+{showForm && (
         <AddressFormModal
           onClose={() => setShowForm(false)}
           onSave={handleAdd}
           loading={loading}
         />
       )}
+
+      
 
       {editingAddress && (
         <AddressFormModal

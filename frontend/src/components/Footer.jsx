@@ -153,6 +153,7 @@ function Footer() {
             })}
           </div>
         </div>
+        
 
 <div className="grid grid-cols-1 sm:grid-cols-3 p-3  ">
         {/* Column 2 — My Account */}
